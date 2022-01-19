@@ -15,7 +15,7 @@ username: TuDoanAnh
 username: longhnhe153457
 
 4.	Võ Thành Đạt HE151388 : datvthe151388@fpt.edu.vn/ 
-username: dadidaad
+username: DajtVox
 
 5.	Lê Danh Tịnh HE153072: tinhldhe153072@fpt.edu.vn/ 
 username: tinhldhe153072
