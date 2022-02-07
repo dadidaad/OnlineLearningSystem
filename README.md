@@ -11,7 +11,7 @@ username: iamduscminh
 2.	Đoàn Anh Tú HE153087:  doananhtu2507@gmail.com/  
 username: TuDoanAnh 
 
-3.	Hoàng Ngọc Long HE153457: longhnhe153457@fpt.edu.vn/ 
+3.	Hoàng Ngọc Long HE153457: hoangngoclong2001@gmail.com
 username: longhnhe153457
 
 4.	Võ Thành Đạt HE151388 : datvthe151388@fpt.edu.vn/ 
