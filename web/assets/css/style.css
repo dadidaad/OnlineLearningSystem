@@ -46,11 +46,16 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+a{
+    text-decoration: none !important;
+}
 
 /* End css reset */
 
 /*--------------*/
 /* Main css */
-a{
-    text-decoration: none !important;
-}
+/*----------*/
+
+/*Account feature css */
+
+
