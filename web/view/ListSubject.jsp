@@ -25,7 +25,7 @@
     <title>TutorDuo</title>
 </head>
 <body>
-    <%@include file="./general/header.jsp" %>
+    <%@include file="./header.jsp" %>
     <!--Side Bar  -->
 
     <nav class="sidebar close">
@@ -269,7 +269,7 @@
         </div>
     </section>
     
-    <%@include file="./general/footer.jsp" %>
+    <%@include file="./footer.jsp" %>
     <!-- link to java script file -->
     <script src="../assets/js/ListSubjectScript.js"></script>
 </body>
