@@ -21,8 +21,8 @@
       </listener>
     -->
   <tag>
-    <name>ImportUrl</name>
-    <tag-class>customTag.ImportUrlTag</tag-class>
+    <name>ReadUrlFromContext</name>
+    <tag-class>customTag.ReadUrlFromContextTag</tag-class>
     <body-content>scriptless</body-content>
     <attribute>
       <name>url</name>

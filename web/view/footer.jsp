@@ -92,16 +92,16 @@
                 <div class="me-5 d-none d-lg-block">
                     <span>Follow Us&nbsp;&nbsp;</span>
                     <a href="" class="me-4 text-reset">
-                        <img src ="<i:ImportUrl url="/assets/image/Facebook.png"/>" alt="">
+                        <img src ="<i:ReadUrlFromContext url="/assets/image/Facebook.png"/>" alt="">
                     </a>
                     <a href="" class="me-4 text-reset">
-                        <img src ="<i:ImportUrl url="/assets/image/Twitter.png"/>" alt="">
+                        <img src ="<i:ReadUrlFromContext url="/assets/image/Twitter.png"/>" alt="">
                     </a>
                     <a href="" class="me-4 text-reset">
-                        <img src ="<i:ImportUrl url="/assets/image/Youtube.png"/>" alt="">
+                        <img src ="<i:ReadUrlFromContext url="/assets/image/Youtube.png"/>" alt="">
                     </a>
                     <a href="" class="me-4 text-reset">
-                        <img src ="<i:ImportUrl url="/assets/image/Linkedin.png"/>" alt="">
+                        <img src ="<i:ReadUrlFromContext url="/assets/image/Linkedin.png"/>" alt="">
                     </a>
                 </div>
                 <!-- Left -->
