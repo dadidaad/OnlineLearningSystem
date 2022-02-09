@@ -30,41 +30,46 @@
                 <div class="d-flex bg-light flex-fill" style="--bs-bg-opacity:.9;">
                     <div class=" d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="signUpForm">
                         <h4 class="text-center text-dark py-3">Sign Up</h4>
-                        <form class="needs-validation" novalidate>
-                            <div class="form__group field mb-3">
+                        <form class="" id="signup-form">
+                            <div class="form__group mb-3">
                                 <input type="text" id="username" class="form__field" name="username" placeholder="Username" required />
                                 <label for="username" class="form__label">Username</label>
                             </div>
-                            <div class="form__group field mb-3">
+                            <div class="form__group mb-3">
                                 <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                 <label for="email" class="form__label">Email</label>
                             </div>
-                            <div class="form__group field mb-3">
+                            <div class="form__group mb-3">
                                 <input type="text" id="displayName" class="form__field" name="displayName" placeholder="Display Name" required />
                                 <label for="displayName" class="form__label">Display Name</label>
                             </div>
-                            <div class="mb-3">
-                                <input class="form-check-input" type="radio" name="sex" id="male" value="0">
+                            <div class="d-flex mb-3">
                                 <label class="form-check-label" for="male">Male</label>
-                                <input class="form-check-input" type="radio" name="sex" id="female" value="1">
+                                <input class="form-check-input" type="radio" name="sex" id="male" value="0" required="true">
                                 <label class="form-check-label" for="female">Female</label>
+                                <input class="form-check-input" type="radio" name="sex" id="female" value="1">
                             </div>
-                            <div class="form__group field mb-3">
-                                <input type="password" id="password" class="form__field" name="password" placeholder="Pasword" required/>
-                                <label for="password" class="form__label">Password</label>
+                            <div class="form__group has-feedback mb-3">
+                                <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password"required />
+                                <label  class="form__label" for="password">Password</label>
                             </div>
-                            <div class="form__group field mb-3">
-                                <input type="password" id="cfPassword" class="form__field" name="cfpassword" placeholder="Confirm Pasword" required/>
-                                <label for="cfPassword" class="form__label">Confirm Password</label>
+                            <div class="form__group has-feedback mb-3">
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password" disabled required />
+                                <label class="form__label" for="confirmPassword">Confirm Password</label>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-success btn-lg px-5 mt-2" type="submit">Sign Up</button>
                             </div>
                             <input type="hidden" name="role"/>
+                            
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
+        <script src="../assets/js/checkValidatorPassword.js"></script>
     </body>
 </html>
