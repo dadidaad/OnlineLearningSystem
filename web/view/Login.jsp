@@ -40,11 +40,11 @@
                         <h3>Welcome <span id="role" class="text-success"></span>!!</h3>
                         <h4 class="text-center text-dark py-3">Login your account</h4>
                         <form>
-                            <div class="form__group field mb-4">
+                            <div class="form__group field mb-3">
                                 <input type="text" id="username" class="form__field" name="username" placeholder="Email or Username" required />
                                 <label for="username" class="form__label">Email or Username</label>
                             </div>
-                            <div class="form__group field mb-4">
+                            <div class="form__group field mb-3">
                                 <input type="password" id="password" class="form__field" name="password" placeholder="Pasword" required/>
                                 <label for="password" class="form__label">Password</label>
                             </div>
@@ -63,6 +63,7 @@
                             <div class="divider d-flex align-items-center my-4">
                                 <p class="text-center fw-bold mx-3 mb-0 text-muted">Or</p>
                             </div>
+                            <input type="hidden" name="role"/>
                             <div class="d-flex justify-content-center text-center mt-3 pt-1">
                                 <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
                                 <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
@@ -84,11 +85,13 @@
                 $('#roleStudent').click(function () {
                     $('#chooseRole').toggleClass('d-none');
                     $('#role').html('Student');
+                    $('input[name="role"]').val('student');
                     $('#loginForm').removeClass('d-none');
                 });
                 $('#roleTeacher').click(function () {
                     $('#chooseRole').toggleClass('d-none');
                     $('#role').html('Teacher');
+                    $('input[name="role"]').val('teacher');
                     $('#loginForm').removeClass('d-none');
                 });
                 $('#backToChooseRole').click(function () {
