@@ -1,7 +1,11 @@
 package Controller;
 
+import Bean.SubjectBean;
+import Dao.ISubjectDAO;
+import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author win
+ * @author Doan Tu
  */
 public class SubjectController extends HttpServlet {
 
@@ -51,7 +55,13 @@ public class SubjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            try (PrintWriter out = response.getWriter()) {
+            
+                ArrayList <SubjectBean> s = new ArrayList<>();
+                ISubjectDAO dao = new SubjectDAO();
+                s = dao.getAllSubject();
+                out.print(s);
+            }
     }
 
     /**
