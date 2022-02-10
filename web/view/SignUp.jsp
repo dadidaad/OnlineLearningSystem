@@ -29,7 +29,7 @@
                 </div>
                 <div class="d-flex bg-light flex-fill" style="--bs-bg-opacity:.9;">
                     <div class=" d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="signUpForm">
-                        <h4 class="text-center text-dark py-3">Sign Up</h4>
+                        <h4 class="text-center text-dark">Sign Up</h4>
                         <form class="" id="signup-form">
                             <div class="form__group mb-3">
                                 <input type="text" id="username" class="form__field" name="username" placeholder="Username" required />
@@ -40,21 +40,18 @@
                                 <label for="email" class="form__label">Email</label>
                             </div>
                             <div class="form__group mb-3">
-                                <input type="text" id="displayName" class="form__field" name="displayName" placeholder="Display Name" required />
-                                <label for="displayName" class="form__label">Display Name</label>
-                            </div>
-                            <div class="d-flex mb-3">
-                                <label class="form-check-label" for="male">Male</label>
-                                <input class="form-check-input" type="radio" name="sex" id="male" value="0" required="true">
-                                <label class="form-check-label" for="female">Female</label>
-                                <input class="form-check-input" type="radio" name="sex" id="female" value="1">
+                                <select id="sex" name="sex" class="form__field" place required>
+                                    <option value="" disabled selected>Choose sex</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
                             </div>
                             <div class="form__group has-feedback mb-3">
                                 <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password"required />
                                 <label  class="form__label" for="password">Password</label>
                             </div>
                             <div class="form__group has-feedback mb-3">
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password" disabled required />
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password" required />
                                 <label class="form__label" for="confirmPassword">Confirm Password</label>
                             </div>
                             <div class="d-flex justify-content-center">
@@ -70,6 +67,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
-        <script src="../assets/js/checkValidatorPassword.js"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
     </body>
 </html>
