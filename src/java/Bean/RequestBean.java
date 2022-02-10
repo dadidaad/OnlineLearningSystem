@@ -11,7 +11,7 @@ public class RequestBean {
     private String tutorGet;
     private Date createdTime;
     private String status;
-    private double cost;
+    private int cost;
     private String content;
     private String imageLink;
     private String subjectID;
@@ -19,10 +19,9 @@ public class RequestBean {
     public RequestBean() {
     }
 
-    public RequestBean(String studentSent, String tutorGet, Date createdTime, String status, double cost, String content, String imageLink, String subjectID) {
+    public RequestBean(String studentSent, String tutorGet, String status, int cost, String content, String imageLink, String subjectID) {
         this.studentSent = studentSent;
         this.tutorGet = tutorGet;
-        this.createdTime = createdTime;
         this.status = status;
         this.cost = cost;
         this.content = content;
@@ -30,7 +29,17 @@ public class RequestBean {
         this.subjectID = subjectID;
     }
 
-    public RequestBean(int requestID, String studentSent, String tutorGet, Date createdTime, String status, double cost, String content, String imageLink, String subjectID) {
+    public RequestBean(int requestID, String tutorGet, String status, int cost, String content, String imageLink, String subjectID) {
+        this.requestID = requestID;
+        this.tutorGet = tutorGet;
+        this.status = status;
+        this.cost = cost;
+        this.content = content;
+        this.imageLink = imageLink;
+        this.subjectID = subjectID;
+    }
+
+    public RequestBean(int requestID, String studentSent, String tutorGet, Date createdTime, String status, int cost, String content, String imageLink, String subjectID) {
         this.requestID = requestID;
         this.studentSent = studentSent;
         this.tutorGet = tutorGet;
@@ -89,11 +98,11 @@ public class RequestBean {
         this.status = status;
     }
 
-    public double getCost() {
+    public int getCost() {
         return cost;
     }
-
-    public void setCost(double cost) {
+    
+    public void setCost(int cost) {
         this.cost = cost;
     }
 

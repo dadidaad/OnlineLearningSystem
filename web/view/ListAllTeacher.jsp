@@ -3,7 +3,8 @@
     Created on : Feb 10, 2022, 7:37:51 AM
     Author     : Duc Minh
 --%>
-
+<%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,8 +18,9 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="../assets/css/requestMain.css" />
-        <link rel="stylesheet" href="../assets/css/listAllTeacher.css" />
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/listAllTeacher.css" />">
+
 
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Teacher Ranking</title>
@@ -72,7 +74,7 @@
           <div class="container-fluid">
             <!-- Page Heading -->
             <div class="card--top"></div>
-
+            
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
               <h1>Teacher Ranking</h1>
@@ -106,126 +108,37 @@
                       </tr>
                     </tfoot>
                     <tbody>
+                    <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop"> 
+                    <c:if test = "${requestScope.teachers.size()==0}">
+                        <tr>List Empty</tr>
+                    </c:if>
                       <tr>
-                        <td>1</td>
+                        <td>${loop.index+1}</td>
                         <td>
                           <a class="teacherInfo" href="#"
                             ><img
                               class="teacherAvt"
-                              src="./assets/img/teacher_81762259.jpg"
+                              src="${t.getAvatar()}"
                               alt=""
-                            />Nguyen Lan Anh</a
+                            />${t.getDisplayName()}</a
                           >
                         </td>
-                        <td>4.6</td>
-                        <td>Math</td>
+                        <td>4.1</td>
+                        <td>${t.getSubjectName()}</td>
                         <td>
                           <img
                             class="teacherCv imgZoom"
-                            src="./assets/img/cv_template_1.jpg"
+                            src="${t.getCvImg()}"
                             alt=""
                           />
                         </td>
                         <td>
-                          <a href="#"><i class="far fa-share-square"></i></a>
+                          <a href="cretate?${t.getUsername()}"><i class="far fa-share-square"></i></a>
                         </td>
                       </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>
-                          <a class="teacherInfo" href="">
-                            <img
-                              class="teacherAvt"
-                              src="./assets/img/teacher_81762259.jpg"
-                              alt=""
-                            />Bui Thi Van
-                          </a>
-                        </td>
-                        <td>4.6</td>
-                        <td>Math</td>
-                        <td>
-                          <img
-                            class="teacherCv imgZoom"
-                            src="./assets/img/cv_template_1.jpg"
-                            alt=""
-                          />
-                        </td>
-                        <td>
-                          <a href="#"><i class="far fa-share-square"></i></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>
-                          <a class="teacherInfo" href="">
-                            <img
-                              class="teacherAvt"
-                              src="./assets/img/teacher_81762259.jpg"
-                              alt=""
-                            />Nguyen Thi Trang
-                          </a>
-                        </td>
-                        <td>4.6</td>
-                        <td>Math</td>
-                        <td>
-                          <img
-                            class="teacherCv imgZoom"
-                            src="./assets/img/cv_template_1.jpg"
-                            alt=""
-                          />
-                        </td>
-                        <td>
-                          <a href="#"><i class="far fa-share-square"></i></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>
-                          <a class="teacherInfo" href="">
-                            <img
-                              class="teacherAvt"
-                              src="./assets/img/teacher_81762259.jpg"
-                              alt=""
-                            />Hoang Ngoc Anh
-                          </a>
-                        </td>
-                        <td>4.6</td>
-                        <td>Math</td>
-                        <td>
-                          <img
-                            class="teacherCv imgZoom"
-                            src="./assets/img/cv_template_1.jpg"
-                            alt=""
-                          />
-                        </td>
-                        <td>
-                          <a href="#"><i class="far fa-share-square"></i></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>
-                          <a class="teacherInfo" href="">
-                            <img
-                              class="teacherAvt"
-                              src="./assets/img/teacher_81762259.jpg"
-                              alt=""
-                            />Nguyen Thuy Van
-                          </a>
-                        </td>
-                        <td>4.6</td>
-                        <td>Math</td>
-                        <td>
-                          <img
-                            class="teacherCv imgZoom"
-                            src="./assets/img/cv_template_1.jpg"
-                            alt=""
-                          />
-                        </td>
-                        <td>
-                          <a href="#"><i class="far fa-share-square"></i></a>
-                        </td>
-                      </tr>
+                      
+                      </c:forEach>   
+                      
                     </tbody>
                   </table>
                 </div>
@@ -255,7 +168,9 @@
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
-    <script src="../assets/js/requestMain.js"></script>
-    <script src="../assets/js/listAllTeacher.js"></script>
+    <!-- link to java script file -->
+    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/listAllTeacher.js"/>"></script>
+    
     </body>
 </html>

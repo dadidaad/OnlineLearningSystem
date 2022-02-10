@@ -9,25 +9,25 @@ import java.sql.Date;
  */
 public class TeacherBean extends AccountBean{
     private String cvImg;
-    private int subjectId;
+    private String subjectName;
 
     public TeacherBean() {
     }
 
-    public TeacherBean(String cvImg, int subjectId) {
+    public TeacherBean(String cvImg, String subjectName) {
         this.cvImg = cvImg;
-        this.subjectId = subjectId;
+        this.subjectName = subjectName;
     }
 
     public TeacherBean(String cvImg, int subjectId, String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, int cash, Date createDate, String role, String status, boolean state) {
         super(username, password, mail, avatar, displayName, dateOfBirth, sex, description, cash, createDate, role, status, state);
         this.cvImg = cvImg;
-        this.subjectId = subjectId;
+        this.subjectName = subjectName;
     }
 
     @Override
     public String toString() {
-        return "TeacherBean{" + "cvImg=" + cvImg + ", subjectId=" + subjectId + '}';
+        return super.toString() + "TeacherBean{" + "cvImg=" + cvImg + ", subjectId=" + subjectName + '}';
     }
 
     public String getCvImg() {
@@ -38,13 +38,15 @@ public class TeacherBean extends AccountBean{
         this.cvImg = cvImg;
     }
 
-    public int getSubjectId() {
-        return subjectId;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
+
+    
     
     
 }

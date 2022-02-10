@@ -1,15 +1,20 @@
 package Controller;
 
+import Bean.TeacherBean;
+import Dao.ITeacherDAO;
+import Dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author win
+ * Document: ListAllTeacherController
+ * Create on: Feb 9, 2022, 10:20:35 PM
+ * @author Duc Minh
  */
 public class ListAllTeacherController extends HttpServlet {
 
@@ -51,7 +56,15 @@ public class ListAllTeacherController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+                ArrayList <TeacherBean> teacherList = new ArrayList<>();
+                ITeacherDAO dao = new TeacherDAO(); //Use ITeacherDAO interface to call
+                teacherList = dao.getAllTeacher();
+                
+                //Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp
+                request.setAttribute("teachers", teacherList);
+                request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
+            }
     }
 
     /**
