@@ -75,7 +75,7 @@
 
              <section class="review" id="review">
 
-    <h1 class="heading"> GIẢNG VIÊN <span> TIÊU BIỂU</span> </h1>
+    <h1 class="heading"> THE TOP <span> TEACHER</span> </h1>
    
     <div class="box-container">
 
