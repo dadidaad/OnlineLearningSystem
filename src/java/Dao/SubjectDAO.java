@@ -1,6 +1,7 @@
 package Dao;
 
 import Bean.SubjectBean;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +20,9 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
     public ArrayList<SubjectBean> getAllSubject() {
         ArrayList<SubjectBean> subjects = new ArrayList<>();
         try {
+            Connection conn = getConnection();
             String sql = "select * from Subject";
-            PreparedStatement statement = getConnection().prepareStatement(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -30,10 +32,15 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
                 subject.setDescription(rs.getString("Description"));
                 subjects.add(subject);
             }
-            getConnection().close();
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return subjects;
     } 
+    
+    public static void main(String[] args) {
+        SubjectDAO db = new SubjectDAO();
+        System.out.println(db.getAllSubject());
+    }
 }
