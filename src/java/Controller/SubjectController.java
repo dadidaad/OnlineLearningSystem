@@ -56,11 +56,10 @@ public class SubjectController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             try (PrintWriter out = response.getWriter()) {
-            
                 ArrayList <SubjectBean> s = new ArrayList<>();
                 ISubjectDAO dao = new SubjectDAO();
                 s = dao.getAllSubject();
-                out.print(s);
+                request.getRequestDispatcher("./view/ListSubject.jsp").forward(request, response);
             }
     }
 

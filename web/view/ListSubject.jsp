@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Link to css file -->
-    <link rel="stylesheet" href="../assets/css/ListSubjectStyle.css">
+    <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
     <title>TutorDuo</title>
 </head>
 <body>
@@ -271,7 +272,7 @@
     
     <%@include file="./footer.jsp" %>
     <!-- link to java script file -->
-    <script src="../assets/js/ListSubjectScript.js"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
