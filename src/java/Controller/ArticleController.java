@@ -1,7 +1,10 @@
 package Controller;
 
+import Bean.ArticleBean;
+import Dao.ArticleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +28,12 @@ public class ArticleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ArticleController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ArticleController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        ArticleDAO dao = new ArticleDAO();
+        List<ArticleBean> list = dao.getAllArticle();
+        List<ArticleBean> list2=dao.gettop4();
+        request.setAttribute("listP", list);
+        request.setAttribute("listT", list2);
+        request.getRequestDispatcher("ListArticle.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
