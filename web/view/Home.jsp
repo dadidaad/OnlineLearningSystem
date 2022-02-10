@@ -45,20 +45,20 @@
         </div>
         <div class="col-md-6">
              <h3 class="title">Tutor duo</h3>
-             <p>Ly do tai sao.</p>
+             <p>why do you choose this website </p>
              <a href="#" class="link-btn">read more</a>
              <div class="icons-container">
                 <div class="icons">
                    <i class="fas fa-book-open"></i>
-                   <h3>Ly do 1</h3>
+                   <h3>Approaching to the lessons</h3>
                 </div>
                 <div class="icons">
                    <i class="fas fa-chalkboard-teacher"></i>
-                   <h3>Ly do 2</h3>
+                   <h3>Hire the suitable teacher</h3>
                 </div>
                 <div class="icons">
                    <i class="fas fa-school"></i>
-                   <h3>Ly do 3</h3>
+                   <h3>The high quality of subject</h3>
                     </div>
              </div>
           </div>
@@ -81,7 +81,7 @@
 
         <div class="box">
             <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>"  alt="">
-            <h3>Thang nao</h3>
+            <h3>Mr.Johnatha</h3>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -89,7 +89,7 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>Giới thiệu giáo viên như thế nào</p>
+            <p>How do you introduce teacher</p>
         </div>
         <div class="box">
             <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
@@ -101,11 +101,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>Giới thiệu giáo viên như thế nào</p>
+            <p>How do you introduce teacher</p>
         </div>
         <div class="box">
             <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
-            <h3>john</h3>
+            <h3>Miss.Nga</h3>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -113,7 +113,7 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>Giới thiệu giáo viên như thế nào</p>
+            <p>How do you introduce teacher</p>
         </div>
 
     </div>
@@ -125,27 +125,27 @@
     <div class="box-container">
 
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
+                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
                 <h3>Maths</h3>
-                <p>the study of numbers, shapes, and space using reason and usually a special system of symbols and rules for organizing them</p>
+                <p>The study of numbers, shapes, and space using reason and usually a special system of symbols and rules for organizing them</p>
             </div>
         </div>
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
-                <h3>Maths</h3>
-                <p>the study of numbers, shapes, and space using reason and usually a special system of symbols and rules for organizing them</p>
+                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+                <h3>Physic</h3>
+                <p>Physics is the branch of science which deals with matter and its relation to energy. It involves study of physical and natural phenomena around us</p>
             </div>
         </div>
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
-                <h3>Maths</h3>
-                <p>the study of numbers, shapes, and space using reason and usually a special system of symbols and rules for organizing them</p>
+                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+                <h3>Chemistry</h3>
+                <p>Chemistry is the study of matter and the chemical reactions between substances. Chemistry is also the study of matter's composition, structure, and properties</p>
             </div>
         </div>
     </div>
