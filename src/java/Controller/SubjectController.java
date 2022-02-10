@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Document: SubjectController
+ * Create on: Feb 9, 2022, 10:20:35 PM
  * @author Doan Tu
  */
 public class SubjectController extends HttpServlet {
@@ -52,13 +53,19 @@ public class SubjectController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
+    
+    //Do get method When we use /Subject path
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             try (PrintWriter out = response.getWriter()) {
                 ArrayList <SubjectBean> s = new ArrayList<>();
-                ISubjectDAO dao = new SubjectDAO();
+                ISubjectDAO dao = new SubjectDAO(); //Use ISubjectDAO interface to call
                 s = dao.getAllSubject();
+                
+                //Attach Attribute subjects for request and redirect it to ListSubject.jsp
+                request.setAttribute("subjects", s);
                 request.getRequestDispatcher("./view/ListSubject.jsp").forward(request, response);
             }
     }
@@ -86,5 +93,4 @@ public class SubjectController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

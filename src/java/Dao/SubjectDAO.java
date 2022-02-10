@@ -20,10 +20,15 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
     public ArrayList<SubjectBean> getAllSubject() {
         ArrayList<SubjectBean> subjects = new ArrayList<>();
         try {
+            //Set up connection and Sql statement for Querry
             Connection conn = getConnection();
             String sql = "select * from Subject";
             PreparedStatement statement = conn.prepareStatement(sql);
+            
+            //Querry and save in ResultSet
             ResultSet rs = statement.executeQuery();
+            
+            //Assign data to an arraylist of SubjectBean
             while(rs.next())
             {
                 SubjectBean subject = new SubjectBean();
@@ -38,9 +43,4 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
         }
         return subjects;
     } 
-    
-    public static void main(String[] args) {
-        SubjectDAO db = new SubjectDAO();
-        System.out.println(db.getAllSubject());
-    }
 }

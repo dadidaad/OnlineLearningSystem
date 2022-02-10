@@ -9,5 +9,5 @@ import java.util.ArrayList;
  * @author Doan Tu
  */
 public interface ISubjectDAO {
-    public ArrayList<SubjectBean> getAllSubject();
+    public ArrayList<SubjectBean> getAllSubject(); //Lisst all Subject from database
 }
