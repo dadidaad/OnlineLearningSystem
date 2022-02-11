@@ -276,9 +276,11 @@ CREATE TABLE [dbo].[Request](
 	[CreatedTime] [datetime] NOT NULL,
 	[Status] [varchar](50) NOT NULL,
 	[Cost] [money] NOT NULL,
+	[Title] [nvarchar](200) not null,
 	[Content] [nvarchar](200) NOT NULL,
 	[Image] [varchar](100) NULL,
 	[SubjectID] [int] NOT NULL,
+	[Level] [int] not null
 PRIMARY KEY CLUSTERED 
 (
 	[RequestID] ASC
@@ -291,10 +293,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Request_Reply](
-	[RequestID] [int] IDENTITY(1,1) NOT NULL,
+	[RequestID] [int] NOT NULL,
 	[Tutor_sent] [varchar](30) NOT NULL,
 	[Student_get] [varchar](30) NOT NULL,
 	[CreatedTime] [datetime] NOT NULL,
+	[Title_reply] [nvarchar](200) not null,
 	[Content_reply] [nvarchar](200) NOT NULL,
 	[Image_reply] [varchar](100) NULL,
 PRIMARY KEY CLUSTERED 
