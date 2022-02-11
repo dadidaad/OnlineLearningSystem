@@ -119,31 +119,28 @@
     </div>
                 <a href="#" class="More">Show More</a>
             <section class="speciality" id="speciality">
-
+<!--section subject-->
     <h1 class="heading"> <span>Subject</span> </h1>
 
     <div class="box-container">
 
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+                <img src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
                 <h3>Maths</h3>
-                <p>The study of numbers, shapes, and space using reason and usually a special system of symbols and rules for organizing them</p>
+               <p>Mathematics  the science of structure, order, and relation that has evolved from elemental practices of counting, measuring, and describing the shapes of objects.</p>
             </div>
         </div>
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+                <img src="<i:ReadUrlFromContext url="/assets/image/physic.png"/>" alt="">
                 <h3>Physic</h3>
-                <p>Physics is the branch of science which deals with matter and its relation to energy. It involves study of physical and natural phenomena around us</p>
+              <p>Physics(natural science) is the natural science that studies matter, its fundamental constituents, its motion and behavior through space and time, and the related entities </p>
             </div>
         </div>
         <div class="box">
-            <img class="image" src="<i:ReadUrlFromContext url="/assets/image/Mathsicon.png"/>" alt="">
             <div class="content">
-                <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
+                <img src="<i:ReadUrlFromContext url="/assets/image/chemistry.png"/>" alt="">
                 <h3>Chemistry</h3>
                 <p>Chemistry is the study of matter and the chemical reactions between substances. Chemistry is also the study of matter's composition, structure, and properties</p>
             </div>
