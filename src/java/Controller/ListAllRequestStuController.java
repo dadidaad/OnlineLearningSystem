@@ -68,10 +68,12 @@ public class ListAllRequestStuController extends HttpServlet {
                 Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
                 
                 
-                //Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp
+                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
                 request.setAttribute("requests", requestList);
                 request.setAttribute("subjectNames", SubjectNames);
+            
 
+            
                 request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
             }
     }

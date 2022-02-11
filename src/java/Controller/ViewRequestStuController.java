@@ -1,7 +1,17 @@
 package Controller;
 
+import Bean.RequestBean;
+import Bean.RequestReplyBean;
+import Dao.AccountDAO;
+import Dao.IAccountDAO;
+import Dao.IRequestDAO;
+import Dao.ISubjectDAO;
+import Dao.RequestDAO;
+import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +61,30 @@ public class ViewRequestStuController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            
+            int rqId = Integer.parseInt(request.getParameter("requestId"));
+            
+                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+                RequestBean rq  = iRequestDAO.getRequestById(rqId);
+                RequestReplyBean rqReply  = iRequestDAO.getRequestReplyById(rqId);
+                
+                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
+                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
+                Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
+                
+                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
+                request.setAttribute("request", rq);
+                request.setAttribute("requestReply", rqReply);
+                request.setAttribute("subjectNames", SubjectNames);
+                request.setAttribute("displayNames", DisplayNames);
+            
+
+            
+                request.getRequestDispatcher("./view/ViewRequestDetailStu.jsp").forward(request, response);
+            }
     }
 
     /**

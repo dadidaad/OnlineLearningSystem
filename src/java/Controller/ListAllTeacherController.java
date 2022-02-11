@@ -1,11 +1,14 @@
 package Controller;
 
 import Bean.TeacherBean;
+import Dao.ISubjectDAO;
 import Dao.ITeacherDAO;
+import Dao.SubjectDAO;
 import Dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +64,11 @@ public class ListAllTeacherController extends HttpServlet {
                 ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
                 teacherList = iTeacherDAO.getAllTeacher();
                 
+                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
                 //Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp
+                request.setAttribute("subjectNames", SubjectNames);
                 request.setAttribute("teachers", teacherList);
                 request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
             }

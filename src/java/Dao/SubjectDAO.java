@@ -71,13 +71,4 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
         return SubjectNames;
     }
     
-    public static void main(String[] args) {
-        SubjectDAO dal = new SubjectDAO();
-        Map<Integer, String> getSubjectNames = dal.getSubjectNames();
-        
-        Set<Integer> set = getSubjectNames.keySet();
-        for (Integer key : set) {
-            System.out.println(key + " " + getSubjectNames.get(key));
-        }
-    }
 }

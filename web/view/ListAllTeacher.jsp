@@ -41,17 +41,17 @@
 
         <!-- Nav Item  -->
 
-        <li class="nav-item active">
-          <a class="nav-link" href="listAllTeacher.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Teacher List</span></a
-          >
+       <li class="nav-item">
+              <a class="nav-link" href="ListAllTeacher">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Teacher List</span></a
+              >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="requestListStu.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Request List</span>
-          </a>
+        <li class="nav-item active">
+              <a class="nav-link" href="listAllRequestStu">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Request List</span> </a
+              >
         </li>
 
         <li class="nav-item">
@@ -126,7 +126,7 @@
                           >
                         </td>
                         <td>4.1</td>
-                        <td>${t.getSubjectName()}</td>
+                        <td>${requestScope.subjectNames.get(t.getSubjectId())}</td>
                         <td>
                           <img
                             class="teacherCv imgZoom"
@@ -135,7 +135,7 @@
                           />
                         </td>
                         <td>
-                          <a href="cretate?${t.getUsername()}"><i class="far fa-share-square"></i></a>
+                          <a href="CreateRequest?teacherUserName${t.getUsername()}"><i class="far fa-share-square"></i></a>
                         </td>
                       </tr>
                       

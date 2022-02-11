@@ -16,11 +16,12 @@ public class RequestBean {
     private String imageLink;
     private int subjectID;
     private int level;
+    private String title;
 
     public RequestBean() {
     }
 
-    public RequestBean(String studentSent, String tutorGet, String status, int cost, String content, String imageLink, int subjectID, int level) {
+    public RequestBean(String studentSent, String tutorGet, String status, int cost, String content, String imageLink, int subjectID, int level, String title) {
         this.studentSent = studentSent;
         this.tutorGet = tutorGet;
         this.status = status;
@@ -29,9 +30,10 @@ public class RequestBean {
         this.imageLink = imageLink;
         this.subjectID = subjectID;
         this.level = level;
+        this.title = title;
     }
 
-    public RequestBean(int requestID, String tutorGet, String status, int cost, String content, String imageLink, int subjectID, int level) {
+    public RequestBean(int requestID, String tutorGet, String status, int cost, String content, String imageLink, int subjectID, int level, String title) {
         this.requestID = requestID;
         this.tutorGet = tutorGet;
         this.status = status;
@@ -40,9 +42,10 @@ public class RequestBean {
         this.imageLink = imageLink;
         this.subjectID = subjectID;
         this.level = level;
+        this.title = title;
     }
 
-    public RequestBean(int requestID, String studentSent, String tutorGet, Date createdTime, String status, int cost, String content, String imageLink, int subjectID, int level) {
+    public RequestBean(int requestID, String studentSent, String tutorGet, Date createdTime, String status, int cost, String content, String imageLink, int subjectID, int level, String title) {
         this.requestID = requestID;
         this.studentSent = studentSent;
         this.tutorGet = tutorGet;
@@ -53,15 +56,15 @@ public class RequestBean {
         this.imageLink = imageLink;
         this.subjectID = subjectID;
         this.level = level;
+        this.title = title;
     }
 
     @Override
     public String toString() {
-        return "RequestBean{" + "requestID=" + requestID + ", studentSent=" + studentSent + ", tutorGet=" + tutorGet + ", createdTime=" + createdTime + ", status=" + status + ", cost=" + cost + ", content=" + content + ", imageLink=" + imageLink + ", subjectID=" + subjectID + ", level=" + level + '}';
+        return "RequestBean{" + "requestID=" + requestID + ", studentSent=" + studentSent + ", tutorGet=" + tutorGet + ", createdTime=" + createdTime + ", status=" + status + ", cost=" + cost + ", content=" + content + ", imageLink=" + imageLink + ", subjectID=" + subjectID + ", level=" + level + ", title=" + title + '}';
     }
 
-       
-    
+  
     public int getRequestID() {
         return requestID;
     }
@@ -132,6 +135,14 @@ public class RequestBean {
 
     public void setSubjectID(int subjectID) {
         this.subjectID = subjectID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
   

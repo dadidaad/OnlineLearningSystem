@@ -16,14 +16,16 @@ import java.util.logging.Logger;
  */
 public class TeacherDAO extends BaseDAO implements ITeacherDAO{
 
+/**    This method get all the teacher has approved from Admin and ready to reply request from student
+ **/
     @Override
     public ArrayList<TeacherBean> getAllTeacher() {
         ArrayList<TeacherBean> teachers = new ArrayList<>();
         try {
             Connection conn = getConnection();
-            String sql = "select Account.*,Tutor.*,Subject.*\n" +
-                "from Account, Tutor,Subject\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='tutor' and Tutor.SubjectID = Subject.SubjectID";
+            String sql = "select Account.*,Tutor.*\n" +
+                        "from Account, Tutor\n" +
+                "where Account.Username = Tutor.Username and Account.[Role] ='tutor' and Tutor.Status= 'approved'";
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while(rs.next())
@@ -44,7 +46,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
                 teacher.setStatus(rs.getString("Status"));
                 teacher.setState(rs.getBoolean("State"));
                 teacher.setCvImg(rs.getString("CV"));
-                teacher.setSubjectName(rs.getString("SubjectName"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
                         
                 teachers.add(teacher);
             }
