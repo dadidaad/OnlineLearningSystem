@@ -39,20 +39,20 @@
                         <button type="button" class="btn btn-outline-primary rounded-circle" id="backToChooseRole"><i class="fas fa-long-arrow-alt-left"></i></button>
                         <h3>Welcome <span id="role" class="text-success"></span>!!</h3>
                         <h4 class="text-center text-dark py-3">Login your account</h4>
-                        <form>
+                        <form id="login-form">
                             <div class="form__group field mb-3">
                                 <input type="text" id="username" class="form__field" name="username" placeholder="Email or Username" required />
-                                <label for="username" class="form__label">Email or Username</label>
+                                <label for="username" class="form__label"> Username</label>
                             </div>
                             <div class="form__group field mb-3">
-                                <input type="password" id="password" class="form__field" name="password" placeholder="Pasword" required/>
-                                <label for="password" class="form__label">Password</label>
+                                <input type="password" id="password_login" class="form__field" name="password" placeholder="Password" required/>
+                                <label for="password_login" class="form__label">Password</label>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <!-- Checkbox -->
                                 <div class="form-check mb-0">
-                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                                    <label class="form-check-label small" for="form2Example3">Remember me
+                                    <input class="form-check-input me-2" type="checkbox" value="remember" id="rememberme" />
+                                    <label class="form-check-label small" for="rememberme">Remember me
                                     </label>
                                 </div>
                                 <a href="#!" class="small">Forgot password?</a>
@@ -80,6 +80,7 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#roleStudent').click(function () {
@@ -100,5 +101,6 @@
                 });
               });
         </script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
     </body>
 </html>

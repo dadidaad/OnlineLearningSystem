@@ -10,8 +10,8 @@
  */
 
 
-var value = $("#password_reg").val();
-
+var pw_reg_value = $("#password_reg").val();
+var pw_login_value = $("#password_login").val();
 $.validator.addMethod("checklower", function (value) {
     return /[a-z]/.test(value);
 });
@@ -47,12 +47,57 @@ $('#signup-form').validate({
             required: true,
             usernamecheck: true
         },
-        captcha: {
+    },
+    messages: {
+        password: {
+            pwcheck: "Password is not strong enough",
+            checklower: "Need at least 1 lowercase alphabet",
+            checkupper: "Need at least 1 uppercase alphabet",
+            checkdigit: "Need at least 1 digit"
+        },
+        username: {
+            usernamecheck: "Must only contains alphabet and number"
+        }
+    },
+    highlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('valid').addClass('invalid');
+    },
+    unhighlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('invalid').addClass('valid');
+    },
+    errorElement: 'div',
+    errorClass: 'validate_cus',
+    errorPlacement: function (error, element) {
+        x = element.length;
+        if (element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+
+});
+$('#login-form').validate({
+    rules: {
+        password: {
             minlength: 6,
-            maxlength: 6,
+            maxlength: 20,
+            required: true,
+            //pwcheck: true,
+            checklower: true,
+            checkupper: true,
+            checkdigit: true
+        },
+        username: {
+            minlength: 6,
+            maxlength: 20,
             required: true,
             usernamecheck: true
-        }
+        },
     },
     messages: {
         password: {

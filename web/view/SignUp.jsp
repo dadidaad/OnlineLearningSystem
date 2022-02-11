@@ -48,7 +48,7 @@
                             </div>
                             <div class="form__group has-feedback mb-3">
                                 <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password"required />
-                                <label  class="form__label" for="password">Password</label>
+                                <label  class="form__label" for="password_reg">Password</label>
                             </div>
                             <div class="form__group has-feedback mb-3">
                                 <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password" required />
