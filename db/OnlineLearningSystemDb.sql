@@ -453,25 +453,13 @@ GO
 ALTER DATABASE [OnlineLearningSystem] SET  READ_WRITE 
 GO
 /****** Object:  Table [dbo].[Article]    Script Date: 2/7/2022 8:31:52 PM ******/
-CREATE TABLE  articles  (
-   id  int IDENTITY(1,1) primary key NOT NULL,
-   title  varchar(500)  NOT NULL,
-   content text NOT NULL,
-   category_id  int NOT NULL,
-   published  datetime NOT NULL,
-   edited  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   views  int NOT NULL ,
-   image  [nvarchar](max) null,
-   approved  int NOT NULL ,
-   author_id  int NOT NULL,
-   image_credits  varchar(500) not null
-) 
-INSERT INTO  articles  (title ,  content ,  category_id ,  published ,  edited ,  views ,  image ,  approved ,  author_id ,  image_credits ) VALUES
-('Article Math 2', 'Noi dung la gi ', 1, '2019-03-03 12:38:03', '2019-03-03 12:38:03', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Math 3', 'Noi dung la gi ', 1, '2019-03-03 12:41:18', '2019-03-03 12:41:18', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Physic 1', 'Noi dung la gi ', 2, '2019-03-03 12:44:38', '2019-03-03 12:44:38', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Physic 2', 'Noi dung la gi ', 2, '2019-03-03 12:44:47', '2019-03-03 12:44:47', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Physic 3', 'Noi dung la gi ', 2, '2019-03-03 12:44:55', '2019-03-03 12:44:55', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Chemistry 1', 'Noi dung la gi ', 3, '2019-03-03 12:45:37', '2019-03-03 12:45:37', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Chemistry 2', 'Noi dung la gi ', 3, '2019-03-03 12:45:42', '2019-03-03 12:45:42', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long'),
-('Article Chemistry 3', 'Noi dung la gi ', 3, '2019-03-03 12:45:47', '2019-03-03 12:45:47', 0, 'https://media.istockphoto.com/vectors/chalk-doodle-math-blackboard-vector-id1168040655?k=20&m=1168040655&s=612x612&w=0&h=rUjU7BSATXqG2bDiUHK2ZV5ZPm9WE-KKaf0NKY8mjf0=', 1, 1, 'Photo by long')
+CREATE TABLE [dbo].[Article](
+	[ArticleID] [int] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](max) NULL,
+	[description] [text] NULL,
+	[imageLink] [nvarchar](max) NULL,
+	[published] [datetime] NOT NULL,
+	[approved] [bit] NULL,
+	[views] [int] NULL,
+	[creatorID] [int] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
