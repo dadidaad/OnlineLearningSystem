@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,5 +45,39 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return subjects;
-    } 
+    }
+
+    @Override
+    public Map<Integer, String> getSubjectNames() {
+        Map<Integer, String> SubjectNames = new HashMap<>();
+        try {
+            //Set up connection and Sql statement for Querry
+            Connection conn = getConnection();
+            String sql = "select * from Subject";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            
+            //Querry and save in ResultSet
+            ResultSet rs = statement.executeQuery();
+            
+            //Assign data to an arraylist of SubjectBean
+            while(rs.next())
+            {
+                SubjectNames.put(rs.getInt("SubjectID"), rs.getString("SubjectName"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return SubjectNames;
+    }
+    
+    public static void main(String[] args) {
+        SubjectDAO dal = new SubjectDAO();
+        Map<Integer, String> getSubjectNames = dal.getSubjectNames();
+        
+        Set<Integer> set = getSubjectNames.keySet();
+        for (Integer key : set) {
+            System.out.println(key + " " + getSubjectNames.get(key));
+        }
+    }
 }

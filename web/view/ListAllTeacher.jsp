@@ -26,7 +26,9 @@
         <title>Teacher Ranking</title>
     </head>
     <body>
+        <!--Header File-->
         <jsp:include page="./header.jsp"></jsp:include>
+        
         <div id="wrapper" class="d-flex">
       <!-- Sidebar -->
       <ul

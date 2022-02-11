@@ -1,22 +1,25 @@
 package Controller;
 
-import Bean.TeacherBean;
-import Dao.ITeacherDAO;
-import Dao.TeacherDAO;
+import Bean.RequestBean;
+import Dao.IRequestDAO;
+import Dao.ISubjectDAO;
+import Dao.RequestDAO;
+import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Document: ListAllTeacherController
+ * Document: ListAllRequestStuController
  * Create on: Feb 9, 2022, 10:20:35 PM
  * @author Duc Minh
  */
-public class ListAllTeacherController extends HttpServlet {
+public class ListAllRequestStuController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +38,10 @@ public class ListAllTeacherController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListAllTeacherController</title>");            
+            out.println("<title>Servlet ListAllRequestStu</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListAllTeacherController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListAllRequestStu at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,13 +60,19 @@ public class ListAllTeacherController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-                ArrayList <TeacherBean> teacherList = new ArrayList<>();
-                ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-                teacherList = iTeacherDAO.getAllTeacher();
+                ArrayList <RequestBean> requestList = new ArrayList<>();
+                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+                requestList = iRequestDAO.getAllRequest();
+                
+                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
                 
                 //Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp
-                request.setAttribute("teachers", teacherList);
-                request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
+                request.setAttribute("requests", requestList);
+                request.setAttribute("subjectNames", SubjectNames);
+
+                request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
             }
     }
 
