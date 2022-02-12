@@ -12,12 +12,13 @@ import java.util.ArrayList;
 public interface IRequestDAO {
     public ArrayList<RequestBean> getAllRequest();
     public RequestBean getRequestById(int rqId);
-    public ArrayList<RequestBean> getRequestByStatus(String rqStatus);
+    public ArrayList<RequestBean> getRequestByStatus(String username, String rqStatus);
     public ArrayList<RequestBean> getRequestBySubject(int subjectId); 
     public void createRequest(RequestBean rq);
     public void updateRequest(RequestBean rq);
     public void deleteRequest(int rqId);
-    
+    public void updateRequestStatus(String status, int requestId);
+            
     public RequestReplyBean getRequestReplyById(int rqId);
     public void createRequestReply(RequestReplyBean rq);
     

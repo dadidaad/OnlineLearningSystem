@@ -2,6 +2,8 @@ package Controller;
 
 import Bean.AccountBean;
 import Bean.RequestBean;
+import Dao.AccountDAO;
+import Dao.IAccountDAO;
 import Dao.IRequestDAO;
 import Dao.ISubjectDAO;
 import Dao.RequestDAO;
@@ -17,11 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Document: ListAllRequestStuController
- * Create on: Feb 9, 2022, 10:20:35 PM
- * @author Duc Minh
+ *
+ * @author win
  */
-public class ListAllRequestStuController extends HttpServlet {
+public class ListAllRequestController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +41,10 @@ public class ListAllRequestStuController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListAllRequestStu</title>");            
+            out.println("<title>Servlet ListAllRequestController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListAllRequestStu at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListAllRequestController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,12 +63,11 @@ public class ListAllRequestStuController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-            
+                
             HttpSession session = request.getSession();   
             AccountBean account =(AccountBean) session.getAttribute("account");
             if(account!=null){}
-            
-            
+                
                 ArrayList <RequestBean> requestList = new ArrayList<>();
                 IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
                 requestList = iRequestDAO.getAllRequest();
@@ -75,13 +75,18 @@ public class ListAllRequestStuController extends HttpServlet {
                 ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
                 Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
                 
+                IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
+                Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
                 
-                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
+//                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
                 request.setAttribute("requests", requestList);
                 request.setAttribute("subjectNames", SubjectNames);
-            
+                request.setAttribute("displayNames", DisplayNames);
 
+                
+                
             
+                request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
                 request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
             }
     }

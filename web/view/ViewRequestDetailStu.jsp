@@ -94,7 +94,7 @@
                 <div class="responseContent--img">
                   <img
                     class="imgZoom"
-                    src="${requestScope.requestReply.getImageLinkReply()}"
+                    src="<i:ReadUrlFromContext url="${requestScope.requestReply.getImageLinkReply()}" />"
                     alt=""
                   />
                   <c:if test = "${requestScope.requestReply==null}">

@@ -129,6 +129,7 @@
                             <option>15.000 <span>VND</span></option>
                             <option>20.000 <span>VND</span></option>
                             <option>25.000 <span>VND</span></option>
+                            <option>35.000 <span>VND</span></option>
                           </select>
                         </div>
                       </div>

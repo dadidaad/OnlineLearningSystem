@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  * @author Duc Minh
  */
 public class RequestDAO extends BaseDAO implements IRequestDAO{
+
+    
 /**    This method get all the request from database
  **/
     @Override
@@ -90,15 +92,16 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
 /**    This method get all the request by status from database
  **/
     @Override
-    public ArrayList<RequestBean> getRequestByStatus(String rqStatus) {
+    public ArrayList<RequestBean> getRequestByStatus(String username, String rqStatus) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
             Connection conn = getConnection();
             String sql = "select *\n" +
                     "from Request\n" +
-                    "where Status = ?";
+                    "where Status =? and Student_sent = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
+            statement.setString(2, username);
             
             ResultSet rs = statement.executeQuery();
             while(rs.next())
@@ -216,6 +219,30 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**    This method update the status of request and update to database
+ **/
+    @Override
+    public void updateRequestStatus(String status, int requestId) {
+         try {
+            Connection conn = getConnection();
+            String sql = "update Request\n" +
+                    "set [Status] = ?\n" +
+                    "where RequestID = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, requestId);
+            
+
+            
+            statement.executeUpdate();
+            
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
 /**    This method delete the request and update to database
  **/
@@ -271,14 +298,31 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
  **/     
     @Override
     public void createRequestReply(RequestReplyBean rq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try {
+            Connection conn = getConnection();
+            String sql = "insert into Request_Reply(RequestID,Tutor_sent,Student_get,CreatedTime,Content_reply,Image_reply)\n" +
+                                "values(?, ?, ?, GETDATE(), ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, rq.getRequestID());
+            statement.setString(2, rq.getTutorSent());
+            statement.setString(3, rq.getStudentGet());
+            statement.setString(4, rq.getContentReply());
+            statement.setString(5, rq.getImageLinkReply());
+
+            
+            statement.executeUpdate();
+            
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public static void main(String[] args) {
         RequestDAO dal = new RequestDAO();
         ArrayList<RequestBean> requests = dal.getRequestBySubject(1);
         RequestReplyBean rq = dal.getRequestReplyById(3);
 //        RequestBean rq = dal.getRequestById(100);
-        System.out.println(rq);
+//        System.out.println(rq);
 //        RequestBean rq = new RequestBean("minhduc07", null, "Waiting", 15000, "de bai so 2", "img", "1");
 //        RequestBean rq = new RequestBean(26, null, "Waiting", 25000, "de bai so 1", "img2", "1");
 //        dal.updateRequest(rq);
@@ -286,6 +330,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
 //        for(RequestBean t : requests){
 //            System.out.println(t);
 //        }
+        dal.updateRequestStatus("Report",3);
     }
 
    

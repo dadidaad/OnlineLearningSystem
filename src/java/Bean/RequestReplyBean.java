@@ -25,6 +25,14 @@ public class RequestReplyBean {
         this.imageLinkReply = imageLinkReply;
     }
 
+    public RequestReplyBean(int requestID, String tutorSent, String studentGet, String contentReply, String imageLinkReply) {
+        this.requestID = requestID;
+        this.tutorSent = tutorSent;
+        this.studentGet = studentGet;
+        this.contentReply = contentReply;
+        this.imageLinkReply = imageLinkReply;
+    }
+    
     public RequestReplyBean(int requestID, String tutorSent, String studentGet, Date createdTimeReply, String contentReply, String imageLinkReply) {
         this.requestID = requestID;
         this.tutorSent = tutorSent;
