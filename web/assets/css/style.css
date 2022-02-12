@@ -340,6 +340,8 @@ a {
 }
 /*-----------------*/
 /*Landing page css*/
+
+/*Home section css*/
 @media (max-width: 991px) {
   .allhome html {
     font-size: 55%;
@@ -431,6 +433,8 @@ a {
   color: #fff;
 }
 
+
+/* section about us css*/
 .about,
 .services,
 .ourteam {
@@ -497,6 +501,9 @@ h1.title {
   text-transform: capitalize;
   color: #222;
 }
+
+
+/*section  the famous teacher*/
 .heading {
   text-align: center;
   font-size: 1rem;
@@ -558,6 +565,9 @@ h1.title {
 .speciality .box-container .box:hover .content {
   transform: translateY(100%);
 }
+
+
+/*section subject css*/
 .review .box-container {
   background-color: #eee;
   display: flex;
