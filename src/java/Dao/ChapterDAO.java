@@ -43,8 +43,37 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO{
             }
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return chapters;
+    }
+
+    @Override
+    public ChapterBean getChapterById(int chapId) {
+        ChapterBean chapter = new ChapterBean();
+        try {
+            //Set up connection and Sql statement for Querry
+            Connection conn = getConnection();
+            String sql = "select * from Chapter where ChapterID=?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, chapId);
+            
+            //Querry and save in ResultSet
+            ResultSet rs = statement.executeQuery();
+            
+            //Assign data to an ChapterBean
+            while(rs.next())
+            {
+                chapter.setChapterID(rs.getInt("ChapterID"));
+                chapter.setChapterName(rs.getString("ChapterName"));
+                chapter.setSemester(rs.getInt("Semester"));
+                chapter.setChapterContent(rs.getString("Chapter Content"));
+                chapter.setSubjectID(rs.getInt("SubjectID"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return chapter;
     }
 }

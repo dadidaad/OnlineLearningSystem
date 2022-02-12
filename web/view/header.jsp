@@ -21,7 +21,7 @@
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li class="nav-item"><a href="<i:ReadUrlFromContext url="/view/Home.jsp"/>" class="nav-link active" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Forum</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Learning</a></li>
+                <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Subject"/>" class="nav-link">Learning</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Request</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
             </ul>

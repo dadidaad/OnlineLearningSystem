@@ -1,6 +1,6 @@
 <%-- 
-    Document   : SubjectDetail
-    Created on : Feb 10, 2022, 4:28:19 PM
+    Document   : KnowledgeDetail
+    Created on : Feb 11, 2022, 9:40:50 AM
     Author     : Doan Tu
 --%>
 
@@ -26,11 +26,14 @@
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/SubjectDetailStyle.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/KnowledgeDetailStyle.css" />">
         <title>TutorDuo</title>
 </head>
 <body>
+    
     <!-- Include header of web site from general-->
     <%@include file="./header.jsp" %>
+    
     
     <!--Side Bar-->
     <nav class="sidebar close">
@@ -98,19 +101,19 @@
                 </div>
             </div>
         </nav>
-                    
-   <!-- Show Case -->                 
+
+    <!-- Show Case -->                 
     <section class="bg-dark text-light p-5 text-center text-sm-start showcase">
         <div class="container">
             <div class="d-sm-flex align-items-center justif-content-between">
                 <div>
-                    <h1>Introduction<span class="text-warning"> The Subject</span></h1>
+                    <h1>Knowledge<span class="text-warning"> To Remember</span></h1>
                     <p class="lead my-5">
-                       Here are the most overview of the subject, you will understand 
-                       what areas of knowledge this subject will focus on. In addition, 
-                       we will also introduce the learning path of the subject, 
-                       each subject will be divided into chapters with important knowledge, 
-                       helping you to systemize in the most complete way.
+                       The following knowledge is the most important foundation, 
+                       helping you to have an accurate view of the research 
+                       content of this chapter, from which you can develop a higher 
+                       thinking about the subject. , we will organize the program 
+                       of the chapter according to the study schedule of the high school program
                     </p>
                 </div>
                 <img class="img-fluid w-50 mx-3 d-none d-sm-block" src="<i:ReadUrlFromContext url="/assets/image/primary-school-tutoring-online_orig.png" />" alt="">
@@ -118,41 +121,31 @@
         </div>
     </section>
             
-    <!--Accordion is used to introduce the most basic parts of this subject -->  
+    
     <div class="accordion">
-        <!-- Image box for accordion-->
-        <div class="image-box">
-            <img src="<i:ReadUrlFromContext url="/${requestScope.currentSubject.getSubjectImage()}" />" alt="">
-        </div>
-        <!--Accordion for detail of Subject -->
         <div class="accordion-text">
-            <div class="title">${requestScope.currentSubject.getSubjectName()}</div>
+            <div class="title" id="detail-title">${requestScope.currentChapter.getChapterName()}</div>
         <ul class="faq-text">
+            <c:forEach items="${requestScope.knowledges}" var ="k" varStatus="loop">
             <li>
                 <div class="question-arrow">
-                    <span class="question">What will you learn in this subject?</span>
+                    <span class="question">${k.getKnowledgeName()}</span>
                     <i class="bx bxs-chevron-down arrow"></i>
                 </div>
-                <p>${requestScope.currentSubject.getDescription()}</p>
-                <span class="line"></span>
-            </li>
-            <c:forEach items="${requestScope.chapters}" var ="c" varStatus="loop">
-            <li>
-                <div class="question-arrow">
-                    <span class="question">${c.getChapterName()}</span>
-                    <i class="bx bxs-chevron-down arrow"></i>
+                <div class="image-knowledge">
+                    <img src="<i:ReadUrlFromContext url="${k.getKnowledgeContent()}" />" alt="">
                 </div>
-                    <p>${c.getChapterContent()}   <span><a href="<i:ReadUrlFromContext url="/Controller/KnowledgeDescrip?chapId=${c.getChapterID()}" />" style="color: steelblue;">  Explore</a></span></p>
-                
                 <span class="line"></span>
             </li>
             </c:forEach>
         </ul>
         </div>
     </div>
-            
+    
     <!-- Include footer of web site from general -->
     <%@include file="./footer.jsp" %>
+    
+    <!-- Java Script link-->
     <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
     <script src="<i:ReadUrlFromContext url="/assets/js/SubjectDetailScript.js"/>"></script>
 </body>

@@ -64,7 +64,7 @@ public class SubjectDescripController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
                 //Get Subject ID from request
                 String subjectId = request.getParameter("subId");
-                out.print("1");
+                
                 //Use DAO class to get data from database for Chapter with corresponding SubjectID
                 ArrayList<ChapterBean> chapters = new ArrayList<>();
                 IChapterDAO dao1 = new ChapterDAO();
