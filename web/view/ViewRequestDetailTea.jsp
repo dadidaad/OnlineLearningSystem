@@ -23,9 +23,8 @@
         crossorigin="anonymous"
         />
         <!-- Link to css file -->
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/createRequest.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/viewRequestDetailTea.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ViewRequestDetailTea.css" />">
             
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Request Handling</title>
@@ -83,7 +82,7 @@
               <h3>Request Handling</h3>
             </div>
             <div class="backBtn-container">
-              <a class="backBtn" href="listAllRequestTea"
+              <a class="backBtn" href="ListAllRequestTea"
                 ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
               >
             </div>
@@ -239,8 +238,8 @@ ${requestScope.request.getContent()}
       <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
      <!-- link to java script file -->
-    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/viewRequestDetailTea.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/ViewRequestDetailTea.js"/>"></script>
 
     </body>
 </html>

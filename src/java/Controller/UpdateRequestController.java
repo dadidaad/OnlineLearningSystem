@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author win
  */
-public class CreateRequestController extends HttpServlet {
+public class UpdateRequestController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class CreateRequestController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateRequestController</title>");            
+            out.println("<title>Servlet UpdateRequestController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateRequestController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateRequestController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,27 +63,32 @@ public class CreateRequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-                ArrayList <SubjectBean> s = new ArrayList<>();
-                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-                s = iSubjectDAO.getAllSubject();
-                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+        
+            int rqId = Integer.parseInt(request.getParameter("requestId"));
+            
+            IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+            RequestBean rq  = iRequestDAO.getRequestById(rqId);
                 
-                String teacherRcmFromList = request.getParameter("teacherRcmFromList");
-                if(teacherRcmFromList!=null){
-                    request.setAttribute("rqTeacherRcmFromList", teacherRcmFromList);
-                }
+            ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+            Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+            ArrayList <SubjectBean> subjects = new ArrayList<>();
+            subjects = iSubjectDAO.getAllSubject();
+            
                 
-                 
-                ArrayList <TeacherBean> teacherList = new ArrayList<>();
-                ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-                teacherList = iTeacherDAO.getAllTeacher();
+            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
+            ArrayList <TeacherBean> teacherList =  iTeacherDAO.getAllTeacher();
+                
                 //Attach Attribute subjects for request and redirect it to CreateRequest.jsp
-                request.setAttribute("subjects", s);
                 request.setAttribute("teachers", teacherList);
-                request.setAttribute("subjectNames", SubjectNames);
-//                out.print("create");
-                request.getRequestDispatcher("./view/CreateRequest.jsp").forward(request, response);
-            }
+                
+            //Attach Attribute teachers for request and redirect it to UpdateRequestStu.jsp
+            request.setAttribute("request", rq);
+            request.setAttribute("subjectNames", SubjectNames);
+            request.setAttribute("subjects", subjects);
+
+//            out.print("minh");
+            request.getRequestDispatcher("./view/UpdateRequest.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -98,26 +103,26 @@ public class CreateRequestController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-            
+         
+        int requestId = Integer.parseInt(request.getParameter("rqId"));    
         String requestTitle = request.getParameter("rqTitle");
         String requestSubject = request.getParameter("rqSubject");
         String requestLevel = request.getParameter("rqLevel");
         String requestPrice = request.getParameter("rqPrice");
         String requestStudentSent = request.getParameter("studentSent");
         
-        String requestTeacherRcm = "";
-        String rqTeacherRcmFromList = request.getParameter("rqTeacherRcmFromList");
-        if(rqTeacherRcmFromList == null && request.getParameter("rqTeacherRcm").length() > 0) 
-            requestTeacherRcm = request.getParameter("rqTeacherRcm");
-        else requestTeacherRcm =null;
+        String requestTeacherRcm =  request.getParameter("rqTeacherRcm");
         
         
         String requestContent = request.getParameter("content");
         String requestImg = "/assets/image/" + request.getParameter("imgContent");
         
-//        out.print( requestTitle + " "+ requestSubject  + " "+ requestTeacherRcm   + " "+  requestContent + " "+ requestImg);
+//        out.print( requestId + " "+ requestStudentSent  + "Teacher: "+ requestTeacherRcm + " "+ requestPrice + " "+ requestContent + "\n "+
+//                requestImg   + " "+  requestSubject + " "+ requestLevel + " " + requestTitle);
         
         RequestBean rq = new RequestBean();
+        
+        rq.setRequestID(requestId);
         rq.setStudentSent(requestStudentSent);
         rq.setTutorGet(requestTeacherRcm);
         rq.setCost(Integer.parseInt(requestPrice));
@@ -128,7 +133,7 @@ public class CreateRequestController extends HttpServlet {
         rq.setTitle(requestTitle);
         
         IRequestDAO iRequestDAO = new RequestDAO();
-        iRequestDAO.createRequest(rq);
+        iRequestDAO.updateRequest(rq);
        
         response.sendRedirect("ListAllRequestStu");
         }

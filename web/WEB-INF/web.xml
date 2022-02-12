@@ -100,6 +100,14 @@
         <servlet-name>CreateNewRequestController</servlet-name>
         <servlet-class>Controller.CreateNewRequestController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteRequestController</servlet-name>
+        <servlet-class>Controller.DeleteRequestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateRequestController</servlet-name>
+        <servlet-class>Controller.UpdateRequestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -162,27 +170,35 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListAllRequestStu</servlet-name>
-        <url-pattern>/listAllRequestStu</url-pattern>
+        <url-pattern>/ListAllRequestStu</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListAllRequestTeaController</servlet-name>
-        <url-pattern>/listAllRequestTea</url-pattern>
+        <url-pattern>/ListAllRequestTea</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewRequestTeaController</servlet-name>
-        <url-pattern>/viewRequestTeaController</url-pattern>
+        <url-pattern>/ViewRequestTea</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateRequestReply</servlet-name>
-        <url-pattern>/createRequestReply</url-pattern>
+        <url-pattern>/CreateRequestReply</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListAllRequestController</servlet-name>
-        <url-pattern>/listAllRequest</url-pattern>
+        <url-pattern>/ListAllRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateNewRequestController</servlet-name>
         <url-pattern>/CreateNewRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRequestController</servlet-name>
+        <url-pattern>/DeleteRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateRequestController</servlet-name>
+        <url-pattern>/UpdateRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

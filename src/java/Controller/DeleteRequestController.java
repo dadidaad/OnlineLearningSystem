@@ -1,5 +1,7 @@
 package Controller;
 
+import Dao.IRequestDAO;
+import Dao.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author win
  */
-public class EditRequestController extends HttpServlet {
+public class DeleteRequestController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,10 +32,10 @@ public class EditRequestController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditRequestController</title>");            
+            out.println("<title>Servlet DeleteRequestController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditRequestController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteRequestController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -51,7 +53,11 @@ public class EditRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int requestId = Integer.parseInt(request.getParameter("requestId"));
+        IRequestDAO iRequestDAO = new RequestDAO();
+        iRequestDAO.deleteRequest(requestId);
+        response.sendRedirect("ListAllRequestStu");
+        
     }
 
     /**

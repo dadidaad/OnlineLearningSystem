@@ -21,8 +21,8 @@
           crossorigin="anonymous"
         />
          <!-- Link to css file -->
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestListStu.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestListStu.css" />">
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Request List</title>
     </head>
@@ -45,13 +45,13 @@
             <!-- Nav Item  -->
   
             <li class="nav-item">
-              <a class="nav-link" href="listAllTeacher.html">
+              <a class="nav-link" href="ListAllTeacher">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Teacher List</span></a
               >
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="requestListStu.html">
+              <a class="nav-link" href="ListAllRequest">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >
@@ -83,7 +83,7 @@
             
             <div class="card--top d-flex">
               <h3 >Request List</h3>
-              <a href="#">Creare Request</a>
+              <a href="#"></a>
              </div>
             
             <!-- DataTales Example -->
@@ -91,13 +91,13 @@
               <div class="navbar--top__container" id="navbarNav">
                 <ul class="navbar--top">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Pending Request</span></a>
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Waiting">Pending Request</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Done Request</a>
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Approved">Done Request</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Report Processing</a>
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Report">Report Processing</a>
                   </li>
                   
                 </ul>
@@ -139,7 +139,7 @@
                         <td>Class ${r.getLevel()}</td>
                         <td>${r.getCost()} <Span>VND</Span></td>
                         <td>
-                          <a href="viewRequestTeaController?requestId=${r.getRequestID()}"><i class="far fa-eye"></i></a>
+                          <a href="ViewRequestTea?requestId=${r.getRequestID()}"><i class="far fa-eye"></i></a>
                         </td>
                         <td><i class="far fa-star"></i></td>
                       </tr> 
@@ -171,7 +171,7 @@
       <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
      <!-- link to java script file -->
-    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/requestListStu.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestListStu.js"/>"></script>
     </body>
 </html>

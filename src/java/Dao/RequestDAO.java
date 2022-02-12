@@ -174,7 +174,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
        try {
             Connection conn = getConnection();
             String sql = "insert into Request(Student_sent, Tutor_get, CreatedTime, [Status], Cost, Content, [Image], SubjectID,"
-                    + "level, Title) \n" +
+                    + "Level, Title) \n" +
                     "values(?, ?, GETDATE(), 'Waiting', ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rq.getStudentSent());
@@ -202,15 +202,16 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
          try {
             Connection conn = getConnection();
             String sql = "update Request\n" +
-"               set Tutor_get= ?, [Status] = ?, Cost = ?, Content = ?,[Image] = ?, SubjectID = ? WHERE RequestID = ?";
+"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?, Level = ?, Title = ? WHERE RequestID = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rq.getTutorGet());
-            statement.setString(2, rq.getStatus());
-            statement.setInt(3, rq.getCost());
-            statement.setString(4, rq.getContent());
-            statement.setString(5, rq.getImageLink());
-            statement.setInt(6,  rq.getSubjectID());
-            statement.setInt(7, rq.getRequestID());
+            statement.setInt(2, rq.getCost());
+            statement.setString(3, rq.getContent());
+            statement.setString(4, rq.getImageLink());
+            statement.setInt(5,  rq.getSubjectID());
+            statement.setInt(6, rq.getLevel());
+            statement.setString(7, rq.getTitle());
+            statement.setInt(8, rq.getRequestID());
             
 
             
@@ -323,10 +324,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         RequestDAO dal = new RequestDAO();
         ArrayList<RequestBean> requests = dal.getRequestBySubject(1);
 //        RequestReplyBean rq = dal.getRequestReplyById(3);
-//        RequestBean rq = dal.getRequestById(100);
+//        RequestBean rq = dal.getRequestById(28);
 //        System.out.println(rq);
-        RequestBean rq = new RequestBean("minhduc07", "minhanh01", "Waiting", 50000, "de bai so 1", "img", 1, 11, "giup em vs co minh anh");
-        dal.createRequest(rq);
+//        RequestBean rq = new RequestBean("minhduc07", "minhanh01", "Waiting", 50000, "de bai so 1", "img", 1, 11, "giup em vs co minh anh");
+//        dal.createRequest(rq);
 //        RequestBean rq = new RequestBean(26, null, "Waiting", 25000, "de bai so 1", "img2", "1");
 //        dal.updateRequest(rq);
 //        dal.deleteRequest(24);
@@ -334,6 +335,21 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
 //            System.out.println(t);
 //        }
 //        dal.updateRequestStatus("Report",3); 
+
+        RequestBean rq = new RequestBean();
+        rq.setRequestID(28);
+        rq.setStudentSent("minhduc07");
+        rq.setTutorGet("minhanh01");
+        rq.setCost(Integer.parseInt("10000"));
+        rq.setContent("update");
+        rq.setImageLink("img");
+        rq.setSubjectID(Integer.parseInt("1"));
+        rq.setLevel(Integer.parseInt("12"));
+        rq.setTitle("test update o dao");
+        
+        IRequestDAO iRequestDAO = new RequestDAO();
+        iRequestDAO.updateRequest(rq);
+
     }
 
    

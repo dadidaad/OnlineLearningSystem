@@ -23,8 +23,8 @@
         crossorigin="anonymous"
         />
         <!-- Link to css file -->
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/viewRequestDetailStu.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ViewRequestDetailStu.css" />">
             
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Request Handling</title>
@@ -80,10 +80,10 @@
 
             <div class="card--top d-flex">
               <h3>Response</h3>
-              <a class="createRequestBtn" href="#">Creare Request</a>
+              <a class="createRequestBtn" href="CreateRequest">Creare Request</a>
             </div>
             <div class="backBtn-container">
-              <a class="backBtn" href="listAllRequestStu"
+              <a class="backBtn" href="ListAllRequestStu"
                 ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
               >
             </div>
@@ -156,11 +156,11 @@ ${requestScope.requestReply.getContentReply()}</textarea
                       </li>
                     </ul>
                     <div class="responseContent--btn">
-                      <button type="button" class="btn btn-update">
-                        <i class="far fa-edit"></i> Update</button
-                      ><button type="button" class="btn btn-delete">
+                        <a href="UpdateRequest?requestId=${requestScope.request.getRequestID()}" style="margin-right: 32px;" class="btn btn-update">
+                        <i class="far fa-edit"></i> Update</a
+                      ><a href="DeleteRequest?requestId=${requestScope.request.getRequestID()}" style="margin-right: 32px;" class="btn btn-delete">
                         <i class="far fa-trash-alt"></i> Delete
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -194,8 +194,8 @@ ${requestScope.requestReply.getContentReply()}</textarea
       <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
      <!-- link to java script file -->
-    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/viewRequestDetailStu.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/ViewRequestDetailStu.js"/>"></script>
 
     </body>
 </html>

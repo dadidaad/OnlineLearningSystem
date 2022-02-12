@@ -20,8 +20,8 @@
         crossorigin="anonymous"
         />
         <!-- Link to css file -->
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/createRequest.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateRequest.css" />">
         
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Create Request</title>
@@ -50,7 +50,7 @@
         <!-- Nav Item  -->
 
         <li class="nav-item">
-          <a class="nav-link" href="listAllTeacher.html">
+          <a class="nav-link" href="ListAllTeacher">
             <i class="fas fa-fw fa-table"></i>
             <span>Teacher List</span></a
           >
@@ -88,7 +88,7 @@
               <h3>Creare Request</h3>
             </div>
             <div class="backBtn-container">
-              <a class="backBtn" href="requestListStu.html"
+              <a class="backBtn" href="ListAllRequest"
                 ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
               >
             </div>
@@ -323,8 +323,9 @@
 
     
     <!-- link to java script file -->
-    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/createRequest.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>
     
     </body>
 </html>
+
