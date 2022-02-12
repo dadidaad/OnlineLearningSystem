@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,9 +19,10 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="../assets/css/requestMain.css" />
-        <link rel="stylesheet" href="../assets/css/createRequest.css" />
-
+        <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/requestMain.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/createRequest.css" />">
+        
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Create Request</title>
     </head>
@@ -94,53 +97,57 @@
             <div class="create-container">
               <!-- Request Info -->
               <div class="createContent mb-4">
-                <form action="#">
+                <form action="CreateRequest" method="post">
                   <div class="card p-2 mb-4">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
 
                       <label for="reTitle" class="d-block">Request Title: </label>
-                      <input type="text" id="reTitle" name="fname" class="form-control" /><br />
+                      <input type="text" id="reTitle" name="rqTitle" class="form-control" /><br />
                       <div class="row">
                         <div class="form-group col-sm-6">
                           <label for="reSubject">Subject: </label>
-                          <select class="form-control" id="reSubject">
+                          
+                          <select class="form-control" id="reSubject" name="rqSubject">
                             <option>Select Subject</option>
-                            <option>Math</option>
-                            <option>Chemistry</option>
-                            <option>Physics</option>
+                          <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">    
+                            <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
+                          </c:forEach>  
                           </select>
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="reClass">Class: </label>
-                          <select class="form-control" id="reClass">
+                          <select class="form-control" id="reClass" name="rqLevel">
                             <option value="">Select Class</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                           </select>
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="rePrice">Price: </label>
-                          <select class="form-control" id="rePrice">
+                          <select class="form-control" id="rePrice" name="rqPrice">
                             <option value="">Select Price</option>
-                            <option>5.000 <span>VND</span></option>
-                            <option>10.000 <span>VND</span></option>
-                            <option>15.000 <span>VND</span></option>
-                            <option>20.000 <span>VND</span></option>
-                            <option>25.000 <span>VND</span></option>
-                            <option>35.000 <span>VND</span></option>
+                            <option value="5000">5.000 <span>VND</span></option>
+                            <option value="10000">10.000 <span>VND</span></option>
+                            <option value="15000">15.000 <span>VND</span></option>
+                            <option value="20000">20.000 <span>VND</span></option>
+                            <option value="25000">25.000 <span>VND</span></option>
+                            <option value="30000">30.000 <span>VND</span></option>
+                            <option value="40000">40.000 <span>VND</span></option>
+                            <option value="50000">50.000 <span>VND</span></option>
                           </select>
                         </div>
                       </div>
                       <br />
                       <fieldset class="mr-5 mb-4 form-group">
                         <legend class="text-bold2 mb-12px h6">Teacher Recommend</legend>
+                        <c:if test = "${requestScope.rqTeacherRcmFromList==null}">
                         <div class="offline-box flex-box align-items-start">
                           <div class="mr-5 form-check">
                             <label class="mb-0 cursor-pointer text-nowrap false"
                               ><input
-                                name="offlineFlag"
+                                name="teacherRcmCheck"
                                 type="radio"
                                 class="form-check-input"
                                 checked=""
@@ -151,13 +158,19 @@
                           <div class="form-check">
                             <label class="mb-12px cursor-pointer text-grey"
                               ><input
-                                name="offlineFlag"
+                                name="teacherRcmCheck"
                                 type="radio"
                                 class="form-check-input teacherOption"
                                 value="1"
                               />Yes</label
                             >
-                            <a href="#" class="teacherRecommend--name"></a>
+                           
+                            <a style="text-decoration: none" href="#" class="teacherRecommend--name"></a>
+                            
+                            
+                          
+                            <input type="hidden" id="teacherUsernameRcm" name="rqTeacherRcm" readonly >
+                            <input type="hidden" id="studentSent" name="studentSent" value="minhduc07">  
                           </div>
                           <button
                             type="button"
@@ -168,6 +181,10 @@
                             Find Teacher...
                           </button>
                         </div>
+                        </c:if>
+                        <c:if test = "${requestScope.rqTeacherRcmFromList!=null}">
+                                <input type="text" id="teacherUsernameRcmfrList" name="rqTeacherRcmFromList" readonly value="${rqTeacherRcmFromList}">
+                        </c:if>
                       </fieldset>
                     </div>
                   </div>
@@ -181,15 +198,17 @@
                           id="TopicTextArea"
                           rows="5"
                           style="width: 100%"
+                          name="content"
                         >
                         </textarea>
                       </div>
                       <label for="formFile" class="form-label"> Image attachment </label>
-                      <input class="form-control" type="file" id="formFile" />
+                      <input class="form-control" type="file" id="formFile" name="imgContent"/>
                     </div>
                   </div>
                   <input type="submit" class="btn btn-primary mt-3" value="Send Request" />
                 </form>
+
               </div>
             </div>
           </div>
@@ -241,297 +260,47 @@
                     <th>Name</th>
                     <th>Reputation</th>
                     <th>Subject</th>
+                    <th></th>
                     <th>Request</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>
-                      <a class="teacherInfo" href="#"
-                        ><img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        /><span class="teacherName">Nguyen Lan Anh</span></a
-                      >
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
 
-                    <td>
-                      <button
+                 <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop"> 
+                    <c:if test = "${requestScope.teachers.size()==0}">
+                        <tr>List Empty</tr>
+                    </c:if>
+                      <tr>
+                        <td>${loop.index+1}</td>
+                        <td>
+                          <a class="teacherInfo" href="#"
+                            ><img
+                              class="teacherAvt"
+                              src="${t.getAvatar()}"
+                              alt=""
+                            />${t.getDisplayName()}</a
+                          >
+                        </td>
+                        <td>4.1</td>
+                        <td>${requestScope.subjectNames.get(t.getSubjectId())}</td>
+                        <td>
+                          <input type="hidden" id="teacherUsername" value="${t.getUsername()}"> 
+                        </td>
+                        <td>
+                        <button
                         type="button"
                         class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
+                        value="${t.getUsername()}"
                         aria-label="Close"
                         id="closemodal"
-                      >
+                        >
                         Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        /><span class="teacherName">Bui Thi Van</span>
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Bui Thi Van"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        /><span class="teacherName">Nguyen Thi Trang</span>
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Thi Trang"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Hoang Ngoc Anh
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Hoang Ngoc Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Thuy Van"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Thuy Van"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <a class="teacherInfo" href="">
-                        <img
-                          class="teacherAvt"
-                          src="./assets/img/teacher_81762259.jpg"
-                          alt=""
-                        />Nguyen Thuy Van
-                      </a>
-                    </td>
-                    <td>4.6</td>
-                    <td>Math</td>
-
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary requestBtn"
-                        value="Nguyen Lan Anh"
-                        aria-label="Close"
-                        id="closemodal"
-                      >
-                        Select
-                      </button>
-                    </td>
-                  </tr>
+                        </button>
+                        </td>
+                      </tr>
+                      
+                      </c:forEach> 
                 </tbody>
               </table>
             </div>
@@ -542,7 +311,6 @@
         </div>
       </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
@@ -553,7 +321,10 @@
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
-    <script src="../assets/js/requestMain.js"></script>
-    <script src="../assets/js/createRequest.js"></script>
+    
+    <!-- link to java script file -->
+    <script src="<i:ReadUrlFromContext url="/assets/js/requestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/createRequest.js"/>"></script>
+    
     </body>
 </html>

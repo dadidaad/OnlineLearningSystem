@@ -8,16 +8,21 @@ var findTeacherButton = document.querySelector(".teacherRecommend--btn"),
   teacherRecommendName = document.querySelector(".teacherRecommend--name"),
   teacherOptions = document.querySelectorAll(".form-check-input"),
   teacherNames = document.getElementsByClassName("teacherName"),
-  requestTeacherBtns = document.querySelectorAll(".requestBtn");
+  requestTeacherBtns = document.querySelectorAll(".requestBtn"),
+  teacherUsernameRcmInput = document.getElementById("teacherUsernameRcm");
+  
 
 teacherOptions.forEach((element) => {
   element.addEventListener("click", function () {
     console.log(element.getAttribute("value"));
     if (element.getAttribute("value") === "1") {
       yesOption();
+      
     } else noOption();
   });
 });
+console.log(teacherUsernameRcmInput.getAttribute("value"));
+console.log("minh");
 function yesOption() {
   findTeacherButton.style.display = "block";
   setTeacherRecommend();
@@ -38,6 +43,7 @@ function setTeacherRecommend() {
 
       element.target.classList.add("select");
       teacherRecommendName.innerHTML = element.target.getAttribute("value");
+      teacherUsernameRcmInput.value=element.target.value;
     });
   });
 }

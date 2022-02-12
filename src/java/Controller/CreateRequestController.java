@@ -1,7 +1,18 @@
 package Controller;
 
+import Bean.RequestBean;
+import Bean.SubjectBean;
+import Bean.TeacherBean;
+import Dao.IRequestDAO;
+import Dao.ISubjectDAO;
+import Dao.ITeacherDAO;
+import Dao.RequestDAO;
+import Dao.SubjectDAO;
+import Dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +62,28 @@ public class CreateRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+                ArrayList <SubjectBean> s = new ArrayList<>();
+                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                s = iSubjectDAO.getAllSubject();
+                 Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
+                String teacherRcmFromList = request.getParameter("teacherRcmFromList");
+                if(teacherRcmFromList!=null){
+                    request.setAttribute("rqTeacherRcmFromList", teacherRcmFromList);
+                }
+                
+                 
+                ArrayList <TeacherBean> teacherList = new ArrayList<>();
+                ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
+                teacherList = iTeacherDAO.getAllTeacher();
+                //Attach Attribute subjects for request and redirect it to CreateRequest.jsp
+                request.setAttribute("subjects", s);
+                request.setAttribute("teachers", teacherList);
+                request.setAttribute("subjectNames", SubjectNames);
+//                out.print("create");
+                request.getRequestDispatcher("./view/CreateRequest.jsp").forward(request, response);
+            }
     }
 
     /**
@@ -65,7 +97,41 @@ public class CreateRequestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            
+        String requestTitle = request.getParameter("rqTitle");
+        String requestSubject = request.getParameter("rqSubject");
+        String requestLevel = request.getParameter("rqLevel");
+        String requestPrice = request.getParameter("rqPrice");
+        String requestStudentSent = request.getParameter("studentSent");
+        
+        String requestTeacherRcm = "";
+        String rqTeacherRcmFromList = request.getParameter("rqTeacherRcmFromList");
+        if(rqTeacherRcmFromList == null && request.getParameter("rqTeacherRcm").length() > 0) 
+            requestTeacherRcm = request.getParameter("rqTeacherRcm");
+        else requestTeacherRcm =null;
+        
+        
+        String requestContent = request.getParameter("content");
+        String requestImg = "/assets/image/" + request.getParameter("imgContent");
+        
+//        out.print( requestTitle + " "+ requestSubject  + " "+ requestTeacherRcm   + " "+  requestContent + " "+ requestImg);
+        
+        RequestBean rq = new RequestBean();
+        rq.setStudentSent(requestStudentSent);
+        rq.setTutorGet(requestTeacherRcm);
+        rq.setCost(Integer.parseInt(requestPrice));
+        rq.setContent(requestContent);
+        rq.setImageLink(requestImg);
+        rq.setSubjectID(Integer.parseInt(requestSubject));
+        rq.setLevel(Integer.parseInt(requestLevel));
+        rq.setTitle(requestTitle);
+        
+        IRequestDAO iRequestDAO = new RequestDAO();
+        iRequestDAO.createRequest(rq);
+       
+        response.sendRedirect("listAllRequestStu");
+        }
     }
 
     /**

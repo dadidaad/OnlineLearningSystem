@@ -90,11 +90,15 @@
     </servlet>
     <servlet>
         <servlet-name>CreateRequestReply</servlet-name>
-        <servlet-class>Controller.CreateRequestReply</servlet-class>
+        <servlet-class>Controller.CreateRequestReplyController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllRequestController</servlet-name>
         <servlet-class>Controller.ListAllRequestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateNewRequestController</servlet-name>
+        <servlet-class>Controller.CreateNewRequestController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -175,6 +179,10 @@
     <servlet-mapping>
         <servlet-name>ListAllRequestController</servlet-name>
         <url-pattern>/listAllRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewRequestController</servlet-name>
+        <url-pattern>/CreateNewRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

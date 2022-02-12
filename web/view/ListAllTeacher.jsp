@@ -135,7 +135,7 @@
                           />
                         </td>
                         <td>
-                          <a href="CreateRequest?teacherUserName${t.getUsername()}"><i class="far fa-share-square"></i></a>
+                          <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}"><i class="far fa-share-square"></i></a>
                         </td>
                       </tr>
                       

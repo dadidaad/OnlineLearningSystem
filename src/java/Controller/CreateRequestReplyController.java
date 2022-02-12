@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author win
  */
-public class CreateRequestReply extends HttpServlet {
+public class CreateRequestReplyController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

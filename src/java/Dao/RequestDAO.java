@@ -173,16 +173,18 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
     public void createRequest(RequestBean rq) {
        try {
             Connection conn = getConnection();
-            String sql = "insert into Request(Student_sent, Tutor_get, CreatedTime, [Status], Cost, Content, [Image],SubjectID) \n" +
-                    "values(?, ?, GETDATE(), ?, ?, ?, ?, ?)";
+            String sql = "insert into Request(Student_sent, Tutor_get, CreatedTime, [Status], Cost, Content, [Image], SubjectID,"
+                    + "level, Title) \n" +
+                    "values(?, ?, GETDATE(), 'Waiting', ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rq.getStudentSent());
             statement.setString(2, rq.getTutorGet());
-            statement.setString(3, rq.getStatus());
-            statement.setInt(4, rq.getCost());
-            statement.setString(5, rq.getContent());
-            statement.setString(6, rq.getImageLink());
-            statement.setInt(7, rq.getSubjectID());
+            statement.setInt(3, rq.getCost());
+            statement.setString(4, rq.getContent());
+            statement.setString(5, rq.getImageLink());
+            statement.setInt(6, rq.getSubjectID());
+            statement.setInt(7, rq.getLevel());
+            statement.setString(8, rq.getTitle());
 
             
             statement.executeUpdate();
@@ -320,17 +322,18 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
     public static void main(String[] args) {
         RequestDAO dal = new RequestDAO();
         ArrayList<RequestBean> requests = dal.getRequestBySubject(1);
-        RequestReplyBean rq = dal.getRequestReplyById(3);
+//        RequestReplyBean rq = dal.getRequestReplyById(3);
 //        RequestBean rq = dal.getRequestById(100);
 //        System.out.println(rq);
-//        RequestBean rq = new RequestBean("minhduc07", null, "Waiting", 15000, "de bai so 2", "img", "1");
+        RequestBean rq = new RequestBean("minhduc07", "minhanh01", "Waiting", 50000, "de bai so 1", "img", 1, 11, "giup em vs co minh anh");
+        dal.createRequest(rq);
 //        RequestBean rq = new RequestBean(26, null, "Waiting", 25000, "de bai so 1", "img2", "1");
 //        dal.updateRequest(rq);
 //        dal.deleteRequest(24);
 //        for(RequestBean t : requests){
 //            System.out.println(t);
 //        }
-        dal.updateRequestStatus("Report",3);
+//        dal.updateRequestStatus("Report",3); 
     }
 
    
