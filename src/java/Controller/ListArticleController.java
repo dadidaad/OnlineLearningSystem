@@ -1,20 +1,27 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controller;
 
 import Bean.ArticleBean;
 import Dao.ArticleDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author win
+ * Document: ListArticleController
+ * Create on: Feb 9, 2022, 10:20:35 PM
+ * @author Hoang Ngoc Long
  */
-public class ArticleController extends HttpServlet {
+@WebServlet(name = "ListArticleController", urlPatterns = {"/listarticle"})
+public class ListArticleController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,12 +35,27 @@ public class ArticleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ArticleDAO dao = new ArticleDAO();
-        List<ArticleBean> list = dao.getAllArticle();
-        List<ArticleBean> list2=dao.gettop4();
+        ArticleDAO articledao = new ArticleDAO();
+        //Caculate page from database
+        String indexpage = request.getParameter("index");
+        if (indexpage == null) {
+            indexpage = "1";
+        }
+        int idex = Integer.parseInt(indexpage);
+
+        int count = articledao.total();
+        int endPage = count / 6;
+        if (count % 6 != 0) {
+            endPage++;
+        }
+        //get top 4 newest article and total article
+        List<ArticleBean> list = articledao.pagingAricle(idex);
+        List<ArticleBean> list2 = articledao.gettop4();
+        //Attach Attribute for request and redirect it to ListArticle.jsp
         request.setAttribute("listP", list);
         request.setAttribute("listT", list2);
-        request.getRequestDispatcher("ListArticle.jsp").forward(request, response);
+        request.setAttribute("endP", endPage);
+        request.getRequestDispatcher("./view/ListArticle.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

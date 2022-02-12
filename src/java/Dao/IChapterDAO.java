@@ -10,4 +10,5 @@ import java.util.ArrayList;
  */
 public interface IChapterDAO {
     public ArrayList<ChapterBean> getBySubId(int subId); //Get All Chapter with coresponding SubjectID
+    public ChapterBean getChapterById(int chapId);
 }

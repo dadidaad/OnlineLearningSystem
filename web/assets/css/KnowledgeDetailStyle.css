@@ -1,0 +1,16 @@
+.accordion .accordion-text li .image-knowledge{
+    width: 92%;
+    display: none;
+}
+.accordion .accordion-text li .image-knowledge img{
+    width: 100%;
+}
+.accordion .accordion-text li.showAnswer .image-knowledge{
+    display: block;
+}
+.accordion .accordion-text #detail-title{
+    transform: translateX(50%);
+}
+.accordion .fag-text{
+    padding-left: 10rem;
+}

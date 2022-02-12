@@ -9,15 +9,30 @@ public class SubjectBean {
     private int subjectID;
     private String subjectName;
     private String description;
+    private String subjectImage;
 
     public SubjectBean() {
     }
 
-    public SubjectBean(int subjectID, String subjectName, String description) {
+    
+    public SubjectBean(int subjectID, String subjectName, String description, String subjectImage) {
         this.subjectID = subjectID;
         this.subjectName = subjectName;
         this.description = description;
+        this.subjectImage = subjectImage;
     }
+
+    
+ 
+    public String getSubjectImage() {
+        return subjectImage;
+    }
+
+    public void setSubjectImage(String subjectImage) {
+        this.subjectImage = subjectImage;
+    }
+
+    
 
     public int getSubjectID() {
         return subjectID;
@@ -45,8 +60,10 @@ public class SubjectBean {
 
     @Override
     public String toString() {
-        return "SubjectBean{" + "subjectID=" + subjectID + ", subjectName=" + subjectName + ", description=" + description + '}';
+        return "SubjectBean{" + "subjectID=" + subjectID + ", subjectName=" + subjectName + ", description=" + description + ", subjectImage=" + subjectImage + '}';
     }
+
+
 
     
 }

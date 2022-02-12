@@ -1,7 +1,17 @@
 package Controller;
 
+import Bean.ChapterBean;
+import Bean.KnowledgeBean;
+import Bean.SubjectBean;
+import Dao.ChapterDAO;
+import Dao.IChapterDAO;
+import Dao.IKnowledgeDAO;
+import Dao.ISubjectDAO;
+import Dao.KnowledgeDAO;
+import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +61,34 @@ public class KnowledgeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
+        try (PrintWriter out = response.getWriter()) {
+            //Get ChapterID from request
+            String chapterID = request.getParameter("chapId");
+            
+            //Use DAO class to get data from database for Knowledge with corresponding ChapterID
+            ArrayList<KnowledgeBean> knowledges = new ArrayList<>();
+            IKnowledgeDAO knowledgeDao = new KnowledgeDAO(); //Use IKnowledgeDAO interface to call
+            knowledges = knowledgeDao.getByChapterId(Integer.parseInt(chapterID));
+            
+            //Use DAO class to get data from database for all Subject
+            ArrayList <SubjectBean> subjects = new ArrayList<>();
+            ISubjectDAO subjectDao = new SubjectDAO(); //Use ISubjectDAO interface to call
+            subjects = subjectDao.getAllSubject();
+            
+            //Use DAO class to get data for Current Chapter with correspoding ChapterID from request
+            ChapterBean currentChapter = new ChapterBean();
+            IChapterDAO chapterDao = new ChapterDAO();
+            currentChapter = chapterDao.getChapterById(Integer.parseInt(chapterID));
+             out.print(1);
+            //Attach Attribute for request and redirect it to SubjectDetail.jsp
+            request.setAttribute("subjects", subjects);
+            request.setAttribute("knowledges", knowledges);
+            request.setAttribute("currentChapter", currentChapter);
+            request.getRequestDispatcher("./view/KnowledgeDetail.jsp").forward(request, response);
+        }
+        
     }
 
     /**
