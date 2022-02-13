@@ -48,7 +48,7 @@
               >
         </li>
         <li class="nav-item active">
-              <a class="nav-link" href="ListAllRequestStu">
+              <a class="nav-link" href="listAllRequestStu">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >

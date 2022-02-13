@@ -8,7 +8,6 @@ import Dao.IRequestDAO;
 import Dao.ISubjectDAO;
 import Dao.RequestDAO;
 import Dao.SubjectDAO;
-import Utils.SortRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -64,34 +63,31 @@ public class ListAllRequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
+                
             HttpSession session = request.getSession();   
             AccountBean account =(AccountBean) session.getAttribute("account");
-//            if(account!=null){}
+            if(account!=null){}
                 
-                String status  = "Waiting";
                 ArrayList <RequestBean> requestList = new ArrayList<>();
                 IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
-                requestList = iRequestDAO.getRequestForTeacher(1, status);
-//                
-                SortRequest sortRequest = new SortRequest();
-                requestList = sortRequest.requestListSorted(requestList, "lanhuong");
-
-                
+                requestList = iRequestDAO.getAllRequest();
                 
                 ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
                 Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
-//                
+                
                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
                 Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
                 
-
-////                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
+//                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
                 request.setAttribute("requests", requestList);
                 request.setAttribute("subjectNames", SubjectNames);
                 request.setAttribute("displayNames", DisplayNames);
+
                 
+                
+            
                 request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
-                               
+                request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
             }
     }
 

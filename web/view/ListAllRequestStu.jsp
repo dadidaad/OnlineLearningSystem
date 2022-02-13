@@ -88,13 +88,13 @@
               <div class="navbar--top__container" id="navbarNav">
                 <ul class="navbar--top">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#" value="Waiting">Pending Request</span></a>
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Waiting">Pending Request</span></a>
                   </li>
-                  <li class="nav-item" value="Approved">
-                    <a class="nav-link" href="#" value="Approved">Done Request</a>
+                  <li class="nav-item">
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Approved">Done Request</a>
                   </li>
-                  <li class="nav-item" value="Report">
-                    <a class="nav-link" href="#" value="Report">Report Processing</a>
+                  <li class="nav-item">
+                    <a class="nav-link" href="ListAllRequest?rqStatus=Report">Report Processing</a>
                   </li>
                   
                 </ul>
@@ -127,7 +127,7 @@
                         <th>Detail</th>
                       </tr>
                     </tfoot>
-                    <tbody id="changeData">
+                    <tbody>
 
                     <c:forEach items="${requestScope.requests}" var ="r" varStatus="loop">   
                       <tr>
@@ -166,16 +166,11 @@
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->
     
-    <!--Ajax library-->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
     <!-- Datatable Jquery library -->    
       <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
       <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
-      
-      
-      
+
      <!-- link to java script file -->
     <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
     <script src="<i:ReadUrlFromContext url="/assets/js/RequestListStu.js"/>"></script>
