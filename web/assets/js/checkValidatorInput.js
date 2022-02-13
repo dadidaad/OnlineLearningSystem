@@ -100,17 +100,6 @@ $('#login-form').validate({
             usernamecheck: true
         },
     },
-    messages: {
-        password: {
-            pwcheck: "Password is not strong enough",
-            checklower: "Need at least 1 lowercase alphabet",
-            checkupper: "Need at least 1 uppercase alphabet",
-            checkdigit: "Need at least 1 digit"
-        },
-        username: {
-            usernamecheck: "Must only contains alphabet and number"
-        }
-    },
     highlight: function (element) {
         var id_attr = "#" + $(element).attr("id");
         $(element).closest('.form__group').removeClass('has-success').addClass('has-error');

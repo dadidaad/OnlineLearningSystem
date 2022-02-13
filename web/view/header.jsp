@@ -4,6 +4,8 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="Bean.AccountBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
 <!DOCTYPE html>
@@ -26,8 +28,15 @@
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
             </ul>
             <div class="col-md-3 text-end">
-                <a href="./Login.jsp" class="btn btn-outline-primary me-2">Login</a>
-                <a href="./SignUp.jsp" class="btn btn-primary">Sign-up</a>
+                <c:if test="${sessionScope.user eq null}">
+                    <a href="./Login.jsp" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="./SignUp.jsp" class="btn btn-primary">Sign-up</a>
+                </c:if>
+                <c:if test="${sessionScope.user ne null}">
+                    <p class="text-success" style="font-size: 20px;font-weight: 500; padding-top: 15px; padding-right: 10px;"> Hello
+                        ${sessionScope.user.displayName}
+                    </p>
+                </c:if>
             </div>
         </header>
     </body>

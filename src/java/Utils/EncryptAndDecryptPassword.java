@@ -41,9 +41,6 @@ public class EncryptAndDecryptPassword {
     public String callGeneratePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
         return generatePasswordHash(password);
     }
-    public boolean callValidatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return callValidatePassword(originalPassword, storedPassword);
-    }
     private static String generatePasswordHash(String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000; //iterations for encrypt password
@@ -95,7 +92,7 @@ public class EncryptAndDecryptPassword {
      * a <code>java.lang.String</code> object
      *
      */
-    private static boolean validatePassword(String originalPassword, String storedPassword)
+    public boolean validatePassword(String originalPassword, String storedPassword)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -128,5 +125,11 @@ public class EncryptAndDecryptPassword {
         }
         return bytes;
     }
-    
+    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String password = "Vtdhp9x00";
+        String hassPass = generatePasswordHash(password);
+        EncryptAndDecryptPassword m = new EncryptAndDecryptPassword();
+        String hassPass2 = m.callGeneratePassword(password);
+        System.out.println(m.validatePassword("Vtdhp9x00", hassPass2));
+    }
 }

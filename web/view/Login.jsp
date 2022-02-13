@@ -4,8 +4,10 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +19,7 @@
         <script src="https://kit.fontawesome.com/7ca0ffd650.js" crossorigin="anonymous"></script>
         <style>
             body{
-                background-image: url('../assets/image/AccountFeature/backgroundAccountFeature.png');
+                background-image: url('./assets/image/AccountFeature/backgroundAccountFeature.png');
             }
         </style>
     </head>
@@ -33,7 +35,7 @@
                         <h4 class="text-center text-dark py-1 my-1">Login As</h4>
                         <button class="btn btn-warning py-2 my-1 px-5" id="roleStudent">Student</button>
                         <button class="btn btn-warning py-2 my-1 px-5" id="roleTeacher">Teacher</button>
-                        <p class="text-center text-dark py-1 my-1">New Member? <a href="#" class="text-success text-center">Create new account</a></p>
+                        <p class="text-center text-dark py-1 my-1">New Member? <a href="./SignUp.jsp" class="text-success text-center">Create new account</a></p>
                     </div>
                     <div class="d-none d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="loginForm">
                         <button type="button" class="btn btn-outline-primary rounded-circle" id="backToChooseRole"><i class="fas fa-long-arrow-alt-left"></i></button>
@@ -51,19 +53,21 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <!-- Checkbox -->
                                 <div class="form-check mb-0">
-                                    <input class="form-check-input me-2" type="checkbox" value="remember" id="rememberme" />
+                                    <input class="form-check-input me-2" type="checkbox" value="remember" id="rememberme" name="remember" />
                                     <label class="form-check-label small" for="rememberme">Remember me
                                     </label>
                                 </div>
-                                <a href="#!" class="small">Forgot password?</a>
+                                <a href="./ForgotPassword.jsp" class="small">Forgot password?</a>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-success btn-lg px-5 mt-2" type="submit">Login</button>
+                                <button class="btn btn-success btn-lg px-5 mt-2" type="button" id="login-btn">Login</button>
+                            </div>
+                            <div class="text-danger" id="login-noti">
                             </div>
                             <div class="divider d-flex align-items-center my-4">
                                 <p class="text-center fw-bold mx-3 mb-0 text-muted">Or</p>
                             </div>
-                            <input type="hidden" name="role"/>
+                            <input type="hidden" name="role" id="roleUser"/>
                             <div class="d-flex justify-content-center text-center mt-3 pt-1">
                                 <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
                                 <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
@@ -71,14 +75,14 @@
                             </div>
                         </form>
                         <div class="mt-2">
-                            <p class="mb-0">Don't have an account? <a href="#!" class="text-dark-50 fw-bold">Sign Up</a></p>
+                            <p class="mb-0">Don't have an account? <a href="./SignUp.jsp" class="text-dark-50 fw-bold">Sign Up</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script>
@@ -86,13 +90,13 @@
                 $('#roleStudent').click(function () {
                     $('#chooseRole').toggleClass('d-none');
                     $('#role').html('Student');
-                    $('input[name="role"]').val('student');
+                    $('#roleUser').val('Student');
                     $('#loginForm').removeClass('d-none');
                 });
                 $('#roleTeacher').click(function () {
                     $('#chooseRole').toggleClass('d-none');
                     $('#role').html('Teacher');
-                    $('input[name="role"]').val('teacher');
+                    $('#roleUser').val('Teacher');
                     $('#loginForm').removeClass('d-none');
                 });
                 $('#backToChooseRole').click(function () {
@@ -100,6 +104,43 @@
                     $('#loginForm').toggleClass('d-none');
                 });
               });
+               function validateForm() {
+                    if ($('.invalid').length != 0)
+                        return false;
+                    var y, i, valid = true;
+                    y = document.getElementsByClassName("form__field");
+                    // A loop that checks every input field in the current tab:
+                    for (i = 0; i < y.length; i++) {
+                        // If a field is empty...
+                        if (y[i].value == "") {
+                            // add an "invalid" class to the field:
+                            y[i].className += " invalid";
+                            // and set the current valid status to false:
+                            valid = false;
+                        }
+                    }
+                    return valid;
+                }
+              $(document).ready(function () {
+                $('#login-btn').click(function () {
+                    if (validateForm() != false) {
+                        var uname = $('#username').val();
+                        var pw = $('#password_login').val();
+                        var roleUser = $('#roleUser').val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '<i:ReadUrlFromContext url="/Login"/>',
+                            data: {"username" : uname, "password" : pw, "role" : roleUser},
+                            success: function (result) {
+                                $('#login-noti').html(result);
+                            }
+                        });
+                    } 
+                    else {
+                        return false;
+                    }
+                });
+            });
         </script>
         <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
     </body>

@@ -120,7 +120,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-        <jsp:include page="./callAjaxToJSP.jsp"></jsp:include>
+        <jsp:include page="./callAjaxToRegister.jsp"></jsp:include>
         <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
     </body>
 </html>
