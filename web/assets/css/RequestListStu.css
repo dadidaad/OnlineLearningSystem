@@ -1,0 +1,72 @@
+/* Main Content */
+
+/* top title */
+.container-fluid .card--top {
+  justify-content: space-between;
+  margin: 16px;
+}
+.container-fluid .card--top a {
+  color: white;
+  font-weight: 700;
+  padding: 0.625rem 0.3rem;
+  min-width: 7rem;
+  text-align: center;
+  border-radius: 6px;
+  color: #fff;
+  background: #0367b4;
+  border: none;
+  outline: none;
+  transition: 0.2s ease-out;
+  text-decoration: none;
+}
+.container-fluid .card--top a:hover {
+  background: #165585;
+}
+/* Top Navtab */
+.navbar--top__container .navbar--top {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 12%);
+  border-radius: 6px;
+  padding-left: 0;
+}
+.navbar--top__container .navbar--top .nav-item {
+  flex-grow: 1;
+  text-align: center;
+}
+.navbar--top__container .navbar--top .nav-link {
+  color: #8f8f8f;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+}
+.navbar--top .nav-item:hover {
+  border-radius: 5px;
+  background: #f1f3f4 !important;
+}
+.navbar--top .nav-item::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0;
+  background: #ff6d34;
+  transition: width 0.3s;
+}
+.navbar--top .nav-item.active::after {
+  width: 100%;
+}
+.navbar--top .nav-item.active .nav-link {
+  color: #ff6d34;
+}
+/* Table Reqeust */
+.requestTable thead th,
+.requestTable tfoot th {
+  padding: 16px;
+}
+.requestTable tbody td {
+  padding: 16px;
+}
