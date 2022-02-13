@@ -20,25 +20,16 @@ public class ArticleBean {
         this.pulished = pulished;
     }
 
-    public ArticleBean(int id, String title, String description, String image, String createName, String pulished) {
+    public ArticleBean(int id, String title, String description, String image,  String pulished) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
-        this.createName = createName;
         this.pulished = pulished;
     }
     
-    
+     
     public ArticleBean() {
-    }
-
-    public ArticleBean(int id, String title, String description, String image, String createName) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.image = image;
-        this.createName = createName;
     }
     public ArticleBean(int id, String title, String description, String image){
     this.id = id;

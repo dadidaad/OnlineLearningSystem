@@ -106,4 +106,24 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         }
         return 0;
     }
+     public ArticleBean getArticleDetail(int aritcle) {
+        String query = "select * from Article where ArticleID=?";
+
+        try {
+             Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, aritcle);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return new ArticleBean(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }
