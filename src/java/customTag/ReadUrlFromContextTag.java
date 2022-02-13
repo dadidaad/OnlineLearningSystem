@@ -36,7 +36,7 @@ public class ReadUrlFromContextTag extends SimpleTagSupport {
         try {
             PageContext pageContext = (PageContext)getJspContext(); // get pageContext
             HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-            out.println(request.getContextPath()+url); //read url from root and join it with url passed then write it;
+            out.print(request.getContextPath()+url); //read url from root and join it with url passed then write it;
             JspFragment f = getJspBody();
             if (f != null) {
                 f.invoke(out);

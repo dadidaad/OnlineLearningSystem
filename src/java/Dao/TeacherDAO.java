@@ -40,7 +40,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
                 teacher.setDateOfBirth(rs.getDate("DateOfBirth"));
                 teacher.setSex(rs.getBoolean("Sex"));
                 teacher.setDescription(rs.getString("Description"));
-                teacher.setCash(rs.getInt("Cash in account"));
+                teacher.setCash(rs.getBigDecimal("Cash in account"));
                 teacher.setCreateDate(rs.getDate("CreatedDate"));
                 teacher.setRole(rs.getString("Role"));
                 teacher.setStatus(rs.getString("Status"));

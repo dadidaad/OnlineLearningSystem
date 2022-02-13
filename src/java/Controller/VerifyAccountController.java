@@ -1,7 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controller;
 
 import Bean.AccountBean;
-import Dao.AccountDAO;
 import Utils.EncryptAndDecryptPassword;
 import Utils.SendMailVerify;
 import java.io.IOException;
@@ -10,7 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author win
+ * @author Admin
  */
-public class SignUpController extends HttpServlet {
+public class VerifyAccountController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +37,19 @@ public class SignUpController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet VerifyAccountController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet VerifyAccountController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,7 +64,7 @@ public class SignUpController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("./view/SignUp.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -63,29 +78,20 @@ public class SignUpController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
-        String sex = request.getParameter("sex");
-        String encryptionPassword = password;
-        EncryptAndDecryptPassword passwordUtils = new EncryptAndDecryptPassword();
-        try {
-            encryptionPassword = passwordUtils.callGeneratePassword(password);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+        AccountBean userInput = new AccountBean();
+        userInput.setMail(email);
+        SendMailVerify mailUtils = new SendMailVerify();
+        String token = mailUtils.generateCaptchaString();
+        userInput.setToken(token);
+        boolean sendMailStatus = mailUtils.sendEmail(userInput);
+        while(sendMailStatus == false){
+            mailUtils.sendEmail(userInput);
         }
-        AccountBean newUser = new AccountBean();
-        newUser.setUsername(username);
-        newUser.setPassword(encryptionPassword);
-        newUser.setMail(email);
-        newUser.setSex(sex);
-        AccountDAO accountDAO = new AccountDAO();
-        boolean checkAccountResgister = accountDAO.insertNewAccount(newUser);
-        if(checkAccountResgister){
-            response.getWriter().print("Sign up sucessfully");
-        }
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(900);
+        session.setAttribute("userSignUp", userInput);
+        response.getWriter().write(userInput.getToken());
     }
 
     /**

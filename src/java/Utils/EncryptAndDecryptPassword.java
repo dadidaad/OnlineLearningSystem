@@ -38,7 +38,13 @@ public class EncryptAndDecryptPassword {
      * a <code>java.lang.String</code> object
      *
      */
-    public static String generatePasswordHash(String password)
+    public String callGeneratePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        return generatePasswordHash(password);
+    }
+    public boolean callValidatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        return callValidatePassword(originalPassword, storedPassword);
+    }
+    private static String generatePasswordHash(String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000; //iterations for encrypt password
         char[] chars = password.toCharArray(); //convert string to char array
@@ -89,7 +95,7 @@ public class EncryptAndDecryptPassword {
      * a <code>java.lang.String</code> object
      *
      */
-    public static boolean validatePassword(String originalPassword, String storedPassword)
+    private static boolean validatePassword(String originalPassword, String storedPassword)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -122,4 +128,5 @@ public class EncryptAndDecryptPassword {
         }
         return bytes;
     }
+    
 }

@@ -1,13 +1,15 @@
 package Bean;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
- * Document: Java bean for Account object
- * Created on: Feb 10, 2022, 8:20:03 PM
+ * Document: Java bean for Account object Created on: Feb 10, 2022, 8:20:03 PM
+ *
  * @author Duc Minh
  */
 public class AccountBean {
+
     private String username;
     private String password;
     private String mail;
@@ -16,16 +18,17 @@ public class AccountBean {
     private Date dateOfBirth;
     private boolean sex;
     private String description;
-    private int cash;
+    private BigDecimal cash;
     private Date createDate;
     private String role;
     private String status;
     private boolean state;
+    private String token;
 
     public AccountBean() {
     }
 
-    public AccountBean(String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, int cash, Date createDate, String role, String status, boolean state) {
+    public AccountBean(String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state) {
         this.username = username;
         this.password = password;
         this.mail = mail;
@@ -52,6 +55,14 @@ public class AccountBean {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getPassword() {
@@ -94,12 +105,25 @@ public class AccountBean {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public boolean isSex() {
+    public String isSex() {
+        return this.sex == false ? "male" : "female";
+    }
+    
+    public boolean getSex(){
         return sex;
     }
 
     public void setSex(boolean sex) {
         this.sex = sex;
+    }
+    
+    public void setSex(String sex) {
+        if(sex.equalsIgnoreCase("male")){
+            this.sex = false;
+        }
+        else{
+            this.sex = true;
+        }
     }
 
     public String getDescription() {
@@ -110,11 +134,11 @@ public class AccountBean {
         this.description = description;
     }
 
-    public int getCash() {
+    public BigDecimal getCash() {
         return cash;
     }
 
-    public void setCash(int cash) {
+    public void setCash(BigDecimal cash) {
         this.cash = cash;
     }
 
@@ -149,9 +173,5 @@ public class AccountBean {
     public void setState(boolean state) {
         this.state = state;
     }
-    
-    
-    
-    
-    
+
 }

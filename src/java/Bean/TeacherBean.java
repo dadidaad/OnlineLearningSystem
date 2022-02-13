@@ -1,5 +1,6 @@
 package Bean;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -19,7 +20,7 @@ public class TeacherBean extends AccountBean{
         this.subjectId = subjectId;
     }
 
-    public TeacherBean(String cvImg, int subjectId, String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, int cash, Date createDate, String role, String status, boolean state) {
+    public TeacherBean(String cvImg, int subjectId, String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state) {
         super(username, password, mail, avatar, displayName, dateOfBirth, sex, description, cash, createDate, role, status, state);
         this.cvImg = cvImg;
         this.subjectId = subjectId;

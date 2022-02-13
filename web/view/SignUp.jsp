@@ -28,7 +28,7 @@
                 <div class="d-flex flex-fill flex-column align-items-center  py-1 left flex-wrap flex-grow-0" style="background-color: #326D6B;">
                     <img src="<i:ReadUrlFromContext url="/assets/image/AccountFeature/educationImage.png"/>" alt="education" class="md-8 py-2">
                 </div>
-                <div class="d-flex bg-light flex-fill" style="--bs-bg-opacity:.9;">
+                <div class="d-flex bg-light flex-fill justify-content-center" style="--bs-bg-opacity:.9;">
                     <div class="bs-stepper" id="stepper">
                         <div class="bs-stepper-header" role="tablist">
                             <!-- your steps here -->
@@ -60,9 +60,10 @@
                                     <h4 class="text-center text-dark">Sign Up</h4>
                                     <form class="" id="signup-form">
                                         <div class="form__group mb-3">
-                                            <input type="text" id="username" class="form__field" name="username" placeholder="Username" required />
+                                            <input type="text" id="username" class="form__field" name="username" placeholder="Username"  required />
                                             <label for="username" class="form__label">Username</label>
                                         </div>
+                                        <div id="notiExist" class="small"></div>
                                         <div class="form__group mb-3">
                                             <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                             <label for="email" class="form__label">Email</label>
@@ -70,44 +71,44 @@
                                         <div class="form__group mb-3">
                                             <select id="sex" name="sex" class="form__field" required>
                                                 <option value="" disabled selected>Choose sex</option>
-                                                <option value="0">Male</option>
-                                                <option value="1">Female</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
                                             </select>
                                         </div>
                                         <div class="form__group has-feedback mb-3">
-                                            <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password"required />
+                                            <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password"  required />
                                             <label  class="form__label" for="password_reg">Password</label>
                                         </div>
                                         <div class="form__group has-feedback mb-3">
-                                            <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password" required />
+                                            <input type="password" name="confirmPassword" id="confirmPassword" class="form__field" placeholder="Confirm Password"  required />
                                             <label class="form__label" for="confirmPassword">Confirm Password</label>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn btn-success btn-lg px-5 mt-2" onclick="submitSignUpForm();">Sign Up</button>
+                                            <button type="button" class="btn btn-success btn-lg px-5 mt-2 btn-next" id="signup-btn">Sign Up</button>
                                         </div>
-                                        <input type="hidden" name="role" value="student"/>
                                     </form>
                                 </div>
                             </div>
                             <div id="captcha-part" class="content" role="tabpanel" aria-labelledby="captcha-part-trigger"> 
                                 <div class="d-flex justify-content-center align-items-center flex-column flex-fill">
-                                        <div class="form__group mb-3">
-                                            <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" />
-                                            <label for="captcha" class="form__label">Captcha</label>
-                                            <a href="#">Resend captcha</a>
-                                        </div>
-                                        <div class="d-flex">
-                                            <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
-                                            <button onclick="next()" class="btn btn-primary px-3 py-1">Next</button>
-                                        </div>
+                                    <div class="form__group mb-3">
+                                        <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" />
+                                        <label for="captcha" class="form__label">Captcha</label>
+                                        <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
+                                    </div>
+                                    <div id="notiCaptcha" class="small"></div>
+                                    <div class="d-flex">
+                                        <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
+                                        <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn">Next</button>
+                                    </div>
                                     <p class="text-dark">Input captcha we send to your mail</p>
                                 </div>
                             </div>
                             <div id="finish-part" class="content" role="tabpanel" aria-labelledby="finish-part-trigger">
                                 <div class="d-flex justify-content-center flex-column align-items-center">
                                     <img src="<i:ReadUrlFromContext url="/assets/image/AccountFeature/success-icon.png"/>" alt="success" style="width:50px; height:50px;">
-                                    <p class="text-dark">Sign up, Please return to the login page to use our service.</p>
-                                    <a href="#" class="btn btn-primary btn-lg">Return login screen</a>
+                                    <p class="text-dark"><span id="notiRegister" class="text-success"></span> Please return to the login page to use our service.</p>
+                                    <a href="./Login.jsp" class="btn btn-primary btn-lg">Return login screen</a>
                                 </div>
                             </div>
                         </div>
@@ -118,16 +119,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
-        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-        <script>
-            var stepper = new Stepper(document.querySelector("#stepper"));
-            function next() {
-              stepper.next();
-            }
-            function previous(){
-                stepper.previous();
-            }
-        </script>
+        <jsp:include page="./callAjaxToJSP.jsp"></jsp:include>
+        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
     </body>
 </html>

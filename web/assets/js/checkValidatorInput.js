@@ -24,9 +24,10 @@ $.validator.addMethod("checkdigit", function (value) {
 $.validator.addMethod("pwcheck", function (value) {
     return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
 });
-$.validator.addMethod("usernamecheck", function (value){
-   return /^[a-zA-Z1-9]+$/.test(value); 
+$.validator.addMethod("usernamecheck", function (value) {
+    return /^[a-zA-Z0-9]+$/.test(value);
 });
+
 $('#signup-form').validate({
     rules: {
         password: {
