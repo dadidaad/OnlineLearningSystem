@@ -1,0 +1,54 @@
+/* Table Teacher */
+
+.tableTeacher .teacherInfo {
+  color: black;
+  text-decoration: none;
+}
+.tableTeacher .teacherInfo:hover {
+  text-decoration: underline;
+}
+.tableTeacher .teacherAvt {
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  margin-right: 16px;
+}
+.tableTeacher .teacherCv {
+  width: 50px;
+}
+/* modalTeacherList */
+
+.modal-dialog {
+  width: 1080px !important;
+  height: 600px;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 1080px;
+    margin: 1.75rem auto;
+  }
+}
+.tableTeacher .teacherAvt {
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  margin-right: 16px;
+}
+
+.create-container h5 {
+  color: rgb(29, 29, 139);
+}
+.create-container label {
+  font-weight: bold;
+}
+.teacherRecommend--btn,
+.teacherRecommend--name {
+  display: none;
+}
+.saveBtn {
+  width: 90%;
+  margin: 0 auto;
+}
+.table-hover .requestBtn.select {
+  background-color: black;
+}
