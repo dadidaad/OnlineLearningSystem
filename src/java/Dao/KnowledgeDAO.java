@@ -1,3 +1,11 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * KnowledgeDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Doan Tu    First Implement
+ */
 package Dao;
 
 import Bean.KnowledgeBean;
@@ -11,26 +19,34 @@ import java.util.logging.Logger;
 
 
 /**
- * Document: KnowledgeDAO for get data for Knowledge bean from database
- * Create on: Feb 9, 2022, 8:11:23 PM
+ * This class contain method to find Knowledge information from database
+ * Extend BaseDAO class to call getConnection() method
+ * Implement IKnowledgeDAO Interface
+ * 
  * @author Doan Tu
  */
 public class KnowledgeDAO extends BaseDAO implements IKnowledgeDAO{
 
+    /**
+     * getByChapterId method implement from IKnowledgeDAO
+     * 
+     * @param chapId ID of Chapter which Knowledge belongs. <code>java.lang.Intege</code>
+     * @return knowledges. <code>java.util.ArrayList</code> object
+     */
     @Override
     public ArrayList<KnowledgeBean> getByChapterId(int chapId) {
        ArrayList<KnowledgeBean> knowledges = new ArrayList<>();
         try {
-            //Set up connection and Sql statement for Querry
+            /*Set up connection and Sql statement for Querry*/
             Connection conn = getConnection();
             String sql = "select * from Knowledge where ChapterID=?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, chapId);
             
-            //Querry and save in ResultSet
+            /*Querry and save in ResultSet*/
             ResultSet rs = statement.executeQuery();
             
-            //Assign data to an arraylist of ChapterBean
+            /*Assign data to an arraylist of ChapterBean*/
             while(rs.next())
             {
                 KnowledgeBean knowledge = new KnowledgeBean();

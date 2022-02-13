@@ -65,7 +65,7 @@
                         <!--These link for all subject use c:forEach of JSTL -->
                         <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">
                             <li class="nav-link">
-                                <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}" />">
+                                <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${s.getSubjectID()}" />">
                                     <c:if test="${s.getSubjectID() eq 1}"><i class='bx bx-math icon' ></i></c:if>
                                     <c:if test="${s.getSubjectID() eq 2}"><i class='bx bx-math icon' ></i></c:if>
                                     <c:if test="${s.getSubjectID() eq 3}"><i class='bx bx-math icon' ></i></c:if>
@@ -142,7 +142,7 @@
                     <span class="question">${c.getChapterName()}</span>
                     <i class="bx bxs-chevron-down arrow"></i>
                 </div>
-                    <p>${c.getChapterContent()}   <span><a href="<i:ReadUrlFromContext url="/Controller/KnowledgeDescrip?chapId=${c.getChapterID()}" />" style="color: steelblue;">  Explore</a></span></p>
+                    <p>${c.getChapterContent()}   <span><a href="<i:ReadUrlFromContext url="/Knowledge?chapId=${c.getChapterID()}" />" style="color: steelblue;">  Explore</a></span></p>
                 
                 <span class="line"></span>
             </li>

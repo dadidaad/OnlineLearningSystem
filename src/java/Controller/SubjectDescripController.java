@@ -1,3 +1,11 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * SubjectDescripController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Doan Tu    First Implement
+ */
 package Controller;
 
 import Bean.ChapterBean;
@@ -15,8 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Document: SubjectDescripController for
- * Create on: Feb 9, 2022, 10:20:35 PM
+ * This is a Servlet responsible for handling the task when the user wants to see the Detail of subject
+ * /SubjectDescrip is the URL of the web site
+ * Extend HttpServlet class
+ * 
  * @author Doan Tu
  */
 public class SubjectDescripController extends HttpServlet {
@@ -47,7 +57,7 @@ public class SubjectDescripController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -56,33 +66,31 @@ public class SubjectDescripController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    //Do get method When we use /SubjectDescrip path
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-                //Get Subject ID from request
+                /*Get Subject ID from request*/
                 String subjectId = request.getParameter("subId");
                 
-                //Use DAO class to get data from database for Chapter with corresponding SubjectID
+                /*Use DAO class to get data from database for Chapter with corresponding SubjectID*/
                 ArrayList<ChapterBean> chapters = new ArrayList<>();
                 IChapterDAO dao1 = new ChapterDAO();
                 chapters = dao1.getBySubId(Integer.parseInt(subjectId));
                 
-                //Use DAO class to get data from database for all Subject
+                /*Use DAO class to get data from database for all Subject*/
                 ArrayList <SubjectBean> subjects = new ArrayList<>();
                 ISubjectDAO dao2 = new SubjectDAO(); //Use ISubjectDAO interface to call
                 subjects = dao2.getAllSubject();
                 
-                //Get Subject with corresponding SubjectID from request
+                /*Get Subject with corresponding SubjectID from request*/
                 SubjectBean currentSubject = new SubjectBean();
                 for (int i = 0; i < subjects.size(); i++) {
                     if(subjects.get(i).getSubjectID()==Integer.parseInt(subjectId)){
                         currentSubject = subjects.get(i);
                     }
                 }
-                //Attach Attribute for request and redirect it to SubjectDetail.jsp
+                /*Attach Attribute for request and redirect it to SubjectDetail.jsp*/
                 request.setAttribute("subjects", subjects);
                 request.setAttribute("chapters", chapters);
                 request.setAttribute("currentSubject", currentSubject);
@@ -112,6 +120,6 @@ public class SubjectDescripController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

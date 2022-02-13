@@ -6,7 +6,7 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,7 @@
                         <!--These link for all subject use c:forEach of JSTL -->
                         <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">
                             <li class="nav-link">
-                                <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}" />">
+                                <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${s.getSubjectID()}" />">
                                     <c:if test="${s.getSubjectID() eq 1}"><i class='bx bx-math icon' ></i></c:if>
                                     <c:if test="${s.getSubjectID() eq 2}"><i class='bx bx-math icon' ></i></c:if>
                                     <c:if test="${s.getSubjectID() eq 3}"><i class='bx bx-math icon' ></i></c:if>
@@ -133,7 +133,7 @@
                             <p class="card-text">
                                 ${requestScope.subjects[0].getDescription()}
                             </p>
-                            <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[0].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                         </div>
                     </div>
                     <div class="col-md my-3">
@@ -145,7 +145,7 @@
                             <p class="card-text">
                                 ${requestScope.subjects[1].getDescription()}
                             </p>
-                            <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[1].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
                         </div>
                     </div>
 
@@ -158,7 +158,7 @@
                             <p class="card-text">
                                 ${requestScope.subjects[2].getDescription()}
                             </p>
-                            <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[2].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                         <p class="card-text">
                             ${requestScope.subjects[3].getDescription()}
                         </p>
-                        <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[3].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
                     </div>
                 </div>
                 <div class="col-md my-3">
@@ -190,7 +190,7 @@
                         <p class="card-text">
                             ${requestScope.subjects[4].getDescription()}
                         </p>
-                        <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[4].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                     </div>
                 </div>
                 <div class="col-md my-3">
@@ -202,7 +202,7 @@
                         <p class="card-text">
                             ${requestScope.subjects[5].getDescription()}
                         </p>
-                        <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[5].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                     </div>
                 </div>
             </div>
@@ -221,7 +221,7 @@
                         <p class="card-text">
                          ${requestScope.subjects[6].getDescription()}
                         </p>
-                        <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[6].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
                 </div>
             </div>
             <div class="col-md my-3" >
@@ -233,7 +233,7 @@
                     <p class="card-text">
                         ${requestScope.subjects[7].getDescription()}
                     </p>
-                    <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                    <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[7].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                 </div>
             </div>
             <div class="col-md my-3">
@@ -245,7 +245,7 @@
                     <p class="card-text">
                         ${requestScope.subjects[8].getDescription()}
                     </p>
-                    <a href="<i:ReadUrlFromContext url="/Controller/SubjectDescrip?subId=${s.getSubjectId()}"/>" class="btn btn-dark"> Read More</a>
+                    <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[8].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
                 </div>
             </div>
             </div>

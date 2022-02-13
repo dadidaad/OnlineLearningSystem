@@ -1,3 +1,11 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * SubjectController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Doan Tu    First Implement
+ */
 package Controller;
 
 import Bean.SubjectBean;
@@ -12,8 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Document: SubjectController
- * Create on: Feb 9, 2022, 10:20:35 PM
+ * This is a Servlet responsible for handling the task when the user wants to see the list of subjects
+ * /Subject is the URL of the web site
+ * Extend HttpServlet class
+ * 
  * @author Doan Tu
  */
 public class SubjectController extends HttpServlet {
@@ -44,7 +54,6 @@ public class SubjectController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -53,10 +62,7 @@ public class SubjectController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
-    
-    //Do get method When we use /Subject path
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             try (PrintWriter out = response.getWriter()) {
@@ -64,7 +70,7 @@ public class SubjectController extends HttpServlet {
                 ISubjectDAO dao = new SubjectDAO(); //Use ISubjectDAO interface to call
                 s = dao.getAllSubject();
                 
-                //Attach Attribute subjects for request and redirect it to ListSubject.jsp
+                /*Attach Attribute subjects for request and redirect it to ListSubject.jsp*/
                 request.setAttribute("subjects", s);
                 request.getRequestDispatcher("./view/ListSubject.jsp").forward(request, response);
             }
@@ -92,5 +98,5 @@ public class SubjectController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 }

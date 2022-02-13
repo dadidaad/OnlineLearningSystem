@@ -1,3 +1,11 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * KnowledgeController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Doan Tu    First Implement
+ */
 package Controller;
 
 import Bean.ChapterBean;
@@ -18,8 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handling the task when the user wants to see the Knowledge of chapter
+ * /Knowledge is the URL of the web site
+ * Extend HttpServlet class
+ * 
+ * @author Doan Tu
  */
 public class KnowledgeController extends HttpServlet {
 
@@ -49,7 +60,6 @@ public class KnowledgeController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -64,25 +74,25 @@ public class KnowledgeController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         try (PrintWriter out = response.getWriter()) {
-            //Get ChapterID from request
+            /*Get ChapterID from request*/
             String chapterID = request.getParameter("chapId");
             
-            //Use DAO class to get data from database for Knowledge with corresponding ChapterID
+            /*Use DAO class to get data from database for Knowledge with corresponding ChapterID*/
             ArrayList<KnowledgeBean> knowledges = new ArrayList<>();
             IKnowledgeDAO knowledgeDao = new KnowledgeDAO(); //Use IKnowledgeDAO interface to call
             knowledges = knowledgeDao.getByChapterId(Integer.parseInt(chapterID));
             
-            //Use DAO class to get data from database for all Subject
+            /*Use DAO class to get data from database for all Subject*/
             ArrayList <SubjectBean> subjects = new ArrayList<>();
             ISubjectDAO subjectDao = new SubjectDAO(); //Use ISubjectDAO interface to call
             subjects = subjectDao.getAllSubject();
             
-            //Use DAO class to get data for Current Chapter with correspoding ChapterID from request
+            /*Use DAO class to get data for Current Chapter with correspoding ChapterID from request*/
             ChapterBean currentChapter = new ChapterBean();
             IChapterDAO chapterDao = new ChapterDAO();
             currentChapter = chapterDao.getChapterById(Integer.parseInt(chapterID));
              out.print(1);
-            //Attach Attribute for request and redirect it to SubjectDetail.jsp
+            /*Attach Attribute for request and redirect it to SubjectDetail.jsp*/
             request.setAttribute("subjects", subjects);
             request.setAttribute("knowledges", knowledges);
             request.setAttribute("currentChapter", currentChapter);
@@ -113,6 +123,6 @@ public class KnowledgeController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
