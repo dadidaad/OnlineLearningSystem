@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author win
@@ -72,6 +71,9 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
     }
 
     public AccountBean getAccountByMail(String email) {
+        if(email == null || email.equals("")){
+            return null;
+        }
         AccountBean x = null;
         try {
             Connection conn = getConnection();
@@ -128,6 +130,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         if (x != null) {
             return false;
         }
+        
         try {
             Connection conn = getConnection();
             String sql = "Insert into Account([Username], [Password], [Mail], [Sex]) values (?, ?, ?, ?)";
@@ -137,16 +140,20 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             statement.setString(3, account.getMail());
             statement.setBoolean(4, account.getSex());
             int status = statement.executeUpdate();
+            if(status == 0){
+                return false;
+            }
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         return true;
     }
 
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
-        AccountBean x = null;
-        System.out.println(db.getAccountByMail("dathp.proxy@gmail.com").toString());
+        AccountBean x = new AccountBean();
+        System.out.println(db.insertNewAccount(x));
     }
 }

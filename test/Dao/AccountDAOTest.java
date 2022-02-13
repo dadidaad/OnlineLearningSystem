@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.junit.After;
@@ -18,20 +19,22 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import org.mockito.internal.util.reflection.Fields;
+import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.MockitoRule;
 
 /**
  *
  * @author Admin
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AccountDAOTest {
 
     @Mock
@@ -42,6 +45,8 @@ public class AccountDAOTest {
     PreparedStatement mockPreparedStmnt;
     @Mock
     ResultSet mockResultSet;
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule().silent();
     int userId = 100;
 
     public AccountDAOTest() {
@@ -78,11 +83,13 @@ public class AccountDAOTest {
     public void testGetDisplayNames() {
         System.out.println("getDisplayNames");
         AccountDAO instance = new AccountDAO();
-        Map<String, String> expResult = null;
+        Map<String, String> expResult = new HashMap<>();
+        expResult.put("test", "test");
+        expResult.put("admin1", "admin1");
+        expResult.put("admin2", "admin2");
         Map<String, String> result = instance.getDisplayNames();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -97,14 +104,27 @@ public class AccountDAOTest {
         AccountBean result = instance.getAccountByUsername(username);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getAccountByMail method, of class AccountDAO.
      */
     @Test
-    public void testGetAccountByMail() {
+    public void testGetAccountByNullMail() {
+        System.out.println("getAccountByMail");
+        String email = null;
+        AccountDAO instance = new AccountDAO();
+        AccountBean expResult = null;
+        AccountBean result = instance.getAccountByMail(email);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of getAccountByMail method, of class AccountDAO with empty mail.
+     */
+    @Test
+    public void testGetAccountByEmptyMail() {
         System.out.println("getAccountByMail");
         String email = "";
         AccountDAO instance = new AccountDAO();
@@ -112,13 +132,40 @@ public class AccountDAOTest {
         AccountBean result = instance.getAccountByMail(email);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAccountByMail method, of class AccountDAO with empty mail.
+     */
+    @Test
+    public void testGetAccountByValidMail() {
+        System.out.println("getAccountByMail");
+        String email = "dathp.proxy@gmail.com";
+        AccountDAO instance = new AccountDAO();
+        String expResullt = "dathp.proxy@gmail.com";
+        AccountBean result = instance.getAccountByMail(email);
+        assertEquals(expResullt, result.getMail());
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of getAccountByMail method, of class AccountDAO with invalid mail.
+     */
+    @Test
+    public void testGetAccountByInvalidMail() {
+        System.out.println("getAccountByMail");
+        String email = "dathp.proxy@@gmail.com";
+        AccountDAO instance = new AccountDAO();
+        AccountBean expResult = null;
+        AccountBean result = instance.getAccountByMail(email);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
      * Test of updateNewPassword method, of class AccountDAO.
      */
-    @Test
+    @Test(expected = Exception.class)
     public void testUpdateNewPassword() {
         System.out.println("updateNewPassword");
         AccountBean account = null;
@@ -127,7 +174,6 @@ public class AccountDAOTest {
         boolean result = instance.updateNewPassword(account);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -142,13 +188,12 @@ public class AccountDAOTest {
         boolean result = instance.insertNewAccount(account);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of insertNewAccount method, of class AccountDAO with empty Data.
      */
-    @Test(expected = Exception.class)
+    @Test
     public void testInsertNewAccountWithEmptyData() {
         System.out.println("testInsertNewAccountWithEmptyData");
         AccountBean account = new AccountBean();
@@ -157,13 +202,12 @@ public class AccountDAOTest {
         boolean result = instance.insertNewAccount(account);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of insertNewAccount method, of class AccountDAO with valid Data.
      */
-    @Test(expected = Exception.class)
+    @Test
     public void testInsertNewAccountWithValidData() {
         System.out.println("testInsertNewAccountWithValidData");
         AccountBean account = new AccountBean();
@@ -176,7 +220,6 @@ public class AccountDAOTest {
         boolean result = instance.insertNewAccount(account);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -188,7 +231,6 @@ public class AccountDAOTest {
         String[] args = null;
         AccountDAO.main(args);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
 }
