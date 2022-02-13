@@ -1,6 +1,5 @@
 package Controller;
 
-import Bean.AccountBean;
 import Bean.RequestBean;
 import Dao.AccountDAO;
 import Dao.IAccountDAO;
@@ -8,22 +7,21 @@ import Dao.IRequestDAO;
 import Dao.ISubjectDAO;
 import Dao.RequestDAO;
 import Dao.SubjectDAO;
-import Utils.SortRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author win
  */
-public class ListAllRequestController extends HttpServlet {
+public class ChangeRequestByAjaxController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class ListAllRequestController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListAllRequestController</title>");            
+            out.println("<title>Servlet ChangeRequestByAjaxController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListAllRequestController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ChangeRequestByAjaxController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,34 +61,63 @@ public class ListAllRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();   
-            AccountBean account =(AccountBean) session.getAttribute("account");
+    try (PrintWriter out = response.getWriter()) {    
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+//            HttpSession session = request.getSession();   
+//            AccountBean account =(AccountBean) session.getAttribute("account");
 //            if(account!=null){}
-                
-                String status  = "Waiting";
+                String status = request.getParameter("rqStatus");
+
                 ArrayList <RequestBean> requestList = new ArrayList<>();
                 IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
-                requestList = iRequestDAO.getRequestForTeacher(1, status);
-//                
-                SortRequest sortRequest = new SortRequest();
-                requestList = sortRequest.requestListSorted(requestList, "lanhuong");
-
-                
-                
+                requestList = iRequestDAO.getRequestByStatus("minhduc07", status);
                 ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
-//                
+                Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
-                Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
+                Map<String, String> displayNames = iAccountDAO.getDisplayNames();
                 
+                int index = 1;
+                
+//             if   Student Role
+//                for(RequestBean r: requestList){
+//                out.println(" <tr>\n" +
+//"                        <td>"+index+"</td>\n" +
+//"                        <td>"+format.format(r.getCreatedTime())+"</td>\n" +
+//"                        <td>"+r.getTitle()+"</td>\n" +
+//"                        <td>Class "+r.getLevel()+"</td>\n" +
+//"                        <td>"+subjectNames.get(r.getSubjectID())+"</td>\n" +
+//"                        <td>"+r.getCost()+" <Span>VND</Span></td>\n" +
+//"                        <td>"+r.getStatus()+"</td>\n" +
+//"                        <td>\n" +
+//"                          <a href=\"ViewRequestStu?requestId=${r.getRequestID()}\"><i class=\"far fa-eye\"></i></a>\n" +
+//"                        </td>\n" +
+//"                        \n" +
+//"                      </tr> ");
+//                    index++;
+//                }
+//              If  Teacher Role
 
-////                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
-                request.setAttribute("requests", requestList);
-                request.setAttribute("subjectNames", SubjectNames);
-                request.setAttribute("displayNames", DisplayNames);
-                
-                request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
+            String starHtml = "<i class=\"far fa-star\"></i>";
+            
+                for(RequestBean r: requestList){
+                out.println(" <tr>\n" +
+"                        <td>"+index+"</td>\n" +
+"                        <td>"+format.format(r.getCreatedTime())+"</td>\n" +
+"                        <td>"+displayNames.get(r.getStudentSent())+"</td>\n" +
+"                        <td>"+r.getTitle()+"</td>\n" +
+"                        <td>Class "+r.getLevel()+"</td>\n" +
+"                        <td>"+r.getCost()+" <Span>VND</Span></td>\n"+
+"                        <td>\n" +
+"                          <a href=\"ViewRequestStu?requestId="+r.getRequestID()+"><i class=\"far fa-eye\"></i></a>\n" +
+"                        </td>\n" +
+"                        \n" +
+"                        <td>\n" +
+                            starHtml     +
+"                        </td>\n" +
+"                        \n" +        
+"                      </tr> ");
+                    index++;
+                }
                                
             }
     }
