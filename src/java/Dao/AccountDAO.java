@@ -58,7 +58,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
                 x.setDateOfBirth(rs.getDate("DateOfBirth"));
                 x.setSex(rs.getBoolean("Sex"));
                 x.setDescription(rs.getString("Description"));
-                x.setCash(rs.getBigDecimal("Money"));
+                x.setCash(rs.getBigDecimal("Cash In Account"));
                 x.setCreateDate(rs.getDate("CreatedDate"));
                 x.setRole(rs.getString("Role"));
                 x.setStatus(rs.getString("Status"));
@@ -71,9 +71,61 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         return x;
     }
 
+    public AccountBean getAccountByMail(String email) {
+        AccountBean x = null;
+        try {
+            Connection conn = getConnection();
+            String sql = "select * from Account where Mail = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                x = new AccountBean();
+                x.setUsername(rs.getString("Username"));
+                x.setPassword(rs.getString("Password"));
+                x.setMail(rs.getString("Mail"));
+                x.setAvatar(rs.getString("Avatar"));
+                x.setDisplayName(rs.getString("DisplayName"));
+                x.setDateOfBirth(rs.getDate("DateOfBirth"));
+                x.setSex(rs.getBoolean("Sex"));
+                x.setDescription(rs.getString("Description"));
+                x.setCash(rs.getBigDecimal("Cash In Account"));
+                x.setCreateDate(rs.getDate("CreatedDate"));
+                x.setRole(rs.getString("Role"));
+                x.setStatus(rs.getString("Status"));
+                x.setState(rs.getBoolean("State"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return x;
+    }
+
+    public boolean updateNewPassword(AccountBean account) {
+        AccountBean x = getAccountByMail(account.getMail());
+        if (x == null) {
+            return false;
+        }
+        try {
+            Connection conn = getConnection();
+            String sql = "update Account \n"
+                    + "set Password  = ?\n"
+                    + "where Mail = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, account.getPassword());
+            statement.setString(2, account.getMail());
+            int status = statement.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+
     public boolean insertNewAccount(AccountBean account) {
         AccountBean x = getAccountByUsername(account.getUsername());
-        if(x != null){
+        if (x != null) {
             return false;
         }
         try {
@@ -91,13 +143,10 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         }
         return true;
     }
+
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
-        AccountBean x = new AccountBean();
-        x.setUsername("hehe");
-        x.setPassword("hoho");
-        x.setMail("meoemo");
-        x.setSex(true);
-        System.out.println(db.insertNewAccount(x));
+        AccountBean x = null;
+        System.out.println(db.getAccountByMail("dathp.proxy@gmail.com").toString());
     }
 }

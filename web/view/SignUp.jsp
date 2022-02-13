@@ -62,11 +62,12 @@
                                         <div class="form__group mb-3">
                                             <input type="text" id="username" class="form__field" name="username" placeholder="Username"  required />
                                             <label for="username" class="form__label">Username</label>
+                                            <div id="notiExistUser" class="small"></div>
                                         </div>
-                                        <div id="notiExist" class="small"></div>
                                         <div class="form__group mb-3">
                                             <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                             <label for="email" class="form__label">Email</label>
+                                            <div id="notiExistMail" class="small"></div>
                                         </div>
                                         <div class="form__group mb-3">
                                             <select id="sex" name="sex" class="form__field" required>
@@ -108,7 +109,7 @@
                                 <div class="d-flex justify-content-center flex-column align-items-center">
                                     <img src="<i:ReadUrlFromContext url="/assets/image/AccountFeature/success-icon.png"/>" alt="success" style="width:50px; height:50px;">
                                     <p class="text-dark"><span id="notiRegister" class="text-success"></span> Please return to the login page to use our service.</p>
-                                    <a href="./Login.jsp" class="btn btn-primary btn-lg">Return login screen</a>
+                                    <a href="<i:ReadUrlFromContext url="/Login"/>" class="btn btn-primary btn-lg">Return login screen</a>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +122,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
         <jsp:include page="./callAjaxToRegister.jsp"></jsp:include>
-        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
     </body>
 </html>

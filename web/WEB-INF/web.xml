@@ -104,6 +104,14 @@
         <servlet-name>VerifyAccountController</servlet-name>
         <servlet-class>Controller.VerifyAccountController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckEmailController</servlet-name>
+        <servlet-class>Controller.CheckEmailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ForgotPasswordController</servlet-name>
+        <servlet-class>Controller.ForgotPasswordController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -199,6 +207,14 @@
     <servlet-mapping>
         <servlet-name>VerifyAccountController</servlet-name>
         <url-pattern>/VerifyCaptcha</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckEmailController</servlet-name>
+        <url-pattern>/CheckMailExist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordController</servlet-name>
+        <url-pattern>/ResetPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

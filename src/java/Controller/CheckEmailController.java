@@ -7,20 +7,18 @@ package Controller;
 
 import Bean.AccountBean;
 import Dao.AccountDAO;
-import Utils.SendMailVerify;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class VerifyAccountController extends HttpServlet {
+public class CheckEmailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class VerifyAccountController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VerifyAccountController</title>");
+            out.println("<title>Servlet CheckEmailController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet VerifyAccountController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CheckEmailController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,24 +72,14 @@ public class VerifyAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
         String email = request.getParameter("email");
-        AccountBean userInput = new AccountBean();
-        if(username == null || username.equalsIgnoreCase("")){
-            AccountDAO accountDAO = new AccountDAO();
-            userInput =  accountDAO.getAccountByMail(email);
+        AccountDAO accountDAO = new AccountDAO();
+        AccountBean accountGetFromDb = accountDAO.getAccountByMail(email);
+        if (accountGetFromDb != null) {
+            response.getWriter().write("exist");
+        } else {
+            response.getWriter().write("not exist");
         }
-        SendMailVerify mailUtils = new SendMailVerify();
-        String token = mailUtils.generateCaptchaString();
-        userInput.setToken(token);
-        boolean sendMailStatus = mailUtils.sendEmail(userInput);
-        while (sendMailStatus == false) {
-            mailUtils.sendEmail(userInput);
-        }
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(900);
-        session.setAttribute("userSignUp", userInput);
-        response.getWriter().write(userInput.getToken());
     }
 
     /**

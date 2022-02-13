@@ -29,8 +29,8 @@
             </ul>
             <div class="col-md-3 text-end">
                 <c:if test="${sessionScope.user eq null}">
-                    <a href="./Login.jsp" class="btn btn-outline-primary me-2">Login</a>
-                    <a href="./SignUp.jsp" class="btn btn-primary">Sign-up</a>
+                    <a href="<i:ReadUrlFromContext url="/Login"/>" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="btn btn-primary">Sign-up</a>
                 </c:if>
                 <c:if test="${sessionScope.user ne null}">
                     <p class="text-success" style="font-size: 20px;font-weight: 500; padding-top: 15px; padding-right: 10px;"> Hello

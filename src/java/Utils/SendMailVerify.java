@@ -78,9 +78,12 @@ public class SendMailVerify {
 
             //set email subject
             mess.setSubject("User Email Verification");
-
+            StringBuffer sb = new StringBuffer();
+            sb.append("Thanks for using TutorDuo.\n");
+            sb.append("You sign up our serive with user name is " + user.getUsername() +".\n");
+            sb.append("Please verify your account using this code: " + user.getToken());
             //set message text
-            mess.setText("Thanks for using Tutor.\nPlease verify your account using this code: " + user.getToken());
+            mess.setText(sb.toString());
             //send the message
             Transport.send(mess);
 

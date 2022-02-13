@@ -35,7 +35,7 @@
                         <h4 class="text-center text-dark py-1 my-1">Login As</h4>
                         <button class="btn btn-warning py-2 my-1 px-5" id="roleStudent">Student</button>
                         <button class="btn btn-warning py-2 my-1 px-5" id="roleTeacher">Teacher</button>
-                        <p class="text-center text-dark py-1 my-1">New Member? <a href="./SignUp.jsp" class="text-success text-center">Create new account</a></p>
+                        <p class="text-center text-dark py-1 my-1">New Member? <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="text-success text-center">Create new account</a></p>
                     </div>
                     <div class="d-none d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="loginForm">
                         <button type="button" class="btn btn-outline-primary rounded-circle" id="backToChooseRole"><i class="fas fa-long-arrow-alt-left"></i></button>
@@ -57,7 +57,7 @@
                                     <label class="form-check-label small" for="rememberme">Remember me
                                     </label>
                                 </div>
-                                <a href="./ForgotPassword.jsp" class="small">Forgot password?</a>
+                                <a href="<i:ReadUrlFromContext url="/ResetPassword"/>" class="small">Forgot password?</a>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-success btn-lg px-5 mt-2" type="button" id="login-btn">Login</button>
@@ -75,7 +75,7 @@
                             </div>
                         </form>
                         <div class="mt-2">
-                            <p class="mb-0">Don't have an account? <a href="./SignUp.jsp" class="text-dark-50 fw-bold">Sign Up</a></p>
+                            <p class="mb-0">Don't have an account? <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="text-dark-50 fw-bold">Sign Up</a></p>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,12 @@
                             url: '<i:ReadUrlFromContext url="/Login"/>',
                             data: {"username" : uname, "password" : pw, "role" : roleUser},
                             success: function (result) {
-                                $('#login-noti').html(result);
+                                if(result.includes('/')){
+                                    window.location.href = result;
+                                }
+                                else{
+                                    $('#login-noti').html(result);
+                                }
                             }
                         });
                     } 
@@ -142,6 +147,6 @@
                 });
             });
         </script>
-        <script src="<i:ReadUrlFromContext url="/assets/js/checkValidatorInput.js"/>"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
     </body>
 </html>

@@ -18,7 +18,7 @@
         <script src="https://kit.fontawesome.com/7ca0ffd650.js" crossorigin="anonymous"></script>
         <style>
             body{
-                background-image: url('../assets/image/AccountFeature/backgroundAccountFeature.png');
+                background-image: url('./assets/image/AccountFeature/backgroundAccountFeature.png');
             }
         </style>
     </head>
@@ -70,8 +70,9 @@
                                                 <div class="form__group mb-3">
                                                     <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                                     <label for="email" class="form__label">Email</label>
+                                                    <div id="notiExistMail"></div>
                                                 </div>
-                                                <button onclick="next()" class="btn btn-primary px-3 py-1">Next</button>
+                                                <button class="btn btn-primary px-3 py-1" id="verifymail-btn">Next</button>
                                             <p class="text-dark">Input your email you signed up to our service.</p>
                                         </div>
                                     </div>
@@ -80,7 +81,8 @@
                                                 <div class="form__group mb-3">
                                                     <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" />
                                                     <label for="captcha" class="form__label">Captcha</label>
-                                                    <a href="#">Resend captcha</a>
+                                                    <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
+                                                    <div id="notiCaptcha" class="small"></div>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
@@ -91,8 +93,9 @@
                                     </div>
                                     <div id="password-part" class="content" role="tabpanel" aria-labelledby="password-part-trigger"> 
                                         <div class="d-flex justify-content-center align-items-center flex-column flex-fill">
+                                            <form id="forgotPassword-form">
                                                 <div class="form__group has-feedback mb-3">
-                                                    <input type="password" name="password" id="password_reg" class="form__field" placeholder="Password" />
+                                                    <input type="password" name="password" id="password_reset" class="form__field" placeholder="Password" />
                                                     <label  class="form__label" for="password">Password</label>
                                                 </div>
                                                 <div class="form__group has-feedback mb-3">
@@ -100,17 +103,18 @@
                                                     <label class="form__label" for="confirmPassword">Confirm Password</label>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
-                                                    <button onclick="next()" class="btn btn-primary px-3 py-1">Next</button>
+                                                    <button type="button" onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
+                                                    <button type="button" class="btn btn-primary px-3 py-1" id="changePass-btn">Next</button>
                                                 </div>
+                                            </form>
                                             <p class="text-dark">Input new password for your account</p>
                                         </div>
                                     </div>
                                     <div id="finish-part" class="content" role="tabpanel" aria-labelledby="finish-part-trigger">
                                         <div class="d-flex justify-content-center flex-column align-items-center">
                                             <img src="<i:ReadUrlFromContext url="/assets/image/AccountFeature/success-icon.png"/>" alt="success" style="width:50px; height:50px;">
-                                            <p class="text-dark">Reset password success, Please return to the login page to use our service.</p>
-                                            <a href="#" class="btn btn-primary btn-lg">Return login screen</a>
+                                            <p class="text-dark"><span class="text-success" id="reset-noti"></span> Please return to the login page to use our service.</p>
+                                            <a href="<i:ReadUrlFromContext url="/Login"/>" class="btn btn-primary btn-lg">Return login screen</a>
                                         </div>
                                     </div>
                                 </div>
@@ -124,14 +128,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-        <script>
-            var stepper = new Stepper(document.querySelector("#stepper"));
-            function next() {
-              stepper.next();
-            }
-            function previous(){
-                stepper.previous();
-            }
-        </script>
+        <jsp:include page="./CallAjaxToResetPw.jsp"></jsp:include>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
     </body>
 </html>

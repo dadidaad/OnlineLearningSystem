@@ -1,18 +1,19 @@
 <%-- 
-    Document   : callAjaxToJSP
-    Created on : Feb 13, 2022, 8:10:15 AM
+    Document   : CallAjaxToResetPw
+    Created on : Feb 13, 2022, 6:43:19 PM
     Author     : Dajtvox
 --%>
-
-<%@taglib  uri="/WEB-INF/tlds/customTag" prefix="i"%>
-
+<%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
 <script>
     var stepper = new Stepper(document.querySelector("#stepper"));
+    function next() {
+        if (validateForm() == false) {
+            return false;
+        }
+        stepper.next();
+    }
     function previous() {
         stepper.previous();
-    }
-    function next() {
-        stepper.next();
     }
     function validateForm() {
         if ($('.invalid').length != 0)
@@ -32,49 +33,21 @@
         }
         return valid;
     }
-
-    $(document).ready(function () {
-        $("#username").blur(function () {
-            var user = $("#username").val();
-            $.ajax({
-                url: '<i:ReadUrlFromContext url="/CheckUserExist"/>',
-                        data: {"username": user},
-                type: "POST",
-                success: function (result) {
-                    if (result === 'exist') {
-                        $('#notiExistUser').removeClass('text-success');
-                        $('#username').removeClass('valid');
-                        $('#notiExistUser').addClass('text-danger');
-                        $('#username').addClass('invalid');
-                        $('#notiExistUser').empty();
-                        $('#notiExistUser').html('Username is exist');
-                    } else {
-                        $('#username').removeClass('invalid');
-                        $('#username').addClass('valid');
-                        $('#notiExistUser').removeClass('text-danger');
-                        $('#notiExistUser').addClass('text-success');
-                        $('#notiExistUser').empty();
-                        $('#notiExistUser').html('Username ok!');
-                    }
-                }
-            });
-        });
-    });
     $(document).ready(function () {
         $("#email").blur(function () {
             var mail = $("#email").val();
             $.ajax({
                 url: '<i:ReadUrlFromContext url="/CheckMailExist"/>',
                 data: {"email": mail},
-                type: "POST",
+                type: 'POST',
                 success: function (result) {
-                    if (result === 'exist') {
+                    if (result === 'not exist') {
                         $('#notiExistMail').removeClass('text-success');
                         $('#email').removeClass('valid');
                         $('#notiExistMail').addClass('text-danger');
                         $('#email').addClass('invalid');
                         $('#notiExistMail').empty();
-                        $('#notiExistMail').html('Email is exist');
+                        $('#notiExistMail').html('Email not exist');
                     } else {
                         $('#email').removeClass('invalid');
                         $('#email').addClass('valid');
@@ -88,15 +61,14 @@
         });
     });
     $(document).ready(function () {
-        $('#signup-btn').click(function () {
+        $('#verifymail-btn').click(function () {
             if (validateForm() != false) {
                 var email = $('#email').val();
-                var uname = $('#username').val();
                 next();
                 $.ajax({
                     type: 'POST',
                     url: '<i:ReadUrlFromContext url="/VerifyCaptcha"/>',
-                    data: {"email": email, "username": uname},
+                    data: {"email": email},
                     success: function (result) {
                         $('#captcha').blur(function () {
                             var inputCaptcha = $('#captcha').val();
@@ -125,7 +97,6 @@
     $(document).ready(function () {
         $('#resend-btn').click(function () {
             var email = $('#email').val();
-            var uname = $('#username').val();
             $('#resend-btn').prop("disabled", true);
             setTimeout(function () {
                 $('#resend-btn').prop("disabled", false);
@@ -133,7 +104,7 @@
             $.ajax({
                 type: 'POST',
                 url: '<i:ReadUrlFromContext url="/VerifyCaptcha"/>',
-                data: {"email": email, "username": username},
+                data: {"email": email},
                 success: function (result) {
                     $('#captcha').blur(function () {
                         var inputCaptcha = $('#captcha').val();
@@ -157,21 +128,19 @@
         });
     });
     $(document).ready(function () {
-        $('#inputCaptcha-btn').click(function () {
+        $('#changePass-btn').click(function () {
             if (validateForm() == false) {
                 return false;
             } else {
-                var user = $("#username").val();
-                var pw = $('#password_reg').val();
+                var pw = $('#password_reset').val();
                 var email = $('#email').val();
-                var sex = $('#sex').val();
                 next();
                 $.ajax({
                     type: 'POST',
-                    url: '<i:ReadUrlFromContext url="/SignUp"/>',
-                    data: {"username": user, "password": pw, "email": email, "sex": sex},
+                    url: '<i:ReadUrlFromContext url="/ResetPassword"/>',
+                    data: {"password": pw, "email": email},
                     success: function (result) {
-                        $('#notiRegister').html(result);
+                        $('#reset-noti').html(result);
                     }
                 });
             }
@@ -179,4 +148,3 @@
         });
     });
 </script>
-

@@ -115,7 +115,7 @@ public class LoginController extends HttpServlet {
                 }
                 session.setAttribute("user", userGetFromDb);
                 session.setAttribute("remember", remember);
-                response.sendRedirect("./view/Home.jsp");
+                response.getWriter().print("./view/Home.jsp");
                 return;
             }
         }
