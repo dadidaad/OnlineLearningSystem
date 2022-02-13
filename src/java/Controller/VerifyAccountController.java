@@ -6,14 +6,9 @@
 package Controller;
 
 import Bean.AccountBean;
-import Utils.EncryptAndDecryptPassword;
 import Utils.SendMailVerify;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +38,7 @@ public class VerifyAccountController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VerifyAccountController</title>");            
+            out.println("<title>Servlet VerifyAccountController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet VerifyAccountController at " + request.getContextPath() + "</h1>");
@@ -85,7 +80,7 @@ public class VerifyAccountController extends HttpServlet {
         String token = mailUtils.generateCaptchaString();
         userInput.setToken(token);
         boolean sendMailStatus = mailUtils.sendEmail(userInput);
-        while(sendMailStatus == false){
+        while (sendMailStatus == false) {
             mailUtils.sendEmail(userInput);
         }
         HttpSession session = request.getSession();

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class CheckAccountExistController extends HttpServlet {
+public class CheckAccountController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,14 +31,18 @@ public class CheckAccountExistController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        AccountDAO accountDAO = new AccountDAO();
-        AccountBean accountGetFromDb = accountDAO.getAccountByUsername(username);
-        if(accountGetFromDb != null){
-            response.getWriter().write("exist");
-        }
-        else{
-            response.getWriter().write("not exist");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CheckAccountController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CheckAccountController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -54,7 +58,7 @@ public class CheckAccountExistController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     /**
@@ -68,7 +72,14 @@ public class CheckAccountExistController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        AccountDAO accountDAO = new AccountDAO();
+        AccountBean accountGetFromDb = accountDAO.getAccountByUsername(username);
+        if (accountGetFromDb != null) {
+            response.getWriter().write("exist");
+        } else {
+            response.getWriter().write("not exist");
+        }
     }
 
     /**

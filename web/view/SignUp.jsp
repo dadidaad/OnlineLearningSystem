@@ -17,12 +17,12 @@
         <script src="https://kit.fontawesome.com/7ca0ffd650.js" crossorigin="anonymous"></script>
         <style>
             body{
-                background-image: url('../assets/image/AccountFeature/backgroundAccountFeature.png');
+                background-image: url('./assets/image/AccountFeature/backgroundAccountFeature.png');
             }
         </style>
     </head>
     <body>
-         <jsp:include page="./header.jsp"></jsp:include>
+        <jsp:include page="../view/header.jsp"></jsp:include>
         <div class="container container-account">
             <div class="d-flex flex-wrap justify-content-center ">
                 <div class="d-flex flex-fill flex-column align-items-center  py-1 left flex-wrap flex-grow-0" style="background-color: #326D6B;">

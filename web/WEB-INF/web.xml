@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>Filter.LoginFilter</filter-class>
-    </filter>
-    <filter>
         <filter-name>LogoutFilter</filter-name>
         <filter-class>Filter.LogoutFilter</filter-class>
     </filter>
@@ -12,17 +8,9 @@
         <filter-name>LogoutFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>Controller.LoginController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AccountVerifyController</servlet-name>
-        <servlet-class>Controller.AccountVerifyController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUpController</servlet-name>
@@ -108,13 +96,17 @@
         <servlet-name>UpdateRequestController</servlet-name>
         <servlet-class>Controller.UpdateRequestController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckAccountController</servlet-name>
+        <servlet-class>Controller.CheckAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyAccountController</servlet-name>
+        <servlet-class>Controller.VerifyAccountController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AccountVerifyController</servlet-name>
-        <url-pattern>/AccountVerify</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
@@ -199,6 +191,14 @@
     <servlet-mapping>
         <servlet-name>UpdateRequestController</servlet-name>
         <url-pattern>/UpdateRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckAccountController</servlet-name>
+        <url-pattern>/CheckUserExist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyAccountController</servlet-name>
+        <url-pattern>/VerifyCaptcha</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
