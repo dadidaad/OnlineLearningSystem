@@ -36,10 +36,10 @@
          <!--end of Top newest article-->    
             
             <!--List all article-->
-            <h4 style="margin-left: 30px;">All article</h4>   
+            <h4 style="margin-left: 30px; margin-top: 50px; margin-bottom: 20px;">All article</h4>   
              <!--These link for all article use c:forEach of JSTL -->
             <c:forEach items="${listP}" var="o" >
-                <div class="row" style=" margin-top: 10px">
+                <div class="row" style=" margin-bottom:  50px">
                     <div class="col-sm-4" >
                         <a href="#" class="">
                             <img class="col-sm-12" src="${o.image}" >
