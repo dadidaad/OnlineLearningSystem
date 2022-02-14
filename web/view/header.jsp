@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@page import="Bean.AccountBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
@@ -16,7 +17,7 @@
     </head>
     <body>
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pt-1 pb-2 mb-4 border-bottom bg-white px-3">
-             <a href="<i:ReadUrlFromContext url="/view/Home.jsp"/>" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <a href="<i:ReadUrlFromContext url="/view/Home.jsp"/>" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                 <img src="<i:ReadUrlFromContext url="/assets/image/logo.png"/>" alt="logo" >
             </a>
 
@@ -27,17 +28,31 @@
                 <li class="nav-item"><a href="#" class="nav-link">Request</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
             </ul>
-            <div class="col-md-3 text-end">
-                <c:if test="${sessionScope.user eq null}">
-                    <a href="<i:ReadUrlFromContext url="/Login"/>" class="btn btn-outline-primary me-2">Login</a>
-                    <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="btn btn-primary">Sign-up</a>
-                </c:if>
+            <c:set var="currentURI" value="${pageContext.request.requestURI}"></c:set>
+            <c:if test = "${fn:containsIgnoreCase(currentURI, 'login') ne true or !fn:containsIgnoreCase(currentURI, 'signup') ne true or !fn:containsIgnoreCase(currentURI, 'resetpassword') ne true}">
+                <div class="col-md-3 text-end">
+                    <c:if test="${sessionScope.user eq null}">
+                        <a href="<i:ReadUrlFromContext url="/Login"/>" class="btn btn-outline-primary me-2">Login</a>
+                        <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="btn btn-primary">Sign-up</a>
+                    </c:if>
+                </div>
                 <c:if test="${sessionScope.user ne null}">
                     <p class="text-success" style="font-size: 20px;font-weight: 500; padding-top: 15px; padding-right: 10px;"> Hello
                         ${sessionScope.user.displayName}
                     </p>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options 
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="LogOut">Log out</a>
+                            </div>
+                        </div>
+                    </div>
                 </c:if>
-            </div>
-        </header>
-    </body>
+            </c:if>
+        </div>
+    </header>
+</body>
 </html>

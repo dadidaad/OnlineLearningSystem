@@ -30,7 +30,7 @@ public class LogOutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogOutController</title>");            
+            out.println("<title>Servlet LogOutController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LogOutController at " + request.getContextPath() + "</h1>");
@@ -51,7 +51,12 @@ public class LogOutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        response.setHeader("Cache-Control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+
+        request.getSession().invalidate();
+        response.sendRedirect("./view/Home.jsp");
     }
 
     /**
