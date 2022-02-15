@@ -272,6 +272,6 @@
                 });
             });
         </script>
-        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidateInputForm.js"/>"></script>
     </body>
 </html>
