@@ -1,14 +1,23 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * LoginController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         DajtVox    First Implement
+ */
 package Controller;
 
 import Bean.AccountBean;
 import Dao.AccountDAO;
+import Dao.IAccountDAO;
 import Utils.EncryptAndDecryptPassword;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -21,36 +30,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handling login function
+ * /Login is the URL of the web site
+ * Extend HttpServlet class
+ * 
+ * @author DajtVox
  */
 public class LoginController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -64,7 +50,9 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("./view/Login.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
+        request.getRequestDispatcher("./view/Login.jsp").forward(request, response); //if uri is Login then forward to this page
     }
 
     /**
@@ -79,63 +67,52 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        Map<String, String> messages = new HashMap<>();
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(1800);
-        AccountDAO db = new AccountDAO();
-        AccountBean userGetFromDb = null;
-        try {
-            userGetFromDb = db.getAccountByUsername(username);
-        } catch (SQLException ex) {
+        request.setCharacterEncoding("utf-8");
+        try (PrintWriter out = response.getWriter()) {
+            String username = request.getParameter("username"); // get username input from Login form
+            String password = request.getParameter("password"); // get password input from Login form
+            String role = request.getParameter("role"); //get role input from Login form
+            Map<String, String> messages = new HashMap<>(); //initalize hashmap to hold message 
+            messages.put("role", role);
+            HttpSession session = request.getSession(); 
+            session.setMaxInactiveInterval(1800); //set age for session
+            IAccountDAO db = new AccountDAO();
+            AccountBean userGetFromDb = db.getAccountByUsername(username); //get AccountBean from database 
+
+            /*check if userGetFromDb is null then no exist user in database, put message to hashmap*/
+            if (userGetFromDb == null) {
+                messages.put("loginNoti", "User isn't exist");
+            } else {
+                EncryptAndDecryptPassword passwordUtils = new EncryptAndDecryptPassword();
+                /*compare pw input from user and pw in db by decryption pw from db*/
+                boolean checkPass = passwordUtils.validatePassword(password, userGetFromDb.getPassword()); 
+                boolean checkRole = role.equalsIgnoreCase(userGetFromDb.getRole()); //check role from user and in db
+                if (!checkPass) {
+                    messages.put("loginNoti", "Invalid password");
+                } else if (!checkRole) {
+                    messages.put("loginNoti", "Invalid role");
+                } else {
+                    String remember = request.getParameter("remember"); //check if user tick remember option
+                    /* if user tick remember option then create cookie to store user*/
+                    if (remember != null) {
+                        Cookie c_user = new Cookie("username", username);
+                        Cookie c_pass = new Cookie("password", password);
+                        c_user.setMaxAge(3600 * 24 * 30);
+                        c_pass.setMaxAge(3600 * 24 * 30);
+                        response.addCookie(c_pass);
+                        response.addCookie(c_user);
+                    }
+                    session.setAttribute("user", userGetFromDb); // set user in session if login success
+                    session.setAttribute("remember", remember);
+                    response.sendRedirect("Home"); //redirect to home page
+                    return;
+                }
+            }
+            /*set noti in hashmap to request attribute if login fail and forward to login page */
+            request.setAttribute("message_forward", messages);
+            request.getRequestDispatcher("./view/Login.jsp").forward(request, response);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (userGetFromDb == null) {
-            messages.put("loginInvalid", "User isn't exist");
-        } else {
-            EncryptAndDecryptPassword passwordUtils = new EncryptAndDecryptPassword();
-            boolean checkPass = false;
-            boolean checkRole = role.equalsIgnoreCase(userGetFromDb.getRole());
-            try {
-                checkPass = passwordUtils.validatePassword(password, userGetFromDb.getPassword());
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (!checkPass) {
-                messages.put("loginError", "Invalid password");
-            }
-            else if(!checkRole){
-                messages.put("loginError", "Invalid role");
-            }
-            else{
-                String remember = request.getParameter("remember");
-                if (remember != null) {
-                    Cookie c_user = new Cookie("username", username);
-                    Cookie c_pass = new Cookie("password", password);
-                    c_user.setMaxAge(3600 * 24 * 30);
-                    c_pass.setMaxAge(3600 * 24 * 30);
-                    response.addCookie(c_pass);
-                    response.addCookie(c_user);
-                }
-                session.setAttribute("user", userGetFromDb);
-                session.setAttribute("remember", remember);
-                response.getWriter().print("./view/Home.jsp");
-                return;
-            }
-        }
-        response.getWriter().print(messages.values());
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

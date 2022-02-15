@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Sign Up</title>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
         <link href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -58,16 +58,16 @@
                             <div id="signup-part" class="content" role="tabpanel" aria-labelledby="signup-part-trigger">
                                 <div class=" d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="signUpForm">
                                     <h4 class="text-center text-dark">Sign Up</h4>
-                                    <form class="" id="signup-form">
+                                    <form id="signup-form" action="SignUp" method="post">
                                         <div class="form__group mb-3">
                                             <input type="text" id="username" class="form__field" name="username" placeholder="Username"  required />
                                             <label for="username" class="form__label">Username</label>
-                                            <div id="notiExistUser" class="small"></div>
+                                            <div id="notiExistUser" class="small text-danger"></div>
                                         </div>
                                         <div class="form__group mb-3">
                                             <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                             <label for="email" class="form__label">Email</label>
-                                            <div id="notiExistMail" class="small"></div>
+                                            <div id="notiExistMail" class="small text-danger"></div>
                                         </div>
                                         <div class="form__group mb-3">
                                             <select id="sex" name="sex" class="form__field" required>
@@ -85,23 +85,27 @@
                                             <label class="form__label" for="confirmPassword">Confirm Password</label>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" class="btn btn-success btn-lg px-5 mt-2 btn-next" id="signup-btn">Sign Up</button>
+                                            <button type="submit" class="btn btn-success btn-lg px-5 mt-2 btn-next" id="signup-btn">Sign Up</button>
                                         </div>
                                     </form>
+                                    <div id="notiRes" class="text-danger small"></div>
+                                    <p class="text-dark">Already have an account?<a href="<i:ReadUrlFromContext url="/Login"/>" class="text-primary">Return login screen</a></p>
                                 </div>
                             </div>
                             <div id="captcha-part" class="content" role="tabpanel" aria-labelledby="captcha-part-trigger"> 
                                 <div class="d-flex justify-content-center align-items-center flex-column flex-fill">
-                                    <div class="form__group mb-3">
-                                        <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" />
-                                        <label for="captcha" class="form__label">Captcha</label>
-                                        <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
-                                    </div>
-                                    <div id="notiCaptcha" class="small"></div>
-                                    <div class="d-flex">
-                                        <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
-                                        <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn">Next</button>
-                                    </div>
+                                    <form action="VerifyCaptcha" method="post" id="verifytoken-form">
+                                        <div class="form__group mb-3">
+                                            <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" required/>
+                                            <label for="captcha" class="form__label" name="captcha" id="captcha">Captcha</label>
+                                            <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
+                                        </div>
+                                        <div id="notiCaptcha" class="small text-danger"></div>
+                                        <div class="d-flex">
+                                            <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
+                                            <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn" type="submit">Verify</button>
+                                        </div>
+                                    </form>
                                     <p class="text-dark">Input captcha we send to your mail</p>
                                 </div>
                             </div>
@@ -117,180 +121,12 @@
                 </div>
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-        <script>
-            var stepper = new Stepper(document.querySelector("#stepper"));
-            function previous() {
-                stepper.previous();
-            }
-            function next() {
-                stepper.next();
-            }
-            function validateForm() {
-                if ($('.invalid').length != 0)
-                    return false;
-                var x, y, i, valid = true;
-                x = document.getElementsByClassName("content");
-                y = x[stepper._currentIndex].getElementsByClassName("form__field");
-                // A loop that checks every input field in the current tab:
-                for (i = 0; i < y.length; i++) {
-                    // If a field is empty...
-                    if (y[i].value == "") {
-                        // add an "invalid" class to the field:
-                        y[i].className += " invalid";
-                        // and set the current valid status to false:
-                        valid = false;
-                    }
-                }
-                return valid;
-            }
-
-            $(document).ready(function () {
-                $("#username").blur(function () {
-                    var user = $("#username").val();
-                    $.ajax({
-                        url:  '<i:ReadUrlFromContext url="/CheckUserExist"/>',
-                        data: {"username": user},
-                        type: "POST",
-                        success: function (result) {
-                            if (result === 'exist') {
-                                $('#notiExistUser').removeClass('text-success');
-                                $('#username').removeClass('valid');
-                                $('#notiExistUser').addClass('text-danger');
-                                $('#username').addClass('invalid');
-                                $('#notiExistUser').empty();
-                                $('#notiExistUser').html('Username is exist');
-                            } else {
-                                $('#username').removeClass('invalid');
-                                $('#username').addClass('valid');
-                                $('#notiExistUser').removeClass('text-danger');
-                                $('#notiExistUser').addClass('text-success');
-                                $('#notiExistUser').empty();
-                                $('#notiExistUser').html('Username ok!');
-                            }
-                        }
-                    });
-                });
-            });
-            $(document).ready(function () {
-                $("#email").blur(function () {
-                    var mail = $("#email").val();
-                    $.ajax({
-                        url: '<i:ReadUrlFromContext url="/CheckMailExist"/>',
-                        data: {'email': mail},
-                        type: 'POST',
-                        success: function (result) {
-                            if (result === 'exist') {
-                                $('#notiExistMail').removeClass('text-success');
-                                $('#email').removeClass('valid');
-                                $('#notiExistMail').addClass('text-danger');
-                                $('#email').addClass('invalid');
-                                $('#notiExistMail').empty();
-                                $('#notiExistMail').html('Email is exist');
-                            } else {
-                                $('#email').removeClass('invalid');
-                                $('#email').addClass('valid');
-                                $('#notiExistMail').removeClass('text-danger');
-                                $('#notiExistMail').addClass('text-success');
-                                $('#notiExistMail').empty();
-                                $('#notiExistMail').html('Email ok!');
-                            }
-                        }
-                    });
-                });
-            });
-            $(document).ready(function () {
-                $('#signup-btn').click(function () {
-                    if (validateForm() != false) {
-                        var email = $('#email').val();
-                        var uname = $('#username').val();
-                        next();
-                        $.ajax({
-                            type: 'POST',
-                            url: '<i:ReadUrlFromContext url="/VerifyCaptcha"/>',
-                            data: {"email": email, "username": uname},
-                            success: function (result) {
-                                $('#captcha').blur(function () {
-                                    var inputCaptcha = $('#captcha').val();
-                                    if (inputCaptcha !== result) {
-                                        $('#captcha').removeClass('valid');
-                                        $('#captcha').addClass('invalid');
-                                        $('#notiCaptcha').removeClass('text-success');
-                                        $('#notiCaptcha').addClass('text-danger');
-                                        $('#notiCaptcha').empty();
-                                        $('#notiCaptcha').html('Invalid captcha');
-                                    } else {
-                                        $('#captcha').removeClass('invalid');
-                                        $('#captcha').addClass('valid');
-                                        $('#notiCaptcha').removeClass('text-danger');
-                                        $('#notiCaptcha').addClass('text-success');
-                                        $('#notiCaptcha').html('Valid captcha');
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        return false;
-                    }
-                });
-            });
-            $(document).ready(function () {
-                $('#resend-btn').click(function () {
-                    var email = $('#email').val();
-                    var uname = $('#username').val();
-                    $('#resend-btn').prop("disabled", true);
-                    $.ajax({
-                        type: 'POST',
-                        url: '<i:ReadUrlFromContext url="/VerifyCaptcha"/>',
-                        data: {"email": email, "username": username},
-                        success: function (result) {
-                            $('#captcha').blur(function () {
-                                var inputCaptcha = $('#captcha').val();
-                                if (inputCaptcha !== result) {
-                                    $('#captcha').removeClass('valid');
-                                    $('#captcha').addClass('invalid');
-                                    $('#notiCaptcha').removeClass('text-success');
-                                    $('#notiCaptcha').addClass('text-danger');
-                                    $('#notiCaptcha').empty();
-                                    $('#notiCaptcha').html('Invalid captcha');
-                                } else {
-                                    $('#captcha').removeClass('invalid');
-                                    $('#captcha').addClass('valid');
-                                    $('#notiCaptcha').removeClass('text-danger');
-                                    $('#notiCaptcha').addClass('text-success');
-                                    $('#notiCaptcha').html('Valid captcha');
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-            $(document).ready(function () {
-                $('#inputCaptcha-btn').click(function () {
-                    if (validateForm() == false) {
-                        return false;
-                    } else {
-                        var user = $("#username").val();
-                        var pw = $('#password_reg').val();
-                        var email = $('#email').val();
-                        var sex = $('#sex').val();
-                        next();
-                        $.ajax({
-                            type: 'POST',
-                            url: '<i:ReadUrlFromContext url="/SignUp"/>',
-                            data: {"username": user, "password": pw, "email": email, "sex": sex},
-                            success: function (result) {
-                                $('#notiRegister').html(result);
-                            }
-                        });
-                    }
-
-                });
-            });
-        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CallAjaxForRegister.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
     </body>
 </html>

@@ -151,7 +151,9 @@ a {
 .has-feedback .form-control-feedback {
   top: 33px;
 }
-
+.form-check-input{
+  margin-top: 0;
+}
 .validate_cus {
   color: #a94442;
   font-size: small;

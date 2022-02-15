@@ -89,20 +89,16 @@
         <servlet-class>Controller.UpdateRequestController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CheckAccountController</servlet-name>
-        <servlet-class>Controller.CheckAccountController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>VerifyAccountController</servlet-name>
         <servlet-class>Controller.VerifyAccountController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CheckEmailController</servlet-name>
-        <servlet-class>Controller.CheckEmailController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ForgotPasswordController</servlet-name>
         <servlet-class>Controller.ForgotPasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>Controller.HomeController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -193,10 +189,6 @@
         <url-pattern>/UpdateRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CheckAccountController</servlet-name>
-        <url-pattern>/CheckUserExist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>VerifyAccountController</servlet-name>
         <url-pattern>/VerifyCaptcha</url-pattern>
     </servlet-mapping>
@@ -205,8 +197,8 @@
         <url-pattern>/ResetPassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CheckEmailController</servlet-name>
-        <url-pattern>/CheckMailExist</url-pattern>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
