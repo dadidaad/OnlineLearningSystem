@@ -3,9 +3,6 @@
     Created on : Feb 13, 2022, 8:10:15 AM
     Author     : Dajtvox
 --%>
-
-<%@taglib  uri="/WEB-INF/tlds/customTag" prefix="i"%>
-
 <script>
     var stepper = new Stepper(document.querySelector("#stepper"));
     function previous() {
@@ -37,8 +34,8 @@
         $("#username").blur(function () {
             var user = $("#username").val();
             $.ajax({
-                url: '<i:ReadUrlFromContext url="/CheckUserExist"/>',
-                        data: {"username": user},
+                url:  '<i:ReadUrlFromContext url="/CheckUserExist"/>',
+                data: {"username": user},
                 type: "POST",
                 success: function (result) {
                     if (result === 'exist') {

@@ -96,11 +96,11 @@ public class SendMailVerify {
         return test;
     }
 
-//    public static void main(String[] args) {
-//        SendMailVerify m = new SendMailVerify();
-//        AccountBean x = new AccountBean();
-//        x.setMail("dathp.proxy@gmail.com");
-//        x.setToken(m.generateCaptchaString());
-//        System.out.println(m.sendEmail(x));
-//    }
+    public static void main(String[] args) {
+        SendMailVerify m = new SendMailVerify();
+        AccountBean x = new AccountBean();
+        x.setMail("minhmomang69@gmail.com");
+        x.setToken(m.generateCaptchaString());
+        System.out.println(m.sendEmail(x));
+    }
 }

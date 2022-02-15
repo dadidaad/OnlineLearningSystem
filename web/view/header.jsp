@@ -40,16 +40,6 @@
                     <p class="text-success" style="font-size: 20px;font-weight: 500; padding-top: 15px; padding-right: 10px;"> Hello
                         ${sessionScope.user.displayName}
                     </p>
-                    <div class="col-md-3">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Options 
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="LogOut">Log out</a>
-                            </div>
-                        </div>
-                    </div>
                 </c:if>
             </c:if>
         </div>

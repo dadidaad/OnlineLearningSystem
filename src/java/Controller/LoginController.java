@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +86,12 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(1800);
         AccountDAO db = new AccountDAO();
-        AccountBean userGetFromDb = db.getAccountByUsername(username);
+        AccountBean userGetFromDb = null;
+        try {
+            userGetFromDb = db.getAccountByUsername(username);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (userGetFromDb == null) {
             messages.put("loginInvalid", "User isn't exist");
         } else {

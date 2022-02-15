@@ -81,6 +81,10 @@ public class VerifyAccountController extends HttpServlet {
             AccountDAO accountDAO = new AccountDAO();
             userInput =  accountDAO.getAccountByMail(email);
         }
+        else{
+            userInput.setMail(email);
+            userInput.setUsername(username);
+        }
         SendMailVerify mailUtils = new SendMailVerify();
         String token = mailUtils.generateCaptchaString();
         userInput.setToken(token);

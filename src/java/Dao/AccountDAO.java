@@ -39,14 +39,17 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         return DisplayNames;
     }
 
-    public AccountBean getAccountByUsername(String username) {
+    public AccountBean getAccountByUsername(String username) throws SQLException {
         AccountBean x = null;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select * from Account where Username = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 x = new AccountBean();
                 x.setUsername(rs.getString("Username"));
@@ -63,9 +66,13 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
                 x.setStatus(rs.getString("Status"));
                 x.setState(rs.getBoolean("State"));
             }
-            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            rs.close();
+            statement.close();
+            conn.close();
         }
         return x;
     }
@@ -125,7 +132,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         return true;
     }
 
-    public boolean insertNewAccount(AccountBean account) {
+    public boolean insertNewAccount(AccountBean account) throws SQLException {
         AccountBean x = getAccountByUsername(account.getUsername());
         if (x != null) {
             return false;
@@ -151,9 +158,9 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         return true;
     }
 
-    public static void main(String[] args) {
-        AccountDAO db = new AccountDAO();
-        AccountBean x = new AccountBean();
-        System.out.println(db.insertNewAccount(x));
-    }
+//    public static void main(String[] args) throws SQLException {
+//        AccountDAO db = new AccountDAO();
+//        AccountBean x = new AccountBean();
+//        System.out.println(db.insertNewAccount(x));
+//    }
 }
