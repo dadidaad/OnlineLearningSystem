@@ -1,3 +1,13 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * AccountBean
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
+
 package Bean;
 
 import java.math.BigDecimal;
@@ -28,6 +38,24 @@ public class AccountBean {
     public AccountBean() {
     }
 
+    /**
+     * Initialization method
+     * 
+     * @param username the username of user. <code>java.lang.String</code> object
+     * @param password the username of user. <code>java.lang.String</code> object
+     * @param createdDate the time when account has create. <code>java.lang.Date</code> object
+     * @param dateOfBirth the birthday of user. <code>java.lang.Date</code> object
+     * @param mail the mail of user. <code>java.lang.String</code> object
+     * @param avatar the avatar of user. <code>java.lang.String</code> object
+     * @param displayName the displayName of user. <code>java.lang.String</code> object
+     * @param sex the sex of user. <code>java.lang.Boolean</code> object
+     * @param description the description of user. <code>java.lang.String</code> object
+     * @param cash the cash money of user. <code>java.lang.String</code> object
+     * @param status the status of Account. <code>java.lang.String</code> object
+     * @param role the role of the Account. <code>java.lang.Integer</code> object
+     * @param state the state of the Teacher. <code>java.lang.Boolean</code> object
+    
+     */
     public AccountBean(String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state) {
         this.username = username;
         this.password = password;

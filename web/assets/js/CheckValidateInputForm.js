@@ -80,6 +80,51 @@ $('#verifytoken-form').validate({
     }
 
 });
+$('#forgotPassword-form').validate({
+    rules: {
+        password: {
+            minlength: 6,
+            maxlength: 20,
+            required: true,
+            //pwcheck: true,
+            checklower: true,
+            checkupper: true,
+            checkdigit: true
+        },
+        confirmPassword: {
+            equalTo: "#password_reset"
+        }
+    },
+    messages: {
+        password: {
+            pwcheck: "Password is not strong enough",
+            checklower: "Need at least 1 lowercase alphabet",
+            checkupper: "Need at least 1 uppercase alphabet",
+            checkdigit: "Need at least 1 digit"
+        }
+    },
+    highlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('valid').addClass('invalid');
+    },
+    unhighlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('invalid').addClass('valid');
+    },
+    errorElement: 'div',
+    errorClass: 'validate_cus',
+    errorPlacement: function (error, element) {
+        x = element.length;
+        if (element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+
+});
 $('#signup-form').validate({
     rules: {
         password: {
@@ -115,6 +160,40 @@ $('#signup-form').validate({
         username: {
             usernamecheck: "Must only contains alphabet and number"
         },
+        email: {
+            emailcheck: "Invalid format email"
+        }
+    },
+    highlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('valid').addClass('invalid');
+    },
+    unhighlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('invalid').addClass('valid');
+    },
+    errorElement: 'div',
+    errorClass: 'validate_cus',
+    errorPlacement: function (error, element) {
+        x = element.length;
+        if (element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+
+});
+$('#submitmail-form').validate({
+    rules: {
+        email: {
+            required: true,
+            emailcheck: true
+        }
+    },
+    messages: {
         email: {
             emailcheck: "Invalid format email"
         }
@@ -190,5 +269,4 @@ $('#login-form').validate({
             error.insertAfter(element);
         }
     }
-
 });

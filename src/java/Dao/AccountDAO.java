@@ -61,7 +61,6 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @param username username of account belongs <code>java.lang.String</code>
      * object
      * @return AccountBean. <code>com.Bean.AccountBean</code> object
-     * @throws java.sql.SQLException
      */
     @Override
     public AccountBean getAccountByUsername(String username) {
@@ -116,7 +115,6 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @param mail username of account belongs <code>java.lang.String</code>
      * object
      * @return AccountBean. <code>com.Bean.AccountBean</code> object
-     * @throws java.sql.SQLException
      */
     @Override
     public AccountBean getAccountByMail(String email) {
@@ -170,7 +168,6 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @param account account object of user belongs
      * <code>com.Bean.AccountBean</code>
      * @return
-     * @throws java.sql.SQLException
      */
     @Override
     public boolean updateNewPassword(AccountBean account) {
@@ -213,7 +210,6 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @param account account object of user belongs
      * <code>com.Bean.AccountBean</code>
      * @return
-     * @throws java.sql.SQLException
      */
     @Override
     public boolean insertNewAccount(AccountBean account) {

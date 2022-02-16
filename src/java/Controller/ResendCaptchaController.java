@@ -28,17 +28,51 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * This is a Servlet responsible for handling resend captcha function of the sign up screen
- * Extend HttpServlet class
+ * This is a Servlet responsible for handling resend captcha function of the
+ * sign up screen and forgot password Extend HttpServlet class
  *
  * @author DajtVox
  */
 @WebServlet(name = "ResendCaptchaController", urlPatterns = {"/ResendToken"})
 public class ResendCaptchaController extends HttpServlet {
 
-    
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void doPost_SendFromReset(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
+        try (PrintWriter out = response.getWriter()) {
+            String resetEmail = request.getParameter("email_reset"); //get email reset
+            IAccountDAO accountDAO = new AccountDAO();
+            AccountBean resetUser = accountDAO.getAccountByMail(resetEmail); //check if data has been changed
+            if (resetUser == null) {
+                out.print("Invalid data!! Please try again!");
+            }
+            SendMailVerify mailUtils = new SendMailVerify();
+            String token = mailUtils.generateCaptchaString(); // generate captcha string from mailUtils
+            resetUser.setToken(token); // set token from generated token for new user
+            boolean sendMailStatus = mailUtils.sendEmail(resetUser); // send mail to user, if success then do next action
+            if (sendMailStatus) {
+                /*if success then create new session hold AccountBean object of user*/
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(900); //set age for session
+                session.setAttribute("userReset", resetUser);
+                out.print("Resended captcha!!");
+            } else {
+                out.print("Error when resend!! Please try again");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ResendCaptchaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -52,8 +86,12 @@ public class ResendCaptchaController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        try(PrintWriter out = response.getWriter()){
-             String username = request.getParameter("username");
+        if(request.getParameter("email_reset") != null){
+            doPost_SendFromReset(request, response);
+            return;
+        }
+        try (PrintWriter out = response.getWriter()) {
+            String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             String sex = request.getParameter("sex");
