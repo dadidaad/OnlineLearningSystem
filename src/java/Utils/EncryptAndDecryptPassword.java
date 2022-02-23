@@ -2,7 +2,7 @@
  * Copyright(C) 2022, FPT University.
  * OLS
  *  Online Learning System
- *
+ *EncryptAnđecryptPassword
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 2022-02-11      1.0                 Dajtvox          
@@ -36,12 +36,11 @@ public class EncryptAndDecryptPassword {
      *
      * @param password password that user input from login, sign-up form. It is
      * a <code>java.lang.String</code> object
+     * @throws java.security.NoSuchAlgorithmException
+     * @throws java.security.spec.InvalidKeySpecException
      *
      */
-    public String callGeneratePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return generatePasswordHash(password);
-    }
-    private static String generatePasswordHash(String password)
+    public static String generatePasswordHash(String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000; //iterations for encrypt password
         char[] chars = password.toCharArray(); //convert string to char array
@@ -90,9 +89,12 @@ public class EncryptAndDecryptPassword {
      * a <code>java.lang.String</code> object
      * @param storedPassword password that stored in database It is
      * a <code>java.lang.String</code> object
+     * @return 
+     * @throws java.security.NoSuchAlgorithmException 
+     * @throws java.security.spec.InvalidKeySpecException 
      *
      */
-    public boolean validatePassword(String originalPassword, String storedPassword)
+    public static boolean validatePassword(String originalPassword, String storedPassword)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -124,12 +126,5 @@ public class EncryptAndDecryptPassword {
             bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return bytes;
-    }
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String password = "Vtdhp9x00";
-        String hassPass = generatePasswordHash(password);
-        EncryptAndDecryptPassword m = new EncryptAndDecryptPassword();
-        String hassPass2 = m.callGeneratePassword(password);
-        System.out.println(m.validatePassword("Vtdhp9x00", hassPass2));
     }
 }

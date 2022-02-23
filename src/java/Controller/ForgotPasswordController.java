@@ -62,12 +62,11 @@ public class ForgotPasswordController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         try (PrintWriter out = response.getWriter()) {
-            String email = request.getParameter("email"); //get email from request parammeter
+            String email = request.getParameter("email").trim(); //get email from request parammeter
             IAccountDAO accountDAO = new AccountDAO();
             AccountBean userGetFromDb = accountDAO.getAccountByMail(email);
             if (userGetFromDb == null) {
                 out.print("Email isn't exist");
-                return;
             } else {
                 SendMailVerify mailUtils = new SendMailVerify();
                 String token = mailUtils.generateCaptchaString(); // generate captcha string from mailUtils
@@ -136,17 +135,18 @@ public class ForgotPasswordController extends HttpServlet {
             HttpSession session = request.getSession(false);
             AccountBean resetUser = (AccountBean) session.getAttribute("userReset"); //call reset User from session
             EncryptAndDecryptPassword pwUtils = new EncryptAndDecryptPassword();
-            String encryptionPw = pwUtils.callGeneratePassword(newPassword); //encrypt password and set it to reset User
+            String encryptionPw = pwUtils.generatePasswordHash(newPassword); //encrypt password and set it to reset User
             resetUser.setPassword(encryptionPw);
             IAccountDAO accountDAO = new AccountDAO();
             boolean checkUpdatePw = accountDAO.updateNewPassword(resetUser); //call updateNewPassword method from AccountDAO
             if(checkUpdatePw){
                 out.print("success");
+                session.removeAttribute("userReset");
             }
             else{
                 out.print("Error while update new password!! Please try again");
             }
-        } catch (Exception ex) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(ForgotPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

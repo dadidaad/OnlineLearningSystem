@@ -96,7 +96,7 @@ public class ResendCaptchaController extends HttpServlet {
             String email = request.getParameter("email");
             String sex = request.getParameter("sex");
             EncryptAndDecryptPassword passwordUtils = new EncryptAndDecryptPassword(); // call passwordUtils
-            String encryptionPassword = passwordUtils.callGeneratePassword(password);; // encryp password to PBKD type then reutnr encryption password
+            String encryptionPassword = passwordUtils.generatePasswordHash(password);; // encryp password to PBKD type then reutnr encryption password
             /* set value to AccountBean object */
             AccountBean newUser = new AccountBean();
             newUser.setUsername(username);

@@ -55,13 +55,13 @@ public class LoginFilter implements Filter {
         }
 
         boolean isLoggedIn = (loginUser != null);
-
+        String reuUrl = req.getServletPath();
         // Check if the user is accessing login page
-        if (req.getRequestURI().contains(
+        if (reuUrl.contains(
                 "Login")
-                || req.getRequestURI().contains(
+                || reuUrl.contains(
                 "SignUp")
-                || req.getRequestURI().contains(
+                || reuUrl.contains(
                 "ResetPassword")) {
             if (isLoggedIn) {
                 // Redirect to landing or home page
@@ -70,15 +70,6 @@ public class LoginFilter implements Filter {
                 // Otherwise, nothing to do if he has not logged in
                 // pass the request along the filter chain
                 chain.doFilter(request, response);
-            }
-        } else {
-            // For all other pages,
-            if (isLoggedIn) {
-                // Nothing to do
-                chain.doFilter(request, response);
-            } else {
-                // Redirect to login page if he has not logged in
-                res.sendRedirect("Login");
             }
         }
     }

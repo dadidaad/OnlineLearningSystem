@@ -19,12 +19,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -69,12 +67,12 @@ public class SignUpController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* get data from input form from user*/
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String sex = request.getParameter("sex");
+            String username = request.getParameter("username").trim();
+            String password = request.getParameter("password").trim();
+            String email = request.getParameter("email").trim();
+            String sex = request.getParameter("sex").trim();
             EncryptAndDecryptPassword passwordUtils = new EncryptAndDecryptPassword(); // call passwordUtils
-            String encryptionPassword = passwordUtils.callGeneratePassword(password);; // encryp password to PBKD type then reutnr encryption password
+            String encryptionPassword = passwordUtils.generatePasswordHash(password);; // encryp password to PBKD type then reutnr encryption password
             /* set value to AccountBean object */
             AccountBean newUser = new AccountBean();
             newUser.setUsername(username);
@@ -110,9 +108,7 @@ public class SignUpController extends HttpServlet {
             String jsonData = new ObjectMapper().writeValueAsString(message); //convert hashmap to json
             out.print(jsonData); //send data to client
             out.flush();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeySpecException ex) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

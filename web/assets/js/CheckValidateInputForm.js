@@ -223,30 +223,17 @@ $('#submitmail-form').validate({
 $('#login-form').validate({
     rules: {
         password: {
-            minlength: 6,
-            maxlength: 20,
-            required: true,
+            required: true
             //pwcheck: true,
-            checklower: true,
-            checkupper: true,
-            checkdigit: true
         },
         username: {
-            minlength: 6,
-            maxlength: 20,
-            required: true,
-            usernamecheck: true
-        },
+            required: true
+        }
     },
     messages: {
         password: {
-            pwcheck: "Password is not strong enough",
-            checklower: "Need at least 1 lowercase alphabet",
-            checkupper: "Need at least 1 uppercase alphabet",
-            checkdigit: "Need at least 1 digit"
         },
         username: {
-            usernamecheck: "Must only contains alphabet and number"
         }
     },
     highlight: function (element) {

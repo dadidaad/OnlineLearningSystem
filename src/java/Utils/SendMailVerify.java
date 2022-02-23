@@ -1,3 +1,12 @@
+/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SendMailVerify
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-02-11      1.0                 Dajtvox          
+ */
 package Utils;
 
 import Bean.AccountBean;
@@ -5,6 +14,7 @@ import java.util.Properties;
 import java.util.Random;
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -12,19 +22,26 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
+ * The class contains method generate random captcha and send mail, support for
+ * send captcha verify to user if sign up or reset password The method will
+ * throw an object of <code>java.Execption</code> if there is any error
+ * occurring when send mail
+ * <p>
+ * Bugs: Still not have yet
  *
- * @author win
+ * @author Dajtvox
  */
 public class SendMailVerify {
 
     /**
      * Generate a CAPTCHA String consisting of random lowercase & uppercase
      * letters, and numbers.
+     * @return 
      */
     public String generateCaptchaString() {
         int length = 6;
         Random rand = new Random();
-        StringBuffer captchaStringBuffer = new StringBuffer();
+        StringBuilder captchaStringBuilder = new StringBuilder();
         for (int i = 0; i < length; i++) {
             int baseCharNumber = Math.abs(rand.nextInt()) % 62;
             int charNumber = 0;
@@ -35,10 +52,10 @@ public class SendMailVerify {
             } else {
                 charNumber = 48 + (baseCharNumber - 52);
             }
-            captchaStringBuffer.append((char) charNumber);
+            captchaStringBuilder.append((char) charNumber);
         }
 
-        return captchaStringBuffer.toString();
+        return captchaStringBuilder.toString();
     }
 
     //send email to the user email
@@ -78,10 +95,10 @@ public class SendMailVerify {
 
             //set email subject
             mess.setSubject("User Email Verification");
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("Thanks for using TutorDuo.\n");
-            sb.append("You sign up our serive with user name is " + user.getUsername() +".\n");
-            sb.append("Please verify your account using this code: " + user.getToken());
+            sb.append("You sign up our serive with user name is ").append(user.getUsername()).append(".\n");
+            sb.append("Please verify your account using this code: ").append(user.getToken());
             //set message text
             mess.setText(sb.toString());
             //send the message
@@ -89,8 +106,7 @@ public class SendMailVerify {
 
             test = true;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (MessagingException e) {
         }
 
         return test;

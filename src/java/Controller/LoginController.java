@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -69,9 +68,9 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         try (PrintWriter out = response.getWriter()) {
-            String username = request.getParameter("username"); // get username input from Login form
-            String password = request.getParameter("password"); // get password input from Login form
-            String role = request.getParameter("role"); //get role input from Login form
+            String username = request.getParameter("username").trim(); // get username input from Login form
+            String password = request.getParameter("password").trim(); // get password input from Login form
+            String role = request.getParameter("role").trim(); //get role input from Login form
             Map<String, String> messages = new HashMap<>(); //initalize hashmap to hold message 
             messages.put("role", role);
             HttpSession session = request.getSession(); 

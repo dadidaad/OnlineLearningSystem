@@ -73,7 +73,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         ResultSet rs = null;
         try {
             conn = getConnection(); //set up connection to sql
-            String sql = "select * from Account where Username = ?"; //sql query
+            String sql = "select * from Account where Username COLLATE Latin1_General_CS_AS_KS_WS = ?"; //sql query
             statement = conn.prepareStatement(sql);
             statement.setString(1, username); //set parameter to query
             rs = statement.executeQuery();
@@ -248,6 +248,11 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
 
     public static void main(String[] args) throws SQLException {
         IAccountDAO db = new AccountDAO();
-        System.out.println(db.getAccountByUsername("admin1"));
+        AccountBean x = new AccountBean();
+        x.setUsername("admin");
+        x.setPassword("password");
+        x.setMail("123@gmail.com");
+        x.setSex(true);
+        System.out.println(db.insertNewAccount(x));
     }
 }
