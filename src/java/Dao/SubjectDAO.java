@@ -33,18 +33,22 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
      * getAllSubject method implement from ISubjectDAO
      * 
      * @return subjects. <code>java.util.ArrayList</code> object  
+     * @throws java.sql.SQLException  
      */
     @Override
-    public ArrayList<SubjectBean> getAllSubject() {
+    public ArrayList<SubjectBean> getAllSubject() throws SQLException {
         ArrayList<SubjectBean> subjects = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select * from Subject";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             
             /*Querry and save in ResultSet*/
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             
             /*Assign data to an arraylist of SubjectBean*/
             while(rs.next())
@@ -56,9 +60,12 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
                 subject.setSubjectImage(rs.getString("SubjectImage"));
                 subjects.add(subject);
             }
-            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            conn.close();
+            statement.close();
+            rs.close();
         }
         return subjects;
     }
@@ -88,7 +95,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         return subjectNames;
     }
     

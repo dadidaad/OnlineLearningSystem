@@ -19,7 +19,10 @@ import Dao.KnowledgeDAO;
 import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,16 +50,6 @@ public class KnowledgeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet KnowledgeController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet KnowledgeController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -79,24 +72,26 @@ public class KnowledgeController extends HttpServlet {
             
             /*Use DAO class to get data from database for Knowledge with corresponding ChapterID*/
             ArrayList<KnowledgeBean> knowledges = new ArrayList<>();
-            IKnowledgeDAO knowledgeDao = new KnowledgeDAO(); //Use IKnowledgeDAO interface to call
-            knowledges = knowledgeDao.getByChapterId(Integer.parseInt(chapterID));
+            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO(); //Use IKnowledgeDAO interface to call
+            knowledges = knowledgeDAO.getByChapterId(Integer.parseInt(chapterID));
             
             /*Use DAO class to get data from database for all Subject*/
             ArrayList <SubjectBean> subjects = new ArrayList<>();
-            ISubjectDAO subjectDao = new SubjectDAO(); //Use ISubjectDAO interface to call
-            subjects = subjectDao.getAllSubject();
+            ISubjectDAO subjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+            subjects = subjectDAO.getAllSubject();
             
             /*Use DAO class to get data for Current Chapter with correspoding ChapterID from request*/
             ChapterBean currentChapter = new ChapterBean();
-            IChapterDAO chapterDao = new ChapterDAO();
-            currentChapter = chapterDao.getChapterById(Integer.parseInt(chapterID));
-             out.print(1);
+            IChapterDAO chapterDAO = new ChapterDAO();
+            currentChapter = chapterDAO.getChapterById(Integer.parseInt(chapterID));
+ 
             /*Attach Attribute for request and redirect it to SubjectDetail.jsp*/
             request.setAttribute("subjects", subjects);
             request.setAttribute("knowledges", knowledges);
             request.setAttribute("currentChapter", currentChapter);
             request.getRequestDispatcher("./view/KnowledgeDetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(KnowledgeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
