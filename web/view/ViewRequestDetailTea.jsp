@@ -30,6 +30,7 @@
         <title>Request Handling</title>
     </head>
     <body>
+         <!-- Include header of web site from general-->
          <jsp:include page="./header.jsp"></jsp:include>
         <div id="wrapper" class="d-flex">
             <!-- Sidebar -->
@@ -51,7 +52,7 @@
               >
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="listAllRequestStu">
+              <a class="nav-link" href="ListAllRequest">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >
@@ -82,19 +83,22 @@
               <h3>Request Handling</h3>
             </div>
             <div class="backBtn-container">
-              <a class="backBtn" href="ListAllRequestTea"
+              <a class="backBtn" href="ListAllRequest"
                 ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
               >
             </div>
             <hr />
             <!-- Create Container -->
             <div class="create-container">
-              <!-- Request Info -->
+                
+    <!-- Request Info Section-->
               <div class="createContent mb-4">
                 <form action="createRequestReply" method="post">
                   <div class="card p-2 mb-4">
                     <div class="card-body">
+                      
                       <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
+    <!--Request's Infomation-->               
                       <input type="hidden" id="custId" name="requestId" value="${requestScope.request.getRequestID()}">  
                       <input type="hidden" id="custId" name="studentSent" value="${requestScope.request.getStudentSent()}">  
                       <label for="reTitle" class="d-block">Request Title: </label>
@@ -163,6 +167,7 @@
                   </div>
                   <div class="card shadow p-2">
                     <div class="card-body">
+    <!--Request's Content-->               
                       <h5 class="text-hightlight1 mb-32px">2. Content</h5>
                       <div class="responseContent--text mt-3">
                         <label for="AnswerTextarea">Topic: </label>
@@ -172,9 +177,7 @@
                           rows="5"
                           style="width: 100%"
                           readonly
-                        >
-${requestScope.request.getContent()}
-                        </textarea>
+                        >${requestScope.request.getContent()}</textarea>
                       </div>
                       <label for="formFile" class="form-label"> Image attachment: </label>
                       <img
@@ -185,11 +188,13 @@ ${requestScope.request.getContent()}
                       />
                     </div>
                   </div>
+    <!--Request Decision-->    
+    <c:if test = "${requestScope.request.equalsIgnoreCase("Waiting")}">
                   <a href="#answerCard" class="btn btn-primary mt-3 mb-5 acceptBtn">
                     Accept Request
                   </a>
-                  <a href="#" class="btn btn-primary mt-3 mb-5">Reject Request</a>
-
+               <a href="#" class="btn btn-primary mt-3 mb-5">Reject Request</a>
+    </c:if>              
                   <div class="card shadow answerCard p-2" id="answerCard">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">Answer</h5>
@@ -228,6 +233,7 @@ ${requestScope.request.getContent()}
       <img class="modal-content--Img" id="img01" />
       <div id="caption"></div>
     </div>
+    
     <!-- Footer -->
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->

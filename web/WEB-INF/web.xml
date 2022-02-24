@@ -112,6 +112,14 @@
         <servlet-name>ForgotPasswordController</servlet-name>
         <servlet-class>Controller.ForgotPasswordController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeRequestByAjaxController</servlet-name>
+        <servlet-class>Controller.ChangeRequestByAjaxController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListAllTeacherSearchController</servlet-name>
+        <servlet-class>Controller.ListAllTeacherSearchController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -215,6 +223,14 @@
     <servlet-mapping>
         <servlet-name>ForgotPasswordController</servlet-name>
         <url-pattern>/ResetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeRequestByAjaxController</servlet-name>
+        <url-pattern>/ChangeRequestByAjax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListAllTeacherSearchController</servlet-name>
+        <url-pattern>/ListAllTeacherSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
