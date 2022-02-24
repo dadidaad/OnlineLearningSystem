@@ -1,12 +1,3 @@
-/*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * Project: Online Learning System
-
- * CreateRequestReplyController
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-07   1.0         Duc Minh    First Implement
- */
 package Controller;
 
 import Bean.RequestBean;
@@ -21,14 +12,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the teacher wants to create the reply of Request
- * /CreateRequestReply is the URL of the Servlet
- * Extend HttpServlet class
- * @author Duc Minh
+ *
+ * @author win
  */
 public class CreateRequestReplyController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateRequestReply</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateRequestReply at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -47,6 +76,8 @@ public class CreateRequestReplyController extends HttpServlet {
         String contentReply = request.getParameter("contentReply");
         String imgReply = "/assets/image/" + request.getParameter("imgReply");
         
+//        out.print(requestId + " "+ teacherSent +" "+ studentSent +" "+ contentReply+ " "+ imgReply);
+        
         RequestReplyBean rpReply = new RequestReplyBean();
         rpReply.setRequestID(requestId);
         rpReply.setTutorSent(teacherSent);
@@ -60,11 +91,18 @@ public class CreateRequestReplyController extends HttpServlet {
         iRequestDAO.updateRequestStatus("Approved", requestId);
         iRequestDAO.createRequestReply(rpReply);
         
-        response.sendRedirect("ListAllRequest");
-        
-        }catch (Exception e){
-        
+        response.sendRedirect("listAllRequestTea");
         }
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

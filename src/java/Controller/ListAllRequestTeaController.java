@@ -1,7 +1,7 @@
 package Controller;
 
+import Bean.AccountBean;
 import Bean.RequestBean;
-import Bean.RequestReplyBean;
 import Dao.AccountDAO;
 import Dao.IAccountDAO;
 import Dao.IRequestDAO;
@@ -16,12 +16,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author win
  */
-public class ViewRequestStuController extends HttpServlet {
+public class ListAllRequestTeaController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +41,10 @@ public class ViewRequestStuController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewRequestStuController</title>");            
+            out.println("<title>Servlet ListAllRequestTeaController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewRequestStuController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListAllRequestTeaController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,29 +62,31 @@ public class ViewRequestStuController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            
-            int rqId = Integer.parseInt(request.getParameter("requestId"));
-            
+            try (PrintWriter out = response.getWriter()) {
+                
+            HttpSession session = request.getSession();   
+            AccountBean account =(AccountBean) session.getAttribute("account");
+            if(account!=null){}
+                
+                ArrayList <RequestBean> requestList = new ArrayList<>();
                 IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
-                RequestBean rq  = iRequestDAO.getRequestById(rqId);
-                RequestReplyBean rqReply  = iRequestDAO.getRequestReplyById(rqId);
+                requestList = iRequestDAO.getAllRequest();
                 
                 ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
                 Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
                 
-                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
+                IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
                 Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
                 
-                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
-                request.setAttribute("request", rq);
-                request.setAttribute("requestReply", rqReply);
+//                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
+                request.setAttribute("requests", requestList);
                 request.setAttribute("subjectNames", SubjectNames);
                 request.setAttribute("displayNames", DisplayNames);
-            
 
+                
+                
             
-                request.getRequestDispatcher("./view/ViewRequestDetailStu.jsp").forward(request, response);
+                request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
             }
     }
 

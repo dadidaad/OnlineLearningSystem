@@ -22,12 +22,12 @@
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateRequest.css" />">
-       
+        
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <title>Create Request</title>
     </head>
     <body>
-         <!-- Include header of web site from general-->
+        <!--Header-->
          <jsp:include page="./header.jsp"></jsp:include>
         <!--Main Content--> 
          <div id="wrapper" class="d-flex">
@@ -56,7 +56,7 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="ListAllRequest">
+          <a class="nav-link" href="requestListStu.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Request List</span>
           </a>
@@ -97,46 +97,37 @@
             <div class="create-container">
               <!-- Request Info -->
               <div class="createContent mb-4">
-                <form action="CreateRequest" method="post" id="createFrom" class="form">
-                   
+                <form action="CreateRequest" method="post">
                   <div class="card p-2 mb-4">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
-                      
-                      <div class="form-group">
-                <!--Title Section-->          
-                        <label for="rqTitle" class="d-block">Request Title: </label>
-                        <input type="text" id="rqTitle" name="rqTitle" class="form-control" /><br />
-                        <span class="form-message"></span>
-                      </div> 
+
+                      <label for="reTitle" class="d-block">Request Title: </label>
+                      <input type="text" id="reTitle" name="rqTitle" class="form-control" /><br />
                       <div class="row">
                         <div class="form-group col-sm-6">
-                <!--Subject Section-->
-                          <label for="rqSubject">Subject: </label>
-                          <select class="form-control" id="rqSubject" name="rqSubject" required>
-                            <option value="" disabled selected>Select Subject</option>
+                          <label for="reSubject">Subject: </label>
+                          
+                          <select class="form-control" id="reSubject" name="rqSubject">
+                            <option>Select Subject</option>
                           <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">    
                             <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
                           </c:forEach>  
                           </select>
-                          <span class="form-message"></span>
                         </div>
                         <div class="form-group col-sm-6">
-                <!--Level Section-->            
-                          <label for="rqLevel">Grade: </label>
-                          <select class="form-control" id="rqLevel" name="rqLevel" required>
-                            <option value="" disabled selected>Select Class</option>
+                          <label for="reClass">Class: </label>
+                          <select class="form-control" id="reClass" name="rqLevel">
+                            <option value="">Select Class</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
                           </select>
-                          <span class="form-message"></span>
                         </div>
                         <div class="form-group col-sm-6">
-                <!--Price Section-->             
-                          <label for="rqPrice">Price: </label>
-                          <select class="form-control" id="rqPrice" name="rqPrice" required>
-                            <option value="" disabled selected>Select Price</option>
+                          <label for="rePrice">Price: </label>
+                          <select class="form-control" id="rePrice" name="rqPrice">
+                            <option value="">Select Price</option>
                             <option value="5000">5.000 <span>VND</span></option>
                             <option value="10000">10.000 <span>VND</span></option>
                             <option value="15000">15.000 <span>VND</span></option>
@@ -146,12 +137,10 @@
                             <option value="40000">40.000 <span>VND</span></option>
                             <option value="50000">50.000 <span>VND</span></option>
                           </select>
-                          <span class="form-message"></span>
                         </div>
                       </div>
                       <br />
                       <fieldset class="mr-5 mb-4 form-group">
-                <!--Teacher Recommend-->          
                         <legend class="text-bold2 mb-12px h6">Teacher Recommend</legend>
                         <c:if test = "${requestScope.rqTeacherRcmFromList==null}">
                         <div class="offline-box flex-box align-items-start">
@@ -181,7 +170,7 @@
                             
                           
                             <input type="hidden" id="teacherUsernameRcm" name="rqTeacherRcm" readonly >
-                            <input type="hidden" id="studentSent" name="studentSent" value=${sessionScope.user.getUsername()}>  
+                            <input type="hidden" id="studentSent" name="studentSent" value="minhduc07">  
                           </div>
                           <button
                             type="button"
@@ -199,22 +188,22 @@
                       </fieldset>
                     </div>
                   </div>
-                    
-                <!--Content Section-->    
                   <div class="card shadow p-2">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">2. Content</h5>
-                      <div class="form-group responseContent--text mt-3">
+                      <div class="responseContent--text mt-3">
                         <label for="TopicTextArea">Topic</label>
-                        <textarea class="TopicTextArea" name="content" style="width: 100%" id="message" type="text" value="" minlength="10" maxlength="1000" rows="5" cols="30" dir="ltr" required></textarea>
-           
-                        <span class="form-message"></span>
+                        <textarea
+                          class="TopicTextArea"
+                          id="TopicTextArea"
+                          rows="5"
+                          style="width: 100%"
+                          name="content"
+                        >
+                        </textarea>
                       </div>
-                      <div class="form-group">
                       <label for="formFile" class="form-label"> Image attachment </label>
                       <input class="form-control" type="file" id="formFile" name="imgContent"/>
-                      <span class="form-message"></span>
-                      </div>
                     </div>
                   </div>
                   <input type="submit" class="btn btn-primary mt-3" value="Send Request" />
@@ -224,7 +213,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- End of Content Wrapper -->
       </div>
 
@@ -288,7 +277,7 @@
                           <a class="teacherInfo" href="#"
                             ><img
                               class="teacherAvt"
-                              src="<i:ReadUrlFromContext url="${t.getAvatar()}"/>"
+                              src="${t.getAvatar()}"
                               alt=""
                             />${t.getDisplayName()}</a
                           >
@@ -322,30 +311,20 @@
         </div>
       </div>
     </div>
-     
-     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
-
-    <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Datatable Jquery library -->
-    <!--<script src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
     
     <!-- link to java script file -->
     <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
-    
     <script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>
-    
     
     </body>
 </html>

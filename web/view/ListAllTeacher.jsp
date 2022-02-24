@@ -26,7 +26,7 @@
         <title>Teacher Ranking</title>
     </head>
     <body>
-        <!-- Include header of web site from general-->
+        <!--Header File-->
         <jsp:include page="./header.jsp"></jsp:include>
         
         <div id="wrapper" class="d-flex">
@@ -41,14 +41,14 @@
 
         <!-- Nav Item  -->
 
-       <li class="nav-item active">
+       <li class="nav-item">
               <a class="nav-link" href="ListAllTeacher">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Teacher List</span></a
               >
         </li>
-        <li class="nav-item">
-              <a class="nav-link" href="ListAllRequest">
+        <li class="nav-item active">
+              <a class="nav-link" href="listAllRequestStu">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >
@@ -77,26 +77,11 @@
             <!-- Page Heading -->
             <div class="card--top"></div>
             
-        <!-- Requests DataTales -->
+            <!-- DataTales Example -->
             <div class="card shadow mb-4">
               <h1>Teacher Ranking</h1>
               <p>List of all the teachers in our system is sorted by student-rated reputation.</p>
               <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-12 col-md-6"></div>
-                  <div class="col-sm-12 col-md-6">
-                    <div id="dataTable_filter" class="dataTables_filter">
-                      <label
-                        >Search:<input
-                          type="search"
-                          class="form-control form-control-sm"
-                          placeholder=""
-                          id="SearchInput"
-                          aria-controls="dataTable"
-                      /></label>
-                    </div>
-                  </div>
-                </div>
                 <div class="table-responsive">
                   <table
                     class="table table-striped tableTeacher"
@@ -111,9 +96,7 @@
                         <th>Reputation</th>
                         <th>Subject</th>
                         <th>CV</th>
-                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <th>Request</th>
-                      </c:if>
                       </tr>
                     </thead>
                     <tfoot>
@@ -123,21 +106,24 @@
                         <th>Reputation</th>
                         <th>Subject</th>
                         <th>CV</th>
-                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <th>Request</th>
-                      </c:if>  
                       </tr>
                     </tfoot>
-                    <tbody id="tbBody">
+                    <tbody>
                     <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop"> 
-
+                    <c:if test = "${requestScope.teachers.size()==0}">
+                        <tr>List Empty</tr>
+                    </c:if>
                       <tr>
                         <td>${loop.index+1}</td>
                         <td>
-                          <a class="teacherInfo" href="#">
-                              <img id="teacheravt" class="teacherAvt" src="${t.getAvatar()}"/>
-                              ${t.getDisplayName()}
-                          </a>
+                          <a class="teacherInfo" href="#"
+                            ><img
+                              class="teacherAvt"
+                              src="${t.getAvatar()}"
+                              alt=""
+                            />${t.getDisplayName()}</a
+                          >
                         </td>
                         <td>4.1</td>
                         <td>${requestScope.subjectNames.get(t.getSubjectId())}</td>
@@ -148,59 +134,15 @@
                             alt=""
                           />
                         </td>
-                        <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <td>
                           <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}"><i class="far fa-share-square"></i></a>
                         </td>
-                        </c:if>
                       </tr>
                       
                       </c:forEach>   
                       
                     </tbody>
                   </table>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-md-4"></div>
-                  <div class="col-sm-12 col-md-8">
-                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                      <ul class="pagination">
-                        <li
-                          class="paginate_button page-item previous disabled"
-                          id="dataTable_previous"
-                        >
-                          <a
-                            href="#"
-                            aria-controls="dataTable"
-                            data-dt-idx="0"
-                            tabindex="0"
-                            class="page-link"
-                            >Previous</a
-                          >
-                        </li>
-                        <li class="paginate_button page-item active">
-                          <a
-                            href="#"
-                            aria-controls="dataTable"
-                            data-dt-idx="1"
-                            tabindex="0"
-                            class="page-link"
-                            >1</a
-                          >
-                        </li>
-                        <li class="paginate_button page-item next disabled" id="dataTable_next">
-                          <a
-                            href="#"
-                            aria-controls="dataTable"
-                            data-dt-idx="2"
-                            tabindex="0"
-                            class="page-link"
-                            >Next</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -216,21 +158,21 @@
     <!-- Footer -->
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->
-    
-    
     <!-- Modal Image -->
     <div id="myModal" class="modal--Img">
       <span class="close--Img">&times;</span>
       <img class="modal-content--Img" id="img01" />
       <div id="caption"></div>
     </div>
-     <!--Ajax Library-->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    
+    <!-- Datatable Jquery library -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- link to java script file -->
     <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/ListAllTeacherSearchUsingAjax.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/ListAllTeacher.js"/>"></script>
     
     </body>
 </html>

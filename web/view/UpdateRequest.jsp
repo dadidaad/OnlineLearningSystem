@@ -27,7 +27,7 @@
         <title>Update Request</title>
     </head>
     <body>
-         <!-- Include header of web site from general-->
+        <!--Header-->
          <jsp:include page="./header.jsp"></jsp:include>
         <!--Main Content--> 
          <div id="wrapper" class="d-flex">
@@ -50,13 +50,13 @@
         <!-- Nav Item  -->
 
         <li class="nav-item">
-          <a class="nav-link" href="ListAllTeacher">
+          <a class="nav-link" href="listAllTeacher.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Teacher List</span></a
           >
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="ListAllRequest">
+          <a class="nav-link" href="requestListStu.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Request List</span>
           </a>
@@ -97,15 +97,14 @@
             <div class="create-container">
               <!-- Request Info -->
               <div class="createContent mb-4">
-                <form action="UpdateRequest" method="post" id="updateFrom">
+                <form action="UpdateRequest" method="post">
                   <div class="card p-2 mb-4">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
-                      <input type="hidden" id="rr" name="rqId" readonly  value="${requestScope.request.getRequestID()}">
+                      <input type="hidden" id="teacherUsernameRcm" name="rqId" readonly  value="${requestScope.request.getRequestID()}">
                       <label for="reTitle" class="d-block">Request Title: </label>
                       <input type="text" id="reTitle" name="rqTitle" class="form-control" value="${requestScope.request.getTitle()}" /><br />
                       <div class="row">
-                <!--Subject Section-->          
                         <div class="form-group col-sm-6">
                           <label for="reSubject">Subject: </label>
                           
@@ -116,17 +115,15 @@
                           </c:forEach>  
                           </select>
                         </div>
-                <!--Level Section-->          
                         <div class="form-group col-sm-6">
-                          <label for="reClass">Grade: </label>
+                          <label for="reClass">Class: </label>
                           <select class="form-control" id="reClass" name="rqLevel">
                             <option value="${requestScope.request.getLevel()}">${requestScope.request.getLevel()}</option>
-                            <option value="10">Grade 10</option>
-                            <option value="11">Grade 11</option>
-                            <option value="12">Grade 12</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                           </select>
                         </div>
-                <!--Price Section-->            
                         <div class="form-group col-sm-6">
                           <label for="rePrice">Price: </label>
                           <select class="form-control" id="rePrice" name="rqPrice">
@@ -144,7 +141,7 @@
                       </div>
                       <br />
                       
-                <!--Teacher Recommend-->      
+
                       <fieldset class="mr-5 mb-4 form-group">
                         <legend class="text-bold2 mb-12px h6">Teacher Recommend: </legend>
                         <a style="text-decoration: none;display: inline-block" href="#" class="teacherRecommend--name">${requestScope.request.getTutorGet()}</a>
@@ -170,9 +167,17 @@
                                 value="1"
                               />Yes</label
                             >
+                            <%--<c:if test = "${requestScope.request.getTutorGet()!=null}">--%>
+
+                            <%--</c:if>--%>
+                            <%--<c:if test = "${requestScope.request.getTutorGet()==null}">--%>
+
+                            <!--<a style="text-decoration: none;display: block" href="#" class="teacherRecommend--name"></a>-->
+                            <%--</c:if>--%>
                             
+                          
                             <input type="hidden" id="teacherUsernameRcm" name="rqTeacherRcm" value="${requestScope.request.getTutorGet()}" readonly >
-                            <input type="hidden" id="studentSent" name="studentSent" value=${sessionScope.user.getUsername()}>  
+                            <input type="hidden" id="studentSent" name="studentSent" value="minhduc07">  
                           </div>
                           <button
                             type="button"
@@ -187,16 +192,20 @@
                       </fieldset>
                     </div>
                   </div>
-                            
-            <!--Content Section-->                
                   <div class="card shadow p-2">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">2. Content</h5>
                       <div class="responseContent--text mt-3">
                         <label for="TopicTextArea">Topic</label>
-                            <textarea class="TopicTextAre" name="content" style="width: 100%" id="message" minlength="10" maxlength="1000" type="text" rows="5" cols="30" dir="ltr" required>${requestScope.request.getContent()}</textarea>
+                        <textarea
+                          class="TopicTextArea"
+                          id="TopicTextArea"
+                          rows="5"
+                          style="width: 100%"
+                          name="content"
+                          >${requestScope.request.getContent()}</textarea>
                       </div>
-                      <label for="imgLink" class="form-label"> Image attachment</label>
+                      <label for="formFile" class="form-label"> Image attachment</label>
                       <input class="form-control" type="file" id="imgLink" name="imgContent" value="${requestScope.request.getImageLink()}"/>
                     </div>
                   </div>
@@ -271,7 +280,7 @@
                           <a class="teacherInfo" href="#"
                             ><img
                               class="teacherAvt"
-                              src="<i:ReadUrlFromContext url="${t.getAvatar()}"/>"
+                              src="${t.getAvatar()}"
                               alt=""
                             />${t.getDisplayName()}</a
                           >
@@ -305,21 +314,13 @@
         </div>
       </div>
     </div>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
-
-    <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
-
-    
-    <!--Bootstrap js library-->
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Datatable Jquery library -->
-    <!--<script src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
