@@ -73,6 +73,8 @@ public class LoginController extends HttpServlet {
             String role = request.getParameter("role").trim(); //get role input from Login form
             Map<String, String> messages = new HashMap<>(); //initalize hashmap to hold message 
             messages.put("role", role);
+            messages.put("username", username);
+            messages.put("password", password);
             HttpSession session = request.getSession(); 
             session.setMaxInactiveInterval(1800); //set age for session
             IAccountDAO db = new AccountDAO();

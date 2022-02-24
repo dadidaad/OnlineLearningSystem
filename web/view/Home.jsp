@@ -11,12 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <!-- Link to css file -->
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
         
           <!-- Link to bootstrap fontawesome and Boxicon -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/7ca0ffd650.js" crossorigin="anonymous"></script>
+        <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
         <title>Home page</title>
     </head>
     <body>

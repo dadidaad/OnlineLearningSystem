@@ -112,8 +112,8 @@
             $('#login-noti').html("<%=messageForward.get("loginNoti")%>");
             $('#role').html("<%=messageForward.get("role")%>");
             $('#roleUser').val("<%=messageForward.get("role")%>");
-            $('#username').val("<%=messageForward.get("role")%>");
-            $('#password_login').val("<%=messageForward.get("role")%>");
+            $('#username').val("<%=messageForward.get("username")%>");
+            $('#password_login').val("<%=messageForward.get("password")%>");
         </script>
         <%}%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
