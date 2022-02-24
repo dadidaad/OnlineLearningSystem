@@ -137,9 +137,52 @@ a {
 /* Main css */
 /*----------*/
 
+/*header css */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown .btnclick {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 1em;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+}
+.dropdown .btnclick:hover,
+.dropdown .btnclick:focus {
+  background-color: #fffafa;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.dropdown-content a {
+  color: rgb(49, 49, 49);
+  padding: .5em;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  background-color: rgb(232, 231, 243);
+  border: none;
+}
+.small-avatar {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: .5em;
+}
+/*----------*/
 /*Account feature css */
-#signup-form select{
- appearance: none;
+#signup-form select {
+  appearance: none;
 }
 .divider:after,
 .divider:before {
@@ -151,7 +194,9 @@ a {
 .has-feedback .form-control-feedback {
   top: 33px;
 }
-
+.form-check-input {
+  margin-top: 0;
+}
 .validate_cus {
   color: #a94442;
   font-size: small;
@@ -213,130 +258,133 @@ a {
 .form__field:invalid {
   box-shadow: none;
 }
-.valid{
+.valid {
   padding-right: 25px;
-  background: url('../image/AccountFeature/success-icon.png') no-repeat right;
+  background: url("../image/AccountFeature/success-icon.png") no-repeat right;
   background-size: 15px;
 }
-.invalid{
+.invalid {
   padding-right: 25px;
-  background: url('../image/AccountFeature/error-icon.png') no-repeat right;
+  background: url("../image/AccountFeature/error-icon.png") no-repeat right;
   background-size: 15px;
 }
 
 /*----------------*/
 /*Stepper css*/
 #msform {
-	width: 400px;
-	margin: 50px auto;
-	text-align: center;
-	position: relative;
+  width: 400px;
+  margin: 50px auto;
+  text-align: center;
+  position: relative;
 }
 #msform fieldset {
-	background: white;
-	border: 0 none;
-	border-radius: 3px;
-	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-	padding: 20px 30px;
-	box-sizing: border-box;
-	width: 80%;
-	margin: 0 10%;
-	
-	/*stacking fieldsets above each other*/
-	position: relative;
+  background: white;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+
+  /*stacking fieldsets above each other*/
+  position: relative;
 }
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
-	display: none;
+  display: none;
 }
 /*inputs*/
-#msform input, #msform textarea {
-	padding: 15px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	margin-bottom: 10px;
-	width: 100%;
-	box-sizing: border-box;
-	font-family: montserrat;
-	color: #2C3E50;
-	font-size: 13px;
+#msform input,
+#msform textarea {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: montserrat;
+  color: #2c3e50;
+  font-size: 13px;
 }
 /*buttons*/
 #msform .action-button {
-	width: 100px;
-	background: #27AE60;
-	font-weight: bold;
-	color: white;
-	border: 0 none;
-	border-radius: 1px;
-	cursor: pointer;
-	padding: 10px 5px;
-	margin: 10px 5px;
+  width: 100px;
+  background: #27ae60;
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 5px;
 }
-#msform .action-button:hover, #msform .action-button:focus {
-	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+#msform .action-button:hover,
+#msform .action-button:focus {
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #27ae60;
 }
 /*headings*/
 .fs-title {
-	font-size: 15px;
-	text-transform: uppercase;
-	color: #2C3E50;
-	margin-bottom: 10px;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 .fs-subtitle {
-	font-weight: normal;
-	font-size: 13px;
-	color: #666;
-	margin-bottom: 20px;
+  font-weight: normal;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
 }
 /*progressbar*/
 #progressbar {
-	margin-bottom: 30px;
-	overflow: hidden;
-	/*CSS counters to number the steps*/
-	counter-reset: step;
+  margin-bottom: 30px;
+  overflow: hidden;
+  /*CSS counters to number the steps*/
+  counter-reset: step;
 }
 #progressbar li {
-	list-style-type: none;
-	color: white;
-	text-transform: uppercase;
-	font-size: 9px;
-	width: 33.33%;
-	float: left;
-	position: relative;
+  list-style-type: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 9px;
+  width: 33.33%;
+  float: left;
+  position: relative;
 }
 #progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 20px;
-	line-height: 20px;
-	display: block;
-	font-size: 10px;
-	color: #333;
-	background: white;
-	border-radius: 3px;
-	margin: 0 auto 5px auto;
+  content: counter(step);
+  counter-increment: step;
+  width: 20px;
+  line-height: 20px;
+  display: block;
+  font-size: 10px;
+  color: #333;
+  background: white;
+  border-radius: 3px;
+  margin: 0 auto 5px auto;
 }
 /*progressbar connectors*/
 #progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: white;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1; /*put it behind the numbers*/
 }
 #progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none; 
+  /*connector not needed before the first step*/
+  content: none;
 }
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
-#progressbar li.active:before,  #progressbar li.active:after{
-	background: #27AE60;
-	color: white;
+#progressbar li.active:before,
+#progressbar li.active:after {
+  background: #27ae60;
+  color: white;
 }
 /*-----------------*/
 /*Landing page css*/
@@ -433,7 +481,6 @@ a {
   color: #fff;
 }
 
-
 /* section about us css*/
 .about,
 .services,
@@ -502,7 +549,6 @@ h1.title {
   color: #222;
 }
 
-
 /*section  the famous teacher*/
 .heading {
   text-align: center;
@@ -565,7 +611,6 @@ h1.title {
 .speciality .box-container .box:hover .content {
   transform: translateY(100%);
 }
-
 
 /*section subject css*/
 .review .box-container {
@@ -630,9 +675,6 @@ h1.title {
   color: var(--blue);
 }
 
-
-
-
 .speciality .box-container {
   display: flex;
   gap: 1.5rem;
@@ -664,7 +706,6 @@ h1.title {
   color: #666;
   padding: 1rem 0;
 }
-
 
 .review .box-container {
   background-color: #eee;

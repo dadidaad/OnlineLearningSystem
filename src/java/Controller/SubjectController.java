@@ -13,17 +13,20 @@ import Dao.ISubjectDAO;
 import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to see the list of subjects
- * /Subject is the URL of the web site
- * Extend HttpServlet class
- * 
+ * This is a Servlet responsible for handling the task when the user wants to
+ * see the list of subjects /Subject is the URL of the web site Extend
+ * HttpServlet class
+ *
  * @author Doan Tu
  */
 public class SubjectController extends HttpServlet {
@@ -41,16 +44,6 @@ public class SubjectController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SubjectController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SubjectController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -65,15 +58,17 @@ public class SubjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try (PrintWriter out = response.getWriter()) {
-                ArrayList <SubjectBean> s = new ArrayList<>();
-                ISubjectDAO dao = new SubjectDAO(); //Use ISubjectDAO interface to call
-                s = dao.getAllSubject();
-                
-                /*Attach Attribute subjects for request and redirect it to ListSubject.jsp*/
-                request.setAttribute("subjects", s);
-                request.getRequestDispatcher("./view/ListSubject.jsp").forward(request, response);
-            }
+        try (PrintWriter out = response.getWriter()) {
+            ArrayList<SubjectBean> subjects = new ArrayList<>();
+            ISubjectDAO subjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+            subjects = subjectDAO.getAllSubject();
+
+            /*Attach Attribute subjects for request and redirect it to ListSubject.jsp*/
+            request.setAttribute("subjects", subjects);
+            request.getRequestDispatcher("./view/ListSubject.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

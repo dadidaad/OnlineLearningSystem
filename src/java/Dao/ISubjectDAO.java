@@ -9,6 +9,7 @@
 package Dao;
 
 import Bean.SubjectBean;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,18 @@ import java.util.Map;
  */
 
 public interface ISubjectDAO {
-    public ArrayList<SubjectBean> getAllSubject(); //Lisst all Subject from database
+    /**
+     * getAllSubject method implement from ISubjectDAO
+     * 
+     * @return subjects. <code>java.util.ArrayList</code> object  
+     * @throws java.sql.SQLException  
+     */
+    public ArrayList<SubjectBean> getAllSubject() throws SQLException; //Lisst all Subject from database
+    
+    /**
+     * getSubjectNames method implement from ISubjectDAO
+     * 
+     * @return subjectNames. <code>java.util.Map</code> object
+     */
     public Map<Integer, String> getSubjectNames();//Lisst all and hash ID and Name of Subject from database
 }

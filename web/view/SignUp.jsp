@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Sign Up</title>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
         <link href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -58,16 +58,16 @@
                             <div id="signup-part" class="content" role="tabpanel" aria-labelledby="signup-part-trigger">
                                 <div class=" d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="signUpForm">
                                     <h4 class="text-center text-dark">Sign Up</h4>
-                                    <form class="" id="signup-form">
+                                    <form id="signup-form" action="SignUp" method="post">
                                         <div class="form__group mb-3">
                                             <input type="text" id="username" class="form__field" name="username" placeholder="Username"  required />
                                             <label for="username" class="form__label">Username</label>
-                                            <div id="notiExistUser" class="small"></div>
+                                            <div id="notiExistUser" class="small text-danger"></div>
                                         </div>
                                         <div class="form__group mb-3">
                                             <input type="email" id="email" class="form__field" name="email" placeholder="Email" required />
                                             <label for="email" class="form__label">Email</label>
-                                            <div id="notiExistMail" class="small"></div>
+                                            <div id="notiExistMail" class="small text-danger"></div>
                                         </div>
                                         <div class="form__group mb-3">
                                             <select id="sex" name="sex" class="form__field" required>
@@ -85,23 +85,27 @@
                                             <label class="form__label" for="confirmPassword">Confirm Password</label>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" class="btn btn-success btn-lg px-5 mt-2 btn-next" id="signup-btn">Sign Up</button>
+                                            <button type="submit" class="btn btn-success btn-lg px-5 mt-2 btn-next" id="signup-btn">Sign Up</button>
                                         </div>
                                     </form>
+                                    <div id="notiRes" class="text-danger small"></div>
+                                    <p class="text-dark">Already have an account?<a href="<i:ReadUrlFromContext url="/Login"/>" class="text-primary">Return login screen</a></p>
                                 </div>
                             </div>
                             <div id="captcha-part" class="content" role="tabpanel" aria-labelledby="captcha-part-trigger"> 
                                 <div class="d-flex justify-content-center align-items-center flex-column flex-fill">
-                                    <div class="form__group mb-3">
-                                        <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" />
-                                        <label for="captcha" class="form__label">Captcha</label>
-                                        <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
-                                    </div>
-                                    <div id="notiCaptcha" class="small"></div>
-                                    <div class="d-flex">
-                                        <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
-                                        <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn">Next</button>
-                                    </div>
+                                    <form action="VerifyCaptcha" method="post" id="verifytoken-form">
+                                        <div class="form__group mb-3">
+                                            <input type="text" id="captcha" class="form__field" name="captcha" placeholder="Captcha" required/>
+                                            <label for="captcha" class="form__label" name="captcha" id="captcha">Captcha</label>
+                                            <button type="button" class="btn btn-primary" id="resend-btn">Resend captcha</button>
+                                        </div>
+                                        <div id="notiCaptcha" class="small text-danger"></div>
+                                        <div class="d-flex">
+                                            <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
+                                            <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn" type="submit">Verify</button>
+                                        </div>
+                                    </form>
                                     <p class="text-dark">Input captcha we send to your mail</p>
                                 </div>
                             </div>
@@ -121,7 +125,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-        <jsp:include page="./callAjaxToRegister.jsp"></jsp:include>
-        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorInput.js"/>"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CallAjaxForRegister.js"/>"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidateInputForm.js"/>"></script>
     </body>
 </html>

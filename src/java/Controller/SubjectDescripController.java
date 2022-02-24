@@ -16,7 +16,10 @@ import Dao.ISubjectDAO;
 import Dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,16 +47,6 @@ public class SubjectDescripController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SubjectDescripController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SubjectDescripController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -75,13 +68,13 @@ public class SubjectDescripController extends HttpServlet {
                 
                 /*Use DAO class to get data from database for Chapter with corresponding SubjectID*/
                 ArrayList<ChapterBean> chapters = new ArrayList<>();
-                IChapterDAO dao1 = new ChapterDAO();
-                chapters = dao1.getBySubId(Integer.parseInt(subjectId));
+                IChapterDAO chapterDAO = new ChapterDAO();
+                chapters = chapterDAO.getBySubId(Integer.parseInt(subjectId));
                 
                 /*Use DAO class to get data from database for all Subject*/
                 ArrayList <SubjectBean> subjects = new ArrayList<>();
-                ISubjectDAO dao2 = new SubjectDAO(); //Use ISubjectDAO interface to call
-                subjects = dao2.getAllSubject();
+                ISubjectDAO subjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                subjects = subjectDAO.getAllSubject();
                 
                 /*Get Subject with corresponding SubjectID from request*/
                 SubjectBean currentSubject = new SubjectBean();
@@ -90,12 +83,15 @@ public class SubjectDescripController extends HttpServlet {
                         currentSubject = subjects.get(i);
                     }
                 }
+                
                 /*Attach Attribute for request and redirect it to SubjectDetail.jsp*/
                 request.setAttribute("subjects", subjects);
                 request.setAttribute("chapters", chapters);
                 request.setAttribute("currentSubject", currentSubject);
                 request.getRequestDispatcher("./view/SubjectDetail.jsp").forward(request, response);
-            }
+            } catch (SQLException ex) {
+            Logger.getLogger(SubjectDescripController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

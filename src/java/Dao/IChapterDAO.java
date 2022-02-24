@@ -19,6 +19,19 @@ import java.util.ArrayList;
  * @author Doan Tu
  */
 public interface IChapterDAO {
+    /**
+     * getAllSubject method implement from IChapterDAO
+     * 
+     * @param subId ID of Subject which Chapter belongs <code>java.lang.Integer</code> object
+     * @return chapters. <code>java.util.ArrayList</code> object
+     */
     public ArrayList<ChapterBean> getBySubId(int subId); //Get All Chapter with coresponding SubjectID
+    
+    /**
+     * getChapterById method implement from IChapterDAO
+     * 
+     * @param chapId ID of the Chapter. <code>java.lang.Integer</code> object
+     * @return chapter <code>Bean.ChapterBean</code> object
+     */
     public ChapterBean getChapterById(int chapId);//Get all Chapter with coresponding ChapterID
 }

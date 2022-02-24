@@ -5,20 +5,24 @@
  */
 package Controller;
 
-import Bean.AccountBean;
-import Dao.AccountDAO;
+import Bean.ArticleBean;
+import Dao.ArticleDAO;
+import Dao.IArticleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Admin
+ * @author hoang
  */
-public class CheckAccountController extends HttpServlet {
+@WebServlet(name = "SearchInArticle", urlPatterns = {"/searcharticle"})
+public class SearchInArticle extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +41,10 @@ public class CheckAccountController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckAccountController</title>");
+            out.println("<title>Servlet SearchInArticle</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CheckAccountController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchInArticle at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,14 +76,40 @@ public class CheckAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        AccountDAO accountDAO = new AccountDAO();
-        AccountBean accountGetFromDb = accountDAO.getAccountByUsername(username);
-        if (accountGetFromDb != null) {
-            response.getWriter().write("exist");
-        } else {
-            response.getWriter().write("not exist");
+         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+         IArticleDAO articleDAO = new ArticleDAO();
+        String txt=request.getParameter("name").replaceAll("\\s\\s+", " ").trim();
+        
+         String indexpage = request.getParameter("index");
+        /*Caculate total page*/
+        if (indexpage == null) {
+            indexpage = "1";
         }
+        /*Caculate total page*/
+        int idex = Integer.parseInt(indexpage);
+        int count = articleDAO.totalSearchArticle(txt);
+        int endPage = count / 6;
+        if (count % 6 != 0) {
+            endPage++;
+        }
+        //get top 4 newest article and total article
+        List<ArticleBean> list = articleDAO.pagingSearchArticle(idex,txt);
+
+        List<ArticleBean> list2 = articleDAO.getTop4Article();
+         request.setAttribute("listT", list2);
+         request.setAttribute("txtS", txt);
+        if(list.size()==0){
+             request.setAttribute("message","There is no title of Article");
+        }
+        else{
+      
+        //Attach Attribute for request and redirect it to ListArticle.jsp
+        request.setAttribute("listP", list);
+        request.setAttribute("tag", idex);
+        request.setAttribute("endP", endPage);
+        }
+        request.getRequestDispatcher("./view/ListArticle.jsp").forward(request, response);
     }
 
     /**

@@ -18,5 +18,11 @@ import java.util.ArrayList;
  * @author Doan Tu
  */
 public interface IKnowledgeDAO {
+    /**
+     * getByChapterId method implement from IKnowledgeDAO
+     * 
+     * @param chapId ID of Chapter which Knowledge belongs. <code>java.lang.Intege</code>
+     * @return knowledges. <code>java.util.ArrayList</code> object
+     */
     public ArrayList<KnowledgeBean> getByChapterId(int chapId);// Get all Knowledge with coresponding ChapterID
 }

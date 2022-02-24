@@ -35,6 +35,8 @@
 			</div>
 				
 			<p> ${ article.description }</p>
+                   
+        <!--section end of detail article-->
                         
 	<!--section comment article-->		
 	<h4>Comments:</h4>
@@ -76,6 +78,7 @@
 	</div>
 		</div>
 	</div>
+                        <!-- end of section comment article-->	
                             <%@include file="./footer.jsp" %>
     </body>
 </html>

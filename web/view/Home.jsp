@@ -1,7 +1,7 @@
 <%-- 
     Document   : Home
     Created on : Jan 16, 2022, 10:27:18 PM
-    Author     : win
+    Author     : Hoang ngoc Long
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,10 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
+        
+        
+          <!-- Link to bootstrap fontawesome and Boxicon -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/7ca0ffd650.js" crossorigin="anonymous"></script>
-        <title>JSP Page</title>
+        <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
+        <title>Home page</title>
     </head>
     <body>
         <!-- Include header of web site from general-->
@@ -48,7 +52,6 @@
                         <div class="col-md-6">
                             <h3 class="title">Tutor duo</h3>
                             <p>why do you choose this website </p>
-                            <a href="#" class="link-btn">read more</a>
                             <div class="icons-container">
                                 <div class="icons">
                                     <i class="fas fa-book-open"></i>

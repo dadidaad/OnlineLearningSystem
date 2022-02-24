@@ -3,7 +3,6 @@
     Created on : Feb 13, 2022, 6:43:19 PM
     Author     : Dajtvox
 --%>
-<%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
 <script>
     var stepper = new Stepper(document.querySelector("#stepper"));
     function next() {

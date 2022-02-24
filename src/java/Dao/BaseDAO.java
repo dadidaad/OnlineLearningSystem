@@ -1,8 +1,7 @@
 package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.SQLException;
 /**
  *
  * Get connection to database
@@ -10,12 +9,11 @@ import java.util.logging.Logger;
 public class BaseDAO {
 
     private static String DB_URL = "jdbc:sqlserver://localhost:1433;"
-            + "databaseName=OnlineLearningSystem;"
-            + "integratedSecurity=true";
-    private static String USER_NAME = "sa1";
+            + "databaseName=OnlineLearningSystem;";
+    private static String USER_NAME = "sa";
     private static String PASSWORD = "123";
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException {
         Connection conn = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -24,8 +22,5 @@ public class BaseDAO {
             ex.printStackTrace();
         }
         return conn;
-    }
-    public static void main(String[] args) {
-        System.out.println(getConnection());
     }
 }

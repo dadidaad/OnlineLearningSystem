@@ -1,15 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * VerifyAccountController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         DajtVox    First Implement
  */
 package Controller;
 
 import Bean.AccountBean;
 import Dao.AccountDAO;
+import Dao.IAccountDAO;
 import Utils.SendMailVerify;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,51 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This is a Servlet responsible for handling verify captcha of the sign up
+ * function Extend HttpServlet class
  *
- * @author Admin
+ * @author DajtVox
  */
 public class VerifyAccountController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet VerifyAccountController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet VerifyAccountController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -74,34 +42,35 @@ public class VerifyAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        AccountBean userInput = new AccountBean();
-        if(username == null || username.equalsIgnoreCase("")){
-            AccountDAO accountDAO = new AccountDAO();
-            userInput =  accountDAO.getAccountByMail(email);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
+        try(PrintWriter out = response.getWriter()){
+            String captcha = request.getParameter("captcha"); //get catpcha from request
+            HttpSession session = request.getSession(false); //call session from request
+            AccountBean newUser = (AccountBean) session.getAttribute("userRes"); //call newUser from session create in SignUpController
+            if(newUser == null){
+                out.print("Time out for captcha!! Please create new one!!"); //check if session is still exist, if no then return
+                return;
+            }
+            boolean checkToken = captcha.equals(newUser.getToken()); //create boolean to check equals with input captcha and captcha in session
+            if(checkToken){
+                IAccountDAO accountDAO = new AccountDAO();
+                boolean checkInsertAccount = accountDAO.insertNewAccount(newUser); //insert account in session to database
+                /*check status of inserting*/
+                if(checkInsertAccount){
+                    out.print("success");
+                }
+                else{
+                    out.print("Error when create new account!! Please try again!!");
+                }
+            }
+            else{
+                out.print("Invalid captcha");
+            }
         }
-        SendMailVerify mailUtils = new SendMailVerify();
-        String token = mailUtils.generateCaptchaString();
-        userInput.setToken(token);
-        boolean sendMailStatus = mailUtils.sendEmail(userInput);
-        while (sendMailStatus == false) {
-            mailUtils.sendEmail(userInput);
+        catch(Exception ex){
+             Logger.getLogger(VerifyAccountController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(900);
-        session.setAttribute("userSignUp", userInput);
-        response.getWriter().write(userInput.getToken());
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
