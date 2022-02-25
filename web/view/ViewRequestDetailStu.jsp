@@ -1,7 +1,12 @@
 <%-- 
-    Document   : ViewRequestDetailStu
-    Created on : Feb 11, 2022, 9:40:56 PM
-    Author     : Duc Minh
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * ViewRequestDetailStu
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+
 --%>
 
 
@@ -30,6 +35,7 @@
         <title>Request Handling</title>
     </head>
     <body>
+         <!-- Include header of web site from general-->
          <jsp:include page="./header.jsp"></jsp:include>
         <div id="wrapper" class="d-flex">
             <!-- Sidebar -->
@@ -51,7 +57,7 @@
               >
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="listAllRequestStu">
+              <a class="nav-link" href="ListAllRequest">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >
@@ -83,12 +89,12 @@
               <a class="createRequestBtn" href="CreateRequest">Creare Request</a>
             </div>
             <div class="backBtn-container">
-              <a class="backBtn" href="ListAllRequestStu"
+              <a class="backBtn" href="ListAllRequest"
                 ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
               >
             </div>
             <hr />
-            <!-- Response Content -->
+    <!-- Response Content for Request-->
             <div class="response-container row">
               <div class="responseContent--main col-sm-8">
                 <div class="responseContent--img">
@@ -105,14 +111,14 @@
                   />
                   </c:if>
                 </div>
+                    
                 <div class="responseContent--text form-group">
                 <c:if test = "${requestScope.requestReply==null}">
                   <p>Please waiting for teacher. Don't worry ^__^</p>
                 </c:if>
                 <c:if test = "${requestScope.requestReply!=null}"> 
                   <label for="AnswerTextarea">Answer</label>
-                  <textarea class="AnswerTextarea" id="AnswerTextarea" rows="8" readonly>
-${requestScope.requestReply.getContentReply()}</textarea
+                  <textarea class="AnswerTextarea" id="AnswerTextarea" rows="8" readonly>${requestScope.requestReply.getContentReply()}</textarea
                   >
                 </c:if>   
                 </div>
@@ -125,7 +131,7 @@ ${requestScope.requestReply.getContentReply()}</textarea
             </c:if>
                   
               </div>
-              <!-- Request Info -->
+    <!-- Request Info -->
               <div class="responseContent--info mb-4 col-sm-4">
                 <div class="card shadow p-2">
                   <h5 class="text-center">Content Request</h5>
@@ -150,11 +156,12 @@ ${requestScope.requestReply.getContentReply()}</textarea
                         <em>Image: </em><span></span
                         ><img
                           class="imgZoom"
-                          src="${requestScope.request.getImageLink()}"
+                          src="<i:ReadUrlFromContext url="${requestScope.request.getImageLink()}"/>"
                           alt=""
                         />
                       </li>
                     </ul>
+        <!--Update and Delete Request Button-->                  
                     <div class="responseContent--btn">
                         <a href="UpdateRequest?requestId=${requestScope.request.getRequestID()}" style="margin-right: 32px;" class="btn btn-update">
                         <i class="far fa-edit"></i> Update</a
@@ -184,6 +191,8 @@ ${requestScope.requestReply.getContentReply()}</textarea
             <img class="modal-content--Img" id="img01" />
             <div id="caption"></div>
         </div>
+    
+    
     <!-- Footer -->
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->

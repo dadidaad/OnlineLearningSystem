@@ -52,3 +52,8 @@
 .table-hover .requestBtn.select {
   background-color: black;
 }
+label.error {
+    display:block;
+    width:100%;
+    color:red;
+}

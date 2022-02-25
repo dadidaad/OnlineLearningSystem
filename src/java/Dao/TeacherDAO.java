@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * SubjectDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Duc Minh    First Implement
+ */
+
 package Dao;
 
 import Bean.TeacherBean;
@@ -10,24 +19,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *Document: TeacherDAO handle data for Teacher bean from database
- * Create on: Feb 10, 2022, 9:12:04 PM
+ * This class contain method to find Teacher information from database
+ * Extend BaseDAO class to call getConnection() method
+ * Implement ITeacherDAO Interface
+ * 
  * @author Duc Minh
  */
 public class TeacherDAO extends BaseDAO implements ITeacherDAO{
 
-/**    This method get all the teacher has approved from Admin and ready to reply request from student
- **/
+    /**
+     * getAllTeacher method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
     @Override
     public ArrayList<TeacherBean> getAllTeacher() {
         ArrayList<TeacherBean> teachers = new ArrayList<>();
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select Account.*,Tutor.*\n" +
                         "from Account, Tutor\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='tutor' and Tutor.Status= 'approved'";
+                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status= 'approved'";
             PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Request*/
             while(rs.next())
             {
                 TeacherBean teacher = new TeacherBean();
@@ -50,19 +68,49 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
                         
                 teachers.add(teacher);
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return teachers;
     }
-    public static void main(String[] args) {
-        TeacherDAO dal = new TeacherDAO();
-        ArrayList<TeacherBean> teachers = dal.getAllTeacher();
-        
-        for(TeacherBean t : teachers){
-            System.out.println(t);
-        }
-    }
     
+    
+    /**
+     * getSubjectId method implement from ITeacherDAO
+     * get the id subject of teacher from database
+     * @return subjectId. <code>Integer</code> object  
+     */
+
+    @Override
+    public int getSubjectId(String usernameTeacher) {
+        int subjectId = 0;
+        try {
+             /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select *\n" +
+                    "from Tutor\n" +
+                    "where Username = ? ";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            
+            statement.setString(1, usernameTeacher);
+            /*Excuse Query*/
+            ResultSet rs = statement.executeQuery();
+            
+            while(rs.next())
+            {
+                subjectId = rs.getInt("SubjectID");
+            }
+            /*Close all the connection */
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subjectId;
+    }
+
 }

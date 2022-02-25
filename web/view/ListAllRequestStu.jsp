@@ -1,5 +1,5 @@
 <%-- 
-    Document   : listAllRequestStu
+    Document   : ListAllRequestStu
     Created on : Feb 10, 2022, 4:43:23 PM
     Author     : Duc Minh
 --%>
@@ -29,6 +29,7 @@
         <title>Request List</title>
     </head>
     <body>
+         <!-- Include header of web site from general-->
          <jsp:include page="./header.jsp"></jsp:include>
         <div id="wrapper" class="d-flex">
             <!-- Sidebar -->
@@ -88,13 +89,13 @@
               <div class="navbar--top__container" id="navbarNav">
                 <ul class="navbar--top">
                   <li class="nav-item active">
-                    <a class="nav-link" href="ListAllRequest?rqStatus=Waiting">Pending Request</span></a>
+                    <a class="nav-link" href="#" value="Waiting">Pending Request</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="ListAllRequest?rqStatus=Approved">Done Request</a>
+                    <a class="nav-link" href="#" value="Approved">Done Request</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="ListAllRequest?rqStatus=Report">Report Processing</a>
+                    <a class="nav-link" href="#" value="Report">Report Processing</a>
                   </li>
                   
                 </ul>
@@ -127,12 +128,12 @@
                         <th>Detail</th>
                       </tr>
                     </tfoot>
-                    <tbody>
+                    <tbody id="changeData">
 
                     <c:forEach items="${requestScope.requests}" var ="r" varStatus="loop">   
                       <tr>
                         <td>${loop.index+1}</td>
-                        <td><fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${r.getCreatedTime()}" /></td>
+                        <td><fmt:formatDate pattern="dd/MM/yyyy" value = "${r.getCreatedTime()}" /></td>
                         <td>${r.getTitle()}</td>
                         <td>Class ${r.getLevel()}</td>
                         <td>${requestScope.subjectNames.get(r.getSubjectID())}</td>
@@ -165,15 +166,20 @@
     <!-- Footer -->
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->
+   
+    <!--Ajax Library-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    
+     <!-- link to java script file -->
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/RequestListStu.js"/>"></script>
+    <script src="<i:ReadUrlFromContext url="/assets/js/ChangeRequestByAjax.js"/>"></script>
     
     <!-- Datatable Jquery library -->    
       <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
       <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
-
-     <!-- link to java script file -->
-    <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/RequestListStu.js"/>"></script>
-
+   
     </body>
 </html>

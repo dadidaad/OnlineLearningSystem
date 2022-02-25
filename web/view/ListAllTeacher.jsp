@@ -26,7 +26,7 @@
         <title>Teacher Ranking</title>
     </head>
     <body>
-        <!--Header File-->
+        <!-- Include header of web site from general-->
         <jsp:include page="./header.jsp"></jsp:include>
         
         <div id="wrapper" class="d-flex">
@@ -41,14 +41,14 @@
 
         <!-- Nav Item  -->
 
-       <li class="nav-item">
+       <li class="nav-item active">
               <a class="nav-link" href="ListAllTeacher">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Teacher List</span></a
               >
         </li>
-        <li class="nav-item active">
-              <a class="nav-link" href="listAllRequestStu">
+        <li class="nav-item">
+              <a class="nav-link" href="ListAllRequest">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Request List</span> </a
               >
@@ -77,7 +77,7 @@
             <!-- Page Heading -->
             <div class="card--top"></div>
             
-            <!-- DataTales Example -->
+        <!-- Requests DataTales -->
             <div class="card shadow mb-4">
               <h1>Teacher Ranking</h1>
               <p>List of all the teachers in our system is sorted by student-rated reputation.</p>
@@ -96,7 +96,9 @@
                         <th>Reputation</th>
                         <th>Subject</th>
                         <th>CV</th>
+                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <th>Request</th>
+                      </c:if>
                       </tr>
                     </thead>
                     <tfoot>
@@ -106,7 +108,9 @@
                         <th>Reputation</th>
                         <th>Subject</th>
                         <th>CV</th>
+                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <th>Request</th>
+                      </c:if>  
                       </tr>
                     </tfoot>
                     <tbody>
@@ -120,7 +124,7 @@
                           <a class="teacherInfo" href="#"
                             ><img
                               class="teacherAvt"
-                              src="${t.getAvatar()}"
+                              src="<i:ReadUrlFromContext url="${t.getAvatar()}"/>"
                               alt=""
                             />${t.getDisplayName()}</a
                           >
@@ -134,9 +138,11 @@
                             alt=""
                           />
                         </td>
+                        <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
                         <td>
                           <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}"><i class="far fa-share-square"></i></a>
                         </td>
+                        </c:if>
                       </tr>
                       
                       </c:forEach>   
@@ -158,6 +164,8 @@
     <!-- Footer -->
     <%@include file="./footer.jsp" %>
     <!-- End of Footer -->
+    
+    
     <!-- Modal Image -->
     <div id="myModal" class="modal--Img">
       <span class="close--Img">&times;</span>

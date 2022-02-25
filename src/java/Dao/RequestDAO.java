@@ -1,3 +1,11 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * ChapterDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Duc Minh   First Implement
+ */
 package Dao;
 
 import Bean.RequestBean;
@@ -11,24 +19,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *Document: RequestDAO handle data for Request bean from database
- * Create on: Feb 10, 2022, 9:12:04 PM
+ * This class contain method to find Request information from database
+ * Extend BaseDAO class to call getConnection() method
+ * Implement IRequestDAO Interface
+ * 
  * @author Duc Minh
  */
 public class RequestDAO extends BaseDAO implements IRequestDAO{
 
     
-/**    This method get all the request from database
- **/
+    /**
+     * getAllRequest method implement from IRequestDAO
+     * 
+     * @return requests. <code>java.util.ArrayList</code> object  
+     */
     @Override
     public ArrayList<RequestBean> getAllRequest() {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select *\n" +
                          "from Request";
             PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Request*/
             while(rs.next())
             {
                 RequestBean request = new RequestBean();
@@ -46,17 +63,26 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
                         
                 requests.add(request);
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
+            /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }         
         return requests;
     }
-/**    This method get all the request by id from database
- **/
+    
+    /**
+     * getRequestById method implement from IRequestDAO
+     * 
+     * @return request. <code>Bean.RequestBean</code> object  
+     */
     @Override
     public RequestBean getRequestById(int rqId) {
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select *\n" +
                     "from Request\n" +
@@ -64,6 +90,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, rqId);
             
+            /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -82,6 +109,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
                         
                 return request;
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,20 +119,25 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         return null;
     }
     
-/**    This method get all the request by status from database
- **/
+    /**
+     * getRequestByStatus method implement from IRequestDAO
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
+     */
     @Override
-    public ArrayList<RequestBean> getRequestByStatus(String username, String rqStatus) {
+    public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select *\n" +
                     "from Request\n" +
-                    "where Status =? and Student_sent = ?";
+                    "where Status =? and Student_sent = ? order by CreatedTime desc";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             
+            /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -122,18 +157,72 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
                         
                 requests.add(request);
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return requests;
     }
-/**    This method get all the request by Subject from database
- **/
+    /**
+     * getRequestByStatus method implement from IRequestDAO
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
+     */
+    @Override
+    public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus) {
+        ArrayList<RequestBean> requests = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select *\n" +
+                    "from Request\n" +
+                    "where Status =? and SubjectID = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setInt(2, subjectId);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                RequestBean request = new RequestBean();
+                request.setRequestID(rs.getInt("RequestID"));
+                request.setStudentSent(rs.getString("Student_sent"));
+                request.setTutorGet(rs.getString("Tutor_get"));
+                request.setCreatedTime(rs.getDate("CreatedTime"));
+                request.setStatus(rs.getString("Status"));
+                request.setCost(rs.getInt("Cost"));
+                request.setContent(rs.getString("Content"));
+                request.setImageLink(rs.getString("Image"));
+                request.setSubjectID(rs.getInt("SubjectID"));
+                request.setLevel(rs.getInt("Level"));
+                request.setTitle(rs.getString("Title"));
+                
+                        
+                requests.add(request);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requests;
+    }
+    /**
+     * getRequestBySubject method implement from IRequestDAO
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
+     */
     @Override
     public ArrayList<RequestBean> getRequestBySubject(int subjectId) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select *\n" +
                     "from Request\n" +
@@ -141,6 +230,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, subjectId);
             
+            /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -160,6 +250,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
                         
                 requests.add(request);
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,11 +260,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         return requests;
     }
     
-/**    This method create the request and update to database
- **/
+    /**
+     * createRequest method implement from IRequestDAO
+     * This method create request and add to the databse
+     */
     @Override
     public void createRequest(RequestBean rq) {
        try {
+           /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "insert into Request(Student_sent, Tutor_get, CreatedTime, [Status], Cost, Content, [Image], SubjectID,"
                     + "Level, Title) \n" +
@@ -186,23 +282,30 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             statement.setInt(7, rq.getLevel());
             statement.setString(8, rq.getTitle());
 
-            
+            /*Excuse Query*/
             statement.executeUpdate();
             
+            /*Close all the connection */
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-/**    This method update the request and update to database
- **/
+    /**
+     * updateRequest method implement from IRequestDAO
+     * This method update the request and update to database
+     */
+
     @Override
     public void updateRequest(RequestBean rq) {
          try {
+             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "update Request\n" +
-"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?, Level = ?, Title = ? WHERE RequestID = ?";
+"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?,"
+                    + " Level = ?, Title = ?,CreatedTime = GETDATE()  WHERE RequestID = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rq.getTutorGet());
             statement.setInt(2, rq.getCost());
@@ -214,20 +317,25 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             statement.setInt(8, rq.getRequestID());
             
 
-            
+            /*Excuse Query*/
             statement.executeUpdate();
             
+            /*Close all the connection */
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    /**    This method update the status of request and update to database
- **/
+    /**
+     * updateRequestStatus method implement from IRequestDAO
+     * This method update the status of request and update to database
+     */
     @Override
     public void updateRequestStatus(String status, int requestId) {
          try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "update Request\n" +
                     "set [Status] = ?\n" +
@@ -237,9 +345,12 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             statement.setInt(2, requestId);
             
 
-            
+            /*Excuse Query*/
             statement.executeUpdate();
             
+            /*Close all the connection */
+            
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,29 +358,40 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
     }
     
 
-/**    This method delete the request and update to database
- **/
+    /**
+     * deleteRequest method implement from IRequestDAO
+     * This method delete the request to database
+     */
     @Override
     public void deleteRequest(int rqId) {
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "delete from Request where RequestID = ? ";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, rqId);
             
+            /*Excuse Query*/
             statement.executeUpdate();
             
+            /*Close all the connection */
+           
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-/**    This method get the request Reply by id from database
- **/
+    /**
+     * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
+     * This method get the request reply from to database
+     * @return request. <code>Bean.RequestBean</code> object 
+     */
     @Override
     public RequestReplyBean getRequestReplyById(int rqId) {
         try {
+            /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select *\n" +
                     "from Request_Reply\n" +
@@ -277,6 +399,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, rqId);
             
+            /*Excuse Query and Get data*/
             ResultSet rs = statement.executeQuery();
             while(rs.next())
             {
@@ -290,6 +413,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
                         
                 return request;
             }
+           /*Close all the connection */
+            
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,11 +423,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         return null;
     }
     
-/**    This method insert the request Reply to database
- **/     
+    /**
+     * createRequestReply method implement from IRequestDAO
+     * This method create the request reply to database
+     */  
     @Override
     public void createRequestReply(RequestReplyBean rq) {
        try {
+           /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "insert into Request_Reply(RequestID,Tutor_sent,Student_get,CreatedTime,Content_reply,Image_reply)\n" +
                                 "values(?, ?, ?, GETDATE(), ?, ?)";
@@ -312,47 +441,37 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             statement.setString(4, rq.getContentReply());
             statement.setString(5, rq.getImageLinkReply());
 
-            
+            /*Excuse Query*/
             statement.executeUpdate();
             
+           /*Close all the connection */
+            
+            statement.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public static void main(String[] args) {
-        RequestDAO dal = new RequestDAO();
-        ArrayList<RequestBean> requests = dal.getRequestBySubject(1);
-//        RequestReplyBean rq = dal.getRequestReplyById(3);
-//        RequestBean rq = dal.getRequestById(28);
-//        System.out.println(rq);
-//        RequestBean rq = new RequestBean("minhduc07", "minhanh01", "Waiting", 50000, "de bai so 1", "img", 1, 11, "giup em vs co minh anh");
-//        dal.createRequest(rq);
-//        RequestBean rq = new RequestBean(26, null, "Waiting", 25000, "de bai so 1", "img2", "1");
-//        dal.updateRequest(rq);
-//        dal.deleteRequest(24);
-//        for(RequestBean t : requests){
-//            System.out.println(t);
-//        }
-//        dal.updateRequestStatus("Report",3); 
-
+         
+            String sql = "update Request\n" +
+"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?,"
+                    + " Level = ?, Title = ?,  WHERE RequestID = ?, CreatedTime = GETDATE()";
         RequestBean rq = new RequestBean();
-        rq.setRequestID(28);
+        
+        rq.setRequestID(53);
         rq.setStudentSent("minhduc07");
-        rq.setTutorGet("minhanh01");
-        rq.setCost(Integer.parseInt("10000"));
-        rq.setContent("update");
+        rq.setTutorGet(null);
+        rq.setCost(Integer.parseInt("20000"));
+        rq.setContent("bai tap toan co loi giai");
         rq.setImageLink("img");
         rq.setSubjectID(Integer.parseInt("1"));
-        rq.setLevel(Integer.parseInt("12"));
-        rq.setTitle("test update o dao");
+        rq.setLevel(Integer.parseInt("11"));
+        rq.setTitle("tieu update 12h54");
         
         IRequestDAO iRequestDAO = new RequestDAO();
         iRequestDAO.updateRequest(rq);
+        System.out.println("Done");    
 
     }
-
-   
-
-    
 }
