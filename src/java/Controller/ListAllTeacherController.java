@@ -18,15 +18,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to see the list of Teacher
- * /ListALlTeacher is the URL of the Servlet
- * Extend HttpServlet class
+ * This is a Servlet responsible for handling the task when the user wants to
+ * see the list of Teacher /ListALlTeacher is the URL of the Servlet Extend
+ * HttpServlet class
+ *
  * @author Duc Minh
  */
 public class ListAllTeacherController extends HttpServlet {
@@ -43,21 +46,20 @@ public class ListAllTeacherController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-                ArrayList <TeacherBean> teacherList = new ArrayList<>();
-                ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-                teacherList = iTeacherDAO.getAllTeacher();
-                
-                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
-                
-                /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
-                request.setAttribute("subjectNames", SubjectNames);
-                request.setAttribute("teachers", teacherList);
-                request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
-        }catch(Exception e){
-        
+            ArrayList<TeacherBean> teacherList = new ArrayList<>();
+            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
+            teacherList = iTeacherDAO.getAllTeacher();
+
+            ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+            Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+
+            /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
+            request.setAttribute("subjectNames", SubjectNames);
+            request.setAttribute("teachers", teacherList);
+            request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ListAllTeacherController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
 }

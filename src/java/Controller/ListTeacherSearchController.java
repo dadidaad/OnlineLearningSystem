@@ -1,11 +1,16 @@
 package Controller;
 
 import Bean.TeacherBean;
+import Dao.ISubjectDAO;
 import Dao.ITeacherDAO;
+import Dao.SubjectDAO;
 import Dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,19 +33,51 @@ public class ListTeacherSearchController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        
+            
             String searchString = request.getParameter("searchString");
             ITeacherDAO iTeacherDAO = new TeacherDAO();
+            ISubjectDAO iSubjectDAO = new SubjectDAO();
+            Map<Integer, String> listSubject = iSubjectDAO.getSubjectNames();
             ArrayList<TeacherBean> list = iTeacherDAO.getTeacherBySearching(searchString);
-            
-            out.print(list);
-        
-        }catch(Exception e){
-            
-        }
-    
-    }
+            if (list.size() == 0) {
+                out.print("<tr>List Empty</tr>");
+            } else {
+                for (TeacherBean x : list) {
+                    out.print("<tr>\n"
++ "                                                    <td>" + (list.indexOf(x) +1) + "</td>\n"
++ "                                                    <td>\n"
++ "                                                        <a class=\"teacherInfo\" href=\"#\"\n"
++ "                                                           ><img\n"
++ "                                                                class=\"teacherAvt\"\n"
++ "                                                                src=\"" + (request.getContextPath()+ x.getAvatar())+ "\"\n"
++ "                                                                alt=\"\"\n"
++ "                                                                />" + x.getDisplayName() + "</a\n"
++ "                                                        >\n"
++ "                                                    </td>\n"
++ "                                                    <td>4.1</td>\n"
++ "                                                    <td>"+ listSubject.get(x.getSubjectId())  +"</td>\n"
++ "                                                    <td>\n"
++ "                                                        <img\n"
++ "                                                            class=\"teacherCv imgZoom\"\n"
++ "                                                            src=\""+ (request.getContextPath() + x.getCvImg()) + "\"\n"
++ "                                                            alt=\"\"\n"
++ "                                                            />\n"
++ "                                                    </td>\n"
++ "                                                    <c:if test = \"${fn:toLowerCase(userRole) ne 'teacher'}\">\n"
++ "                                                        <td>\n"
++ "                                                            <a href=\"CreateRequest?teacherRcmFromList=" + x.getUsername() + "\"><i class=\"far fa-share-square\"></i></a>\n"
++ "                                                        </td>\n"
++ "                                                    </c:if>\n"
++ "                                                </tr>");
+                }
+            }
 
+        } catch (Exception ex) {
+            Logger.getLogger(ListAllTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
 }

@@ -2,12 +2,12 @@
     Created on : Feb 10, 2022, 7:45:38 AM
     Author     : win
 */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&display=swap");
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&display=swap");
 textarea:focus,
 input:focus {
   outline: none;

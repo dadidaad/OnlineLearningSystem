@@ -40,7 +40,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
             Connection conn = getConnection();
             String sql = "select Account.*,Tutor.*\n" +
                         "from Account, Tutor\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status= 'approved'";
+                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Status] = 'Approved'";
             PreparedStatement statement = conn.prepareStatement(sql);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
@@ -82,6 +82,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
     /**
      * getSubjectId method implement from ITeacherDAO
      * get the id subject of teacher from database
+     * @param usernameTeacher
      * @return subjectId. <code>Integer</code> object  
      */
 
@@ -126,7 +127,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
             Connection conn = getConnection();
             String sql = "select Account.*,Tutor.*, Subject.SubjectName\n" +
                     "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status= 'approved' and \n" +
+                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
                     "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? )";
             PreparedStatement statement = conn.prepareStatement(sql);
             
@@ -170,7 +171,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
     }
     public static void main(String[] args) {
         TeacherDAO dal = new TeacherDAO();
-        ArrayList<TeacherBean> list = dal.getTeacherBySearching("Mat");
+        ArrayList<TeacherBean> list = dal.getAllTeacher();
         for(TeacherBean t : list){
             System.out.println(t);
         }
