@@ -97,8 +97,11 @@ public class ChangeRequestByAjaxController extends HttpServlet {
         
         else if(account.getRole().equalsIgnoreCase("teacher")){ //If user is a teacher
         
-        requestList = iRequestDAO.getRequestForTeacher(iTeacherDAO.getSubjectId(account.getUsername()), rqStatus); 
-        
+            if(rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")){
+                requestList = iRequestDAO.getRequestForEachTeacher(account.getUsername(), iTeacherDAO.getSubjectId(account.getUsername()), rqStatus);
+            }else{
+            requestList = iRequestDAO.getRequestForTeacher(iTeacherDAO.getSubjectId(account.getUsername()), rqStatus); 
+            }
         //Sort the request list
         requestList = sortRequest.requestListSorted(requestList, account.getUsername());
             for (RequestBean r : requestList) {

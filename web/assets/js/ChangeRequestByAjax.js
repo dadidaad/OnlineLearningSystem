@@ -1,7 +1,7 @@
-$(function () {
+$(document).ready(function () {
     $("#navbarNav a").click(function () {
         var status = $(this).attr('value');
-
+        console.log("result");
         $.ajax({type: "GET",
             url: "/OnlineLearningSystem/ChangeRequestByAjax",
             data: {"rqStatus": status},

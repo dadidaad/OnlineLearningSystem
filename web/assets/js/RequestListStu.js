@@ -7,7 +7,3 @@ for (var i = 0; i < navItems.length; i++) {
         this.className += " active";
     });
 }
-// DataTable
-$(document).ready(function () {
-    $("#dataTable").DataTable();
-});

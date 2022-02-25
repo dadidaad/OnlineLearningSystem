@@ -100,6 +100,14 @@
         <servlet-name>HomeController</servlet-name>
         <servlet-class>Controller.HomeController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeRequestByAjaxController</servlet-name>
+        <servlet-class>Controller.ChangeRequestByAjaxController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListTeacherSearchController</servlet-name>
+        <servlet-class>Controller.ListTeacherSearchController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -199,6 +207,14 @@
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeRequestByAjaxController</servlet-name>
+        <url-pattern>/ChangeRequestByAjax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListTeacherSearchController</servlet-name>
+        <url-pattern>/ListTeacherSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

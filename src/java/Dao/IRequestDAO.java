@@ -78,11 +78,18 @@ public interface IRequestDAO {
     public void updateRequestStatus(String status, int requestId);
     
     /**
-     * getRequestByStatus method implement from IRequestDAO
+     * getRequestForTeacher method implement from IRequestDAO
      * 
      * @return request. <code>java.util.ArrayList</code> object  
      */
-    public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus);        
+    public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus);  
+    
+    /**
+     * getRequestForEachTeacher method implement from IRequestDAO
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
+     */
+    public ArrayList<RequestBean> getRequestForEachTeacher(String username, int subjectId, String rqStatus);  
     
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO

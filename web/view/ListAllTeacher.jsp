@@ -82,6 +82,21 @@
               <h1>Teacher Ranking</h1>
               <p>List of all the teachers in our system is sorted by student-rated reputation.</p>
               <div class="card-body">
+                <div class="row mt-3 mb-3">
+                  <div class="col-sm-12 col-md-6"></div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                      <label
+                        >Search:<input
+                          type="search"
+                          class="form-control form-control-sm"
+                          id ="searchString"
+                          placeholder=""
+                          aria-controls="dataTable"
+                      /></label>
+                    </div>
+                  </div>
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table table-striped tableTeacher"
@@ -113,7 +128,7 @@
                       </c:if>  
                       </tr>
                     </tfoot>
-                    <tbody>
+                    <tbody id="tbBody">
                     <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop"> 
                     <c:if test = "${requestScope.teachers.size()==0}">
                         <tr>List Empty</tr>
@@ -150,6 +165,48 @@
                     </tbody>
                   </table>
                 </div>
+                  <div class="row">
+                  <div class="col-sm-12 col-md-4"></div>
+                  <div class="col-sm-12 col-md-8">
+                    <div class="mt-3" id="dataTable_paginate">
+                      <ul class="pagination">
+                        <li
+                          class="paginate_button page-item previous disabled"
+                          id="dataTable_previous"
+                        >
+                          <a
+                            href="#"
+                            aria-controls="dataTable"
+                            data-dt-idx="0"
+                            tabindex="0"
+                            class="page-link"
+                            >Previous</a
+                          >
+                        </li>
+                        <li class="paginate_button page-item active">
+                          <a
+                            href="#"
+                            aria-controls="dataTable"
+                            data-dt-idx="1"
+                            tabindex="0"
+                            class="page-link"
+                            >1</a
+                          >
+                        </li>
+                        <li class="paginate_button page-item next disabled" id="dataTable_next">
+                          <a
+                            href="#"
+                            aria-controls="dataTable"
+                            data-dt-idx="2"
+                            tabindex="0"
+                            class="page-link"
+                            >Next</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,14 +230,32 @@
       <div id="caption"></div>
     </div>
     
-    <!-- Datatable Jquery library -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- link to java script file -->
     <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
-    <script src="<i:ReadUrlFromContext url="/assets/js/ListAllTeacher.js"/>"></script>
+    <!--<script src="<i:ReadUrlFromContext url="/assets/js/ListAllTeacher.js"/>"></script>-->
+    
+    <script>
+$(document).ready(function () {
+    $("#searchString").on('keyup', function () {
+        var searchString = $(this).val();
+        console.log(searchString);
+        $.ajax({
+            url: "/OnlineLearningSystem/ListTeacherSearch",
+            data: {"searchString": searchString},
+            type: "POST",
+            success: function (result)
+            {
+                console.log(result);
+//                $('#tbBody').empty();
+//                $('#tbBody').html(result);
+//            alert(status);
+                // This will show the values. Change "alert" for $('div#mydiv').html(value) or so
+            }
+        });
+    });
+});
+    </script>
     
     </body>
 </html>

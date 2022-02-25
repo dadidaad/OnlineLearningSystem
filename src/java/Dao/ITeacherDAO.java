@@ -32,4 +32,11 @@ public interface ITeacherDAO {
      * @return subjectId. <code>Integer</code> object  
      */
     public int getSubjectId(String usernameTeacher); 
+    
+   /**
+     * getTeacherBySearching method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString); 
 }

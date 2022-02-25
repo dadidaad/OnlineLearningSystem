@@ -167,7 +167,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         return requests;
     }
     /**
-     * getRequestByStatus method implement from IRequestDAO
+     * getRequestForTeacher method implement from IRequestDAO
      * 
      * @return request. <code>java.util.ArrayList</code> object  
      */
@@ -213,6 +213,57 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
         }
         return requests;
     }
+    
+    
+    /**
+     * getRequestForEachTeacher method implement from IRequestDAO
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
+     */
+     @Override
+    public ArrayList<RequestBean> getRequestForEachTeacher(String username, int subjectId, String rqStatus) {
+       ArrayList<RequestBean> requests = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select Request.*\n" +
+                "from Request, Request_Reply\n" +
+                "where Request.Status = ? and SubjectID = ? and Request_Reply.tutor_sent = ? ";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setInt(2, subjectId);
+            statement.setString(3, username);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                RequestBean request = new RequestBean();
+                request.setRequestID(rs.getInt("RequestID"));
+                request.setStudentSent(rs.getString("Student_sent"));
+                request.setTutorGet(rs.getString("Tutor_get"));
+                request.setCreatedTime(rs.getDate("CreatedTime"));
+                request.setStatus(rs.getString("Status"));
+                request.setCost(rs.getInt("Cost"));
+                request.setContent(rs.getString("Content"));
+                request.setImageLink(rs.getString("Image"));
+                request.setSubjectID(rs.getInt("SubjectID"));
+                request.setLevel(rs.getInt("Level"));
+                request.setTitle(rs.getString("Title"));
+                
+                        
+                requests.add(request);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requests;
+    }
+    
     /**
      * getRequestBySubject method implement from IRequestDAO
      * 
@@ -454,24 +505,28 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
     }
     public static void main(String[] args) {
          
-            String sql = "update Request\n" +
-"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?,"
-                    + " Level = ?, Title = ?,  WHERE RequestID = ?, CreatedTime = GETDATE()";
-        RequestBean rq = new RequestBean();
-        
-        rq.setRequestID(53);
-        rq.setStudentSent("minhduc07");
-        rq.setTutorGet(null);
-        rq.setCost(Integer.parseInt("20000"));
-        rq.setContent("bai tap toan co loi giai");
-        rq.setImageLink("img");
-        rq.setSubjectID(Integer.parseInt("1"));
-        rq.setLevel(Integer.parseInt("11"));
-        rq.setTitle("tieu update 12h54");
-        
+//            String sql = "update Request\n" +
+//"               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?,"
+//                    + " Level = ?, Title = ?,  WHERE RequestID = ?, CreatedTime = GETDATE()";
+//        RequestBean rq = new RequestBean();
+//        
+//        rq.setRequestID(53);
+//        rq.setStudentSent("minhduc07");
+//        rq.setTutorGet(null);
+//        rq.setCost(Integer.parseInt("20000"));
+//        rq.setContent("bai tap toan co loi giai");
+//        rq.setImageLink("img");
+//        rq.setSubjectID(Integer.parseInt("1"));
+//        rq.setLevel(Integer.parseInt("11"));
+//        rq.setTitle("tieu update 12h54");
+//        
         IRequestDAO iRequestDAO = new RequestDAO();
-        iRequestDAO.updateRequest(rq);
-        System.out.println("Done");    
-
+//        iRequestDAO.updateRequest(rq);
+//        System.out.println("Done");    
+    ArrayList<RequestBean> list = iRequestDAO.getRequestForEachTeacher("thuhuong", 1, "approved");
+        System.out.println(list.size());
+    
     }
+
+   
 }

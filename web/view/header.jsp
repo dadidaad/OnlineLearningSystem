@@ -25,7 +25,7 @@
                 <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Home"/>" class="nav-link active" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Forum</a></li>
                 <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Subject"/>" class="nav-link">Learning</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Request</a></li>
+                <li class="nav-item"><a href="ListAllTeacher" class="nav-link">Request</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">About</a></li>
             </ul>
             <c:set var="currentURI" value="${pageContext.request.requestURI}"></c:set>

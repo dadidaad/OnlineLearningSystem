@@ -113,4 +113,66 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
         return subjectId;
     }
 
+    /**
+     * getTeacherBySearching method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    @Override
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString) {
+        ArrayList<TeacherBean> teachers = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select Account.*,Tutor.*, Subject.SubjectName\n" +
+                    "from Account, Tutor, Subject \n" +
+                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status= 'approved' and \n" +
+                    "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? )";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            
+            statement.setString(1, "%"+searchString + "%");
+            statement.setString(2, "%"+searchString + "%");
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Request*/
+            while(rs.next())
+            {
+                TeacherBean teacher = new TeacherBean();
+                
+                teacher.setUsername(rs.getString("Username"));
+                teacher.setPassword(rs.getString("Password"));
+                teacher.setMail(rs.getString("Mail"));
+                teacher.setAvatar(rs.getString("Avatar"));
+                teacher.setDisplayName(rs.getString("DisplayName"));
+                teacher.setDateOfBirth(rs.getDate("DateOfBirth"));
+                teacher.setSex(rs.getBoolean("Sex"));
+                teacher.setDescription(rs.getString("Description"));
+                teacher.setCash(rs.getBigDecimal("Cash in account"));
+                teacher.setCreateDate(rs.getDate("CreatedDate"));
+                teacher.setRole(rs.getString("Role"));
+                teacher.setStatus(rs.getString("Status"));
+                teacher.setState(rs.getBoolean("State"));
+                teacher.setCvImg(rs.getString("CV"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
+                        
+                teachers.add(teacher);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return teachers;
+    }
+    public static void main(String[] args) {
+        TeacherDAO dal = new TeacherDAO();
+        ArrayList<TeacherBean> list = dal.getTeacherBySearching("Mat");
+        for(TeacherBean t : list){
+            System.out.println(t);
+        }
+    }
 }
