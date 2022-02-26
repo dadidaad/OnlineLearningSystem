@@ -21,38 +21,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class contain method to find Subject information from database
- * Extend BaseDAO class to call getConnection() method
- * Implement ISubjectDAO Interface
- * 
+ * This class contain method to find Subject information from database Extend
+ * BaseDAO class to call getConnection() method Implement ISubjectDAO Interface
+ *
  * @author Doan Tu
  */
-public class SubjectDAO extends BaseDAO implements ISubjectDAO{
+public class SubjectDAO extends BaseDAO implements ISubjectDAO {
 
     /**
      * getAllSubject method implement from ISubjectDAO
-     * 
-     * @return subjects. <code>java.util.ArrayList</code> object  
-     * @throws java.sql.SQLException  
+     *
+     * @return subjects. <code>java.util.ArrayList</code> object
+     * @throws java.sql.SQLException
      */
     @Override
     public ArrayList<SubjectBean> getAllSubject() throws SQLException {
         ArrayList<SubjectBean> subjects = new ArrayList<>();
         Connection conn = null;
-        PreparedStatement statement=null;
-        ResultSet rs =null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
             String sql = "select * from Subject";
             statement = conn.prepareStatement(sql);
-            
+
             /*Querry and save in ResultSet*/
             rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of SubjectBean*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 SubjectBean subject = new SubjectBean();
                 subject.setSubjectID(rs.getInt("SubjectID"));
                 subject.setSubjectName(rs.getString("SubjectName"));
@@ -62,7 +60,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             conn.close();
             statement.close();
             rs.close();
@@ -72,7 +70,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
 
     /**
      * getSubjectNames method implement from ISubjectDAO
-     * 
+     *
      * @return subjectNames. <code>java.util.Map</code> object
      */
     @Override
@@ -83,13 +81,12 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
             Connection conn = getConnection();
             String sql = "select * from Subject";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
+
             /*Querry and save in ResultSet*/
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of SubjectBean*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 subjectNames.put(rs.getInt("SubjectID"), rs.getString("SubjectName"));
             }
             conn.close();
@@ -98,5 +95,108 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO{
         }
         return subjectNames;
     }
-    
+
+    @Override
+    public int getNumberOfSubject() {
+        int numberOfSubject = 0;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            Connection conn = getConnection();
+            String sql = "select COUNT(*) as Number from Subject";
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            /*Querry and save in ResultSet*/
+            ResultSet rs = statement.executeQuery();
+
+            /*Assign data to an arraylist of SubjectBean*/
+            while (rs.next()) {
+                numberOfSubject = rs.getInt("Number");
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return numberOfSubject;
+    }
+
+    @Override
+    public boolean searchBySubName(String subName) {
+        boolean check = true;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            Connection conn = getConnection();
+            String sql = "select * from Subject where SubjectName=?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, subName);
+            /*Querry and save in ResultSet*/
+            ResultSet rs = statement.executeQuery();
+
+            /*Assign data to an arraylist of SubjectBean*/
+            while (rs.next()) {
+                check = false;
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return check;
+    }
+
+    @Override
+    public int createNewSubject(SubjectBean subject) {
+        int numberOfRow = 0;
+        try {
+            Connection conn = getConnection();
+            String sql = "Insert into Subject(SubjectName, Description, SubjectImage)"
+                    + "values(?,?,?)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, subject.getSubjectName());
+            statement.setString(2, subject.getDescription());
+            statement.setString(3, subject.getSubjectImage());
+
+            numberOfRow = statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return numberOfRow;
+    }
+
+    @Override
+    public SubjectBean getSubjectById(int subId) {
+        SubjectBean subject = new SubjectBean();
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            Connection conn = getConnection();
+            String sql = "select * from Subject where SubjectID=?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, subId);
+            /*Querry and save in ResultSet*/
+            ResultSet rs = statement.executeQuery();
+
+            /*Assign data to an arraylist of SubjectBean*/
+            while (rs.next()) {
+                subject.setSubjectID(rs.getInt("SubjectID"));
+                subject.setSubjectName(rs.getString("SubjectName"));
+                subject.setDescription(rs.getString("Description"));
+                subject.setSubjectImage(rs.getString("SubjectImage"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subject;
+    }
+
+    public static void main(String[] args) {
+        SubjectDAO dao = new SubjectDAO();
+        SubjectBean s = new SubjectBean(10, "Modern physics", "Modern physics is a branch of physics that developed \n"
+                + "in the early 20th century and onward or branches greatly influenced by early \n"
+                + "20th century physics.", "assets/image/ModernPhysics.jpg");
+
+        int number = dao.createNewSubject(s);
+        
+        SubjectBean subject = dao.getSubjectById(1);
+        System.out.println(subject);
+    }
+
 }
