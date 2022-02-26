@@ -213,53 +213,98 @@
     <section class="p-5">
         <div class="container boxes">
             <div class="row text-center">
-            <div class="col-md my-3">
-                <div class="card bg-secondary text-light">
+                <div class="col-md my-3">
+                    <div class="card bg-secondary text-light">
                         <div class="card-body text-center">
                             <i class="far fa-atom fa-2x"></i>
                         </div>
                         <h3 class="card-title mb-3">${requestScope.subjects[6].getSubjectName()}</h3>
                         <p class="card-text">
-                         ${requestScope.subjects[6].getDescription()}
+                            ${requestScope.subjects[6].getDescription()}
                         </p>
                         <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[6].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
-                </div>
-            </div>
-            <div class="col-md my-3" >
-                <div class="card bg-dark text-light">
-                    <div class="card-body text-center">
-                        <i class="far fa-vial fa-2x"></i>
                     </div>
-                    <h3 class="card-title mb-3">${requestScope.subjects[7].getSubjectName()}</h3>
-                    <p class="card-text">
-                        ${requestScope.subjects[7].getDescription()}
-                    </p>
-                    <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[7].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                 </div>
-            </div>
-            <div class="col-md my-3">
-                <div class="card bg-secondary text-light">
-                    <div class="card-body text-center">
-                        <i class="far fa-vial fa-2x"></i>
+                <div class="col-md my-3" >
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <i class="far fa-vial fa-2x"></i>
+                        </div>
+                        <h3 class="card-title mb-3">${requestScope.subjects[7].getSubjectName()}</h3>
+                        <p class="card-text">
+                            ${requestScope.subjects[7].getDescription()}
+                        </p>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[7].getSubjectID()}"/>" class="btn btn-dark"> Read More</a>
                     </div>
-                    <h3 class="card-title mb-3">${requestScope.subjects[8].getSubjectName()}</h3>
-                    <p class="card-text">
-                        ${requestScope.subjects[8].getDescription()}
-                    </p>
-                    <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[8].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
                 </div>
-            </div>
+                <div class="col-md my-3">
+                    <div class="card bg-secondary text-light">
+                        <div class="card-body text-center">
+                            <i class="far fa-vial fa-2x"></i>
+                        </div>
+                        <h3 class="card-title mb-3">${requestScope.subjects[8].getSubjectName()}</h3>
+                        <p class="card-text">
+                            ${requestScope.subjects[8].getDescription()}
+                        </p>
+                        <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[8].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-                    
+    <c:if test="${requestScope.subjects.size()>9}" >     
+        <section class="p-5">
+            <div class="container boxes">
+                <div class="row text-center">
+                    <div class="col-md my-3">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body text-center">
+                                <i class="far fa-vial fa-2x"></i>
+                            </div>
+                            <h3 class="card-title mb-3">${requestScope.subjects[9].getSubjectName()}</h3>
+                            <p class="card-text">
+                                ${requestScope.subjects[9].getDescription()}
+                            </p>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[9].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md my-3">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body text-center">
+                                <i class="far fa-vial fa-2x"></i>
+                            </div>
+                            <h3 class="card-title mb-3">${requestScope.subjects[10].getSubjectName()}</h3>
+                            <p class="card-text">
+                                ${requestScope.subjects[10].getDescription()}
+                            </p>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[10].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md my-3">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body text-center">
+                                <i class="far fa-vial fa-2x"></i>
+                            </div>
+                            <h3 class="card-title mb-3">${requestScope.subjects[10].getSubjectName()}</h3>
+                            <p class="card-text">
+                                ${requestScope.subjects[10].getDescription()}
+                            </p>
+                            <a href="<i:ReadUrlFromContext url="/SubjectDescrip?subId=${requestScope.subjects[9].getSubjectID()}"/>" class="btn btn-primary"> Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </c:if>
     <!-- Include footer of web site from general -->
     <%@include file="./footer.jsp" %>
-    
+
     <!-- link to java script file -->
     <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-        crossorigin="anonymous"></script>
+crossorigin="anonymous"></script>
 </html>
