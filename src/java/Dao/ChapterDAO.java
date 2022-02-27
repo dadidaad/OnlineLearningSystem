@@ -215,11 +215,4 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
         }
         return numberOfRow;
     }
-
-    public static void main(String[] args) {
-        ChapterDAO dao = new ChapterDAO();
-        int n = dao.CreateChapter(new ChapterBean(19, "hihi", 0, "haha", 1));
-        System.out.println(n);
-    }
-
 }

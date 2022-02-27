@@ -61,10 +61,9 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
         } finally {
-            conn.close();
-            statement.close();
-            rs.close();
+            close(conn, statement, rs);
         }
         return subjects;
     }
@@ -214,11 +213,10 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         }
         return subject;
     }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        ArrayList<SubjectBean> s = new ArrayList<>();
         SubjectDAO dao = new SubjectDAO();
-        SubjectBean s = dao.getSubjectById(1);
+        s=dao.getAllSubject();
         System.out.println(s);
     }
-
 }

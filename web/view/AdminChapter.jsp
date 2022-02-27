@@ -169,7 +169,7 @@
                                 <c:forEach items="${requestScope.chapters}" var="c" varStatus="loop">
                                 <tr>
                                     <td>${c.getChapterID()}</td>
-                                    <td> <a href="" style="color: black; font-weight: 600;"> ${c.getChapterName()}</br>(Click to see Chapters)</a></td>
+                                    <td> <a href="AdminKnowledgeController?chapId=${c.getChapterID()}" style="color: black; font-weight: 600;"> ${c.getChapterName()}</br>(Click to see Chapters)</a></td>
                                     <td>
                                         <div class="descrip">
                                             <p>${c.getChapterContent()}</p>

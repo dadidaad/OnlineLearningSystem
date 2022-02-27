@@ -56,7 +56,7 @@
 
                         <!-- This link for look Up table-->
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="<i:ReadUrlFromContext url="/ConstantTableController" />">
                                 <i class='bx bx-table icon' ></i>
                                 <span class="text nav-text">Lookup table</span>
                             </a>
