@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * ConstantDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-22   2.0         Doan Tu    First Implement
  */
 package Dao;
 
@@ -15,11 +18,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * This class contain method to find Constant information from database Extend
+ * BaseDAO class to call getConnection() method Implement IConstantDAO Interface
  *
- * @author Phong Vu
+ * @author Doan Tu
  */
 public class ConstantDAO extends BaseDAO implements IConstantDAO {
-
+    
+    /**
+     * getAllConstant() method implement from IConstantDAO
+     * 
+     * @return constants. <code>java.util.ArrayList</code> object
+     */
     @Override
     public ArrayList<ConstantBean> getAllConstant() {
         ArrayList<ConstantBean> constants = new ArrayList<>();
@@ -51,6 +61,12 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
         return constants;
     }
 
+    /**
+     * getByConstantName method implement from IConstantDAO
+     * 
+     * @param constantName, <code>java.lang.String</code> object
+     * @return constants. <code>java.util.ArrayList</code> object
+     */
     @Override
     public ArrayList<ConstantBean> getByConstantName(String constantName) {
         ArrayList<ConstantBean> constants = new ArrayList<>();
@@ -82,6 +98,12 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
         return constants;
     }
 
+    /**
+     * getBySignOrConvention method implement from IConstantDAO
+     * 
+     * @param sign. <code>java.lang.String</code> object
+     * @return <code>java.util.ArrayList</code> object
+     */
     @Override
     public ArrayList<ConstantBean> getBySignOrConvention(String sign) {
         ArrayList<ConstantBean> constants = new ArrayList<>();
@@ -112,9 +134,14 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
         }
         return constants;
     }
-
-    
-
+  
+    /**
+     * getByNameAndSign method implement from IConstantDAO
+     * 
+     * @param name. <code>java.lang.String</code> object
+     * @param sign. <code>java.lang.String</code> object
+     * @return <code>java.util.ArrayList</code> object
+     */
     @Override
     public ArrayList<ConstantBean> getByNameAndSign(String name, String sign) {
         ArrayList<ConstantBean> constants = new ArrayList<>();
@@ -149,9 +176,4 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
         return constants;
     }
     
-    public static void main(String[] args) {
-        ConstantDAO dao = new ConstantDAO();
-        ArrayList<ConstantBean> c = dao.getByNameAndSign("chAn KhONg", "ePsi");
-        System.out.println(c);
-    }
 }

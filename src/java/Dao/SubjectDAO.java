@@ -104,7 +104,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
      */
     @Override
     public int getNumberOfSubject() {
-        int numberOfSubject = 0;
+        int numberOfSubject = 0;    
         try {
             /*Set up connection and Sql statement for Querry*/
             Connection conn = getConnection();
@@ -217,14 +217,8 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
 
     public static void main(String[] args) {
         SubjectDAO dao = new SubjectDAO();
-        SubjectBean s = new SubjectBean(10, "Modern physics", "Modern physics is a branch of physics that developed \n"
-                + "in the early 20th century and onward or branches greatly influenced by early \n"
-                + "20th century physics.", "assets/image/ModernPhysics.jpg");
-
-        int number = dao.createNewSubject(s);
-        
-        SubjectBean subject = dao.getSubjectById(1);
-        System.out.println(subject);
+        SubjectBean s = dao.getSubjectById(1);
+        System.out.println(s);
     }
 
 }

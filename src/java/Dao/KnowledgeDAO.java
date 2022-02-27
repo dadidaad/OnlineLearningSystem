@@ -182,14 +182,5 @@ public class KnowledgeDAO extends BaseDAO implements IKnowledgeDAO{
         }
         return check;
     }
-    
-    public static void main(String[] args) {
-        KnowledgeDAO dao = new KnowledgeDAO();
-        boolean check = dao.searchByKnowledgeNameOfChap("Kí Hiệu Mệnh Đề", 1);
-        System.out.println(check);
-    }
-
-    
-
-    
+  
 }
