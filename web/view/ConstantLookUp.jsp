@@ -104,14 +104,13 @@
             <div class="container">
                 <div class="d-sm-flex align-items-center justif-content-between">
                     <div>
-                        <h1>Leaning <span class="text-warning">Important Knowledge</span></h1>
+                        <h1>Searching <span class="text-warning">Important Constant</span></h1>
                         <p class="lead my-5">
-                            This is where you can learn many knowledge about Math, Physic, Chemistry
-                            You can also search important constant, term in high school education program
-                            We will summarize the most important knowledge parts of the math, physics, 
-                            chemistry in the high school program, these knowledge are the foundation and 
-                            they are arranged in the order of the course syllabus, not the division. 
-                            Coordinate the current program.
+                            Throughout the high school curriculum, the natural sciences have a lot 
+                            of important constants that students need to remember, but unfortunately, 
+                            those are long numbers and it's hard to remember. This will be where you 
+                            can see those important constants. Also, you can look up the constants you 
+                            want to search for.
                         </p>
                     </div>
                     <img class="img-fluid w-50 mx-3 d-none d-sm-block" src="<i:ReadUrlFromContext url="/assets/image/istockphoto-1206750602-1024x1024.jpg" />" alt="">
@@ -122,6 +121,7 @@
         <!--Lookup header -->
         <div class="lookup-header"><h1 data-text="Constant" class="text-head">Constant</h1></div>
         <div class="lookup">
+            
             <!-- Search -->
             <div class="search-container">
                 <div class="header-search">
@@ -153,6 +153,7 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
+            
             <!-- Lookup table-->
             <div class="table">
                 <table>

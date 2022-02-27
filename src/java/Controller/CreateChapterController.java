@@ -1,36 +1,33 @@
 /*
  * Copyright(C)2022, Group 2 SE1511 FPTU-HN
  * 
- * CreateSubjectController
+ * CreateChapterController
  * Record of change:
  * DATE         Version     AUTHOR     Description
- * 2022-02-24   1.0         Doan Tu    First Implement
+ * 2022-02-25   1.0         Doan Tu    First Implement
  */
 package Controller;
 
-import Bean.SubjectBean;
-import Dao.ISubjectDAO;
-import Dao.SubjectDAO;
+import Bean.ChapterBean;
+import Dao.ChapterDAO;
+import Dao.IChapterDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  * This is a Servlet responsible for handling the task when the user wants to
- * Create new subject and insert it into database. /CreateSubjectController is the URL of the web site Extend
+ * Create new chapter and insert it into database. /CreateChapterController is the URL of the web site Extend
  * HttpServlet class
  *
  * @author Doan Tu
  */
-@MultipartConfig
-@WebServlet(name = "CreateSubjectController", urlPatterns = {"/CreateSubjectController"})
-public class CreateSubjectController extends HttpServlet {
+@WebServlet(name = "CreateChapterController", urlPatterns = {"/CreateChapterController"})
+public class CreateChapterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,13 +58,17 @@ public class CreateSubjectController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ISubjectDAO subjectDAO = new SubjectDAO();
-            /*get total Number Of Subject*/
-            int numberOfSubject = subjectDAO.getNumberOfSubject() + 1;
+            /*Get data from Parameter of request*/
+            String subId = request.getParameter("subId");
             
-            /*Attach nextId Attribute, This is the id of next Subject If you want to insert*/
-            request.setAttribute("nextId", numberOfSubject);
-            request.getRequestDispatcher("./view/CreateSubject.jsp").forward(request, response);
+            /*get total Number Of Chapter*/
+            IChapterDAO chapterDAO = new ChapterDAO();
+            int numberOfChapter = chapterDAO.getNumberOfChapter() + 1;
+
+            /*Attach nextID and subID Atrribute to request and redirect*/
+            request.setAttribute("nextId", numberOfChapter);
+            request.setAttribute("subId", subId);
+            request.getRequestDispatcher("./view/CreateChapter.jsp").forward(request, response);
         }
     }
 
@@ -84,25 +85,26 @@ public class CreateSubjectController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /*get data from parameter of request*/
-            String subName = request.getParameter("subName").replaceAll("\\s\\s+", " ").trim();
+            /*Get data from Parameter of request*/
+            String chapId = request.getParameter("chapId");
+            String chapName = request.getParameter("chapName").replaceAll("\\s\\s+", " ").trim();;
+            String chapContent = request.getParameter("chapContent").replaceAll("\\s\\s+", " ").trim();;
             String subId = request.getParameter("subId");
-            String description = request.getParameter("description").replaceAll("\\s\\s+", " ").trim();
-            Part part = request.getPart("Image");
-            String subImage = part.getSubmittedFileName();
-
+            
             /*Query for check whether Subject Name has existed*/
-            ISubjectDAO subjectDAO = new SubjectDAO();
-            boolean check = subjectDAO.searchBySubName(subName);
+            IChapterDAO chapterDAO = new ChapterDAO();
+            boolean check = chapterDAO.searchByChapNameOfSubject(chapName, Integer.parseInt(subId));
+            
             /*If existed, reiderect*/
-            if (check == false) {
-                request.setAttribute("nextId", subId);
+            if(check==false){
+                request.setAttribute("nextId", chapId);
+                request.setAttribute("subId", subId);
                 request.setAttribute("check", check);
-                request.getRequestDispatcher("./view/CreateSubject.jsp").forward(request, response);
-            }else{//If not, Inset new Subject into database
-                SubjectBean subject = new SubjectBean(Integer.parseInt(subId), subName, description, "assets/image/"+subImage);
-                int numberOfRows = subjectDAO.createNewSubject(subject);
-                response.sendRedirect("AdminSubjectController");
+                request.getRequestDispatcher("./view/CreateChapter.jsp").forward(request, response);
+            }else{//If not, insert new Chapter into database
+                ChapterBean chapter = new ChapterBean(Integer.parseInt(chapId), chapName,0, chapContent, Integer.parseInt(subId));
+                int numberOfRow = chapterDAO.CreateChapter(chapter);
+                response.sendRedirect("AdminChapterController?subId="+subId);
             }
         }
     }

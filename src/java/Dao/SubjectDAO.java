@@ -5,6 +5,7 @@
  * Record of change:
  * DATE         Version     AUTHOR     Description
  * 2022-02-10   1.0         Doan Tu    First Implement
+ * 2022-02-23   2.0         Doan Tu    Second Implement
  */
 package Dao;
 
@@ -95,7 +96,12 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         }
         return subjectNames;
     }
-
+    /**
+     * getNumberOfSubject method implement from ISubjectDAO 
+     * This method count number of Subject available in database
+     * 
+     * @return numberOfSubjects. <code>java.lang.Integer</code>
+     */
     @Override
     public int getNumberOfSubject() {
         int numberOfSubject = 0;
@@ -108,7 +114,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             /*Querry and save in ResultSet*/
             ResultSet rs = statement.executeQuery();
 
-            /*Assign data to an arraylist of SubjectBean*/
+            /*Assign data to numberOfSubject Integer Type*/
             while (rs.next()) {
                 numberOfSubject = rs.getInt("Number");
             }
@@ -119,6 +125,13 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         return numberOfSubject;
     }
 
+    /**
+     * searchBySubName method.
+     * This method check whether A Subject Name has existed in database
+     * 
+     * @param subName. Name of subject which wanted to check <code>java.lang.Strring</code>
+     * @return check. <code>java.lang.Boolean</code>
+     */
     @Override
     public boolean searchBySubName(String subName) {
         boolean check = true;
@@ -131,7 +144,6 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             /*Querry and save in ResultSet*/
             ResultSet rs = statement.executeQuery();
 
-            /*Assign data to an arraylist of SubjectBean*/
             while (rs.next()) {
                 check = false;
             }
@@ -142,10 +154,18 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         return check;
     }
 
+    /**
+     * createNewSubject method
+     * This method will insert new Subject into database
+     * 
+     * @param subject. Subject which wanted to insert. <code>Bean.SubjectBean</code> object
+     * @return numberOfRows. <code>java.lang.Integer</code>
+     */
     @Override
     public int createNewSubject(SubjectBean subject) {
         int numberOfRow = 0;
         try {
+            /*Set up connection and Sql statement for Querry*/
             Connection conn = getConnection();
             String sql = "Insert into Subject(SubjectName, Description, SubjectImage)"
                     + "values(?,?,?)";
@@ -154,6 +174,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             statement.setString(2, subject.getDescription());
             statement.setString(3, subject.getSubjectImage());
 
+            /*Insert New Subject into Database*/
             numberOfRow = statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,6 +182,13 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         return numberOfRow;
     }
 
+    /**
+     * getSubjectById method
+     * This method will get the Subject with corresponding ID
+     * 
+     * @param subId. Id of Subject want to get
+     * @return subject. <code>Bean.SubjectBean</code> object
+     */
     @Override
     public SubjectBean getSubjectById(int subId) {
         SubjectBean subject = new SubjectBean();

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : AdminSubject
-    Created on : Feb 23, 2022, 9:44:00 PM
+    Document   : AdminChapter
+    Created on : Feb 25, 2022, 9:33:58 AM
     Author     : Phong Vu
 --%>
 
@@ -31,9 +31,9 @@
     <body>
         <!-- Include header of web site from general-->
         <%@include file="./header.jsp" %>
-        
         <!--Side Bar-->
         <nav class="sidebar close">
+            <!--Side bar header-->
             <header>
                 <div class="image-text">
                     <span class="image">
@@ -48,7 +48,7 @@
 
                 <i class='bx bx-chevron-right toggle'></i>
             </header>
-            <!--Main Side Bar-->
+            <!-- Main Side Bar-->        
             <div class="menu-bar">
                 <div class="menu">
                     <ul class="menu-links">
@@ -107,8 +107,7 @@
                 </div>
             </div>
         </nav>
-              
-         <!--Overview-->
+       <!--Overview--> 
         <main>
             <h2 class="dash-title">Overview</h2>
             <div class="dash-card">
@@ -151,34 +150,33 @@
                     </div>
                 </div>
             </div>
+            
             <!--Main Management-->
             <section class="recent">
                 <div class="activity-grid">
                     <div class="activity-card">
-                        <h3 class="">All Subject</h3> <span class="new-subject"><a href="CreateSubjectController">Add New Subject</a></span>
+                        <h3 class="">All Chapter for ${requestScope.subject.getSubjectName()}</h3> <span class="new-subject"><a href="CreateChapterController?subId=${requestScope.subject.getSubjectID()}">Add New Chapter</a></span>
                         <table borders="1">
                             <thead>
                                 <tr>
-                                    <th>SubjectID</th>
-                                    <th>Name</th>
-                                    <th>Descripton</th>
-                                    <th>Image</th>
+                                    <th>ChapterID</th>
+                                    <th>ChapterName</th>
+                                    <th>ChapterContent</th>
+                                    <th>Subject</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${requestScope.subjects}" var="s" varStatus="loop">
-                                    <tr>
-                                        <td>${s.getSubjectID()}</td>
-                                        <td> <a href="AdminChapterController?subId=${s.getSubjectID()}" style="color: black; font-weight: 600;"> ${s.getSubjectName()}</br>(Click to see Chapters)</a></td>
-                                        <td>
-                                            <div class="descrip">
-                                                <p>${s.getDescription()}l</p>
-                                            </div>
-                                        </td>
-                                        <td class="illus">
-                                            <img src="${s.getSubjectImage()}" alt="" class="img">
-                                        </td>
-                                    </tr>
+                                <c:forEach items="${requestScope.chapters}" var="c" varStatus="loop">
+                                <tr>
+                                    <td>${c.getChapterID()}</td>
+                                    <td> <a href="" style="color: black; font-weight: 600;"> ${c.getChapterName()}</br>(Click to see Chapters)</a></td>
+                                    <td>
+                                        <div class="descrip">
+                                            <p>${c.getChapterContent()}</p>
+                                        </div>
+                                    </td>
+                                    <td>${requestScope.subject.getSubjectName()}</td>
+                                </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -186,34 +184,20 @@
                     <div class="summary">
                         <div class="summary-card">
                             <div class="summary-single">
-                                <span><i class='bx bx-user icon' ></i></span>
+                                <span><i class='bx bx-notepad icon' ></i></span>
                                 <div>
-                                    <h5>196</h5>
-                                    <small>Number of Staff</small>
+                                    <h5>${requestScope.chapters.size()}</h5>
+                                    <small>Chapter for Subject</small>
                                 </div>
                             </div>
-
-                            <div class="summary-single">
-                                <span><i class='bx bx-user icon' ></i></span>
-                                <div>
-                                    <h5>196</h5>
-                                    <small>Number of Staff</small>
-                                </div>
-                            </div>
-
-                            <div class="summary-single">
-                                <span><i class='bx bx-user icon' ></i></span>
-                                <div>
-                                    <h5>196</h5>
-                                    <small>Number of Staff</small>
-                                </div>
-                            </div>  
+ 
                         </div>
                     </div>
                 </div>
 
             </section>
-        </main>            
+        </main>
+                        
         <!-- Include footer of web site from general -->
         <%@include file="./footer.jsp" %>
 

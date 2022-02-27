@@ -32,6 +32,7 @@
         <!-- Include header of web site from general-->
         <%@include file="./header.jsp" %>
 
+        <!--Side Bar-->
         <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -47,6 +48,7 @@
             <i class='bx bx-chevron-right toggle'></i>
         </header>
 
+        <!--Main Side Bar-->
         <div class="menu-bar">
             <div class="menu">
                 <ul class="menu-links">
@@ -88,7 +90,7 @@
 
                 </ul>
             </div>
-
+            
             <div class="bottom-content">
                 <li class="mode">
                     <div class="sun-moon">
@@ -106,6 +108,7 @@
         </div>
     </nav>
 
+        <!--Create New Subject-->
         <div class="container">
             <div class="title">New Subject</div>
             <form action="CreateSubjectController" id="form" method="Post" enctype="multipart/form-data">
