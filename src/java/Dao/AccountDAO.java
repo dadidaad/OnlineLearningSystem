@@ -11,6 +11,7 @@ package Dao;
 
 import Bean.AccountBean;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -245,14 +246,51 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         }
         return false;
     }
-
-    public static void main(String[] args) throws SQLException {
-        IAccountDAO db = new AccountDAO();
+    /**
+     * updateInformation method implement from IAccountDAO
+     *
+     * @param account account object of user belongs
+     * <code>com.Bean.AccountBean</code>
+     * @return
+     */
+    @Override
+    public boolean updateInformation(AccountBean account) {
+        AccountBean x = getAccountByUsername(account.getUsername()); // check if exist account in db, if not return false;
+        if(x == null){
+            return false;
+        }
+        Connection conn =  null;
+        PreparedStatement statement = null;
+        try{
+            conn = getConnection();
+            String sql = "Update Account\n"
+                    + "Set DisplayName = '" + account.getDisplayName() + "',\n"
+                    + "DateOfBirth = '" + account.getDateOfBirth() +"'\n";
+            /*check if some custom edit part is null or not then join it to sql query*/
+            if(account.getDescription() != null){
+                sql += ",Description = '" + account.getDescription() + "'\n";
+            }
+            if(account.getAvatar() != null){
+                sql += ",Avatar = '" + account.getAvatar() + "'\n";
+            }
+            sql += "where Username = '" + account.getUsername() + "'";
+            statement = conn.prepareStatement(sql);
+            int result = statement.executeUpdate();
+            if(result == 1){
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    public static void main(String[] args) {
+        AccountDAO db = new AccountDAO();
         AccountBean x = new AccountBean();
-        x.setUsername("admin");
-        x.setPassword("password");
-        x.setMail("123@gmail.com");
-        x.setSex(true);
-        System.out.println(db.insertNewAccount(x));
+        x.setUsername("admin1");
+        x.setDateOfBirth(Date.valueOf("2001-02-28"));
+        x.setDisplayName("Dat Vo");
+        x.setAvatar("avatar");
+        System.out.println(db.updateInformation(x));
     }
 }

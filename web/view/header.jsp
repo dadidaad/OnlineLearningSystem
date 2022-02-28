@@ -10,13 +10,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Header</title>
-    </head>
-    <body>
-        <header class="d-flex flex-wrap align-items-center justify-content-between justify-content-md-between pt-1 mb-4 border-bottom bg-white px-3">
+        <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around pt-1 mb-4 border-bottom bg-white px-3">
             <a href="<i:ReadUrlFromContext url="/Home"/>" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                 <img src="<i:ReadUrlFromContext url="/assets/image/logo.png"/>" alt="logo" >
             </a>
@@ -38,7 +32,7 @@
                 </c:if>
                 <c:if test="${sessionScope.user ne null}">
                     <img class="small-avatar" alt="avatar" src="<i:ReadUrlFromContext url="${sessionScope.user.avatar}"/>"/>
-                    <div class="dropdown">
+                    <div class="dropdown" style="margin-right: 1.5em;">
                         <button class="btn btn-outline-light btnclick">
                             <p class="text-dark">
                                 ${sessionScope.user.displayName}
@@ -46,7 +40,7 @@
                             </p>
                         </button>
                         <div class="dropdown-content" id="myDropdown">
-                            <a href="<i:ReadUrlFromContext url="/SettingAccount"/>">Your profile</a>
+                            <a href="<i:ReadUrlFromContext url="/ViewProfile"/>">Your profile</a>
                             <div class="divider"></div>
                             <a href="<i:ReadUrlFromContext url="/LogOut"/>">Log Out</a>
                         </div>
@@ -83,5 +77,3 @@
             });
             $('.dropdown').setMenu();
         </script>
-    </body>
-</html>

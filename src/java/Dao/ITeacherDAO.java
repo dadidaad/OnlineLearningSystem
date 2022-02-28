@@ -12,31 +12,62 @@ import Bean.TeacherBean;
 import java.util.ArrayList;
 
 /**
- * This is the interface class that declares the methods to access the data of the Teacher object
- * Abstract method getAllTeacher used to retrieve all teachers
- * 
- * 
+ * This is the interface class that declares the methods to access the data of
+ * the Teacher object Abstract method getAllTeacher used to retrieve all
+ * teachers
+ *
+ *
  * @author Duc Minh
  */
 public interface ITeacherDAO {
+
     /**
      * getAllTeacher method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
     public ArrayList<TeacherBean> getAllTeacher();
-    
+
     /**
-     * getSubjectId method implement from ITeacherDAO
-     * get the id subject of teacher from database
-     * @return subjectId. <code>Integer</code> object  
+     * getTeacherByUsername method implement from ITeacherDAO
+     *
+     * @return teacherbean object
      */
-    public int getSubjectId(String usernameTeacher); 
-    
-   /**
+    public TeacherBean getTeacherByUsername(String username);
+
+    /**
+     * getSubjectId method implement from ITeacherDAO get the id subject of
+     * teacher from database
+     *
+     * @return subjectId. <code>Integer</code> object
+     */
+    /**
+     * checkTeacherStatus method implement from ITeacherDAO check status cv of
+     * teacher in db
+     *
+     * @return subjectId. <code>Integer</code> object
+     */
+    public boolean checkTeacherStatus(String username);
+
+    /**
+     * getSubjectId method implement from ITeacherDAO get the id subject of
+     * teacher from database
+     *
+     * @return subjectId. <code>Integer</code> object
+     */
+    public int getSubjectId(String usernameTeacher);
+
+    /**
      * getTeacherBySearching method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
-    public ArrayList<TeacherBean> getTeacherBySearching(String searchString); 
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString);
+
+    /**
+     * insertNewTeacher method implement from ITeacherDAO
+     *
+     * @return boolean. <code>java.lang.Boolean</code> object
+     */
+    public boolean insertNewTeacher(TeacherBean teacher);
 }

@@ -6,25 +6,7 @@
  */
 
 
-function validateForm() {
-    if ($('.invalid').length != 0)
-        return false;
-    var y, i, valid = true;
-    y = document.getElementsByClassName("form__field");
-    // A loop that checks every input field in the current tab:
-    for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == "") {
-            // add an "invalid" class to the field:
-            y[i].className += " invalid";
-            // and set the current valid status to false:
-            valid = false;
-        }
-    }
-    return valid;
-}
 var pw_reg_value = $("#password_reg").val();
-var pw_login_value = $("#password_login").val();
 $.validator.addMethod("checklower", function (value) {
     return /[a-z]/.test(value);
 });
@@ -46,6 +28,103 @@ $.validator.addMethod("emailcheck", function (value) {
 $.validator.addMethod("captchacheck", function (value) {
     return /^[a-zA-Z0-9]+$/.test(value);
 });
+$.validator.addMethod("namecheck", function (value) {
+    return /^(?![ .]+$)[a-zA-Z .]*$/.test(value);
+});
+$.validator.addMethod("dobcheck", function (value) {
+    var minDate = Date.parse("01/01/1900");
+    var today = new Date();
+    var DOB = Date.parse(value);
+    if (value === null) {
+        return true;
+    }
+    if ((DOB <= today && DOB >= minDate)) {
+        return true;
+    }
+    return false;
+});
+$('#editProfile-form').validate({
+    rules: {
+        displayName: {
+            maxlength: 20,
+            required: true,
+            namecheck: true
+        },
+        dob: {
+            required: true,
+            dobcheck: true
+        }
+    },
+    messages: {
+        displayName: {
+            namecheck: "Not allow only space or number"
+        },
+        dob: {
+            dobcheck: 'Must from 01/01/1900 -> now'
+        }
+    },
+    highlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+    },
+    unhighlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+    },
+    errorElement: 'div',
+    errorClass: 'validate_cus',
+    errorPlacement: function (error, element) {
+        x = element.length;
+        if (element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});
+$('#changepw-form').validate({
+    rules: {
+        newPassword: {
+            minlength: 6,
+            maxlength: 20,
+            required: true,
+            //pwcheck: true,
+            checklower: true,
+            checkupper: true,
+            checkdigit: true,
+        },
+        confirmPassword: {
+            equalTo: "#password_new"
+        }
+    },
+    messages: {
+        newPassword: {
+            pwcheck: "Password is not strong enough",
+            checklower: "Need at least 1 lowercase alphabet",
+            checkupper: "Need at least 1 uppercase alphabet",
+            checkdigit: "Need at least 1 digit",
+        }
+    },
+    highlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('valid').addClass('invalid');
+    },
+    unhighlight: function (element) {
+        var id_attr = "#" + $(element).attr("id");
+        $(element).closest('.form__group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('invalid').addClass('valid');
+    },
+    errorElement: 'div',
+    errorClass: 'validate_cus',
+    errorPlacement: function (error, element) {
+        x = element.length;
+        if (element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+    }
+
+});
 $('#verifytoken-form').validate({
     rules: {
         captcha: {
@@ -56,7 +135,7 @@ $('#verifytoken-form').validate({
         }
     },
     messages: {
-        captcha:{
+        captcha: {
             captchacheck: "only contains letters and numbers"
         }
     },
@@ -224,7 +303,7 @@ $('#login-form').validate({
     rules: {
         password: {
             required: true
-            //pwcheck: true,
+                    //pwcheck: true,
         },
         username: {
             required: true

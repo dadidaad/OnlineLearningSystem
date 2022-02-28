@@ -108,6 +108,18 @@
         <servlet-name>ListTeacherSearchController</servlet-name>
         <servlet-class>Controller.ListTeacherSearchController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewProfileUserController</servlet-name>
+        <servlet-class>Controller.ViewProfileUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditProfileController</servlet-name>
+        <servlet-class>Controller.EditProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BecomeTutorController</servlet-name>
+        <servlet-class>Controller.BecomeTutorController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -215,6 +227,18 @@
     <servlet-mapping>
         <servlet-name>ListTeacherSearchController</servlet-name>
         <url-pattern>/ListTeacherSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewProfileUserController</servlet-name>
+        <url-pattern>/ViewProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProfileController</servlet-name>
+        <url-pattern>/EditProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BecomeTutorController</servlet-name>
+        <url-pattern>/BecomeTutor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
