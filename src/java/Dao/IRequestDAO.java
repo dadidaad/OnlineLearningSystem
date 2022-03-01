@@ -104,4 +104,11 @@ public interface IRequestDAO {
      */ 
     public void createRequestReply(RequestReplyBean rq);
     
+    /**
+     * getTotalPendingRequest method implement from IRequestDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalPendingRequest();
+    
 }

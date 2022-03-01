@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -284,6 +285,267 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         }
         return false;
     }
+    
+    /**
+     * totalAccount method implement from IAccountDAO
+     *
+     * @return total Integer<Integer>.
+     */
+    @Override
+    public int totalAccount() {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "SELECT COUNT(Username) AS NumberOfAccount FROM Account WHERE Role <> 'Admin'";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfAccount");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
+    /**
+     * totalAccountSearch method implement from IAccountDAO
+     *
+     * @return total Integer<Integer>.
+     */
+    @Override
+    public int totalAccountSearch(String searchString) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "SELECT COUNT(Username) AS NumberOfAccount FROM Account WHERE (DisplayName like ? or Mail like ? ) and Role <> 'Admin' and\n" +
+                    "username not in (select Username from Tutor where Status<>'Approved')";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, "%"+searchString+"%"); //set parameter to query
+            statement.setString(2, "%"+searchString+"%");
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfAccount");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
+    /**
+     * getAllAccount method implement from IAccountDAO
+     * @param searchString  <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>  
+     * @return ArrayList<AccountBean>. <code>java.util.ArrayList</code> object
+     */
+    @Override
+    public ArrayList<AccountBean> getAllAccountBySearch(String searchString, int pageindex, int pagesize) {
+        ArrayList<AccountBean> accounts = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select Account.*\n" +
+                "from Account\n" +
+                "where (DisplayName like ? or Mail like ? ) and Role <> 'Admin' and \n" +
+                "username not in (select Username from Tutor where Status<>'Approved')"+
+                "ORDER BY CreatedDate desc\n" +
+                "OFFSET ? ROWS \n" +
+                "FETCH NEXT ? ROWS ONLY;";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, "%"+searchString+"%"); //set parameter to query
+            statement.setString(2, "%"+searchString+"%");
+            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(4, pagesize);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Request*/
+            while(rs.next())
+            {
+                AccountBean account = new AccountBean();
+                
+                account.setUsername(rs.getString("Username"));
+                account.setPassword(rs.getString("Password"));
+                account.setMail(rs.getString("Mail"));
+                account.setAvatar(rs.getString("Avatar"));
+                account.setDisplayName(rs.getString("DisplayName"));
+                account.setDateOfBirth(rs.getDate("DateOfBirth"));
+                account.setSex(rs.getBoolean("Sex"));
+                account.setDescription(rs.getString("Description"));
+                account.setCash(rs.getBigDecimal("Cash In Account"));
+                account.setCreateDate(rs.getDate("CreatedDate"));
+                account.setRole(rs.getString("Role"));
+                account.setStatus(rs.getString("Status"));
+                account.setState(rs.getBoolean("State"));
+                        
+                accounts.add(account);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return accounts;
+    }
+
+    /**
+     * getAllAccount method implement from IAccountDAO
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return ArrayList<AccountBean>. <code>java.util.ArrayList</code> object
+     */
+    @Override
+    public ArrayList<AccountBean> getAllAccount(int pageindex, int pagesize) {
+        ArrayList<AccountBean> accounts = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "SELECT Account.*\n" +
+                "FROM Account\n" +
+                "WHERE Role <> 'Admin'\n" +
+                "ORDER BY CreatedDate desc\n" +
+                "OFFSET ? ROWS \n" +
+                "FETCH NEXT ? ROWS ONLY;";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, (pageindex-1)*pagesize);
+            statement.setInt(2, pagesize);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Account*/
+            while(rs.next())
+            {
+                AccountBean account = new AccountBean();
+                
+                account.setUsername(rs.getString("Username"));
+                account.setPassword(rs.getString("Password"));
+                account.setMail(rs.getString("Mail"));
+                account.setAvatar(rs.getString("Avatar"));
+                account.setDisplayName(rs.getString("DisplayName"));
+                account.setDateOfBirth(rs.getDate("DateOfBirth"));
+                account.setSex(rs.getBoolean("Sex"));
+                account.setDescription(rs.getString("Description"));
+                account.setCash(rs.getBigDecimal("Cash In Account"));
+                account.setCreateDate(rs.getDate("CreatedDate"));
+                account.setRole(rs.getString("Role"));
+                account.setStatus(rs.getString("Status"));
+                account.setState(rs.getBoolean("State"));
+                        
+                accounts.add(account);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return accounts;
+    }
+
+
+    /**
+     * updateRequest method implement from IRequestDAO
+     * @param username username of account belongs <code>java.lang.String</code>
+     * @param status status of account belongs <code>java.lang.String</code>
+     * This method update the request and update to database
+     */
+
+    @Override
+    public void updateStatusAccount(String username, String status) {
+         try {
+             /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "update Account\n" +
+"               set Status= ?  WHERE username = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setString(2, username);
+
+            /*Excuse Query*/
+            statement.executeUpdate();
+            
+            /*Close all the connection */
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    /**
+     * deleteAccount method implement from IRequestDAO
+     * @param username username of account belongs <code>java.lang.String</code>
+     * This method update the request and update to database
+     */
+
+    @Override
+    public void deleteAccount(String username) {
+         try {
+             /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "delete from Tutor where Username = ? \n" +
+                "update Request set Tutor_get = null where Tutor_get = ? \n" +
+                "delete from Request_Reply where Tutor_sent = ? \n" +
+                "delete from Vote where User_get = ? \n" +
+                "delete from Post_Reply where User_reply = ? or PostID in(select PostID from Post where UserPost= ? )\n" +
+                "delete from Post where UserPost = ? \n" +
+                "delete from Account where Username = ? ;";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, username);
+            statement.setString(3, username);
+            statement.setString(4, username);
+            statement.setString(5, username);
+            statement.setString(6, username);
+            statement.setString(7, username);
+            statement.setString(8, username);
+
+            /*Excuse Query*/
+            statement.executeUpdate();
+            
+            /*Close all the connection */
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
         AccountBean x = new AccountBean();

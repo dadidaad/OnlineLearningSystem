@@ -70,4 +70,27 @@ public interface ITeacherDAO {
      * @return boolean. <code>java.lang.Boolean</code> object
      */
     public boolean insertNewTeacher(TeacherBean teacher);
+    
+    /**
+     * getTotalTeacherApply method implement from ITeacherDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacherApply();
+    
+    /**
+     * getAllTeacherApply method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    public ArrayList<TeacherBean> getAllTeacherApply(int pageindex, int pagesize);
+    
+    /**
+     * handleTeacherApply method implement from ITeacherDAO
+     * @param username <code>java.lang.String</code>
+     * @param status <code>java.lang.String</code>
+     * 
+     * @return number of row. <code>java.lang.Integer</code> object  
+     */
+    public int handleTeacherApply(String username, String status);
 }

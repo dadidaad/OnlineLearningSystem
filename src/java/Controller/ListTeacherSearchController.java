@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * ListTeacherSearchController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
 package Controller;
 
 import Bean.TeacherBean;

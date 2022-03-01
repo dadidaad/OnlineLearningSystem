@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +52,8 @@ public class ListAllRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
                 
             HttpSession session = request.getSession();   
@@ -80,8 +84,9 @@ public class ListAllRequestController extends HttpServlet {
                     ITeacherDAO iteacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
                     int subjectId = iteacherDAO.getSubjectId(account.getUsername());
                     requestList = iRequestDAO.getRequestForTeacher(subjectId, "Waiting");
-//                    Sort the list
-                    
+                
+                /* Sort the list */
+                 
                     requestList = sortRequest.requestListSorted(requestList, account.getUsername());
                     request.setAttribute("requests", requestList);
                      /*Attach Attribute teachers for request and redirect it to ListAllRequestTea.jsp*/
@@ -90,8 +95,8 @@ public class ListAllRequestController extends HttpServlet {
             }
             /*Redirect it to Login*/
             else response.sendRedirect("Login");
-        } catch(Exception e){
-        
+        } catch(Exception ex) {
+            Logger.getLogger(ListAllRequestController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

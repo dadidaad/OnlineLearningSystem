@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * UpdateRequestController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
 package Controller;
 
 import Bean.RequestBean;
@@ -11,7 +20,6 @@ import Dao.SubjectDAO;
 import Dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,36 +30,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handling the task when the student wants to update Request
+ * /UpdateRequest is the URL of the Servlet
+ * Extend HttpServlet class
+ * @author Duc Minh
  */
 public class UpdateRequestController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateRequestController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateRequestController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -81,18 +67,17 @@ public class UpdateRequestController extends HttpServlet {
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
             ArrayList <TeacherBean> teacherList =  iTeacherDAO.getAllTeacher();
                 
-                //Attach Attribute subjects for request and redirect it to CreateRequest.jsp
-                request.setAttribute("teachers", teacherList);
+            request.setAttribute("teachers", teacherList);
                 
             //Attach Attribute teachers for request and redirect it to UpdateRequestStu.jsp
             request.setAttribute("request", rq);
             request.setAttribute("subjectNames", SubjectNames);
             request.setAttribute("subjects", subjects);
+            
 
-//            out.print("minh");
             request.getRequestDispatcher("./view/UpdateRequest.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateRequestController.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+        
         }
     }
 
@@ -108,22 +93,22 @@ public class UpdateRequestController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-         
+        
         int requestId = Integer.parseInt(request.getParameter("rqId"));    
-        String requestTitle = request.getParameter("rqTitle");
+        String requestTitle = request.getParameter("rqTitle").replaceAll("\\s\\s+", " ").trim();
         String requestSubject = request.getParameter("rqSubject");
         String requestLevel = request.getParameter("rqLevel");
         String requestPrice = request.getParameter("rqPrice");
         String requestStudentSent = request.getParameter("studentSent");
+       
+      
+       String requestTeacherRcm =  request.getParameter("rqTeacherRcm");
+       if(requestTeacherRcm.equals("")) requestTeacherRcm =null;
+  
         
-        String requestTeacherRcm =  request.getParameter("rqTeacherRcm");
-        
-        
-        String requestContent = request.getParameter("content");
+        String requestContent = request.getParameter("content").replaceAll("\\s\\s+", " ").trim();
         String requestImg = "/assets/image/" + request.getParameter("imgContent");
         
-//        out.print( requestId + " "+ requestStudentSent  + "Teacher: "+ requestTeacherRcm + " "+ requestPrice + " "+ requestContent + "\n "+
-//                requestImg   + " "+  requestSubject + " "+ requestLevel + " " + requestTitle);
         
         RequestBean rq = new RequestBean();
         
@@ -140,18 +125,10 @@ public class UpdateRequestController extends HttpServlet {
         IRequestDAO iRequestDAO = new RequestDAO();
         iRequestDAO.updateRequest(rq);
        
-        response.sendRedirect("ListAllRequestStu");
+        response.sendRedirect("ListAllRequest");
+        
+        }catch (Exception ex) {
+            Logger.getLogger(UpdateRequestController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

@@ -503,6 +503,41 @@ public class RequestDAO extends BaseDAO implements IRequestDAO{
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * getTotalPendingRequest method implement from IAccountDAO
+     *
+     * @return total Integer<Integer>.
+     */
+    @Override
+    public int getTotalPendingRequest() {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select count(RequestID) as NumberOfRequest from Request where [Status] = 'Waiting'";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
     public static void main(String[] args) {
          
 //            String sql = "update Request\n" +

@@ -45,6 +45,8 @@ public class ListAllTeacherController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<TeacherBean> teacherList = new ArrayList<>();
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
