@@ -41,10 +41,115 @@
 
                     <!-- Nav Item  -->
 
-                    <li class="nav-item active">
-                        <a class="nav-link" href="ListAllTeacher">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Teacher List</span></a
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="card--top"></div>
+            
+        <!-- Requests DataTales -->
+            <div class="card shadow mb-4">
+              <h1>Teacher Ranking</h1>
+              <p>List of all the teachers in our system is sorted by student-rated reputation.</p>
+              <div class="card-body">
+        <!--Search Data-->          
+                <div class="row mt-3 mb-3">
+                  <div class="col-sm-12 col-md-6"></div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                      <label
+                        >Search:<input
+                          type="search"
+                          class="form-control form-control-sm"
+                          id ="searchString"
+                          placeholder=""
+                          aria-controls="dataTable"
+                      /></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table
+                    class="table table-striped tableTeacher"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Reputation</th>
+                        <th>Subject</th>
+                        <th>CV</th>
+                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
+                        <th>Request</th>
+                      </c:if>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Reputation</th>
+                        <th>Subject</th>
+                        <th>CV</th>
+                      <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
+                        <th>Request</th>
+                      </c:if>  
+                      </tr>
+                    </tfoot>
+                    <tbody id="tbBody">
+                    <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop"> 
+                    <c:if test = "${requestScope.teachers.size()==0}">
+                        <tr>List Empty</tr>
+                    </c:if>
+                      <tr>
+                        <td>${loop.index+1}</td>
+                        <td>
+                          <a class="teacherInfo" href="#"
+                            ><img
+                              class="teacherAvt"
+                              src="<i:ReadUrlFromContext url="${t.getAvatar()}"/>"
+                              alt=""
+                            />${t.getDisplayName()}</a
+                          >
+                        </td>
+                        <td>4.1</td>
+                        <td>${requestScope.subjectNames.get(t.getSubjectId())}</td>
+                        <td>
+                          <img
+                            class="teacherCv imgZoom"
+                            src="<i:ReadUrlFromContext url="${t.getCvImg()}"/>"
+                            alt=""
+                          />
+                        </td>
+                        <c:if test = "${!sessionScope.user.getRole().equalsIgnoreCase("teacher")}">
+                        <td>
+                          <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}"><i class="far fa-share-square"></i></a>
+                        </td>
+                        </c:if>
+                      </tr>
+                      
+                      </c:forEach>   
+                      
+                    </tbody>
+                  </table>
+                </div>
+        <!--Paging-->
+                  <div class="row">
+                  <div class="col-sm-12 col-md-4"></div>
+                  <div class="col-sm-12 col-md-8">
+                    <div class="mt-3" id="dataTable_paginate">
+                      <ul class="pagination">
+                        <li
+                          class="paginate_button page-item previous disabled"
+                          id="dataTable_previous"
                         >
                     </li>
                     <li class="nav-item">

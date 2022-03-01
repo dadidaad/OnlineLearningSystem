@@ -161,6 +161,130 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
         return false;
     }
     /**
+     * getTotalTeacherApply method implement from IAccountDAO
+     *
+     * @return total Integer<Integer>.
+     */
+    @Override
+    public int getTotalTeacherApply() {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select COUNT(Account.Username) AS NumberOfAccount  \n" +
+                        "from Account, Tutor\n" +
+                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfAccount");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
+    /**
+     * getAllTeacherApply method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    @Override
+    public ArrayList<TeacherBean> getAllTeacherApply(int pageindex, int pagesize) {
+        ArrayList<TeacherBean> teachers = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select Account.*,Tutor.*\n" +
+                        "from Account, Tutor\n" +
+                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n"+
+                "ORDER BY CreatedDate \n" +
+                "OFFSET ? ROWS \n" +
+                "FETCH NEXT ? ROWS ONLY;";   
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, (pageindex-1)*pagesize);
+            statement.setInt(2, pagesize);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an arraylist of Request*/
+            while(rs.next())
+            {
+                TeacherBean teacher = new TeacherBean();
+                
+                teacher.setUsername(rs.getString("Username"));
+                teacher.setPassword(rs.getString("Password"));
+                teacher.setMail(rs.getString("Mail"));
+                teacher.setAvatar(rs.getString("Avatar"));
+                teacher.setDisplayName(rs.getString("DisplayName"));
+                teacher.setDateOfBirth(rs.getDate("DateOfBirth"));
+                teacher.setSex(rs.getBoolean("Sex"));
+                teacher.setDescription(rs.getString("Description"));
+                teacher.setCash(rs.getBigDecimal("Cash in account"));
+                teacher.setCreateDate(rs.getDate("CreatedDate"));
+                teacher.setRole(rs.getString("Role"));
+                teacher.setStatus(rs.getString("Status"));
+                teacher.setState(rs.getBoolean("State"));
+                teacher.setCvImg(rs.getString("CV"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
+                teacher.setStatusApply("Waiting");
+                teachers.add(teacher);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return teachers;
+    }
+    
+    /**
+     * handleTeacherApply method implement from ITeacherDAO
+     * accept and change status apply of teacher from database
+     * @return number of row has affected. <code>Integer</code> object  
+     */
+    @Override
+    public int handleTeacherApply(String username, String status) {
+         int numberOfRow = 0;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            Connection conn = getConnection();
+            String sql = "Update Tutor set Status = ? "
+                    + "Where username = ? ";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setString(2, username);
+           
+
+            /*Insert New Subject into Database*/
+            numberOfRow = statement.executeUpdate();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return numberOfRow;
+    }
+    
+    
+    /**
      * getSubjectId method implement from ITeacherDAO
      * get the id subject of teacher from database
      * @param usernameTeacher
@@ -289,4 +413,8 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO{
         }
         return false;
     }
+
+    
+
+   
 }

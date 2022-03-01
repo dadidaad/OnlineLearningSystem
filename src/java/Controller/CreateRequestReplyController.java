@@ -15,6 +15,8 @@ import Dao.IRequestDAO;
 import Dao.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,11 +42,13 @@ public class CreateRequestReplyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
         int requestId = Integer.parseInt(request.getParameter("requestId"));
         String teacherSent = request.getParameter("teacherSent");
         String studentSent = request.getParameter("studentSent");
-        String contentReply = request.getParameter("contentReply");
+        String contentReply = request.getParameter("contentReply").replaceAll("\\s\\s+", " ").trim();
         String imgReply = "/assets/image/" + request.getParameter("imgReply");
         
         RequestReplyBean rpReply = new RequestReplyBean();
@@ -62,8 +66,8 @@ public class CreateRequestReplyController extends HttpServlet {
         
         response.sendRedirect("ListAllRequest");
         
-        }catch (Exception e){
-        
+        }catch (Exception ex) {
+            Logger.getLogger(CreateRequestReplyController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

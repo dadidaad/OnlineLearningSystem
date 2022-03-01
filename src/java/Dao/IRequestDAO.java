@@ -47,6 +47,13 @@ public interface IRequestDAO {
     public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus);
     
     /**
+     * getTotalPendingRequest method implement from IRequestDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalPendingRequest();
+    
+    /**
      * getRequestBySubject method implement from IRequestDAO
      * 
      * @return requests. <code>java.util.ArrayList</code> object  
@@ -90,7 +97,7 @@ public interface IRequestDAO {
      * @return request. <code>java.util.ArrayList</code> object  
      */
     public ArrayList<RequestBean> getRequestForEachTeacher(String username, int subjectId, String rqStatus);  
-    
+        
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
      * This method get the request reply from to database

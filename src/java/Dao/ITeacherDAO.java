@@ -29,9 +29,32 @@ public interface ITeacherDAO {
     public ArrayList<TeacherBean> getAllTeacher();
 
     /**
-     * getTeacherByUsername method implement from ITeacherDAO
-     *
-     * @return teacherbean object
+     * getAllTeacherApply method implement from ITeacherDAO
+     * 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    public ArrayList<TeacherBean> getAllTeacherApply(int pageindex, int pagesize);
+    
+    /**
+     * getTotalTeacherApply method implement from ITeacherDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacherApply();
+    
+    /**
+     * handleTeacherApply method implement from ITeacherDAO
+     * @param username <code>java.lang.String</code>
+     * @param status <code>java.lang.String</code>
+     * 
+     * @return number of row. <code>java.lang.Integer</code> object  
+     */
+    public int handleTeacherApply(String username, String status);
+    
+    /**
+     * getSubjectId method implement from ITeacherDAO
+     * get the id subject of teacher from database
+     * @return subjectId. <code>Integer</code> object  
      */
     public TeacherBean getTeacherByUsername(String username);
 

@@ -91,4 +91,22 @@ $.validator.addMethod("maxLength", function (value, element, param) {
       }
     }
   });
+  $("#replyForm").validate({
+   onblur : true,
+    rules: {
+      message:{
+        required : true,
+        noSpace: true,
+        minLength: 10,
+        maxLength: 1000
+      }
+      
+    },
+
+    messages: {
+      message: {
+        required: "Please fill this Content"
+      }
+    }
+  });
 });

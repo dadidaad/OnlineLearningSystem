@@ -106,6 +106,7 @@
                       <div class="form-group">
                 <!--Title Section-->          
                         <label for="rqTitle" class="d-block">Request Title: </label>
+                        <span style="font-size: 12px;color: red;">*Required</span>
                         <input type="text" id="rqTitle" name="rqTitle" class="form-control" /><br />
                         <span class="form-message"></span>
                       </div> 
@@ -113,6 +114,7 @@
                         <div class="form-group col-sm-6">
                 <!--Subject Section-->
                           <label for="rqSubject">Subject: </label>
+                          <span style="font-size: 12px;color: red;">*Required</span>
                           <select class="form-control" id="rqSubject" name="rqSubject" required>
                             <option value="" disabled selected>Select Subject</option>
                           <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">    
@@ -124,6 +126,7 @@
                         <div class="form-group col-sm-6">
                 <!--Level Section-->            
                           <label for="rqLevel">Grade: </label>
+                          <span style="font-size: 12px;color: red;">*Required</span>
                           <select class="form-control" id="rqLevel" name="rqLevel" required>
                             <option value="" disabled selected>Select Class</option>
                             <option value="10">10</option>
@@ -135,6 +138,7 @@
                         <div class="form-group col-sm-6">
                 <!--Price Section-->             
                           <label for="rqPrice">Price: </label>
+                          <span style="font-size: 12px;color: red;">*Required</span>
                           <select class="form-control" id="rqPrice" name="rqPrice" required>
                             <option value="" disabled selected>Select Price</option>
                             <option value="5000">5.000 <span>VND</span></option>
@@ -204,6 +208,7 @@
                   <div class="card shadow p-2">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">2. Content</h5>
+                      <span style="font-size: 12px;color: red;">*Required</span>
                       <div class="form-group responseContent--text mt-3">
                         <label for="TopicTextArea">Topic</label>
                         <textarea class="TopicTextArea" name="content" style="width: 100%" id="message" type="text" value="" minlength="10" maxlength="1000" rows="5" cols="30" dir="ltr" required></textarea>

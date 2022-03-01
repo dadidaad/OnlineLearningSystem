@@ -45,19 +45,23 @@ public class ListAllTeacherController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ArrayList<TeacherBean> teacherList = new ArrayList<>();
-            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-            teacherList = iTeacherDAO.getAllTeacher();
 
-            ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-            Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+            ArrayList <TeacherBean> teacherList = new ArrayList<>();
+                ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
+                teacherList = iTeacherDAO.getAllTeacher();
+                
+                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
+                /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
+                request.setAttribute("subjectNames", SubjectNames);
+                request.setAttribute("teachers", teacherList);
+                request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
+        }catch(Exception ex) {
 
-            /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
-            request.setAttribute("subjectNames", SubjectNames);
-            request.setAttribute("teachers", teacherList);
-            request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
-        } catch (Exception ex) {
             Logger.getLogger(ListAllTeacherController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
