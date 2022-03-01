@@ -103,7 +103,6 @@
                       <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
                       <input type="hidden" id="rr" name="rqId" readonly  value="${requestScope.request.getRequestID()}">
                       <label for="reTitle" class="d-block">Request Title: </label>
-                      <span style="font-size: 12px;color: red;">*Required</span>
                       <input type="text" id="reTitle" name="rqTitle" class="form-control" value="${requestScope.request.getTitle()}" /><br />
                       <div class="row">
                 <!--Subject Section-->          
@@ -193,7 +192,6 @@
                   <div class="card shadow p-2">
                     <div class="card-body">
                       <h5 class="text-hightlight1 mb-32px">2. Content</h5>
-                      <span style="font-size: 12px;color: red;">*Required</span>
                       <div class="responseContent--text mt-3">
                         <label for="TopicTextArea">Topic</label>
                             <textarea class="TopicTextAre" name="content" style="width: 100%" id="message" minlength="10" maxlength="1000" type="text" rows="5" cols="30" dir="ltr" required>${requestScope.request.getContent()}</textarea>

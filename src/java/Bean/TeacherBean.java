@@ -22,9 +22,10 @@ import java.sql.Date;
 public class TeacherBean extends AccountBean{
     private String cvImg;
     private int subjectId;
-    private String statusApply;
 
-       
+    public TeacherBean() {
+    }
+
     /**
      * Initialization method
      * 
@@ -42,25 +43,14 @@ public class TeacherBean extends AccountBean{
      * @param status the status of Account. <code>java.lang.String</code> object
      * @param role the role of the Account. <code>java.lang.Integer</code> object
      * @param state the state of the Teacher. <code>java.lang.Boolean</code> object
-     * @param status the state of the Teacher. <code>java.lang.Boolean</code> object
     
      */
-    public TeacherBean() {
-    }
-
-    public TeacherBean(String cvImg, int subjectId, String statusApply) {
-        this.cvImg = cvImg;
-        this.subjectId = subjectId;
-        this.statusApply = statusApply;
-    }
-
-    public TeacherBean(String cvImg, int subjectId, String statusApply, String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state) {
+    public TeacherBean(String cvImg, int subjectId, String username, String password, String mail, String avatar, String displayName, 
+            Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state) {
         super(username, password, mail, avatar, displayName, dateOfBirth, sex, description, cash, createDate, role, status, state);
         this.cvImg = cvImg;
         this.subjectId = subjectId;
-        this.statusApply = statusApply;
     }
-
 
     /**
      * The method used to print the attribute values of Teacher
@@ -107,24 +97,5 @@ public class TeacherBean extends AccountBean{
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
     }
-
-    /**
-     * StatusApply's data retrieval method
-     * 
-     * @return subjectId. <code>java.lang.String</code> object
-     */
-    public String getStatusApply() {
-        return statusApply;
-    }
-    /**
-     * Set value for StatusApply
-     * 
-     * @param subjectId.  <code>java.lang.String</code> object
-     */
-    public void setStatusApply(String statusApply) {
-        this.statusApply = statusApply;
-    }
-    
-    
 
 }

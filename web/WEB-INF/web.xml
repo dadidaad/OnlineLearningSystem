@@ -120,31 +120,6 @@
         <servlet-name>BecomeTutorController</servlet-name>
         <servlet-class>Controller.BecomeTutorController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>AccountManagerController</servlet-name>
-        <servlet-class>Controller.AccountManagerController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangeStatusAccountController</servlet-name>
-        <servlet-class>Controller.ChangeStatusAccountController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AccountManagerSearchController</servlet-name>
-        <servlet-class>Controller.AccountManagerSearchController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DashboardController</servlet-name>
-        <servlet-class>Controller.DashboardController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TeacherRequestController</servlet-name>
-        <servlet-class>Controller.TeacherRequestController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TeacherRequestHandleController</servlet-name>
-        <servlet-class>Controller.TeacherRequestHandleController</servlet-class>
-
-    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -264,26 +239,10 @@
     <servlet-mapping>
         <servlet-name>BecomeTutorController</servlet-name>
         <url-pattern>/BecomeTutor</url-pattern>
-=======
-        <servlet-name>AccountManagerController</servlet-name>
-        <url-pattern>/AccountManager</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangeStatusAccountController</servlet-name>
-        <url-pattern>/ChangeStatusAccount</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AccountManagerSearchController</servlet-name>
-        <url-pattern>/AccountManagerSearch</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DashboardController</servlet-name>
-        <url-pattern>/Dashboard</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TeacherRequestController</servlet-name>
-        <url-pattern>/TeacherRequest</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TeacherRequestHandleController</servlet-name>
-        <url-pattern>/TeacherRequestHandle</url-pattern>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

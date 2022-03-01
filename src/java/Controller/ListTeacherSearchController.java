@@ -1,12 +1,3 @@
-/*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * Project: Online Learning System
-
- * ListTeacherSearchController
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-07   1.0         Duc Minh    First Implement
- */
 package Controller;
 
 import Bean.TeacherBean;
@@ -26,10 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to search teacher from the list
- * /ListTeacherSearch is the URL of the Servlet
- * Extend HttpServlet class
- * @author Duc Minh
+ *
+ * @author win
  */
 public class ListTeacherSearchController extends HttpServlet {
 
@@ -45,7 +34,6 @@ public class ListTeacherSearchController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
             String searchString = request.getParameter("searchString");

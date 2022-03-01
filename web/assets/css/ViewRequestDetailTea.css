@@ -3,9 +3,3 @@
 .doneBtn {
   display: none;
 }
-label.error,#message-error
-{
-    display:block;
-    width:100%;
-    color:red;
-}
