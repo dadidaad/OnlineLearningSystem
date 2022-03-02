@@ -12,6 +12,7 @@ import Bean.ArticleBean;
 import Dao.ArticleDAO;
 import Dao.IArticleDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,16 +21,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Document: ListArticleController Create on: Feb 9, 2022, 10:20:35 PM
+ * Document: LoadAlreadyArticle Create on: 2022-02-22  10:20:35 PM
  *
  * @author Hoang Ngoc Long
  */
-@WebServlet(name = "ListArticleController", urlPatterns = {"/listarticle"})
-public class ListArticleController extends HttpServlet {
-    
+
+@WebServlet(name = "LoadAlreadyArticle", urlPatterns = {"/loadalreadyarticle"})
+public class LoadAlreadyArticle extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+         response.setContentType("text/html;charset=UTF-8");
         /*Use DAO class to get data from database for Article with corresponding */
         IArticleDAO articleDAO = new ArticleDAO();
         /*Get index ID from request*/
@@ -47,14 +49,12 @@ public class ListArticleController extends HttpServlet {
         }
         //get top 4 newest article and total article
         List<ArticleBean> list = articleDAO.pagingAricle(idex);
-        List<ArticleBean> list2 = articleDAO.getTop4Article();
-        //Attach Attribute for request and redirect it to ListArticle.jsp
+        //Attach Attribute for request and redirect it to AlreadyAcceptArticle.jsp
         request.setAttribute("listP", list);
-        request.setAttribute("listT", list2);
         request.setAttribute("tag", idex);
         request.setAttribute("a", idex);
         request.setAttribute("endP", endPage);
-        request.getRequestDispatcher("./view/ListArticle.jsp").forward(request, response);
+        request.getRequestDispatcher("./view/AlreadyAcceptArticle.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

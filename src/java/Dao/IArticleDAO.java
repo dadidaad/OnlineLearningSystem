@@ -19,47 +19,102 @@ import java.util.List;
  * @author Hoang Ngoc Long
  */
 public interface IArticleDAO {
-     /**
-     * getAllArticle method 
-     * 
-     * @return Article. <code>java.util.List</code> object  
+
+    /**
+     * getAllArticle method
+     *
+     * @return Article. <code>java.util.List</code> object
      */
     public List<ArticleBean> getAllArticle();
-     /**
+
+    /**
      * pagingAricle with coresponding index
-     * 
-     * @return Article. <code>java.util.List</code> object  
+     *
+     * @return Article. <code>java.util.List</code> object
      */
     public List<ArticleBean> pagingAricle(int index);
-     public List<ArticleBean> pagingSearchArticle(int index, String txt);
-     /**
-     * count number of article 
+
+    public List<ArticleBean> pagingSearchArticle(int index, String txt);
+
+    /**
+     * count number of article
      *
      *
      * @return numbers.
      */
     public int totalArticle();
-     public int totalSearchArticle(String txt);
-       /**
+
+    public int totalSearchArticle(String txt);
+
+    /**
      * getArticleDetail with coresponding ArticleID
-     * 
+     *
      * @return article object
      */
 
     public ArticleBean getArticleDetail(int aritcle);
-         /**
-     * getTop4Article method 
-     * 
-     * @return Article. <code>java.util.List</code> object  
+
+    /**
+     * getTop4Article method
+     *
+     * @return Article. <code>java.util.List</code> object
      */
 
-   public List<ArticleBean> getTop4Article();
-      /**
-     * searchByTitle method 
-     * 
-     * @return Article. <code>java.util.List</code> object  
+    public List<ArticleBean> getTop4Article();
+
+    /**
+     * searchByTitle method
+     *
+     * @return Article. <code>java.util.List</code> object
      */
 
     public List<ArticleBean> searchByTitle(String txt);
-      
+
+    /**
+     * acceptArticle method
+     *
+     * @return Article. <code>java.util.List</code> object
+     */
+
+    public void acceptArticle(String txt);
+
+    /**
+     * getAllpreparearticle
+     *
+     * @return Article. <code>java.util.List</code> object
+     */
+
+    public List<ArticleBean> getAllpreparearticle();
+
+    /**
+     * deleteprepare
+     *
+     * excute method
+     */
+
+    public void deleteprepare(String id);
+
+    /**
+     * getArticleDetail with coresponding ArticleID
+     *
+     * @return article object
+     */
+
+    public ArticleBean getArticlebyid(String id);
+
+    /**
+     * deleteprepare
+     *
+     * excute method
+     */
+    public void editproduct(String image, String title, String description, String id);
+
+    /**
+     * deleteprepare
+     *
+     * excute method
+     */
+
+    public void addNew(String title, String des, String image, String createname);
+
 }

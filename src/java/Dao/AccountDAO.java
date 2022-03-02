@@ -419,6 +419,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         return accounts;
     }
 
+<<<<<<< Upstream, based on origin/master
     /**
      * getAllAccount method implement from IAccountDAO
      * @param pageindex <code>java.lang.Integer</code>
@@ -555,4 +556,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         x.setAvatar("avatar");
         System.out.println(db.updateInformation(x));
     }
+=======
+    
+>>>>>>> 10bf7be commitarticletest
 }

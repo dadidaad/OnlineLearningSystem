@@ -29,7 +29,10 @@
                         <div class="col-md-8">
                             <a href="detail?did=${o.id}">
                                 <h9 class="title">${o.title}</h9>
+                                <br>
+                            
                             </a>
+                             <p style="width: 60%;">${o.description}</p>
                         </div>
                     </div>
                 </c:forEach>
@@ -66,7 +69,7 @@
                         <a href="like?aid=${o.id}" style="text-decoration: none; margin-right: 10px">
                             <i class="fas fa-thumbs-up"></i> Like
                         </a>
-                        <span class="text-muted">Author: <a href="#"></a></span>
+                        <span class="text-muted">Author: ${o.createName}<a href="#"></a></span>
                        
                     </div>
                 </div>

@@ -14,9 +14,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
 
 /**
  * Document: ArticleDAO for get data for Article bean from database Create on:
@@ -42,7 +45,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         List<ArticleBean> list = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select *, SUBSTRING([description], 0, 750) +'...' as [descripcut] from Article ";
+            query = "select top 4 *, SUBSTRING([description], 0, 45) +'...' as [descripcut] from Article where approved='True' order by published desc ";
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
             /*Query and save in ResultSet*/
@@ -68,7 +71,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
         }
         return null;
     }
@@ -84,10 +87,10 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         try {
             /*Set up connection and Sql statement for Query*/
             query = "with t as(\n"
-                    + "select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published from Article\n"
+                    + "select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published, createName  from Article where approved='True'\n"
                     + ")\n"
-                    + "SELECT ArticleID,title,descripcut,imageLink, published FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n"
-                    + "as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published FROM t ) as tblHuman WHERE rownum > ? AND rownum <= ?";
+                    + "SELECT ArticleID,title,descripcut,imageLink, published,createName FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n"
+                    + "as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published,t.createName  FROM t ) as tblHuman WHERE rownum > ? AND rownum <= ? ";
             Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, (index - 1) * 6);
@@ -106,13 +109,17 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
                         /*get descripcut of article*/
                         rs.getString(4),
                         /*get published of article*/
-                        rs.getString(5)
+                        rs.getString(5),
+                        rs.getString(6)
                 ));
             }
             return list;
         } catch (Exception e) {
-            /*Exeption Handle*/
-            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                throw new ServletException("GET method is not supported.");
+            } catch (ServletException ex) {
+                Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
             /*Close connection, prepare statement, result set*/
             ArticleDAO.close(con, ps, rs);
@@ -130,7 +137,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
     public int totalArticle() {
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select count(*) from Article";
+            query = "select count(*) from Article where approved='True'";
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
             /*Query and save in ResultSet*/
@@ -144,7 +151,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
 
         }
         return 0;
@@ -159,7 +166,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
     public ArticleBean getArticleDetail(int aritcle) {
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select ArticleID,title,description,imageLink,published from Article where ArticleID=?";
+            query = "select ArticleID,title,description,imageLink,published, createName from Article where ArticleID=? and approved='True'";
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, aritcle);
@@ -176,14 +183,18 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
                         /*get imageLink of article*/
                         rs.getString(4),
                         /*get published of article*/
-                        rs.getString(5));
+                        rs.getString(5),
+                        /*get createname of article*/
+                        rs.getString(6)
+                );
             }
         } catch (Exception e) {
             /*Exeption Handle*/
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
+            
         }
         return null;
     }
@@ -199,7 +210,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         List<ArticleBean> list = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select top 4 * from Article order by published desc";
+            query = "select top 4 *, SUBSTRING([description], 0, 50) +'...' as [descripcut] from Article where approved='True' order by published desc";
             //Set up connection and Sql statement for Querry
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
@@ -213,7 +224,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
                         /*get title of article*/
                         rs.getString(2),
                         /*get imagelink of article*/
-                        rs.getString(3),
+                        rs.getString(9),
                         /*get descripcut of article*/
                         rs.getString(4),
                         /*get published of article*/
@@ -226,7 +237,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
         }
         return null;
     }
@@ -236,7 +247,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         List<ArticleBean> list = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select *, SUBSTRING([description], 0, 750) +'...' as [descripcut] from Article  where Lower(title) like ?";
+            query = "select *, SUBSTRING([description], 0, 750) +'...' as [descripcut] from Article  where Lower(title) like ? and approved='True'";
             //Set up connection and Sql statement for Querry
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
@@ -251,11 +262,13 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
                         /*get title of article*/
                         rs.getString(2),
                         /*get descripcut of article*/
-                        rs.getString(9),
+                        rs.getString(3),
                         /*get imagelink of article*/
                         rs.getString(4),
                         /*get published of article*/
-                        rs.getString(5)
+                        rs.getString(5),
+                         /*get createname of article*/
+                         rs.getString(8)
                 ));
             }
             return list;
@@ -264,7 +277,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
         }
         return null;
     }
@@ -275,10 +288,10 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         try {
             /*Set up connection and Sql statement for Query*/
             query = "with t as(\n"
-                    + "select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published from Article where Lower(title) like ?\n"
+                    + "select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published,createName from Article where Lower(title) like ? and approved='True'\n"
                     + ")\n"
-                    + "SELECT ArticleID,title,descripcut,imageLink, published FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n"
-                    + "as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published FROM t  where Lower(title) like ?) as tblHuman WHERE rownum > ? AND rownum <= ?\n"
+                    + "SELECT ArticleID,title,descripcut,imageLink, published,createName FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n"
+                    + "as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published, t.createName FROM t  where Lower(title) like ?) as tblHuman WHERE rownum > ? AND rownum <= ? \n"
                     + "                    \n"
                     + "                    \n"
                     + "                    ";
@@ -302,7 +315,9 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
                         /*get descripcut of article*/
                         rs.getString(4),
                         /*get published of article*/
-                        rs.getString(5)
+                        rs.getString(5),
+                          /*get createName of article*/
+                        rs.getString(6)
                 ));
             }
             return list;
@@ -311,7 +326,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
         }
         return null;
     }
@@ -320,7 +335,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
     public int totalSearchArticle(String txt) {
         try {
             /*Set up connection and Sql statement for Query*/
-            query = "select count(*) from Article where Lower(title) like ?";
+            query = "select count(*) from Article where Lower(title) like ? and approved='True'";
             con = new BaseDAO().getConnection();
             ps = con.prepareStatement(query);
             /*Query and save in ResultSet*/
@@ -335,10 +350,175 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
             Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             /*Close connection, prepare statement, result set*/
-            BaseDAO.close(con, ps, rs);
+            ArticleDAO.close(con, ps, rs);
 
         }
         return 0;
     }
 
+    @Override
+    public void acceptArticle(String txt) {
+        try {
+            /*Set up connection and Sql statement for Query*/
+            query = "update Article set approved='true' where ArticleID=?";
+            con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            /*Query and save in ResultSet*/
+            ps.setString(1, txt);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+
+        }
+    }
+
+    @Override
+    public List<ArticleBean> getAllpreparearticle() {
+        List<ArticleBean> list = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query*/
+            query = "select * from Article where approved='False'";
+            //Set up connection and Sql statement for Querry
+            con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            /*Query and save in ResultSet*/
+            rs = ps.executeQuery();;
+            //Assign data to an List of Article
+            while (rs.next()) {
+                list.add(new ArticleBean(
+                        /*get ArticleID*/
+                        rs.getInt(1),
+                        /*get title of article*/
+                        rs.getString(2),
+                        /*get imagelink of article*/
+                        rs.getString(3),
+                        /*get descripcut of article*/
+                        rs.getString(4),
+                        /*get published of article*/
+                        rs.getString(5),
+                        /*get createdName of article*/
+                         rs.getString(8)
+                ));
+            }
+            return list;
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+        }
+        return null;
+    }
+     public void deleteprepare(String id){
+           try {
+            /*Set up connection and Sql statement for Query*/
+            query = "delete from Article where ArticleID=?";
+            con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            /*Query and save in ResultSet*/
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+
+        }
+     }
+
+    @Override
+    public ArticleBean getArticlebyid(String id) {
+        try {
+            /*Set up connection and Sql statement for Query*/
+            query = "select * from Article  where ArticleID=?";
+            //Set up connection and Sql statement for Querry
+            con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1,id);
+            /*Query and save in ResultSet*/
+            rs = ps.executeQuery();;
+            //Assign data to an List of Article
+            while (rs.next()) {
+                return new ArticleBean(
+                        /*get ArticleID*/
+                        rs.getInt(1),
+                        /*get title of article*/
+                        rs.getString(2),
+                        /*get descripcut of article*/
+                        rs.getString(3),
+                        /*get imagelink of article*/
+                        rs.getString(4),
+                        /*get published of article*/
+                        rs.getString(5),
+                         /*get createname of article*/
+                         rs.getString(8)
+               );
+            }
+
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+        }
+        return null;
+    }
+
+    @Override
+    public void editproduct(String image, String title, String description, String id) {
+          try {
+            /*Set up connection and Sql statement for Query*/
+            query = "update Article set title=?,imageLink=?,description=? where ArticleID=?";
+            con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            /*Query and save in ResultSet*/
+             ps.setString(1, title);
+            ps.setString(2, image);
+            ps.setString(3, description);
+             ps.setString(4, id);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+
+        }
+    }
+
+
+    @Override
+    public void addNew(String title, String des, String image, String createname) {
+        String query = "insert into Article(title,description,imageLink,published,approved,views,createName) values(?,?,?,?,?,?,?)";
+        String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        boolean approved=false;
+        int view=0;
+        try {
+             con = new BaseDAO().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, title);
+            ps.setString(2, des);
+            ps.setString(3, image);
+            ps.setString(4, date);
+            ps.setBoolean(5, approved);
+            ps.setInt(6, view);
+            ps.setString(7, createname);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(con, ps, rs);
+        }
+    }
 }

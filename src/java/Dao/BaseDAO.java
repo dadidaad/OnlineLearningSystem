@@ -1,26 +1,53 @@
 package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * Get connection to database
  */
 public class BaseDAO {
 
-    private static String DB_URL = "jdbc:sqlserver://localhost:1433;"
-            + "databaseName=OnlineLearningSystem;";
-    private static String USER_NAME = "sa";
-    private static String PASSWORD = "123";
-
-    public static Connection getConnection() throws SQLException {
-        Connection conn = null;
+   public static Connection getConnection() {
         try {
+            String server = "localhost";
+            String databasename = "OnlineLearningSystem";
+            String username = "sa";
+            String password = "long";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            return DriverManager.getConnection("jdbc:sqlserver://" + server + ":1433;databaseName=" + databasename, username, password);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conn;
+        return null;
+    }
+
+    public static void close(Connection con, Statement stmt, ResultSet rs) {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

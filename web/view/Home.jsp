@@ -32,7 +32,7 @@
                         <h3>Welcome to TutorDuo</h3>
                         <p>
                             The core content of the subject helps students to form and develop their communication ability through practicing listening, speaking, reading and writing skills.</p>
-                        <a href="#" class="btn">More information</a>
+                        <a href="<i:ReadUrlFromContext url="/listarticle"/>" class="btn">More information</a>
                     </div>
                     <div class="image">
                         <img src="<i:ReadUrlFromContext url="/assets/image/background-title.png"/>"
@@ -85,7 +85,7 @@
                 <div class="box-container">
 
                     <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>"  alt="">
+                        <img src="<i:ReadUrlFromContext url="/assets/image/male4.jpg"/>"  alt="">
                         <h3>Mr.Johnatha</h3>
                         <div class="stars">
                             <i class="fas fa-star"></i>
@@ -94,11 +94,10 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <p>How do you introduce teacher</p>
                     </div>
                     <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
-                        <h3>john</h3>
+                        <img src="<i:ReadUrlFromContext url="/assets/image/teacherFemale.jpeg"/>" alt="">
+                        <h3>Miss.Eve</h3>
                         <div class="stars">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -106,11 +105,10 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <p>How do you introduce teacher</p>
                     </div>
                     <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/Maths.png"/>" alt="">
-                        <h3>Miss.Nga</h3>
+                        <img src="<i:ReadUrlFromContext url="/assets/image/male3.jpg"/>" alt="">
+                        <h3>Mr.John</h3>
                         <div class="stars">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -118,11 +116,9 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <p>How do you introduce teacher</p>
                     </div>
 
                 </div>
-                <a href="#" class="More">Show More</a>
             </section>
             <section class="speciality" id="speciality">
 

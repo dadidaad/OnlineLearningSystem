@@ -46,6 +46,17 @@ public class ArticleBean {
      * 
      * @return pulished. <code>java.lang.Integer</code> object
      */
+    
+    
+    public ArticleBean(int id, String title, String description, String image,  String pulished,String createName) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.createName = createName;
+        this.pulished = pulished;
+    }
+
     public String getPulished() {
         return pulished;
     }
