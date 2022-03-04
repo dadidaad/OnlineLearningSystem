@@ -1,0 +1,224 @@
+
+3utils.SendMailVerify#sendEmail(Lbean/AccountBean;)ZÉ
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaS S("34*‚
+13É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javay y(]œÃ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javay y(]
+%15java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;* 
+
+%13java.lang.StringBuilder*
+
+%14java.lang.String2append(Ljava/lang/String;)*
+12*í
+14É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javayJ y(Nˇ¸
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javayJ y(\
+%14java.lang.String"0bean.AccountBean#getUsername()Ljava/lang/String;*
+
+userbean.AccountBean2getUsername()*
+13*ı
+15É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javay y(‚ﬂ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javay y(B
+%13java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*
+
+sbjava.lang.StringBuilder*-+
+)You sign up our serive with user name is 2append(Ljava/lang/String;)*
+14*â
+26É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javad d(ˆ
+Û
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javad d(=
+%9java.lang.Object"__mapSet*
+
+prjava.util.Properties*%#
+!mail.smtp.ssl.checkserveridentity*2*
+17*ª
+16É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaw w(3–
+Õ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaw w(3
+sbjava.lang.StringBuilder"__id* 
+
+%10java.lang.StringBuilder’“
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javax x(5
+%12java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*
+
+sbjava.lang.StringBuilder* 
+Thanks for using TutorDuo.\n2append(Ljava/lang/String;)*
+15*£
+27É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javac c(ê
+ç
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javac c(U
+%8java.lang.Object"__mapSet*
+
+prjava.util.Properties*!
+mail.smtp.socketFactory.class*" 
+javax.net.ssl.SSLSocketFactory*
+26*≠
+17É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaw w(2¬ø
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaw# w(0
+%10java.lang.StringBuilder"java.lang.StringBuilder’
+“
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaw w(2
+%11"!java.lang.StringBuilder#<init>()V* 
+
+%10java.lang.StringBuilder*
+16*á
+28É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javab b(Ù
+Ò
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javab b(9
+%7java.lang.Object"__mapSet*
+
+prjava.util.Properties* 
+mail.smtp.socketFactory.port*
+587*
+27*à
+29É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaa a(ıÚ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaa a(?
+%6java.lang.Object"Xjava.util.Properties#setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;*
+
+prjava.util.Properties*
+mail.smtp.starttls.enable*
+true21setProperty(Ljava/lang/String;Ljava/lang/String;)*
+28*û
+1Ö
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaÜ Ü("ê
+Ö
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaÜ Ü(
+""*ñ
+8É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java| |(ÖÇ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java| |(&
+%20java.lang.String"4java.lang.StringBuilder#toString()Ljava/lang/String;*
+
+sbjava.lang.StringBuilder2
+toString()*
+1*‡
+9É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaz z(]œÃ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaz z(]
+%19java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;* 
+
+%17java.lang.StringBuilder*
+
+%18java.lang.String2append(Ljava/lang/String;)*
+8*˝
+30É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java` `(ÍÁ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java` `(4
+%5java.lang.Object"Xjava.util.Properties#setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;*
+
+prjava.util.Properties*
+mail.smtp.auth*
+true21setProperty(Ljava/lang/String;Ljava/lang/String;)*
+29*˚
+31É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java_ _(ËÂ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java_ _(2
+%4java.lang.Object"Xjava.util.Properties#setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;*
+
+prjava.util.Properties*
+mail.smtp.port*
+2521setProperty(Ljava/lang/String;Ljava/lang/String;)*
+30*”
+32É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java] ](-…
+∆
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java] ](-
+prjava.util.Properties"__id*
+
+%1java.util.PropertiesÙÒ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java^ ^(>
+%3java.lang.Object"Xjava.util.Properties#setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;*
+
+prjava.util.Properties*
+mail.smtp.host*
+smtp.gmail.com21setProperty(Ljava/lang/String;Ljava/lang/String;)*
+31*ã
+10É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javazM z(Q˘ˆ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javazM z(\
+%18java.lang.String"-bean.AccountBean#getToken()Ljava/lang/String;*
+
+userbean.AccountBean2
+getToken()*
+9*û
+33É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java] ](,ª∏
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java]  ](*
+%1java.util.Properties"java.util.PropertiesÕ
+ 
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.java] ](,
+%2"java.util.Properties#<init>()V*
+
+%1java.util.Properties*
+32*¯
+11É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaz z(Â‚
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaz z(E
+%17java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*
+
+sbjava.lang.StringBuilder*0.
+,Please verify your account using this code: 2append(Ljava/lang/String;)*
+10*‹
+34É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaT T(ˆÛ
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaV V('
+%0java.lang.String",bean.AccountBean#getMail()Ljava/lang/String;*
+
+userbean.AccountBean2	getMail()∆
+√
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaV V((
+toEmailjava.lang.String"__id*
+
+%0java.lang.String»
+≈
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaW W(2
+	fromEmailjava.lang.String"__id*
+dathp.http@gmail.comº
+π
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaX X(&
+passwordjava.lang.String"__id*
+	vtdhp9x00*
+33*–
+12É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javaye y(jΩ∫
+É
+yC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/utils/SendMailVerify.javay y(k
+%16java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;* 
+
+%15java.lang.StringBuilder*
+.\n2append(Ljava/lang/String;)*
+11:
+userbean.AccountBeanB
+utils.SendMailVerify

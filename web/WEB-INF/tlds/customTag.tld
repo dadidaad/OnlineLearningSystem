@@ -22,7 +22,7 @@
     -->
   <tag>
     <name>ReadUrlFromContext</name>
-    <tag-class>customTag.ReadUrlFromContextTag</tag-class>
+    <tag-class>custom_tag.ReadUrlFromContextTag</tag-class>
     <body-content>scriptless</body-content>
     <attribute>
       <name>url</name>

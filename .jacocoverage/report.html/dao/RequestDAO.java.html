@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RequestDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">RequestDAO.java</span></div><h1>RequestDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * ChapterDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Duc Minh   First Implement
+ */
+package dao;
+
+import bean.RequestBean;
+import bean.RequestReplyBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * This class contain method to find Request information from database Extend
+ * BaseDAO class to call getConnection() method Implement IRequestDAO Interface
+ *
+ * @author Duc Minh
+ */
+<span class="nc" id="L27">public class RequestDAO extends BaseDAO implements IRequestDAO {</span>
+
+    /**
+     * getAllRequest method implement from IRequestDAO
+     *
+     * @return requests. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;RequestBean&gt; getAllRequest() {
+<span class="nc" id="L36">        ArrayList&lt;RequestBean&gt; requests = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L37">        Connection conn = null;</span>
+<span class="nc" id="L38">        PreparedStatement statement = null;</span>
+<span class="nc" id="L39">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L42">            conn = getConnection();</span>
+<span class="nc" id="L43">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request&quot;;
+<span class="nc" id="L45">            statement = conn.prepareStatement(sql);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L47">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L51">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L52">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L53">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L54">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L55">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L56">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L57">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L58">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L59">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L60">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L61">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L62">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L64">                requests.add(request);</span>
+<span class="nc" id="L65">            }</span>
+            /*Close all the connection */
+<span class="nc" id="L67">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L69">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L71">            close(conn, statement, rs);</span>
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">        return requests;</span>
+    }
+
+    /**
+     * getRequestById method implement from IRequestDAO
+     *
+     * @return request. &lt;code&gt;Bean.RequestBean&lt;/code&gt; object
+     */
+    @Override
+    public RequestBean getRequestById(int rqId) {
+<span class="nc" id="L83">        Connection conn = null;</span>
+<span class="nc" id="L84">        PreparedStatement statement = null;</span>
+<span class="nc" id="L85">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L88">            conn = getConnection();</span>
+<span class="nc" id="L89">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request\n&quot;
+                    + &quot;where RequestID = ?&quot;;
+<span class="nc" id="L92">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L93">            statement.setInt(1, rqId);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L96">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L98">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L99">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L100">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L101">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L102">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L103">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L104">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L105">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L106">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L107">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L108">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L109">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L111">                return request;</span>
+            }
+            
+<span class="nc" id="L114">        } catch (SQLException ex) {</span>
+<span class="nc" id="L115">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L117">            close(conn, statement, rs);</span>
+<span class="nc" id="L118">        }</span>
+<span class="nc" id="L119">        return null;</span>
+    }
+
+    /**
+     * getRequestByStatus method implement from IRequestDAO
+     *
+     * @return request. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;RequestBean&gt; getRequestForStudent(String username, String rqStatus) {
+<span class="nc" id="L129">        ArrayList&lt;RequestBean&gt; requests = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L130">        Connection conn = null;</span>
+<span class="nc" id="L131">        PreparedStatement statement = null;</span>
+<span class="nc" id="L132">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L135">            conn = getConnection();</span>
+<span class="nc" id="L136">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request\n&quot;
+                    + &quot;where Status =? and Student_sent = ? order by CreatedTime desc&quot;;
+<span class="nc" id="L139">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L140">            statement.setString(1, rqStatus);</span>
+<span class="nc" id="L141">            statement.setString(2, username);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L144">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L146">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L147">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L148">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L149">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L150">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L151">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L152">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L153">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L154">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L155">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L156">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L157">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L159">                requests.add(request);</span>
+<span class="nc" id="L160">            }</span>
+<span class="nc" id="L161">        } catch (SQLException ex) {</span>
+<span class="nc" id="L162">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L164">            close(conn, statement, rs);</span>
+<span class="nc" id="L165">        }</span>
+<span class="nc" id="L166">        return requests;</span>
+    }
+
+    /**
+     * getRequestForTeacher method implement from IRequestDAO
+     *
+     * @return request. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;RequestBean&gt; getRequestForTeacher(int subjectId, String rqStatus) {
+<span class="nc" id="L176">        ArrayList&lt;RequestBean&gt; requests = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L177">        Connection conn = null;</span>
+<span class="nc" id="L178">        PreparedStatement statement = null;</span>
+<span class="nc" id="L179">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L182">            conn = getConnection();</span>
+<span class="nc" id="L183">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request\n&quot;
+                    + &quot;where Status =? and SubjectID = ?&quot;;
+<span class="nc" id="L186">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L187">            statement.setString(1, rqStatus);</span>
+<span class="nc" id="L188">            statement.setInt(2, subjectId);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L191">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L193">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L194">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L195">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L196">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L197">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L198">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L199">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L200">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L201">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L202">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L203">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L204">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L206">                requests.add(request);</span>
+<span class="nc" id="L207">            }</span>
+            
+<span class="nc" id="L209">        } catch (SQLException ex) {</span>
+<span class="nc" id="L210">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L212">            close(conn, statement, rs);</span>
+<span class="nc" id="L213">        }</span>
+<span class="nc" id="L214">        return requests;</span>
+    }
+
+    /**
+     * getRequestForEachTeacher method implement from IRequestDAO
+     *
+     * @return request. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;RequestBean&gt; getRequestForEachTeacher(String username, int subjectId, String rqStatus) {
+<span class="nc" id="L224">        ArrayList&lt;RequestBean&gt; requests = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L225">        Connection conn = null;</span>
+<span class="nc" id="L226">        PreparedStatement statement = null;</span>
+<span class="nc" id="L227">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L230">            conn = getConnection();</span>
+<span class="nc" id="L231">            String sql = &quot;select Request.*\n&quot;</span>
+                    + &quot;from Request, Request_Reply\n&quot;
+                    + &quot;where Request.Status = ? and SubjectID = ? and Request_Reply.tutor_sent = ? &quot;;
+<span class="nc" id="L234">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L235">            statement.setString(1, rqStatus);</span>
+<span class="nc" id="L236">            statement.setInt(2, subjectId);</span>
+<span class="nc" id="L237">            statement.setString(3, username);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L240">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L242">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L243">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L244">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L245">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L246">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L247">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L248">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L249">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L250">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L251">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L252">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L253">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L255">                requests.add(request);</span>
+<span class="nc" id="L256">            }</span>
+            
+<span class="nc" id="L258">        } catch (SQLException ex) {</span>
+<span class="nc" id="L259">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L261">            close(conn, statement, rs);</span>
+<span class="nc" id="L262">        }</span>
+<span class="nc" id="L263">        return requests;</span>
+    }
+
+    /**
+     * getRequestBySubject method implement from IRequestDAO
+     *
+     * @return request. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;RequestBean&gt; getRequestBySubject(int subjectId) {
+<span class="nc" id="L273">        ArrayList&lt;RequestBean&gt; requests = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L274">        Connection conn = null;</span>
+<span class="nc" id="L275">        PreparedStatement statement = null;</span>
+<span class="nc" id="L276">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L279">            conn = getConnection();</span>
+<span class="nc" id="L280">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request\n&quot;
+                    + &quot;where SubjectID = ?&quot;;
+<span class="nc" id="L283">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L284">            statement.setInt(1, subjectId);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L287">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L289">                RequestBean request = new RequestBean();</span>
+<span class="nc" id="L290">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L291">                request.setStudentSent(rs.getString(&quot;Student_sent&quot;));</span>
+<span class="nc" id="L292">                request.setTutorGet(rs.getString(&quot;Tutor_get&quot;));</span>
+<span class="nc" id="L293">                request.setCreatedTime(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L294">                request.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L295">                request.setCost(rs.getInt(&quot;Cost&quot;));</span>
+<span class="nc" id="L296">                request.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L297">                request.setImageLink(rs.getString(&quot;Image&quot;));</span>
+<span class="nc" id="L298">                request.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L299">                request.setLevel(rs.getInt(&quot;Level&quot;));</span>
+<span class="nc" id="L300">                request.setTitle(rs.getString(&quot;Title&quot;));</span>
+                
+<span class="nc" id="L302">                requests.add(request);</span>
+<span class="nc" id="L303">            }</span>
+            
+<span class="nc" id="L305">        } catch (SQLException ex) {</span>
+<span class="nc" id="L306">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L308">            close(conn, statement, rs);</span>
+<span class="nc" id="L309">        }</span>
+<span class="nc" id="L310">        return requests;</span>
+    }
+
+    /**
+     * createRequest method implement from IRequestDAO This method create
+     * request and add to the databse
+     */
+    @Override
+    public void createRequest(RequestBean rq) {
+<span class="nc" id="L319">        Connection conn = null;</span>
+<span class="nc" id="L320">        PreparedStatement statement = null;</span>
+<span class="nc" id="L321">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L324">            conn = getConnection();</span>
+<span class="nc" id="L325">            String sql = &quot;insert into Request(Student_sent, Tutor_get, CreatedTime, [Status], Cost, Content, [Image], SubjectID,&quot;</span>
+                    + &quot;Level, Title) \n&quot;
+                    + &quot;values(?, ?, GETDATE(), 'Waiting', ?, ?, ?, ?, ?, ?)&quot;;
+<span class="nc" id="L328">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L329">            statement.setString(1, rq.getStudentSent());</span>
+<span class="nc" id="L330">            statement.setString(2, rq.getTutorGet());</span>
+<span class="nc" id="L331">            statement.setInt(3, rq.getCost());</span>
+<span class="nc" id="L332">            statement.setString(4, rq.getContent());</span>
+<span class="nc" id="L333">            statement.setString(5, rq.getImageLink());</span>
+<span class="nc" id="L334">            statement.setInt(6, rq.getSubjectID());</span>
+<span class="nc" id="L335">            statement.setInt(7, rq.getLevel());</span>
+<span class="nc" id="L336">            statement.setString(8, rq.getTitle());</span>
+
+            /*Excuse Query*/
+<span class="nc" id="L339">            statement.executeUpdate();</span>
+            
+<span class="nc" id="L341">        } catch (SQLException ex) {</span>
+<span class="nc" id="L342">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L344">            close(conn, statement, rs);</span>
+<span class="nc" id="L345">        }</span>
+<span class="nc" id="L346">    }</span>
+
+    /**
+     * updateRequest method implement from IRequestDAO This method update the
+     * request and update to database
+     */
+    @Override
+    public void updateRequest(RequestBean rq) {
+<span class="nc" id="L354">        Connection conn = null;</span>
+<span class="nc" id="L355">        PreparedStatement statement = null;</span>
+<span class="nc" id="L356">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L359">            conn = getConnection();</span>
+<span class="nc" id="L360">            String sql = &quot;update Request\n&quot;</span>
+                    + &quot;               set Tutor_get= ?, Cost = ?, [Status] = 'Waiting', Content = ?,[Image] = ?, SubjectID = ?,&quot;
+                    + &quot; Level = ?, Title = ?,CreatedTime = GETDATE()  WHERE RequestID = ?&quot;;
+<span class="nc" id="L363">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L364">            statement.setString(1, rq.getTutorGet());</span>
+<span class="nc" id="L365">            statement.setInt(2, rq.getCost());</span>
+<span class="nc" id="L366">            statement.setString(3, rq.getContent());</span>
+<span class="nc" id="L367">            statement.setString(4, rq.getImageLink());</span>
+<span class="nc" id="L368">            statement.setInt(5, rq.getSubjectID());</span>
+<span class="nc" id="L369">            statement.setInt(6, rq.getLevel());</span>
+<span class="nc" id="L370">            statement.setString(7, rq.getTitle());</span>
+<span class="nc" id="L371">            statement.setInt(8, rq.getRequestID());</span>
+
+
+            /*Excuse Query*/
+<span class="nc" id="L375">            statement.executeUpdate();</span>
+            
+<span class="nc" id="L377">        } catch (SQLException ex) {</span>
+<span class="nc" id="L378">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L380">            close(conn, statement, rs);</span>
+<span class="nc" id="L381">        }</span>
+<span class="nc" id="L382">    }</span>
+
+    /**
+     * updateRequestStatus method implement from IRequestDAO This method update
+     * the status of request and update to database
+     */
+    @Override
+    public void updateRequestStatus(String status, int requestId) {
+<span class="nc" id="L390">        Connection conn = null;</span>
+<span class="nc" id="L391">        PreparedStatement statement = null;</span>
+<span class="nc" id="L392">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L395">            conn = getConnection();</span>
+<span class="nc" id="L396">            String sql = &quot;update Request\n&quot;</span>
+                    + &quot;set [Status] = ?\n&quot;
+                    + &quot;where RequestID = ?&quot;;
+<span class="nc" id="L399">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L400">            statement.setString(1, status);</span>
+<span class="nc" id="L401">            statement.setInt(2, requestId);</span>
+
+
+            /*Excuse Query*/
+<span class="nc" id="L405">            statement.executeUpdate();</span>
+            
+<span class="nc" id="L407">        } catch (SQLException ex) {</span>
+<span class="nc" id="L408">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L410">            close(conn, statement, rs);</span>
+<span class="nc" id="L411">        }</span>
+<span class="nc" id="L412">    }</span>
+
+    /**
+     * deleteRequest method implement from IRequestDAO This method delete the
+     * request to database
+     *
+     * @param rqId
+     */
+    @Override
+    public void deleteRequest(int rqId) {
+<span class="nc" id="L422">        Connection conn = null;</span>
+<span class="nc" id="L423">        PreparedStatement statement = null;</span>
+<span class="nc" id="L424">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L427">            conn = getConnection();</span>
+<span class="nc" id="L428">            String sql = &quot;delete from Request where RequestID = ? &quot;;</span>
+<span class="nc" id="L429">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L430">            statement.setInt(1, rqId);</span>
+
+            /*Excuse Query*/
+<span class="nc" id="L433">            statement.executeUpdate();</span>
+            
+<span class="nc" id="L435">        } catch (SQLException ex) {</span>
+<span class="nc" id="L436">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L438">            close(conn, statement, rs);</span>
+<span class="nc" id="L439">        }</span>
+<span class="nc" id="L440">    }</span>
+
+    /**
+     * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
+     * This method get the request reply from to database
+     *
+     * @param rqId
+     * @return request. &lt;code&gt;Bean.RequestBean&lt;/code&gt; object
+     */
+    @Override
+    public RequestReplyBean getRequestReplyById(int rqId) {
+<span class="nc" id="L451">        Connection conn = null;</span>
+<span class="nc" id="L452">        PreparedStatement statement = null;</span>
+<span class="nc" id="L453">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L456">            conn = getConnection();</span>
+<span class="nc" id="L457">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Request_Reply\n&quot;
+                    + &quot;where RequestID = ?&quot;;
+<span class="nc" id="L460">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L461">            statement.setInt(1, rqId);</span>
+
+            /*Excuse Query and Get data*/
+<span class="nc" id="L464">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L466">                RequestReplyBean request = new RequestReplyBean();</span>
+<span class="nc" id="L467">                request.setRequestID(rs.getInt(&quot;RequestID&quot;));</span>
+<span class="nc" id="L468">                request.setStudentGet(rs.getString(&quot;Student_get&quot;));</span>
+<span class="nc" id="L469">                request.setTutorSent(rs.getString(&quot;Tutor_sent&quot;));</span>
+<span class="nc" id="L470">                request.setCreatedTimeReply(rs.getDate(&quot;CreatedTime&quot;));</span>
+<span class="nc" id="L471">                request.setContentReply(rs.getString(&quot;Content_reply&quot;));</span>
+<span class="nc" id="L472">                request.setImageLinkReply(rs.getString(&quot;Image_reply&quot;));</span>
+                
+<span class="nc" id="L474">                return request;</span>
+            }
+            
+<span class="nc" id="L477">        } catch (SQLException ex) {</span>
+<span class="nc" id="L478">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L480">            close(conn, statement, rs);</span>
+<span class="nc" id="L481">        }</span>
+<span class="nc" id="L482">        return null;</span>
+    }
+
+    /**
+     * createRequestReply method implement from IRequestDAO This method create
+     * the request reply to database
+     */    
+    @Override
+    public void createRequestReply(RequestReplyBean rq) {
+<span class="nc" id="L491">        Connection conn = null;</span>
+<span class="nc" id="L492">        PreparedStatement statement = null;</span>
+<span class="nc" id="L493">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L496">            conn = getConnection();</span>
+<span class="nc" id="L497">            String sql = &quot;insert into Request_Reply(RequestID,Tutor_sent,Student_get,CreatedTime,Content_reply,Image_reply)\n&quot;</span>
+                    + &quot;values(?, ?, ?, GETDATE(), ?, ?)&quot;;
+<span class="nc" id="L499">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L500">            statement.setInt(1, rq.getRequestID());</span>
+<span class="nc" id="L501">            statement.setString(2, rq.getTutorSent());</span>
+<span class="nc" id="L502">            statement.setString(3, rq.getStudentGet());</span>
+<span class="nc" id="L503">            statement.setString(4, rq.getContentReply());</span>
+<span class="nc" id="L504">            statement.setString(5, rq.getImageLinkReply());</span>
+
+            /*Excuse Query*/
+<span class="nc" id="L507">            statement.executeUpdate();</span>
+            
+<span class="nc" id="L509">        } catch (SQLException ex) {</span>
+<span class="nc" id="L510">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L512">            close(conn, statement, rs);</span>
+<span class="nc" id="L513">        }</span>
+<span class="nc" id="L514">    }</span>
+
+    /**
+     * getTotalPendingRequest method implement from IAccountDAO
+     *
+     * @return total Integer&lt;Integer&gt;.
+     */
+    @Override
+    public int getTotalPendingRequest() {
+<span class="nc" id="L523">        Connection conn = null;</span>
+<span class="nc" id="L524">        PreparedStatement statement = null;</span>
+<span class="nc" id="L525">        ResultSet rs = null;</span>
+<span class="nc" id="L526">        int total = 0;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L529">            conn = getConnection();</span>
+<span class="nc" id="L530">            String sql = &quot;select count(RequestID) as NumberOfRequest from Request where [Status] = 'Waiting'&quot;;</span>
+            
+<span class="nc" id="L532">            statement = conn.prepareStatement(sql);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L534">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an variable of Request*/
+<span class="nc bnc" id="L537" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L538">                total = rs.getInt(&quot;NumberOfRequest&quot;);</span>
+            }
+            
+<span class="nc" id="L541">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L543">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L545">            close(conn, statement, rs);</span>
+<span class="nc" id="L546">        }</span>
+<span class="nc" id="L547">        return total;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,35 +2,35 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>Controller.LoginController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUpController</servlet-name>
-        <servlet-class>Controller.SignUpController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOutController</servlet-name>
-        <servlet-class>Controller.LogOutController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SubjectController</servlet-name>
-        <servlet-class>Controller.SubjectController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SubjectDescripController</servlet-name>
-        <servlet-class>Controller.SubjectDescripController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>KnowledgeController</servlet-name>
-        <servlet-class>Controller.KnowledgeController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllTeacherController</servlet-name>
-        <servlet-class>Controller.ListAllTeacherController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateRequestController</servlet-name>
-        <servlet-class>Controller.CreateRequestController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditRequestController</servlet-name>
@@ -38,15 +38,15 @@
     </servlet>
     <servlet>
         <servlet-name>ViewRequestStuController</servlet-name>
-        <servlet-class>Controller.ViewRequestStuController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ErrorController</servlet-name>
-        <servlet-class>Controller.ErrorController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>WeblistController</servlet-name>
-        <servlet-class>Controller.WeblistController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ArticleController</servlet-name>
@@ -54,7 +54,7 @@
     </servlet>
     <servlet>
         <servlet-name>ChangePasswordController</servlet-name>
-        <servlet-class>Controller.ChangePasswordController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllRequestStu</servlet-name>
@@ -66,15 +66,15 @@
     </servlet>
     <servlet>
         <servlet-name>ViewRequestTeaController</servlet-name>
-        <servlet-class>Controller.ViewRequestTeaController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateRequestReply</servlet-name>
-        <servlet-class>Controller.CreateRequestReplyController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllRequestController</servlet-name>
-        <servlet-class>Controller.ListAllRequestController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateNewRequestController</servlet-name>
@@ -82,63 +82,63 @@
     </servlet>
     <servlet>
         <servlet-name>DeleteRequestController</servlet-name>
-        <servlet-class>Controller.DeleteRequestController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateRequestController</servlet-name>
-        <servlet-class>Controller.UpdateRequestController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VerifyAccountController</servlet-name>
-        <servlet-class>Controller.VerifyAccountController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPasswordController</servlet-name>
-        <servlet-class>Controller.ForgotPasswordController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeController</servlet-name>
-        <servlet-class>Controller.HomeController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangeRequestByAjaxController</servlet-name>
-        <servlet-class>Controller.ChangeRequestByAjaxController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListTeacherSearchController</servlet-name>
-        <servlet-class>Controller.ListTeacherSearchController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewProfileUserController</servlet-name>
-        <servlet-class>Controller.ViewProfileUserController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditProfileController</servlet-name>
-        <servlet-class>Controller.EditProfileController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BecomeTutorController</servlet-name>
-        <servlet-class>Controller.BecomeTutorController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountManagerController</servlet-name>
-        <servlet-class>Controller.AccountManagerController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountManagerSearchController</servlet-name>
-        <servlet-class>Controller.AccountManagerSearchController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TeacherRequestController</servlet-name>
-        <servlet-class>Controller.TeacherRequestController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TeacherRequestHandleController</servlet-name>
-        <servlet-class>Controller.TeacherRequestHandleController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DashboardController</servlet-name>
-        <servlet-class>Controller.DashboardController</servlet-class>
+        <servlet-class>controller</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>

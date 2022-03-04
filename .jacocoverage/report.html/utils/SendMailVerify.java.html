@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SendMailVerify.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">SendMailVerify.java</span></div><h1>SendMailVerify.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SendMailVerify
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-02-11      1.0                 Dajtvox          
+ */
+package utils;
+
+import bean.AccountBean;
+import controller.SubjectController;
+import java.util.Properties;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+/**
+ * The class contains method generate random captcha and send mail, support for
+ * send captcha verify to user if sign up or reset password The method will
+ * throw an object of &lt;code&gt;java.Execption&lt;/code&gt; if there is any error
+ * occurring when send mail
+ * &lt;p&gt;
+ * Bugs: Still not have yet
+ *
+ * @author Dajtvox
+ */
+<span class="nc" id="L37">public class SendMailVerify {</span>
+
+    private Random rand;
+
+    /**
+     * Generate a CAPTCHA String consisting of random lowercase &amp; uppercase
+     * letters, and numbers.
+     *
+     * @return
+     */
+    public String generateCaptchaString() {
+<span class="nc" id="L48">        int length = 6;</span>
+<span class="nc" id="L49">        rand = new Random();</span>
+<span class="nc" id="L50">        StringBuilder captchaStringBuilder = new StringBuilder();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (int i = 0; i &lt; length; i++) {</span>
+<span class="nc" id="L52">            int baseCharNumber = abs(rand.nextInt()) % 62;</span>
+<span class="nc" id="L53">            int charNumber = 0;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (baseCharNumber &lt; 26) {</span>
+<span class="nc" id="L55">                charNumber = 65 + baseCharNumber;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            } else if (baseCharNumber &lt; 52) {</span>
+<span class="nc" id="L57">                charNumber = 97 + (baseCharNumber - 26);</span>
+            } else {
+<span class="nc" id="L59">                charNumber = 48 + (baseCharNumber - 52);</span>
+            }
+<span class="nc" id="L61">            captchaStringBuilder.append((char) charNumber);</span>
+        }
+
+<span class="nc" id="L64">        return captchaStringBuilder.toString();</span>
+    }
+
+    /**
+     * Fail-fast wrapper for {@link Math#abs(int)}
+     *
+     * @param x
+     * @return the absolute value of x
+     * @throws ArithmeticException when a negative value would have been
+     * returned by {@link Math#abs(int)}
+     */
+    public static int abs(int x) throws ArithmeticException {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (x == Integer.MIN_VALUE) {</span>
+            // fail instead of returning Integer.MAX_VALUE
+            // to prevent the occurrence of incorrect results in later computations
+<span class="nc" id="L79">            throw new ArithmeticException(&quot;Math.abs(Integer.MIN_VALUE)&quot;);</span>
+        }
+<span class="nc" id="L81">        return Math.abs(x);</span>
+    }
+
+    //send email to the user email
+    public boolean sendEmail(AccountBean user) {
+<span class="nc" id="L86">        boolean test = false;</span>
+
+<span class="nc" id="L88">        String toEmail = user.getMail();</span>
+<span class="nc" id="L89">        String fromEmail = &quot;dathp.http@gmail.com&quot;;</span>
+<span class="nc" id="L90">        String password = &quot;vtdhp9x00&quot;;</span>
+
+        try {
+
+            // your host email smtp server details
+<span class="nc" id="L95">            Properties pr = new Properties();</span>
+<span class="nc" id="L96">            pr.setProperty(&quot;mail.smtp.host&quot;, &quot;smtp.gmail.com&quot;);</span>
+<span class="nc" id="L97">            pr.setProperty(&quot;mail.smtp.port&quot;, &quot;25&quot;);</span>
+<span class="nc" id="L98">            pr.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L99">            pr.setProperty(&quot;mail.smtp.starttls.enable&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L100">            pr.put(&quot;mail.smtp.socketFactory.port&quot;, &quot;587&quot;);</span>
+<span class="nc" id="L101">            pr.put(&quot;mail.smtp.socketFactory.class&quot;, &quot;javax.net.ssl.SSLSocketFactory&quot;);</span>
+<span class="nc" id="L102">            pr.put(&quot;mail.smtp.ssl.checkserveridentity&quot;, true);</span>
+            //get session to authenticate the host email address and password
+<span class="nc" id="L104">            Session session = Session.getInstance(pr, new Authenticator() {</span>
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+<span class="nc" id="L107">                    return new PasswordAuthentication(fromEmail, password);</span>
+                }
+            });
+
+            //set email message details
+<span class="nc" id="L112">            Message mess = new MimeMessage(session);</span>
+
+            //set from email address
+<span class="nc" id="L115">            mess.setFrom(new InternetAddress(fromEmail));</span>
+            //set to email address or destination email address
+<span class="nc" id="L117">            mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));</span>
+
+            //set email subject
+<span class="nc" id="L120">            mess.setSubject(&quot;User Email Verification&quot;);</span>
+<span class="nc" id="L121">            StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L122">            sb.append(&quot;Thanks for using TutorDuo.\n&quot;);</span>
+<span class="nc" id="L123">            sb.append(&quot;You sign up our serive with user name is &quot;).append(user.getUsername()).append(&quot;.\n&quot;);</span>
+<span class="nc" id="L124">            sb.append(&quot;Please verify your account using this code: &quot;).append(user.getToken());</span>
+            //set message text
+<span class="nc" id="L126">            mess.setText(sb.toString());</span>
+            //send the message
+<span class="nc" id="L128">            Transport.send(mess);</span>
+
+<span class="nc" id="L130">            test = true;</span>
+
+<span class="nc" id="L132">        } catch (MessagingException ex) {</span>
+<span class="nc" id="L133">            Logger.getLogger(SendMailVerify.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L134">        }</span>
+
+<span class="nc" id="L136">        return test;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

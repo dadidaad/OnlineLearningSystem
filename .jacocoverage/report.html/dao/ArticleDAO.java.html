@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ArticleDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">ArticleDAO.java</span></div><h1>ArticleDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * KnowledgeDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR               Description
+ * 2022-02-10   1.0         Hoang Ngoc Long    First Implement
+ */
+package dao;
+
+import bean.ArticleBean;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+
+/**
+ * Document: BaseDAO for get data for Article bean from database Create on: Feb
+ * 9, 2022, 8:11:23 PM
+ *
+ * @author Hoang Ngoc Long
+ */
+<span class="nc" id="L32">public class ArticleDAO extends BaseDAO implements IArticleDAO {</span>
+
+    private String query;
+
+    /**
+     * getAllArticle method implement from IBaseDAO
+     *
+     *
+     * @return article. &lt;code&gt;java.util.List&lt;/code&gt; object
+     */
+    @Override
+    public List&lt;ArticleBean&gt; getAllArticle() {
+<span class="nc" id="L44">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L45">        Connection conn = null;</span>
+<span class="nc" id="L46">        PreparedStatement statement = null;</span>
+<span class="nc" id="L47">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L50">            query = &quot;select top 4 *, SUBSTRING([description], 0, 45) +'...' as [descripcut] from Article where approved='True' order by published desc &quot;;</span>
+<span class="nc" id="L51">            conn = getConnection();</span>
+<span class="nc" id="L52">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L54">            rs = statement.executeQuery();</span>
+            /*Assign data to an List of Article*/
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L57">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L59">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L61">                        rs.getString(2),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L63">                        rs.getString(9),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L65">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L67">                        rs.getString(5)</span>
+                ));
+            }
+<span class="nc" id="L70">            return list;</span>
+<span class="nc" id="L71">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L73">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L76">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L77">        }</span>
+<span class="nc" id="L78">        return Collections.EMPTY_LIST;</span>
+    }
+
+    /**
+     * getAllMovie following paging method implement from IBaseDAO
+     *
+     *
+     * @return article. &lt;code&gt;java.util.List&lt;/code&gt; object
+     */
+    public List&lt;ArticleBean&gt; pagingAricle(int index) {
+<span class="nc" id="L88">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L89">        Connection conn = null;</span>
+<span class="nc" id="L90">        PreparedStatement statement = null;</span>
+<span class="nc" id="L91">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L94">            query = &quot;with t as(\n&quot;</span>
+                    + &quot;select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published, createName  from Article where approved='True'\n&quot;
+                    + &quot;)\n&quot;
+                    + &quot;SELECT ArticleID,title,descripcut,imageLink, published,createName FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n&quot;
+                    + &quot;as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published,t.createName  FROM t ) as tblHuman WHERE rownum &gt; ? AND rownum &lt;= ? &quot;;
+<span class="nc" id="L99">            conn = getConnection();</span>
+<span class="nc" id="L100">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L101">            statement.setInt(1, (index - 1) * 6);</span>
+<span class="nc" id="L102">            statement.setInt(2, (index) * 6);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L104">            rs = statement.executeQuery();</span>
+            /*Assign data to an List of Article*/
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L107">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L109">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L111">                        rs.getString(2),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L113">                        rs.getString(3),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L115">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L117">                        rs.getString(5),</span>
+<span class="nc" id="L118">                        rs.getString(6)</span>
+                ));
+            }
+<span class="nc" id="L121">            return list;</span>
+<span class="nc" id="L122">        } catch (SQLException ex) {</span>
+<span class="nc" id="L123">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L126">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">        return Collections.EMPTY_LIST;</span>
+    }
+
+    /**
+     * count number of article following paging method implement from IBaseDAO
+     *
+     *
+     * @return numbers.
+     */
+    @Override
+    public int totalArticle() {
+<span class="nc" id="L139">        Connection conn = null;</span>
+<span class="nc" id="L140">        PreparedStatement statement = null;</span>
+<span class="nc" id="L141">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L144">            query = &quot;select count(*) from Article where approved='True'&quot;;</span>
+<span class="nc" id="L145">            conn = getConnection();</span>
+<span class="nc" id="L146">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L148">            rs = statement.executeQuery();</span>
+            /*Assign data to an List of Article*/
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L151">                return rs.getInt(1);</span>
+            }
+<span class="nc" id="L153">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L155">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L158">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">        return 0;</span>
+    }
+
+    /**
+     * getArticleDetail method implement from IBaseDAO
+     *
+     * @param aritcle of the article. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return article object
+     */
+    @Override
+    public ArticleBean getArticleDetail(int aritcle) {
+<span class="nc" id="L172">        Connection conn = null;</span>
+<span class="nc" id="L173">        PreparedStatement statement = null;</span>
+<span class="nc" id="L174">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L177">            query = &quot;select ArticleID,title,description,imageLink,published, createName from Article where ArticleID=? and approved='True'&quot;;</span>
+<span class="nc" id="L178">            conn = getConnection();</span>
+<span class="nc" id="L179">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L180">            statement.setInt(1, aritcle);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L182">            rs = statement.executeQuery();</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L184">                return new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L186">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L188">                        rs.getString(2),</span>
+                        /*get description of article*/
+<span class="nc" id="L190">                        rs.getString(3),</span>
+                        /*get imageLink of article*/
+<span class="nc" id="L192">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L194">                        rs.getString(5),</span>
+                        /*get createname of article*/
+<span class="nc" id="L196">                        rs.getString(6)</span>
+                );
+            }
+<span class="nc" id="L199">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L201">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L204">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L206">        }</span>
+<span class="nc" id="L207">        return null;</span>
+    }
+
+    /**
+     * getTop4Article newest method implement from IBaseDAO
+     *
+     *
+     * @return article. &lt;code&gt;java.util.List&lt;/code&gt; object
+     */
+    @Override
+    public List&lt;ArticleBean&gt; getTop4Article() {
+<span class="nc" id="L218">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L219">        Connection conn = null;</span>
+<span class="nc" id="L220">        PreparedStatement statement = null;</span>
+<span class="nc" id="L221">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L224">            query = &quot;select top 4 *, SUBSTRING([description], 0, 50) +'...' as [descripcut] from Article where approved='True' order by published desc&quot;;</span>
+            //Set up connection and Sql statement for Querry
+<span class="nc" id="L226">            conn = getConnection();</span>
+<span class="nc" id="L227">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L229">            rs = statement.executeQuery();</span>
+            //Assign data to an List of Article
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L232">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L234">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L236">                        rs.getString(2),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L238">                        rs.getString(9),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L240">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L242">                        rs.getString(5)</span>
+                ));
+            }
+<span class="nc" id="L245">            return list;</span>
+<span class="nc" id="L246">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L248">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L251">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L252">        }</span>
+<span class="nc" id="L253">        return Collections.EMPTY_LIST;</span>
+    }
+
+    @Override
+    public List&lt;ArticleBean&gt; searchByTitle(String txt) {
+<span class="nc" id="L258">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L259">        Connection conn = null;</span>
+<span class="nc" id="L260">        PreparedStatement statement = null;</span>
+<span class="nc" id="L261">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L264">            query = &quot;select *, SUBSTRING([description], 0, 750) +'...' as [descripcut] from Article  where Lower(title) like ? and approved='True'&quot;;</span>
+            //Set up connection and Sql statement for Querry
+<span class="nc" id="L266">            conn = getConnection();</span>
+<span class="nc" id="L267">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L268">            statement.setString(1, &quot;%&quot; + txt.toLowerCase() + &quot;%&quot;);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L270">            rs = statement.executeQuery();</span>
+            //Assign data to an List of Article
+<span class="nc bnc" id="L272" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L273">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L275">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L277">                        rs.getString(2),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L279">                        rs.getString(3),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L281">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L283">                        rs.getString(5),</span>
+                        /*get createname of article*/
+<span class="nc" id="L285">                        rs.getString(8)</span>
+                ));
+            }
+<span class="nc" id="L288">            return list;</span>
+<span class="nc" id="L289">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L291">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L294">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L295">        }</span>
+<span class="nc" id="L296">        return Collections.EMPTY_LIST;</span>
+    }
+
+    @Override
+    public List&lt;ArticleBean&gt; pagingSearchArticle(int index, String txt) {
+<span class="nc" id="L301">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L302">        Connection conn = null;</span>
+<span class="nc" id="L303">        PreparedStatement statement = null;</span>
+<span class="nc" id="L304">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L307">            query = &quot;with t as(\n&quot;</span>
+                    + &quot;select  ArticleID, title,imageLink, SUBSTRING([description], 0, 750) +'...' as [descripcut], published,createName from Article where Lower(title) like ? and approved='True'\n&quot;
+                    + &quot;)\n&quot;
+                    + &quot;SELECT ArticleID,title,descripcut,imageLink, published,createName FROM (SELECT ROW_NUMBER() OVER (ORDER BY ArticleID ASC)\n&quot;
+                    + &quot;as rownum,t.ArticleID,t.title,t.descripcut,t.imageLink , t.published, t.createName FROM t  where Lower(title) like ?) as tblHuman WHERE rownum &gt; ? AND rownum &lt;= ? \n&quot;
+                    + &quot;                    \n&quot;
+                    + &quot;                    \n&quot;
+                    + &quot;                    &quot;;
+<span class="nc" id="L315">            conn = getConnection();</span>
+<span class="nc" id="L316">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L317">            statement.setString(1, &quot;%&quot; + txt.toLowerCase() + &quot;%&quot;);</span>
+<span class="nc" id="L318">            statement.setString(2, &quot;%&quot; + txt.toLowerCase() + &quot;%&quot;);</span>
+<span class="nc" id="L319">            statement.setInt(3, (index - 1) * 6);</span>
+<span class="nc" id="L320">            statement.setInt(4, (index) * 6);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L322">            rs = statement.executeQuery();</span>
+            /*Assign data to an List of Article*/
+<span class="nc bnc" id="L324" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L325">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L327">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L329">                        rs.getString(2),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L331">                        rs.getString(3),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L333">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L335">                        rs.getString(5),</span>
+                        /*get createName of article*/
+<span class="nc" id="L337">                        rs.getString(6)</span>
+                ));
+            }
+<span class="nc" id="L340">            return list;</span>
+<span class="nc" id="L341">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L343">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L346">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L347">        }</span>
+<span class="nc" id="L348">        return Collections.EMPTY_LIST;</span>
+    }
+
+    @Override
+    public int totalSearchArticle(String txt) {
+<span class="nc" id="L353">        Connection conn = null;</span>
+<span class="nc" id="L354">        PreparedStatement statement = null;</span>
+<span class="nc" id="L355">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L358">            query = &quot;select count(*) from Article where Lower(title) like ? and approved='True'&quot;;</span>
+<span class="nc" id="L359">            conn = getConnection();</span>
+<span class="nc" id="L360">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L362">            statement.setString(1, &quot;%&quot; + txt.toLowerCase() + &quot;%&quot;);</span>
+<span class="nc" id="L363">            rs = statement.executeQuery();</span>
+            /*Assign data to an List of Article*/
+<span class="nc bnc" id="L365" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L366">                return rs.getInt(1);</span>
+            }
+<span class="nc" id="L368">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L370">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L373">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L375">        }</span>
+<span class="nc" id="L376">        return 0;</span>
+    }
+
+    @Override
+    public void acceptArticle(String txt) {
+<span class="nc" id="L381">        Connection conn = null;</span>
+<span class="nc" id="L382">        PreparedStatement statement = null;</span>
+<span class="nc" id="L383">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L386">            query = &quot;update Article set approved='true' where ArticleID=?&quot;;</span>
+<span class="nc" id="L387">            conn = getConnection();</span>
+<span class="nc" id="L388">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L390">            statement.setString(1, txt);</span>
+<span class="nc" id="L391">            rs = statement.executeQuery();</span>
+<span class="nc" id="L392">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L394">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L397">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L399">        }</span>
+<span class="nc" id="L400">    }</span>
+
+    @Override
+    public List&lt;ArticleBean&gt; getAllpreparearticle() {
+<span class="nc" id="L404">        List&lt;ArticleBean&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L405">        Connection conn = null;</span>
+<span class="nc" id="L406">        PreparedStatement statement = null;</span>
+<span class="nc" id="L407">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L410">            query = &quot;select * from Article where approved='False'&quot;;</span>
+            //Set up connection and Sql statement for Querry
+<span class="nc" id="L412">            conn = getConnection();</span>
+<span class="nc" id="L413">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L415">            rs = statement.executeQuery();</span>
+            //Assign data to an List of Article
+<span class="nc bnc" id="L417" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L418">                list.add(new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L420">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L422">                        rs.getString(2),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L424">                        rs.getString(3),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L426">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L428">                        rs.getString(5),</span>
+                        /*get createdName of article*/
+<span class="nc" id="L430">                        rs.getString(8)</span>
+                ));
+            }
+<span class="nc" id="L433">            return list;</span>
+<span class="nc" id="L434">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L436">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L439">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L440">        }</span>
+<span class="nc" id="L441">        return Collections.EMPTY_LIST;</span>
+    }
+
+    @Override
+    public void deleteprepare(String id) {
+<span class="nc" id="L446">        Connection conn = null;</span>
+<span class="nc" id="L447">        PreparedStatement statement = null;</span>
+<span class="nc" id="L448">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L451">            query = &quot;delete from Article where ArticleID=?&quot;;</span>
+<span class="nc" id="L452">            conn = getConnection();</span>
+<span class="nc" id="L453">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L455">            statement.setString(1, id);</span>
+<span class="nc" id="L456">            rs = statement.executeQuery();</span>
+<span class="nc" id="L457">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L459">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L462">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L464">        }</span>
+<span class="nc" id="L465">    }</span>
+
+    @Override
+    public ArticleBean getArticlebyid(String id) {
+<span class="nc" id="L469">        Connection conn = null;</span>
+<span class="nc" id="L470">        PreparedStatement statement = null;</span>
+<span class="nc" id="L471">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L474">            query = &quot;select * from Article  where ArticleID=?&quot;;</span>
+            //Set up connection and Sql statement for Querry
+<span class="nc" id="L476">            conn = getConnection();</span>
+<span class="nc" id="L477">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L478">            statement.setString(1, id);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L480">            rs = statement.executeQuery();</span>
+            //Assign data to an List of Article
+<span class="nc bnc" id="L482" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L483">                return new ArticleBean(</span>
+                        /*get ArticleID*/
+<span class="nc" id="L485">                        rs.getInt(1),</span>
+                        /*get title of article*/
+<span class="nc" id="L487">                        rs.getString(2),</span>
+                        /*get descripcut of article*/
+<span class="nc" id="L489">                        rs.getString(3),</span>
+                        /*get imagelink of article*/
+<span class="nc" id="L491">                        rs.getString(4),</span>
+                        /*get published of article*/
+<span class="nc" id="L493">                        rs.getString(5),</span>
+                        /*get createname of article*/
+<span class="nc" id="L495">                        rs.getString(8)</span>
+                );
+            }
+
+<span class="nc" id="L499">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L501">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L504">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L505">        }</span>
+<span class="nc" id="L506">        return null;</span>
+    }
+
+    @Override
+    public void editproduct(String image, String title, String description, String id) {
+<span class="nc" id="L511">        Connection conn = null;</span>
+<span class="nc" id="L512">        PreparedStatement statement = null;</span>
+<span class="nc" id="L513">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query*/
+<span class="nc" id="L516">            query = &quot;update Article set title=?,imageLink=?,description=? where ArticleID=?&quot;;</span>
+<span class="nc" id="L517">            conn = getConnection();</span>
+<span class="nc" id="L518">            statement = conn.prepareStatement(query);</span>
+            /*Query and save in ResultSet*/
+<span class="nc" id="L520">            statement.setString(1, title);</span>
+<span class="nc" id="L521">            statement.setString(2, image);</span>
+<span class="nc" id="L522">            statement.setString(3, description);</span>
+<span class="nc" id="L523">            statement.setString(4, id);</span>
+<span class="nc" id="L524">            rs = statement.executeQuery();</span>
+<span class="nc" id="L525">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L527">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L530">            BaseDAO.close(conn, statement, rs);</span>
+
+<span class="nc" id="L532">        }</span>
+<span class="nc" id="L533">    }</span>
+
+    @Override
+    public void addNew(String title, String des, String image, String createname) {
+<span class="nc" id="L537">        Connection conn = null;</span>
+<span class="nc" id="L538">        PreparedStatement statement = null;</span>
+<span class="nc" id="L539">        ResultSet rs = null;</span>
+<span class="nc" id="L540">        String query = &quot;insert into Article(title,description,imageLink,published,approved,views,createName) values(?,?,?,?,?,?,?)&quot;;</span>
+<span class="nc" id="L541">        String date = new SimpleDateFormat(&quot;yyyy/MM/dd HH:mm:ss&quot;).format(Calendar.getInstance().getTime());</span>
+<span class="nc" id="L542">        boolean approved = false;</span>
+<span class="nc" id="L543">        int view = 0;</span>
+        try {
+<span class="nc" id="L545">            conn = getConnection();</span>
+<span class="nc" id="L546">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L547">            statement.setString(1, title);</span>
+<span class="nc" id="L548">            statement.setString(2, des);</span>
+<span class="nc" id="L549">            statement.setString(3, image);</span>
+<span class="nc" id="L550">            statement.setString(4, date);</span>
+<span class="nc" id="L551">            statement.setBoolean(5, approved);</span>
+<span class="nc" id="L552">            statement.setInt(6, view);</span>
+<span class="nc" id="L553">            statement.setString(7, createname);</span>
+<span class="nc" id="L554">            statement.executeUpdate();</span>
+<span class="nc" id="L555">        } catch (SQLException e) {</span>
+            /*Exeption Handle*/
+<span class="nc" id="L557">            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, e);</span>
+        } finally {
+            /*Close connection, prepare statement, result set*/
+<span class="nc" id="L560">            BaseDAO.close(conn, statement, rs);</span>
+<span class="nc" id="L561">        }</span>
+<span class="nc" id="L562">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SignUpController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">SignUpController.java</span></div><h1>SignUpController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * SignUpController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         DajtVox    First Implement
+ */
+package controller;
+
+import bean.AccountBean;
+import dao.AccountDAO;
+import dao.IAccountDAO;
+import utils.PasswordUtils;
+import utils.SendMailVerify;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * This is a Servlet responsible for handling sign up function of the web site
+ * Extend HttpServlet class
+ *
+ * @author DajtVox
+ */
+<span class="nc" id="L38">public class SignUpController extends HttpServlet {</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L52">        request.getRequestDispatcher(&quot;./view/SignUp.jsp&quot;).forward(request, response); // forward sign up page</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L66">        response.setContentType(&quot;application/json&quot;);</span>
+<span class="nc" id="L67">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L68">        try (PrintWriter out = response.getWriter()) {</span>
+            /* get data from input form from user*/
+<span class="nc" id="L70">            String username = request.getParameter(&quot;username&quot;).trim();</span>
+<span class="nc" id="L71">            String password = request.getParameter(&quot;password&quot;).trim();</span>
+<span class="nc" id="L72">            String email = request.getParameter(&quot;email&quot;).trim();</span>
+<span class="nc" id="L73">            String sex = request.getParameter(&quot;sex&quot;).trim();</span>
+<span class="nc" id="L74">            String encryptionPassword = PasswordUtils.generatePasswordHash(password); // encryp password to PBKD type then reutnr encryption password</span>
+            /* set value to AccountBean object */
+<span class="nc" id="L76">            AccountBean newUser = new AccountBean();</span>
+<span class="nc" id="L77">            newUser.setUsername(username);</span>
+<span class="nc" id="L78">            newUser.setPassword(encryptionPassword);</span>
+<span class="nc" id="L79">            newUser.setMail(email);</span>
+<span class="nc" id="L80">            newUser.setSex(sex);</span>
+<span class="nc" id="L81">            Map&lt;String, String&gt; message = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L82">            IAccountDAO accountDAO = new AccountDAO();</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            boolean checkUserExist = accountDAO.getAccountByUsername(username) == null; // check if username exist in data, if exist then put to message</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            boolean checkMailExist = accountDAO.getAccountByMail(email) == null; //check if email is exist in data, if exist then put to message</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (!checkUserExist) {</span>
+<span class="nc" id="L86">                message.put(&quot;userInvalid&quot;, &quot;User is exist&quot;);</span>
+            }
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            if (!checkMailExist) {</span>
+<span class="nc" id="L89">                message.put(&quot;mailInvalid&quot;, &quot;Mail is exist&quot;);</span>
+            }
+            /* if not both exist then do next action*/
+<span class="nc bnc" id="L92" title="All 4 branches missed.">            if (checkUserExist &amp;&amp; checkMailExist) {</span>
+<span class="nc" id="L93">                SendMailVerify mailUtils = new SendMailVerify();</span>
+<span class="nc" id="L94">                String token = mailUtils.generateCaptchaString(); // generate captcha string from mailUtils</span>
+<span class="nc" id="L95">                newUser.setToken(token); // set token from generated token for new user</span>
+<span class="nc" id="L96">                boolean sendMailStatus = mailUtils.sendEmail(newUser); // send mail to user, if success then do next action</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                if (sendMailStatus) {</span>
+                    /*if success then create new session hold AccountBean object of user*/
+<span class="nc" id="L99">                    HttpSession session = request.getSession();</span>
+<span class="nc" id="L100">                    session.setMaxInactiveInterval(900); //set age for session</span>
+<span class="nc" id="L101">                    session.setAttribute(&quot;userRes&quot;, newUser);</span>
+<span class="nc" id="L102">                    message.put(&quot;notiRes&quot;, &quot;success&quot;);</span>
+<span class="nc" id="L103">                } else {</span>
+<span class="nc" id="L104">                    message.put(&quot;notiRes&quot;, &quot;error&quot;);</span>
+                }
+            }
+<span class="nc" id="L107">            String jsonData = new ObjectMapper().writeValueAsString(message); //convert hashmap to json</span>
+<span class="nc" id="L108">            out.print(jsonData); //send data to client</span>
+<span class="nc" id="L109">            out.flush();</span>
+<span class="nc bnc" id="L110" title="All 8 branches missed.">        } catch (Exception ex) {</span>
+<span class="nc" id="L111">            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L112">        }</span>
+<span class="nc" id="L113">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

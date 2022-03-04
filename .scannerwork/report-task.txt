@@ -1,0 +1,7 @@
+organization=dadidaad
+projectKey=OnlineLearningSystem
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.27287
+dashboardUrl=https://sonarcloud.io/dashboard?id=OnlineLearningSystem
+ceTaskId=AX9SqTLhH15d3Df2pryB
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AX9SqTLhH15d3Df2pryB

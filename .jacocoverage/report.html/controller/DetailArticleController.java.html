@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DetailArticleController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">DetailArticleController.java</span></div><h1>DetailArticleController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * DetailArticleController
+ * Record of change:
+ * DATE         Version     AUTHOR               Description
+ * 2022-02-11   1.0         Hoang Ngoc Long    First Implement
+ */
+package controller;
+
+import bean.ArticleBean;
+import dao.ArticleDAO;
+import dao.IArticleDAO;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Document: DetailArticleController Create on: Feb 9, 2022, 10:20:35 PM
+ *
+ * @author Hoang Ngoc Long
+ */
+@WebServlet(name = &quot;DetailArticleController&quot;, urlPatterns = {&quot;/detail&quot;})
+<span class="nc" id="L27">public class DetailArticleController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Get id of article from listarticle
+<span class="nc" id="L41">        String aid = request.getParameter(&quot;did&quot;);</span>
+<span class="nc" id="L42">        int id = Integer.parseInt(aid);</span>
+<span class="nc" id="L43">        IArticleDAO articleDAO = new ArticleDAO();</span>
+        //get article by id
+<span class="nc" id="L45">        ArticleBean a = articleDAO.getArticleDetail(id);</span>
+        //Attach Attribute for request and redirect it to ListArticle.jsp
+<span class="nc" id="L47">        request.setAttribute(&quot;article&quot;, a);</span>
+<span class="nc" id="L48">        request.getRequestDispatcher(&quot;./view/ArticleDetail.jsp&quot;).forward(request, response);</span>
+
+<span class="nc" id="L50">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

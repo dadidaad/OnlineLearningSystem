@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TeacherDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">TeacherDAO.java</span></div><h1>TeacherDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * SubjectDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Duc Minh    First Implement
+ */
+package dao;
+
+import bean.TeacherBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * This class contain method to find Teacher information from database Extend
+ * BaseDAO class to call getConnection() method Implement ITeacherDAO Interface
+ *
+ * @author Duc Minh
+ */
+<span class="nc" id="L26">public class TeacherDAO extends BaseDAO implements ITeacherDAO {</span>
+
+    /**
+     * getAllTeacher method implement from ITeacherDAO
+     *
+     * @return teachers. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;TeacherBean&gt; getAllTeacher() {
+<span class="nc" id="L35">        ArrayList&lt;TeacherBean&gt; teachers = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L37">        Connection conn = null;</span>
+<span class="nc" id="L38">        PreparedStatement statement = null;</span>
+<span class="nc" id="L39">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L42">            conn = getConnection();</span>
+<span class="nc" id="L43">            String sql = &quot;select Account.*,Tutor.*\n&quot;</span>
+                    + &quot;from Account, Tutor\n&quot;
+                    + &quot;where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Status] = 'Approved'&quot;;
+<span class="nc" id="L46">            statement = conn.prepareStatement(sql);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L48">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L52">                TeacherBean teacher = new TeacherBean();</span>
+
+<span class="nc" id="L54">                teacher.setUsername(rs.getString(&quot;Username&quot;));</span>
+<span class="nc" id="L55">                teacher.setPassword(rs.getString(&quot;Password&quot;));</span>
+<span class="nc" id="L56">                teacher.setMail(rs.getString(&quot;Mail&quot;));</span>
+<span class="nc" id="L57">                teacher.setAvatar(rs.getString(&quot;Avatar&quot;));</span>
+<span class="nc" id="L58">                teacher.setDisplayName(rs.getString(&quot;DisplayName&quot;));</span>
+<span class="nc" id="L59">                teacher.setDateOfBirth(rs.getDate(&quot;DateOfBirth&quot;));</span>
+<span class="nc" id="L60">                teacher.setSex(rs.getBoolean(&quot;Sex&quot;));</span>
+<span class="nc" id="L61">                teacher.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L62">                teacher.setCash(rs.getBigDecimal(&quot;Cash in account&quot;));</span>
+<span class="nc" id="L63">                teacher.setCreateDate(rs.getDate(&quot;CreatedDate&quot;));</span>
+<span class="nc" id="L64">                teacher.setRole(rs.getString(&quot;Role&quot;));</span>
+<span class="nc" id="L65">                teacher.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L66">                teacher.setState(rs.getBoolean(&quot;State&quot;));</span>
+<span class="nc" id="L67">                teacher.setCvImg(rs.getString(&quot;CV&quot;));</span>
+<span class="nc" id="L68">                teacher.setSubjectId(rs.getInt(&quot;SubjectID&quot;));</span>
+
+<span class="nc" id="L70">                teachers.add(teacher);</span>
+<span class="nc" id="L71">            };</span>
+<span class="nc" id="L72">        } catch (SQLException ex) {</span>
+<span class="nc" id="L73">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L75">            close(conn, statement, rs);</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">        return teachers;</span>
+    }
+
+    /**
+     * getTeacherByUsername method implement from ITeacherDAO
+     *
+     * @return teacher object
+     */
+    @Override
+    public TeacherBean getTeacherByUsername(String username) {
+
+<span class="nc" id="L88">        Connection conn = null;</span>
+<span class="nc" id="L89">        PreparedStatement statement = null;</span>
+<span class="nc" id="L90">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L93">            conn = getConnection();</span>
+<span class="nc" id="L94">            String sql = &quot;select Account.*,Tutor.*\n&quot;</span>
+                    + &quot;from Account, Tutor\n&quot;
+                    + &quot;where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Username] = ?&quot;;
+<span class="nc" id="L97">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L98">            statement.setString(1, username);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L100">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L104">                TeacherBean teacher = new TeacherBean();</span>
+
+<span class="nc" id="L106">                teacher.setUsername(rs.getString(&quot;Username&quot;));</span>
+<span class="nc" id="L107">                teacher.setPassword(rs.getString(&quot;Password&quot;));</span>
+<span class="nc" id="L108">                teacher.setMail(rs.getString(&quot;Mail&quot;));</span>
+<span class="nc" id="L109">                teacher.setAvatar(rs.getString(&quot;Avatar&quot;));</span>
+<span class="nc" id="L110">                teacher.setDisplayName(rs.getString(&quot;DisplayName&quot;));</span>
+<span class="nc" id="L111">                teacher.setDateOfBirth(rs.getDate(&quot;DateOfBirth&quot;));</span>
+<span class="nc" id="L112">                teacher.setSex(rs.getBoolean(&quot;Sex&quot;));</span>
+<span class="nc" id="L113">                teacher.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L114">                teacher.setCash(rs.getBigDecimal(&quot;Cash in account&quot;));</span>
+<span class="nc" id="L115">                teacher.setCreateDate(rs.getDate(&quot;CreatedDate&quot;));</span>
+<span class="nc" id="L116">                teacher.setRole(rs.getString(&quot;Role&quot;));</span>
+<span class="nc" id="L117">                teacher.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L118">                teacher.setState(rs.getBoolean(&quot;State&quot;));</span>
+<span class="nc" id="L119">                teacher.setCvImg(rs.getString(&quot;CV&quot;));</span>
+<span class="nc" id="L120">                teacher.setSubjectId(rs.getInt(&quot;SubjectID&quot;));</span>
+
+<span class="nc" id="L122">                return teacher;</span>
+            }
+<span class="nc" id="L124">        } catch (SQLException ex) {</span>
+<span class="nc" id="L125">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L127">            close(conn, statement, rs);</span>
+<span class="nc" id="L128">        }</span>
+<span class="nc" id="L129">        return null;</span>
+    }
+
+    /**
+     * checkTeacherStatus method implement from ITeacherDAO
+     *
+     * @return teacher object
+     */
+    @Override
+    public boolean checkTeacherStatus(String username) {
+
+<span class="nc" id="L140">        Connection conn = null;</span>
+<span class="nc" id="L141">        PreparedStatement statement = null;</span>
+<span class="nc" id="L142">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L145">            conn = getConnection();</span>
+<span class="nc" id="L146">            String sql = &quot;select Tutor.*\n&quot;</span>
+                    + &quot;from Tutor\n&quot;
+                    + &quot;where Tutor.[Username] = ? and Tutor.[Status] = 'Waiting'&quot;;
+<span class="nc" id="L149">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L150">            statement.setString(1, username);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L152">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L156">                return true;</span>
+            }
+
+<span class="nc" id="L159">        } catch (SQLException ex) {</span>
+<span class="nc" id="L160">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L162">            close(conn, statement, rs);</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">        return false;</span>
+    }
+
+    /**
+     * getSubjectId method implement from ITeacherDAO get the id subject of
+     * teacher from database
+     *
+     * @param usernameTeacher
+     * @return subjectId. &lt;code&gt;Integer&lt;/code&gt; object
+     */
+    @Override
+    public int getSubjectId(String usernameTeacher) {
+
+<span class="nc" id="L177">        Connection conn = null;</span>
+<span class="nc" id="L178">        PreparedStatement statement = null;</span>
+<span class="nc" id="L179">        ResultSet rs = null;</span>
+<span class="nc" id="L180">        int subjectId = 0;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L183">            conn = getConnection();</span>
+<span class="nc" id="L184">            String sql = &quot;select *\n&quot;</span>
+                    + &quot;from Tutor\n&quot;
+                    + &quot;where Username = ? &quot;;
+<span class="nc" id="L187">            statement = conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L189">            statement.setString(1, usernameTeacher);</span>
+            /*Excuse Query*/
+<span class="nc" id="L191">            rs = statement.executeQuery();</span>
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L194">                subjectId = rs.getInt(&quot;SubjectID&quot;);</span>
+            }
+
+<span class="nc" id="L197">        } catch (SQLException ex) {</span>
+<span class="nc" id="L198">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L200">            close(conn, statement, rs);</span>
+<span class="nc" id="L201">        }</span>
+<span class="nc" id="L202">        return subjectId;</span>
+    }
+
+    /**
+     * getTeacherBySearching method implement from ITeacherDAO
+     *
+     * @return teachers. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;TeacherBean&gt; getTeacherBySearching(String searchString) {
+
+<span class="nc" id="L213">        Connection conn = null;</span>
+<span class="nc" id="L214">        PreparedStatement statement = null;</span>
+<span class="nc" id="L215">        ResultSet rs = null;</span>
+<span class="nc" id="L216">        ArrayList&lt;TeacherBean&gt; teachers = new ArrayList&lt;&gt;();</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L219">            conn = getConnection();</span>
+<span class="nc" id="L220">            String sql = &quot;select Account.*,Tutor.*, Subject.SubjectName\n&quot;</span>
+                    + &quot;from Account, Tutor, Subject \n&quot;
+                    + &quot;where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n&quot;
+                    + &quot;Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? )&quot;;
+<span class="nc" id="L224">            statement = conn.prepareStatement(sql);</span>
+
+<span class="nc" id="L226">            statement.setString(1, &quot;%&quot; + searchString + &quot;%&quot;);</span>
+<span class="nc" id="L227">            statement.setString(2, &quot;%&quot; + searchString + &quot;%&quot;);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L230">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L233" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L234">                TeacherBean teacher = new TeacherBean();</span>
+
+<span class="nc" id="L236">                teacher.setUsername(rs.getString(&quot;Username&quot;));</span>
+<span class="nc" id="L237">                teacher.setPassword(rs.getString(&quot;Password&quot;));</span>
+<span class="nc" id="L238">                teacher.setMail(rs.getString(&quot;Mail&quot;));</span>
+<span class="nc" id="L239">                teacher.setAvatar(rs.getString(&quot;Avatar&quot;));</span>
+<span class="nc" id="L240">                teacher.setDisplayName(rs.getString(&quot;DisplayName&quot;));</span>
+<span class="nc" id="L241">                teacher.setDateOfBirth(rs.getDate(&quot;DateOfBirth&quot;));</span>
+<span class="nc" id="L242">                teacher.setSex(rs.getBoolean(&quot;Sex&quot;));</span>
+<span class="nc" id="L243">                teacher.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L244">                teacher.setCash(rs.getBigDecimal(&quot;Cash in account&quot;));</span>
+<span class="nc" id="L245">                teacher.setCreateDate(rs.getDate(&quot;CreatedDate&quot;));</span>
+<span class="nc" id="L246">                teacher.setRole(rs.getString(&quot;Role&quot;));</span>
+<span class="nc" id="L247">                teacher.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L248">                teacher.setState(rs.getBoolean(&quot;State&quot;));</span>
+<span class="nc" id="L249">                teacher.setCvImg(rs.getString(&quot;CV&quot;));</span>
+<span class="nc" id="L250">                teacher.setSubjectId(rs.getInt(&quot;SubjectID&quot;));</span>
+
+<span class="nc" id="L252">                teachers.add(teacher);</span>
+<span class="nc" id="L253">            }</span>
+
+<span class="nc" id="L255">        } catch (SQLException ex) {</span>
+<span class="nc" id="L256">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L258">            close(conn, statement, rs);</span>
+<span class="nc" id="L259">        }</span>
+<span class="nc" id="L260">        return teachers;</span>
+    }
+
+    /**
+     * insertNewTeacher method implement from ITeacherDAO
+     *
+     * @param teacher
+     * @return teachers. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public boolean insertNewTeacher(TeacherBean teacher) {
+
+<span class="nc" id="L272">        Connection conn = null;</span>
+<span class="nc" id="L273">        PreparedStatement statement = null;</span>
+<span class="nc" id="L274">        ResultSet rs = null;</span>
+<span class="nc" id="L275">        TeacherBean getTeacherFromDb = getTeacherByUsername(teacher.getUsername()); // check if exists in db, if yes return false</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        if (getTeacherFromDb != null) {</span>
+<span class="nc" id="L277">            return false;</span>
+        }
+        try {
+<span class="nc" id="L280">            String sql = &quot;Insert into Tutor (Username, SubjectID, CV) values (?, ?, ?)&quot;; //sql query</span>
+<span class="nc" id="L281">            conn = getConnection();</span>
+<span class="nc" id="L282">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L283">            statement.setString(1, teacher.getUsername());</span>
+<span class="nc" id="L284">            statement.setInt(2, teacher.getSubjectId());</span>
+<span class="nc" id="L285">            statement.setString(3, teacher.getCvImg());</span>
+<span class="nc" id="L286">            int result = statement.executeUpdate();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">            if (result == 1) {</span>
+<span class="nc" id="L288">                return true;</span>
+            }
+<span class="nc" id="L290">        } catch (SQLException ex) {</span>
+<span class="nc" id="L291">            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L293">            close(conn, statement, null);</span>
+<span class="nc" id="L294">        }</span>
+<span class="nc" id="L295">        return false;</span>
+    }
+
+    /**
+     * getAllTeacherApply method implement from ITeacherDAO
+     *
+     * @return teachers. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;TeacherBean&gt; getAllTeacherApply(int pageindex, int pagesize) {
+
+<span class="nc" id="L306">        Connection conn = null;</span>
+<span class="nc" id="L307">        PreparedStatement statement = null;</span>
+<span class="nc" id="L308">        ResultSet rs = null;</span>
+<span class="nc" id="L309">        ArrayList&lt;TeacherBean&gt; teachers = new ArrayList&lt;&gt;();</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L312">            conn = getConnection();</span>
+<span class="nc" id="L313">            String sql = &quot;select Account.*,Tutor.*\n&quot;</span>
+                    + &quot;from Account, Tutor\n&quot;
+                    + &quot;where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n&quot;
+                    + &quot;ORDER BY CreatedDate \n&quot;
+                    + &quot;OFFSET ? ROWS \n&quot;
+                    + &quot;FETCH NEXT ? ROWS ONLY;&quot;;
+<span class="nc" id="L319">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L320">            statement.setInt(1, (pageindex - 1) * pagesize);</span>
+<span class="nc" id="L321">            statement.setInt(2, pagesize);</span>
+
+            /*Query and save in ResultSet */
+<span class="nc" id="L324">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L327" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L328">                TeacherBean teacher = new TeacherBean();</span>
+
+<span class="nc" id="L330">                teacher.setUsername(rs.getString(&quot;Username&quot;));</span>
+<span class="nc" id="L331">                teacher.setPassword(rs.getString(&quot;Password&quot;));</span>
+<span class="nc" id="L332">                teacher.setMail(rs.getString(&quot;Mail&quot;));</span>
+<span class="nc" id="L333">                teacher.setAvatar(rs.getString(&quot;Avatar&quot;));</span>
+<span class="nc" id="L334">                teacher.setDisplayName(rs.getString(&quot;DisplayName&quot;));</span>
+<span class="nc" id="L335">                teacher.setDateOfBirth(rs.getDate(&quot;DateOfBirth&quot;));</span>
+<span class="nc" id="L336">                teacher.setSex(rs.getBoolean(&quot;Sex&quot;));</span>
+<span class="nc" id="L337">                teacher.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L338">                teacher.setCash(rs.getBigDecimal(&quot;Cash in account&quot;));</span>
+<span class="nc" id="L339">                teacher.setCreateDate(rs.getDate(&quot;CreatedDate&quot;));</span>
+<span class="nc" id="L340">                teacher.setRole(rs.getString(&quot;Role&quot;));</span>
+<span class="nc" id="L341">                teacher.setStatus(rs.getString(&quot;Status&quot;));</span>
+<span class="nc" id="L342">                teacher.setState(rs.getBoolean(&quot;State&quot;));</span>
+<span class="nc" id="L343">                teacher.setCvImg(rs.getString(&quot;CV&quot;));</span>
+<span class="nc" id="L344">                teacher.setSubjectId(rs.getInt(&quot;SubjectID&quot;));</span>
+<span class="nc" id="L345">                teacher.setStatusApply(&quot;Waiting&quot;);</span>
+<span class="nc" id="L346">                teachers.add(teacher);</span>
+<span class="nc" id="L347">            }</span>
+
+<span class="nc" id="L349">        } catch (SQLException ex) {</span>
+<span class="nc" id="L350">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L352">            close(conn, statement, rs);</span>
+<span class="nc" id="L353">        }</span>
+<span class="nc" id="L354">        return teachers;</span>
+    }
+
+    /**
+     * getTotalTeacherApply method implement from IAccountDAO
+     *
+     * @return total Integer&lt;Integer&gt;.
+     */
+    @Override
+    public int getTotalTeacherApply() {
+
+<span class="nc" id="L365">        Connection conn = null;</span>
+<span class="nc" id="L366">        PreparedStatement statement = null;</span>
+<span class="nc" id="L367">        ResultSet rs = null;</span>
+<span class="nc" id="L368">        int total = 0;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L371">            conn = getConnection();</span>
+<span class="nc" id="L372">            String sql = &quot;select COUNT(Account.Username) AS NumberOfAccount  \n&quot;</span>
+                    + &quot;from Account, Tutor\n&quot;
+                    + &quot;where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n&quot;;
+
+<span class="nc" id="L376">            statement = conn.prepareStatement(sql);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L378">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an variable of Request*/
+<span class="nc bnc" id="L381" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L382">                total = rs.getInt(&quot;NumberOfAccount&quot;);</span>
+            }
+            ;
+<span class="nc" id="L385">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L387">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L389">            close(conn, statement, rs);</span>
+<span class="nc" id="L390">        }</span>
+<span class="nc" id="L391">        return total;</span>
+    }
+
+    /**
+     * handleTeacherApply method implement from ITeacherDAO accept and change
+     * status apply of teacher from database
+     *
+     * @return number of row has affected. &lt;code&gt;Integer&lt;/code&gt; object
+     */
+    @Override
+    public int handleTeacherApply(String username, String status) {
+
+<span class="nc" id="L403">        Connection conn = null;</span>
+<span class="nc" id="L404">        PreparedStatement statement = null;</span>
+<span class="nc" id="L405">        ResultSet rs = null;</span>
+<span class="nc" id="L406">        int numberOfRow = 0;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="nc" id="L409">            conn = getConnection();</span>
+<span class="nc" id="L410">            String sql = &quot;Update Tutor set Status = ? &quot;</span>
+                    + &quot;Where username = ? &quot;;
+
+<span class="nc" id="L413">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L414">            statement.setString(1, status);</span>
+<span class="nc" id="L415">            statement.setString(2, username);</span>
+
+
+            /*Insert New Subject into Database*/
+<span class="nc" id="L419">            numberOfRow = statement.executeUpdate();</span>
+
+<span class="nc" id="L421">        } catch (SQLException ex) {</span>
+<span class="nc" id="L422">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L424">            close(conn, statement, rs);</span>
+<span class="nc" id="L425">        }</span>
+<span class="nc" id="L426">        return numberOfRow;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

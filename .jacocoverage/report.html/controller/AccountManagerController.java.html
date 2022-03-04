@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AccountManagerController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">AccountManagerController.java</span></div><h1>AccountManagerController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * AccountManagerController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
+package controller;
+
+import bean.AccountBean;
+import dao.AccountDAO;
+import dao.IAccountDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * This is a Servlet responsible for handling the task when the Admin wants to ban or active an account
+ * /AccountManager is the URL of the Servlet
+ * Extend HttpServlet class
+ * @author Duc Minh
+ */
+<span class="nc" id="L31">public class AccountManagerController extends HttpServlet {</span>
+   
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L44">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L45">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L46">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L47">            IAccountDAO iAccountDAO = new AccountDAO();</span>
+<span class="nc" id="L48">         String page = request.getParameter(&quot;page&quot;);</span>
+<span class="nc bnc" id="L49" title="All 4 branches missed.">         if(page == null || page.length() == 0)</span>
+<span class="nc" id="L50">             page = &quot;1&quot;;</span>
+<span class="nc" id="L51">         int pageindex = Integer.parseInt(page);</span>
+<span class="nc" id="L52">         int pagesize = 7;</span>
+<span class="nc" id="L53">         int totalrow = iAccountDAO.totalAccount();</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">         int totalpage = (totalrow%pagesize==0)?totalrow/pagesize:totalrow/pagesize + 1  ;</span>
+<span class="nc" id="L55">        ArrayList&lt;AccountBean&gt; accounts = iAccountDAO.getAllAccount(pageindex, pagesize);</span>
+       
+     
+<span class="nc" id="L58">        request.setAttribute(&quot;totalpage&quot;, totalpage);</span>
+<span class="nc" id="L59">        request.setAttribute(&quot;pageindex&quot;, pageindex);    </span>
+
+<span class="nc" id="L61">        request.setAttribute(&quot;accounts&quot;, accounts);</span>
+        
+<span class="nc" id="L63">        request.getRequestDispatcher(&quot;./view/AccountManager.jsp&quot;).forward(request, response);</span>
+        
+<span class="nc bnc" id="L65" title="All 8 branches missed.">        }catch (Exception ex) {</span>
+<span class="nc" id="L66">            Logger.getLogger(AccountManagerController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L67">        }</span>
+<span class="nc" id="L68">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

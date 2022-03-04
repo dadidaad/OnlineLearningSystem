@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LoginController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">LoginController.java</span></div><h1>LoginController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * LoginController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         DajtVox    First Implement
+ */
+package controller;
+
+import bean.AccountBean;
+import dao.AccountDAO;
+import dao.IAccountDAO;
+import utils.PasswordUtils;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * This is a Servlet responsible for handling login function /Login is the URL
+ * of the web site Extend HttpServlet class
+ *
+ * @author DajtVox
+ */
+<span class="nc" id="L37">public class LoginController extends HttpServlet {</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L51">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L52">        request.setCharacterEncoding(&quot;utf-8&quot;);</span>
+<span class="nc" id="L53">        request.getRequestDispatcher(&quot;./view/Login.jsp&quot;).forward(request, response); //if uri is Login then forward to this page</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L67">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L68">        request.setCharacterEncoding(&quot;utf-8&quot;);</span>
+<span class="nc" id="L69">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L70">            String username = request.getParameter(&quot;username&quot;).trim(); // get username input from Login form</span>
+<span class="nc" id="L71">            String password = request.getParameter(&quot;password&quot;).trim(); // get password input from Login form</span>
+<span class="nc" id="L72">            String role = request.getParameter(&quot;role&quot;).trim(); //get role input from Login form</span>
+<span class="nc" id="L73">            Map&lt;String, String&gt; messages = new HashMap&lt;&gt;(); //initalize hashmap to hold message </span>
+<span class="nc" id="L74">            messages.put(&quot;role&quot;, role);</span>
+<span class="nc" id="L75">            messages.put(&quot;username&quot;, username);</span>
+<span class="nc" id="L76">            messages.put(&quot;password&quot;, password);</span>
+<span class="nc" id="L77">            HttpSession session = request.getSession();</span>
+<span class="nc" id="L78">            session.setMaxInactiveInterval(1800); //set age for session</span>
+<span class="nc" id="L79">            IAccountDAO db = new AccountDAO();</span>
+<span class="nc" id="L80">            AccountBean userGetFromDb = db.getAccountByUsername(username); //get AccountBean from database </span>
+
+            /*check if userGetFromDb is null then no exist user in database, put message to hashmap*/
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (userGetFromDb == null) {</span>
+<span class="nc" id="L84">                messages.put(&quot;loginNoti&quot;, &quot;User isn't exist&quot;);</span>
+            } else {
+                /*compare pw input from user and pw in db by decryption pw from db*/
+<span class="nc" id="L87">                boolean checkPass = PasswordUtils.validatePassword(password, userGetFromDb.getPassword());</span>
+<span class="nc" id="L88">                boolean checkRole = role.equalsIgnoreCase(userGetFromDb.getRole()); //check role from user and in db</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                if (!checkPass) {</span>
+<span class="nc" id="L90">                    messages.put(&quot;loginNoti&quot;, &quot;Invalid password&quot;);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                } else if (!checkRole) {</span>
+<span class="nc" id="L92">                    messages.put(&quot;loginNoti&quot;, &quot;Invalid role&quot;);</span>
+                } else {
+<span class="nc" id="L94">                    String remember = request.getParameter(&quot;remember&quot;); //check if user tick remember option</span>
+                    /* if user tick remember option then create cookie to store user*/
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    if (remember != null) {</span>
+<span class="nc" id="L97">                        Cookie userCookie = new Cookie(&quot;username&quot;, username);</span>
+<span class="nc" id="L98">                        Cookie passCookie = new Cookie(&quot;password&quot;, password);</span>
+<span class="nc" id="L99">                        userCookie.setMaxAge(3600 * 24 * 30);</span>
+<span class="nc" id="L100">                        passCookie.setMaxAge(3600 * 24 * 30);</span>
+<span class="nc" id="L101">                        response.addCookie(userCookie);</span>
+<span class="nc" id="L102">                        response.addCookie(passCookie);</span>
+                    }
+<span class="nc" id="L104">                    session.setAttribute(&quot;user&quot;, userGetFromDb); // set user in session if login success</span>
+<span class="nc" id="L105">                    session.setAttribute(&quot;remember&quot;, remember);</span>
+<span class="nc" id="L106">                    response.sendRedirect(&quot;Home&quot;); //redirect to home page</span>
+<span class="nc" id="L107">                    return;</span>
+                }
+            }
+            /*set noti in hashmap to request attribute if login fail and forward to login page */
+<span class="nc" id="L111">            request.setAttribute(&quot;message_forward&quot;, messages);</span>
+<span class="nc" id="L112">            request.getRequestDispatcher(&quot;./view/Login.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L113" title="All 12 branches missed.">        } catch (Exception ex) {</span>
+<span class="nc" id="L114">            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L115">        }</span>
+<span class="nc" id="L116">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

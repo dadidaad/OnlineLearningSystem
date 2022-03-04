@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CreateRequestReplyController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">CreateRequestReplyController.java</span></div><h1>CreateRequestReplyController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * CreateRequestReplyController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
+package controller;
+
+import bean.RequestBean;
+import bean.RequestReplyBean;
+import dao.IRequestDAO;
+import dao.RequestDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * This is a Servlet responsible for handling the task when the teacher wants to create the reply of Request
+ * /CreateRequestReply is the URL of the Servlet
+ * Extend HttpServlet class
+ * @author Duc Minh
+ */
+<span class="nc" id="L31">public class CreateRequestReplyController extends HttpServlet {</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L45">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L46">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L47">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L48">        int requestId = Integer.parseInt(request.getParameter(&quot;requestId&quot;));</span>
+<span class="nc" id="L49">        String teacherSent = request.getParameter(&quot;teacherSent&quot;);</span>
+<span class="nc" id="L50">        String studentSent = request.getParameter(&quot;studentSent&quot;);</span>
+<span class="nc" id="L51">        String contentReply = request.getParameter(&quot;contentReply&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L52">        String imgReply = &quot;/assets/image/&quot; + request.getParameter(&quot;imgReply&quot;);</span>
+        
+<span class="nc" id="L54">        RequestReplyBean rpReply = new RequestReplyBean();</span>
+<span class="nc" id="L55">        rpReply.setRequestID(requestId);</span>
+<span class="nc" id="L56">        rpReply.setTutorSent(teacherSent);</span>
+<span class="nc" id="L57">        rpReply.setStudentGet(studentSent);</span>
+<span class="nc" id="L58">        rpReply.setContentReply(contentReply);</span>
+<span class="nc" id="L59">        rpReply.setImageLinkReply(imgReply);</span>
+        
+<span class="nc" id="L61">        IRequestDAO iRequestDAO = new RequestDAO();</span>
+<span class="nc" id="L62">        iRequestDAO.updateRequestStatus(&quot;Approved&quot;, requestId);</span>
+<span class="nc" id="L63">        iRequestDAO.createRequestReply(rpReply);</span>
+        
+<span class="nc" id="L65">        response.sendRedirect(&quot;ListAllRequest&quot;);</span>
+        
+<span class="nc bnc" id="L67" title="All 8 branches missed.">        }catch (Exception ex) {</span>
+<span class="nc" id="L68">            Logger.getLogger(CreateRequestReplyController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

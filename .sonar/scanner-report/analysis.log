@@ -1,0 +1,137 @@
+Environment variables:
+  - =C:=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem
+  - ALLUSERSPROFILE=C:\ProgramData
+  - APPDATA=C:\Users\Admin\AppData\Roaming
+  - COMPUTERNAME=DAJTVOX
+  - ComSpec=C:\WINDOWS\system32\cmd.exe
+  - CommonProgramFiles=C:\Program Files\Common Files
+  - CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+  - CommonProgramW6432=C:\Program Files\Common Files
+  - DriverData=C:\Windows\System32\Drivers\DriverData
+  - ERROR_CODE=0
+  - GOOGLE_APPLICATION_CREDENTIALS=E:\TranslateRenPy 0.08\settings\google.json
+  - HOMEDRIVE=C:
+  - HOMEPATH=\Users\Admin
+  - IntelliJ IDEA Community Edition=C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\bin;
+  - JAVA_EXEC="C:\Program Files (x86)\Common Files\Oracle\Java\javapath\java.exe"
+  - LOCALAPPDATA=C:\Users\Admin\AppData\Local
+  - LOGONSERVER=\\DAJTVOX
+  - MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\
+  - NUMBER_OF_PROCESSORS=4
+  - OS=Windows_NT
+  - OneDrive=C:\Users\Admin\OneDrive
+  - PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+  - POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
+  - PROCESSOR_ARCHITECTURE=AMD64
+  - PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+  - PROCESSOR_LEVEL=6
+  - PROCESSOR_REVISION=5e03
+  - PROJECT_HOME=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem
+  - PROMPT=$P$G
+  - PSModulePath=C:\Users\Admin\Documents\PowerShell\Modules;C:\Program Files\PowerShell\Modules;c:\program files\powershell\7\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+  - PUBLIC=C:\Users\Public
+  - Path=C:\Program Files\PowerShell\7;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\sonar-runner-2.4\bin;C:\Users\Admin\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Admin\AppData\Local\Programs\Python\Python310\;C:\Users\Admin\AppData\Local\Microsoft\WindowsApps;C:\Users\Admin\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\bin;C:\Users\Admin\.dotnet\tools
+  - ProgramData=C:\ProgramData
+  - ProgramFiles=C:\Program Files
+  - ProgramFiles(x86)=C:\Program Files (x86)
+  - ProgramW6432=C:\Program Files
+  - SONAR_RUNNER_HOME=C:\sonar-runner-2.4\bin\..
+  - SystemDrive=C:
+  - SystemRoot=C:\WINDOWS
+  - TEMP=C:\Users\Admin\AppData\Local\Temp
+  - TMP=C:\Users\Admin\AppData\Local\Temp
+  - USERDOMAIN=DAJTVOX
+  - USERDOMAIN_ROAMINGPROFILE=DAJTVOX
+  - USERNAME=Admin
+  - USERPROFILE=C:\Users\Admin
+  - asl.log=Destination=file
+  - windir=C:\WINDOWS
+System properties:
+  - ROOT_LOGGER_LEVEL=DEBUG
+  - awt.toolkit=sun.awt.windows.WToolkit
+  - file.encoding=Cp1252
+  - file.encoding.pkg=sun.io
+  - file.separator=\
+  - java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment
+  - java.awt.printerjob=sun.awt.windows.WPrinterJob
+  - java.class.path=C:\sonar-runner-2.4\bin\..\lib\sonar-runner-dist-2.4.jar
+  - java.class.version=52.0
+  - java.endorsed.dirs=C:\Program Files\Java\jre1.8.0_201\lib\endorsed
+  - java.ext.dirs=C:\Program Files\Java\jre1.8.0_201\lib\ext;C:\WINDOWS\Sun\Java\lib\ext
+  - java.home=C:\Program Files\Java\jre1.8.0_201
+  - java.io.tmpdir=C:\Users\Admin\AppData\Local\Temp\
+  - java.library.path=C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\PowerShell\7;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\sonar-runner-2.4\bin;C:\Users\Admin\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Admin\AppData\Local\Programs\Python\Python310\;C:\Users\Admin\AppData\Local\Microsoft\WindowsApps;C:\Users\Admin\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3\bin;C:\Users\Admin\.dotnet\tools;.
+  - java.runtime.name=Java(TM) SE Runtime Environment
+  - java.runtime.version=1.8.0_201-b09
+  - java.specification.name=Java Platform API Specification
+  - java.specification.vendor=Oracle Corporation
+  - java.specification.version=1.8
+  - java.vendor=Oracle Corporation
+  - java.vendor.url=http://java.oracle.com/
+  - java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+  - java.version=1.8.0_201
+  - java.vm.info=mixed mode
+  - java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+  - java.vm.specification.name=Java Virtual Machine Specification
+  - java.vm.specification.vendor=Oracle Corporation
+  - java.vm.specification.version=1.8
+  - java.vm.vendor=Oracle Corporation
+  - java.vm.version=25.201-b09
+  - line.separator=
+
+  - os.arch=amd64
+  - os.name=Windows 10
+  - os.version=10.0
+  - path.separator=;
+  - project.home=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem
+  - runner.home=C:\sonar-runner-2.4\bin\..
+  - sun.arch.data.model=64
+  - sun.boot.class.path=C:\Program Files\Java\jre1.8.0_201\lib\resources.jar;C:\Program Files\Java\jre1.8.0_201\lib\rt.jar;C:\Program Files\Java\jre1.8.0_201\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_201\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_201\lib\jce.jar;C:\Program Files\Java\jre1.8.0_201\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_201\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_201\classes
+  - sun.boot.library.path=C:\Program Files\Java\jre1.8.0_201\bin
+  - sun.cpu.endian=little
+  - sun.cpu.isalist=amd64
+  - sun.desktop=windows
+  - sun.io.unicode.encoding=UnicodeLittle
+  - sun.java.command=org.sonar.runner.Main -X
+  - sun.java.launcher=SUN_STANDARD
+  - sun.jnu.encoding=Cp1252
+  - sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+  - sun.os.patch.level=
+  - sun.stderr.encoding=cp437
+  - sun.stdout.encoding=cp437
+  - user.country=US
+  - user.dir=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem
+  - user.home=C:\Users\Admin
+  - user.language=en
+  - user.name=Admin
+  - user.script=
+  - user.timezone=Asia/Bangkok
+  - user.variant=
+SonarQube plugins:
+  - SonarC# 6.5.0.3766 (csharp)
+  - SonarPython 1.8.0.1496 (python)
+  - SonarJava 4.15.0.12310 (java)
+  - Flex 2.3 (flex)
+  - SonarQube :: Plugins :: SCM :: Git 1.3.0.869 (scmgit)
+  - SonarXML 1.4.3.1027 (xml)
+  - SonarPHP 2.11.0.2485 (php)
+  - SonarTS 1.1.0.1079 (typescript)
+  - SonarQube :: Plugins :: SCM :: SVN 1.6.0.860 (scmsvn)
+  - SonarJS 3.2.0.5506 (javascript)
+Global properties:
+  - sonar.core.id=BF41A1F2-AX9GHHErdTxlPqhEg9oF
+  - sonar.core.startTime=2022-03-01T22:32:22+0700
+Settings for module: OLS
+  - sonar.host.url=http://localhost:9000
+  - sonar.jacoco.reportPaths=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem\.jacocoverage\jacoco.latest.exec
+  - sonar.java.binaries=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem\build\web\WEB-INF\classes
+  - sonar.language=java
+  - sonar.login=******
+  - sonar.projectBaseDir=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem\.
+  - sonar.projectKey=OLS
+  - sonar.projectName=OnlineLearningSystem
+  - sonar.projectVersion=1.0
+  - sonar.sourceEncoding=windows-1252
+  - sonar.sources=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem\src
+  - sonar.verbose=true
+  - sonar.working.directory=C:\Users\Admin\Documents\Spring 2022 FPT\SWP\OnlineLearningSystem\OnlineLearningSystem\.\.sonar

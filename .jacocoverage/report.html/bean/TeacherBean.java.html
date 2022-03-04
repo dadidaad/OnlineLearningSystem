@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TeacherBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">TeacherBean.java</span></div><h1>TeacherBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+ * Teacher Bean
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
+package bean;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+/**
+ * The class contains information attribute about Teacher Model and Account
+ * Model All attributes are declare in private cvImg, subjectId and all the
+ * attributes of Account Get set methods used to retrieve data The toString
+ * method is overridden to print the data
+ *
+ * @author Duc Minh
+ */
+public class TeacherBean extends AccountBean {
+
+    private String cvImg;
+    private int subjectId;
+    private String statusApply;
+
+<span class="fc" id="L28">    public TeacherBean() {</span>
+<span class="fc" id="L29">    }</span>
+
+<span class="nc" id="L31">    public TeacherBean(String cvImg, int subjectId, String statusApply) {</span>
+<span class="nc" id="L32">        this.cvImg = cvImg;</span>
+<span class="nc" id="L33">        this.subjectId = subjectId;</span>
+<span class="nc" id="L34">        this.statusApply = statusApply;</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * The method used to print the attribute values of Teacher
+     *
+     * @return &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L44">        return super.toString() + &quot;TeacherBean{&quot; + &quot;cvImg=&quot; + cvImg + &quot;, subjectId=&quot; + subjectId + '}';</span>
+    }
+
+    /**
+     * CvImg's data retrieval method
+     *
+     * @return cvImg. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getCvImg() {
+<span class="fc" id="L53">        return cvImg;</span>
+    }
+
+    /**
+     * Set value for cvImg
+     *
+     * @param cvImg.  &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setCvImg(String cvImg) {
+<span class="fc" id="L62">        this.cvImg = cvImg;</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * subjectId's data retrieval method
+     *
+     * @return subjectId. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getSubjectId() {
+<span class="fc" id="L71">        return subjectId;</span>
+    }
+
+    /**
+     * Set value for subjectId
+     *
+     * @param subjectId.  &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setSubjectId(int subjectId) {
+<span class="fc" id="L80">        this.subjectId = subjectId;</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * StatusApply's data retrieval method
+     *
+     * @return subjectId. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getStatusApply() {
+<span class="nc" id="L89">        return statusApply;</span>
+    }
+
+    /**
+     * Set value for StatusApply
+     *
+     * @param subjectId.  &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setStatusApply(String statusApply) {
+<span class="nc" id="L98">        this.statusApply = statusApply;</span>
+<span class="nc" id="L99">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

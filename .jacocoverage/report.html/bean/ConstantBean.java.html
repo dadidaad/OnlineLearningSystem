@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ConstantBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">ConstantBean.java</span></div><h1>ConstantBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * Constant Bean
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-22   1.0         Doan Tu    First Implement
+ */
+
+package bean;
+
+/**
+ * The class contains information attribute about Constant Model
+ * All attributes are declare in private ConstantID, ConstantName, value, Unit, description, sign, readingConvention
+ * Get set methods used to retrieve data
+ * The toString method is overridden to print the data
+ * 
+ * @author Doan Tu
+ */
+public class ConstantBean {
+    private int constantID;
+    private String constantName;
+    private String value;
+    private String unit;
+    private String description;
+    private String sign;
+    private String readingConvention;
+
+<span class="nc" id="L29">    public ConstantBean() {</span>
+<span class="nc" id="L30">    }</span>
+    /**
+     * Initialization method
+     * 
+     * @param constantID the Id of Constant. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param constantName The Name of Constant. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param value value of Constant. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param unit Unit of Constant in SI system. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param description Short description for constant. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param sign Science sign of Constant. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param readingConvention Science reading convention of constant. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+<span class="nc" id="L42">    public ConstantBean(int constantID, String constantName, String value, String unit, String description, String sign, String readingConvention) {</span>
+<span class="nc" id="L43">        this.constantID = constantID;</span>
+<span class="nc" id="L44">        this.constantName = constantName;</span>
+<span class="nc" id="L45">        this.value = value;</span>
+<span class="nc" id="L46">        this.unit = unit;</span>
+<span class="nc" id="L47">        this.description = description;</span>
+<span class="nc" id="L48">        this.sign = sign;</span>
+<span class="nc" id="L49">        this.readingConvention = readingConvention;</span>
+<span class="nc" id="L50">    }</span>
+
+    /**
+     * ConstantID's data retrieve method
+     * 
+     * @return constantID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public int getConstantID() {
+<span class="nc" id="L58">        return constantID;</span>
+    }
+    
+    /**
+     * Set value for Constant ID
+     * 
+     * @param constantID &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setConstantID(int constantID) {
+<span class="nc" id="L67">        this.constantID = constantID;</span>
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * ConstantName's data retrieve method
+     * 
+     * @return constantName. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getConstantName() {
+<span class="nc" id="L76">        return constantName;</span>
+    }
+
+    /**
+     * Set value for Constant Name
+     * 
+     * @param constantName. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setConstantName(String constantName) {
+<span class="nc" id="L85">        this.constantName = constantName;</span>
+<span class="nc" id="L86">    }</span>
+
+    /**
+     * ConstantValue's data retrieve method
+     * 
+     * @return value. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getValue() {
+<span class="nc" id="L94">        return value;</span>
+    }
+
+    /**
+     * Set value for ConstantValue
+     * 
+     * @param value. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setValue(String value) {
+<span class="nc" id="L103">        this.value = value;</span>
+<span class="nc" id="L104">    }</span>
+
+    /**
+     * Unit's data retrieve method
+     * 
+     * @return unit. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getUnit() {
+<span class="nc" id="L112">        return unit;</span>
+    }
+
+    /**
+     * Set value for Unit 
+     * 
+     * @param unit. &lt;code&gt;java.lang.String&lt;/code&gt; object 
+     */
+    public void setUnit(String unit) {
+<span class="nc" id="L121">        this.unit = unit;</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * ConstantDescription's data retrieve method
+     * 
+     * @return description. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getDescription() {
+<span class="nc" id="L130">        return description;</span>
+    }
+
+    /**
+     * Set value for ConstantDescription
+     * 
+     * @param description. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setDescription(String description) {
+<span class="nc" id="L139">        this.description = description;</span>
+<span class="nc" id="L140">    }</span>
+
+    /**
+     * ConstantSign's data retrieve method
+     * 
+     * @return sign. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getSign() {
+<span class="nc" id="L148">        return sign;</span>
+    }
+
+    /**
+     * Set value for CóntantSign
+     * 
+     * @param sign. &lt;code&gt;java.lang.String&lt;/code&gt; object 
+     */
+    public void setSign(String sign) {
+<span class="nc" id="L157">        this.sign = sign;</span>
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * ReadingConvention's data retrieve method
+     * 
+     * @return readingConvention. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getReadingConvention() {
+<span class="nc" id="L166">        return readingConvention;</span>
+    }
+
+    /**
+     * Set value for ReadingConvention 
+     * 
+     * @param readingConvention. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setReadingConvention(String readingConvention) {
+<span class="nc" id="L175">        this.readingConvention = readingConvention;</span>
+<span class="nc" id="L176">    }</span>
+
+    /**
+     * The method used to print the attribute values of Chapter
+     * 
+     * @return &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L185">        return &quot;ConstantBean{&quot; + &quot;constantID=&quot; + constantID + &quot;, constantName=&quot; + constantName + &quot;, value=&quot; + value + &quot;, unit=&quot; + unit + &quot;, description=&quot; + description + &quot;, sign=&quot; + sign + &quot;, readingConvention=&quot; + readingConvention + '}';</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

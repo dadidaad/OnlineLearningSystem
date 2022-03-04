@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SearchInArticle.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">SearchInArticle.java</span></div><h1>SearchInArticle.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import bean.ArticleBean;
+import dao.ArticleDAO;
+import dao.IArticleDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author hoang
+ */
+@WebServlet(name = &quot;SearchInArticle&quot;, urlPatterns = {&quot;/searcharticle&quot;})
+<span class="nc" id="L25">public class SearchInArticle extends HttpServlet {</span>
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L30">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L31">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L32">        IArticleDAO articleDAO = new ArticleDAO();</span>
+        /*get txttitle from page*/
+<span class="nc" id="L34">        String txt = request.getParameter(&quot;name&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();</span>
+
+<span class="nc" id="L36">        String indexpage = request.getParameter(&quot;index&quot;);</span>
+        /*Caculate total page*/
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (indexpage == null) {</span>
+<span class="nc" id="L39">            indexpage = &quot;1&quot;;</span>
+        }
+        /*Caculate total page*/
+<span class="nc" id="L42">        int idex = Integer.parseInt(indexpage);</span>
+<span class="nc" id="L43">        int count = articleDAO.totalSearchArticle(txt);</span>
+<span class="nc" id="L44">        int endPage = count / 6;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (count % 6 != 0) {</span>
+<span class="nc" id="L46">            endPage++;</span>
+        }
+        //get top 4 newest article and total article
+<span class="nc" id="L49">        List&lt;ArticleBean&gt; list = articleDAO.pagingSearchArticle(idex, txt);</span>
+
+<span class="nc" id="L51">        List&lt;ArticleBean&gt; list2 = articleDAO.getTop4Article();</span>
+<span class="nc" id="L52">        request.setAttribute(&quot;listT&quot;, list2);</span>
+<span class="nc" id="L53">        request.setAttribute(&quot;txtS&quot;, txt);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (list.isEmpty()) {</span>
+<span class="nc" id="L55">            request.setAttribute(&quot;message&quot;, &quot;There is no title of Article&quot;);</span>
+        } else {
+
+            //Attach Attribute for request and redirect it to ListArticle.jsp
+<span class="nc" id="L59">            request.setAttribute(&quot;listP&quot;, list);</span>
+<span class="nc" id="L60">            request.setAttribute(&quot;tag&quot;, idex);</span>
+<span class="nc" id="L61">            request.setAttribute(&quot;endP&quot;, endPage);</span>
+        }
+<span class="nc" id="L63">        request.getRequestDispatcher(&quot;./view/ListArticle.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L64">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
