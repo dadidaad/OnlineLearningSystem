@@ -1,1 +1,0 @@
-0src/java/Controller/DetailArticleController.java 2javaX\h
