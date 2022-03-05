@@ -1,16 +1,0 @@
-
-:bean.RequestReplyBean#getCreatedTimeReply()Ljava/sql/Date;„
-zC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/bean/RequestReplyBean.javaV V(#"1*„
-1„
-zC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/bean/RequestReplyBean.javaW W(Ö
-Ó
-„
-zC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/bean/RequestReplyBean.javaW W(
-%0java.sql.Date"__id*/*-
-bean.RequestReplyBean"
-createdTimeReply"ž
-„
-zC:/Users/Admin/Documents/Spring 2022 FPT/SWP/OnlineLearningSystem/OnlineLearningSystem/src/java/bean/RequestReplyBean.javaW W( 
-
-%0java.sql.DateB
-bean.RequestReplyBean
