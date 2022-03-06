@@ -38,6 +38,25 @@ public class AccountBean {
         //default constructor
     }
 
+    public AccountBean(String username, String password, String mail, String avatar, String displayName, Date dateOfBirth, boolean sex, String description, BigDecimal cash, Date createDate, String role, String status, boolean state, String token) {
+        this.username = username;
+        this.password = password;
+        this.mail = mail;
+        this.avatar = avatar;
+        this.displayName = displayName;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+        this.description = description;
+        this.cash = cash;
+        this.createDate = createDate;
+        this.role = role;
+        this.status = status;
+        this.state = state;
+        this.token = token;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "AccountBean{" + "username=" + username + ", password=" + password + ", mail=" + mail + ", avatar=" + avatar + ", displayName=" + displayName + ", dateOfBirth=" + dateOfBirth + ", sex=" + sex + ", description=" + description + ", cash=" + cash + ", createDate=" + createDate + ", role=" + role + ", status=" + status + ", state=" + state + '}';
