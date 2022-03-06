@@ -14,18 +14,20 @@ import java.util.logging.Logger;
  */
 class BaseDAO {
 
-    public static Connection getConnection() {
-        try {
-            String server = "localhost";
-            String databasename = "OnlineLearningSystem";
-            String username = "sa";
-            String password = "123";
-            return DriverManager.getConnection("jdbc:sqlserver://" + server + ":1433;databaseName=" + databasename, username, password);
+    private static final String DB_URL = "jdbc:sqlserver://localhost:1433;"
+            + "databaseName=OnlineLearningSystem;";
+    private static final String USER_NAME = "sa";
+    private static final String PASSWORD = "123";
 
-        } catch (SQLException ex) {
+    public static Connection getConnection() throws SQLException {
+        Connection conn = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return conn;
     }
 
     public static void close(Connection con, Statement stmt, ResultSet rs) {

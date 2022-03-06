@@ -4,8 +4,8 @@
     Author     : Danh Tinh
 --%>
 
-<%@page import="Bean.PaginationBean"%>
-<%@page import="Bean.FinanceBean"%>
+<%@page import="bean.PaginationBean"%>
+<%@page import="bean.FinanceBean"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:useBean id="w" class="Dao.WalletDAO" scope="request"/>
+        <jsp:useBean id="w" class="dao.WalletDAO" scope="request"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/Wallet.css"/>">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">

@@ -537,5 +537,9 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             close(conn, statement, rs);
         }
     }
+    public static void main(String[] args) {
+        AccountDAO db = new AccountDAO();
+        System.out.println(db.getAccountByUsername("admin1"));
+    }
 
 }
