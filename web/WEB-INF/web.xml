@@ -69,8 +69,8 @@
         <servlet-class>controller.ViewRequestTeaController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateRequestReply</servlet-name>
-        <servlet-class>controller.CreateRequestReply</servlet-class>
+        <servlet-name>CreateRequestReplyController</servlet-name>
+        <servlet-class>controller.CreateRequestReplyController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllRequestController</servlet-name>
@@ -209,7 +209,7 @@
         <url-pattern>/ViewRequestTea</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CreateRequestReply</servlet-name>
+        <servlet-name>CreateRequestReplyController</servlet-name>
         <url-pattern>/CreateRequestReply</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
