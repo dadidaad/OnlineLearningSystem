@@ -86,6 +86,7 @@
                                 <p class="text-center fw-bold mx-3 mb-0 text-muted">Or</p>
                             </div>
                             <input type="hidden" name="role" id="roleUser"/>
+                            <input type="hidden" name="redirectId" value="${param.redirectId}" />
                             <div class="d-flex justify-content-center text-center mt-3 pt-1">
                                 <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
                                 <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>

@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for handling login function /Login is the URL
@@ -86,7 +87,7 @@ public class LoginController extends HttpServlet {
                 boolean checkRole = role.equalsIgnoreCase(userGetFromDb.getRole()); //check role from user and in db
                 if (!checkPass) {
                     messages.put("loginNoti", "Invalid password");
-                } else if (!checkRole) {
+                } else if (!checkRole && !role.equals("Admin")) {
                     messages.put("loginNoti", "Invalid role");
                 } else {
                     String remember = request.getParameter("remember"); //check if user tick remember option
@@ -99,9 +100,21 @@ public class LoginController extends HttpServlet {
                         response.addCookie(userCookie);
                         response.addCookie(passCookie);
                     }
-                    session.setAttribute("user", userGetFromDb); // set user in session if login success
+                    AppUtils.storeLoginedUser(session, userGetFromDb); // set user in session if login success
+                    int redirectId = -1;
+                    try {
+                        redirectId = Integer.parseInt(request.getParameter("redirectId"));
+                    } catch (NumberFormatException e) {
+                    }
                     session.setAttribute("remember", remember);
-                    response.sendRedirect("Home"); //redirect to home page
+                    String requestUri = AppUtils.getRedirectAfterLoginUrl(request.getSession(), redirectId);
+                    if (requestUri != null) {
+                        response.sendRedirect(requestUri);
+                    } else {
+                        // Mặc định sau khi đăng nhập thành công
+                        // chuyển hướng về trang /userInfo
+                        response.sendRedirect("Home");
+                    }
                     return;
                 }
             }

@@ -18,7 +18,7 @@
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous"
             />
-        <!--<link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>-->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListAllTeacher.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/StarRating.css"/>"/>    
@@ -28,7 +28,9 @@
     </head>
     <body>
         <!-- Include header of web site from general-->
-        <jsp:include page="./header.jsp"></jsp:include>
+        <div class="container">
+            <jsp:include page="./header.jsp"></jsp:include>
+            </div>
 
             <div id="wrapper" class="d-flex">
 
@@ -56,18 +58,18 @@
 
                             <!-- This link for list all teacher table-->
                             <li class="nav-link">
-                                <a href="ListAllTeacher">
+                                <a href="<i:ReadUrlFromContext url="/ListAllTeacher"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">Teacher Ranking</span>
                                 </a>
                             </li>
                             <li class="nav-link">
-                                <a href="ListAllRequest">
+                                <a href="<i:ReadUrlFromContext url="/ListAllRequest"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                           
+
                         </ul>
                     </div>
 

@@ -21,6 +21,7 @@
             crossorigin="anonymous"
             />
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestListStu.css" />">
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
@@ -29,7 +30,9 @@
     </head>
     <body>
         <!-- Include header of web site from general-->
-        <jsp:include page="./header.jsp"></jsp:include>
+        <div class="container">
+            <jsp:include page="./header.jsp"></jsp:include>
+        </div>
             <!--Main Content--> 
             <div id="wrapper" class="d-flex">
                 <!--Side Bar  -->
@@ -56,18 +59,18 @@
 
                             <!-- This link for list all teacher table-->
                             <li class="nav-link">
-                                <a href="ListAllTeacher">
+                                <a href="<i:ReadUrlFromContext url="/ListAllTeacher"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">Teacher Ranking</span>
                                 </a>
                             </li>
                             <li class="nav-link">
-                                <a href="ListAllRequest">
+                                <a href="<i:ReadUrlFromContext url="/ListAllRequest"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
 
@@ -273,7 +276,7 @@
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestListTea.js"/>"></script>
-        
+
 
     </body>
 </html>
