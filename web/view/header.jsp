@@ -42,6 +42,8 @@
                         <div class="dropdown-content" id="myDropdown">
                             <a href="<i:ReadUrlFromContext url="/ViewProfile"/>">Your profile</a>
                             <div class="divider"></div>
+                            <a href="<i:ReadUrlFromContext url="/Wallet"/>">Wallet</a></li>
+                            <div class="divider"></div>
                             <a href="<i:ReadUrlFromContext url="/LogOut"/>">Log Out</a>
                         </div>
                     </div> 

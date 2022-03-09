@@ -11,6 +11,7 @@ package bean;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,12 +20,12 @@ import java.sql.Date;
 public class FinanceBean {
     private String userGet, status, message, usetSent;
     private BigDecimal money;
-    private Date time;
+    private Timestamp time;
 
     public FinanceBean() {
     }
 
-    public FinanceBean(String userGet, String status, BigDecimal money, Date time, String message, String usetSent) {
+    public FinanceBean(String userGet, String status, BigDecimal money, Timestamp time, String message, String usetSent) {
         this.userGet = userGet;
         this.status = status;
         this.message = message;
@@ -53,7 +54,7 @@ public class FinanceBean {
         return money;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
@@ -77,7 +78,7 @@ public class FinanceBean {
         this.money = money;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
     

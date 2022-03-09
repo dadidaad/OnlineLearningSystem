@@ -9,15 +9,18 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.RequestBean;
 import bean.SubjectBean;
 import bean.TeacherBean;
+import dao.AccountDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
+import dao.WalletDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the student wants to create Request
@@ -91,7 +95,7 @@ public class CreateRequestController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+        HttpSession session = request.getSession();
         String requestTitle = request.getParameter("rqTitle").replaceAll("\\s\\s+", " ").trim();
         String requestSubject = request.getParameter("rqSubject");
         String requestLevel = request.getParameter("rqLevel");
@@ -104,7 +108,15 @@ public class CreateRequestController extends HttpServlet {
             requestTeacherRcm = request.getParameter("rqTeacherRcm");
         else requestTeacherRcm =null;
         
-        
+        //Update wallet
+        WalletDAO walletDB = new WalletDAO();
+        AccountDAO accountDB = new AccountDAO();
+            
+        AccountBean account = (AccountBean)session.getAttribute("user");
+        walletDB.UpdateMoney(account, -Double.valueOf(requestPrice), "admin", "request");
+        account = accountDB.getAccountByUsername(account.getUsername());
+        session.setAttribute("user", account);
+                        
         String requestContent = request.getParameter("content").replaceAll("\\s\\s+", " ").trim();
         String requestImg = "/assets/image/" + request.getParameter("imgContent");
         

@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-11   1.0         Duc Minh   First Implement
  */
-package Controller;
+package controller;
 
 import bean.AccountBean;
 import bean.RequestBean;
@@ -87,12 +87,14 @@ public class ListAllRequestController extends HttpServlet {
                 int pagesize = 10;
                 int totalrow, totalpage;
 
+
                 if (account.getRole().equalsIgnoreCase("student")) {
 
                     totalrow = iRequestDAO.getTotalRequestStudent(account.getUsername(), rqStatus);
                     totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
 
                     requestList = iRequestDAO.getRequestForStudent(account.getUsername(), rqStatus, pageindex, pagesize);
+
                     request.setAttribute("requests", requestList);
 
                     request.setAttribute("totalpage", totalpage);
@@ -130,6 +132,7 @@ public class ListAllRequestController extends HttpServlet {
                     
                     request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
                 }
+
             } /*Redirect it to Login*/ else {
                 response.sendRedirect("Login");
             }

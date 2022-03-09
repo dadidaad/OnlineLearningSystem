@@ -29,10 +29,8 @@ import java.util.logging.Logger;
  * @author tinht
  */
 public class WalletDAO extends BaseDAO{    
-    public void UpdateMoney(AccountBean currentAccount, double amount){
+    public void UpdateMoney(AccountBean currentAccount, double amount, String userGet, String message){
         double value = currentAccount.getCash().doubleValue() + amount;
-        String message = "Recharge";
-        if(amount < 0) message = "Withdrawal";
         AddFianaceHistory(currentAccount, amount, message);
         try {
             Connection conn = getConnection();
@@ -48,7 +46,7 @@ public class WalletDAO extends BaseDAO{
     }
     
     public List<FinanceBean> GetAllFinanceHistory(AccountBean account){
-        List<FinanceBean> list = new ArrayList<FinanceBean>();
+        List<FinanceBean> list = new ArrayList<>();
         try {
             Connection conn = getConnection();
             String sql = "select * from [Finance_History] where [UserGet] = ?";
@@ -62,7 +60,7 @@ public class WalletDAO extends BaseDAO{
                 list.add(new FinanceBean(rs.getString("UserGet"), 
                             rs.getString("Status"), 
                             rs.getBigDecimal("Money"), 
-                            rs.getDate("Time"), 
+                            rs.getTimestamp("Time"), 
                             rs.getString("Message"), 
                             rs.getString("UserSent")));
             }
@@ -77,6 +75,7 @@ public class WalletDAO extends BaseDAO{
     public List<FinanceBean> GetFinanceHistoryByPage(List<FinanceBean> allList, int page, int row_per_page){
         List<FinanceBean> pageList;
         int start = (page - 1)* row_per_page;
+        if(allList.size() - start < row_per_page) row_per_page = allList.size() - start;
         int end = start + row_per_page;
         
         pageList = allList.subList(start, end);
