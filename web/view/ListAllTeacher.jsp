@@ -67,14 +67,7 @@
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class='bx bx-table icon' ></i>
-                                    <span class="text nav-text">Notification</span>
-                                </a>
-                            </li>
-
-
+                           
                         </ul>
                     </div>
 

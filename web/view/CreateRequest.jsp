@@ -22,7 +22,7 @@
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateRequest.css" />">
-
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/StarRating.css"/>"/>  
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
         <title>Create Request</title>
@@ -67,14 +67,7 @@
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class='bx bx-table icon' ></i>
-                                    <span class="text nav-text">Notification</span>
-                                </a>
-                            </li>
-
-
+                            
                         </ul>
                     </div>
 
@@ -103,8 +96,10 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- Page Heading -->
-
-                        <div class="card--top d-flex">
+                        <div class="card--top"></div>
+                        <h1>Request</h1>
+                        <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
+                        <div class="card--top--menu d-flex">
                             <h3>Creare Request</h3>
                         </div>
                         <div class="backBtn-container">
@@ -392,9 +387,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
-<!--<script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>-->
+    
 
         <!-- link to java script file -->
+        <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
 
         <!--<script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>-->

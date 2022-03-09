@@ -21,6 +21,7 @@ import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,8 @@ public class UpdateRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
         
             int rqId = Integer.parseInt(request.getParameter("requestId"));
@@ -60,12 +63,12 @@ public class UpdateRequestController extends HttpServlet {
                 
             SubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
             Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
-            ArrayList <SubjectBean> subjects = new ArrayList<>();
+            List <SubjectBean> subjects = new ArrayList<>();
             subjects = iSubjectDAO.getAllSubject();
             
                 
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-            ArrayList <TeacherBean> teacherList =  iTeacherDAO.getAllTeacher(1,5);
+            List <TeacherBean> teacherList =  iTeacherDAO.getTopTeacher();
                 
             request.setAttribute("teachers", teacherList);
                 
@@ -92,6 +95,8 @@ public class UpdateRequestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
         
         int requestId = Integer.parseInt(request.getParameter("rqId"));    

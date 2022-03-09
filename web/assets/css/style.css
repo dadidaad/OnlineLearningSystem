@@ -797,3 +797,8 @@ h1.title {
   background-color: rgb(184, 184, 184);
 }
 /*----------------*/
+.review .box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

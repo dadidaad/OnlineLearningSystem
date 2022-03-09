@@ -3,3 +3,7 @@
 .doneBtn {
   display: none;
 }
+.card--top--menu h3{
+    color: #0367b4;
+    font-weight: 700;
+}

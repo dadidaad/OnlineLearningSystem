@@ -69,14 +69,7 @@
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class='bx bx-table icon' ></i>
-                                    <span class="text nav-text">Notification</span>
-                                </a>
-                            </li>
-
-
+                            
                         </ul>
                     </div>
 
@@ -107,7 +100,7 @@
                         <!-- Page Heading -->
                         <div class="card--top"></div>
                         <h1>Request</h1>
-                        <p>List of all the request in our system is sorted by student-rated reputation.</p>
+                        <p>List of all the request in our system had sent by Student is sorted by time created.</p>
                         <!-- Create Request Button -->
                         <div class="card--top--menu d-flex">
                             <h3 >Request List</h3>

@@ -28,79 +28,103 @@
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ViewRequestDetailTea.css" />">
 
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
+        <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
         <title>Request Handling</title>
     </head>
     <body>
         <!-- Include header of web site from general-->
         <jsp:include page="./header.jsp"></jsp:include>
             <div id="wrapper" class="d-flex">
-                <!-- Sidebar -->
-                <ul
-                    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-                    id="accordionSidebar"
-                    >
+                <!--Side Bar  -->
+                <nav class="sidebar close">
+                    <!-- Side Bar header-->
+                    <header>
+                        <div class="image-text">
+                            <span class="image">
+                                <img src="<i:ReadUrlFromContext url="/assets/image/259151762_463419805435533_5232999905401287810_n.png" />" alt="">
+                        </span>
 
-                    <!-- Divider -->
-                    <hr class="sidebar-divider my-0" />
-
-
-                    <!-- Nav Item  -->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="ListAllTeacher">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Teacher List</span></a
-                        >
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="ListAllRequest">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Request List</span> </a
-                        >
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa-thin fa-newspaper"></i>
-                            <span>Notification</span></a
-                        >
-                    </li>
-                    <!-- Sidebar Toggler (Sidebar) -->
-                    <div class="text-center d-none d-md-inline">
-                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                        <div class="text logo-text">
+                            <span class="name">TutorDuo</span>
+                            <span class="profession">Online Learning</span>
+                        </div>
                     </div>
-                </ul>
-                <!-- End of Sidebar -->
+                    <i class='bx bx-chevron-right toggle'></i>
+                </header>
 
-                <!-- Content Wrapper -->
-                <div id="content-wrapper" class="d-flex flex-column">
-                    <!-- Main Content -->
-                    <div id="content">
-                        <!-- Begin Page Content -->
-                        <div class="container-fluid">
-                            <!-- Page Heading -->
+                <!-- Main Menu of Side Bar-->
+                <div class="menu-bar">
+                    <div class="menu">
+                        <ul class="menu-links">
 
-                            <div class="card--top d-flex">
-                                <h3>Request Handling</h3>
+                            <!-- This link for list all teacher table-->
+                            <li class="nav-link">
+                                <a href="ListAllTeacher">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Teacher Ranking</span>
+                                </a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="ListAllRequest">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Request List</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+
+                    <!-- Dark/light mode-->
+                    <div class="bottom-content">
+                        <li class="mode">
+                            <div class="sun-moon">
+                                <i class='bx bx-moon icon moon'></i>
+                                <i class='bx bx-sun icon sun'></i>
                             </div>
-                            <div class="backBtn-container">
-                                <a class="backBtn" href="ListAllRequest"
-                                   ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
-                                >
+                            <span class="mode-text text">Dark mode</span>
+
+                            <div class="toggle-switch">
+                                <span class="switch"></span>
                             </div>
-                            <hr />
-                            <!-- Create Container -->
-                            <div class="create-container">
+                        </li>
+                    </div>
+                </div>
+            </nav>
+            <!-- End of Sidebar -->
 
-                                <!-- Request Info Section-->
-                                <div class="createContent mb-4">
-                                    <form action="CreateRequestReply" method="post" id="replyForm">
-                                        <div class="card p-2 mb-4">
-                                            <div class="card-body">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div class="card--top"></div>
+                        <h1>Request</h1>
+                        <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
+                        
+                        <hr />
+                        <div class="card--top--menu d-flex">
+                            <h3>Request Handling</h3>
+                        </div>
+                        <div class="backBtn-container">
+                            <a class="backBtn" href="ListAllRequest"
+                               ><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;<span>Back</span></a
+                            >
+                        </div>
+                        <hr />
+                        <!-- Handle Container -->
+                        <div class="create-container">
 
-                                                <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
-                                                <!--Request's Infomation-->               
-                                                <input type="hidden" id="custId" name="requestId" value="${requestScope.request.getRequestID()}">  
+                            <!-- Request Info Section-->
+                            <div class="createContent mb-4">
+                                <form action="CreateRequestReply" method="post" id="replyForm">
+                                    <div class="card p-2 mb-4">
+                                        <div class="card-body">
+
+                                            <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
+                                            <!--Request's Infomation-->               
+                                            <input type="hidden" id="custId" name="requestId" value="${requestScope.request.getRequestID()}">  
                                             <input type="hidden" id="custId" name="studentSent" value="${requestScope.request.getStudentSent()}">  
                                             <label for="reTitle" class="d-block">Request Title: </label>
                                             <input
@@ -258,7 +282,7 @@
                                                     message: {
                                                         required: true,
                                                         noSpace: true,
-                                                        minLength:10,
+                                                        minLength: 10,
                                                         maxLength: 1000
                                                     }
                                                 },
@@ -276,8 +300,8 @@
             var content = document.querySelector("#message");
             var submitBtn = document.querySelector(".doneBtn")
             submitBtn.addEventListener('click', function (e) {
-                if (content.value.trim() == "") {
-                     e.preventDefault();
+            if (content.value.trim() == "") {
+            e.preventDefault();
                     alert('You must not enter only the full distance in this field!');
             });
 
