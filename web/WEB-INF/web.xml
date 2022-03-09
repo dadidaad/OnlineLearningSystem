@@ -144,6 +144,18 @@
         <servlet-name>TeacherRequestSearchController</servlet-name>
         <servlet-class>controller.TeacherRequestSearchController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListRequestSearchController</servlet-name>
+        <servlet-class>controller.ListRequestSearchController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeStatusAccountController</servlet-name>
+        <servlet-class>controller.ChangeStatusAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TeacherRecommendSearchController</servlet-name>
+        <servlet-class>controller.TeacherRecommendSearchController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -283,6 +295,18 @@
     <servlet-mapping>
         <servlet-name>TeacherRequestSearchController</servlet-name>
         <url-pattern>/TeacherRequestSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListRequestSearchController</servlet-name>
+        <url-pattern>/ListRequestSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeStatusAccountController</servlet-name>
+        <url-pattern>/ChangeStatusAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TeacherRecommendSearchController</servlet-name>
+        <url-pattern>/TeacherRecommendSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,47 +1,57 @@
+$(document).ready(function () {
+    $(".form-check-input").each(function () {
+        $(this).on("click", function () {
+            var rcmDecision = ($(this).val());
+            if (rcmDecision === "1") {
+                yesOption();
+            } else if (rcmDecision === "0")
+                noOption();
+        });
 
-//   Select Teacher
-var findTeacherButton = document.querySelector(".teacherRecommend--btn"),
-  teacherRecommendName = document.querySelector(".teacherRecommend--name"),
-  teacherOptions = document.querySelectorAll(".form-check-input"),
-  teacherNames = document.getElementsByClassName("teacherName"),
-  requestTeacherBtns = document.querySelectorAll(".requestBtn"),
-  teacherUsernameRcmInput = document.getElementById("teacherUsernameRcm");
-
-
-teacherOptions.forEach((element) => {
-  element.addEventListener("click", function () {
-    console.log(element.getAttribute("value"));
-    if (element.getAttribute("value") === "1") {
-      yesOption();
-
-    } else noOption();
-  });
-});
-console.log(teacherUsernameRcmInput.getAttribute("value"));
-console.log("minh");
-function yesOption() {
-  findTeacherButton.style.display = "block";
-  setTeacherRecommend();
-}
-function noOption() {
-  findTeacherButton.style.display = "none";
-  teacherRecommendName.style.display = "none";
-  teacherRecommendName.innerHTML = null;
-}
-function setTeacherRecommend() {
-  teacherRecommendName.style.display = "inline";
-
-  requestTeacherBtns.forEach((element) => {
-    element.addEventListener("click", (element) => {
-      requestTeacherBtns.forEach((element) => {
-        element.classList.remove("select");
-      });
-
-      element.target.classList.add("select");
-      teacherRecommendName.innerHTML = element.target.getAttribute("value");
-      teacherUsernameRcmInput.value=element.target.value;
     });
-  });
-}
-
-
+    function yesOption() {
+        $(".teacherRecommend--btn").css("display", "block");
+        $(".teacherRecommend--name").css("display", "inline");
+        selectTeacher();
+    }
+    function noOption() {
+        $(".teacherRecommend--btn").css("display", "none");
+        $(".teacherRecommend--name").css("display", "none");
+        $("#teacherUsernameRcm").val(null);
+    }
+    function selectTeacher() {
+        $("#dataTable .requestBtn").click(function () {
+            $('#dataTable .requestBtn.select').not(this).removeClass('select');
+            $(this).toggleClass('select');
+            var teacherUsername = ($(this).val());
+            $("#teacherUsernameRcm").val(teacherUsername);
+            $(".teacherRecommend--name").html(teacherUsername);
+            $("#teacherRcmName").html($(this).attr("data"))
+        });
+    }
+    function checkTeacher() {
+        $('#tbBody tr .requestBtn').each(function () {
+            if ($(this).val() === $("#teacherUsernameRcm").val()) {
+                $(this).toggleClass("select");
+            }
+        });
+    }
+    $("#searchString").on('keyup', function () {
+        var searchString = $(this).val();
+        var subjectId = $("#rqSubject option:selected").val();
+        $.ajax({
+            url: "TeacherRecommendSearch",
+            data: {"searchString": searchString,
+                "subjectId": subjectId},
+            type: "POST",
+            success: function (result)
+            {
+                console.log(result);
+                $('#dataTable #tbBody').empty();
+                $('#dataTable #tbBody').append(result);
+                checkTeacher();
+                selectTeacher();
+            }
+        });
+    });
+});

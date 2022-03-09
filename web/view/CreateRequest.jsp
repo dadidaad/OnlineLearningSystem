@@ -327,35 +327,35 @@
                                             </td>
                                             <td>
                                                 <div id="rating">
-                                                    <input type="radio" id="star5" name="rating" value="5" />
-                                                    <label class="full" for="star5" title="Awesome - 5 stars"></label>
+                                                    <input type="radio" id="star5${loop.index+1}" name="rating${loop.index+1}" value="5" disabled/>
+                                                    <label class="full" for="star5${loop.index+1}" title="Awesome - 5 stars"></label>
 
-                                                    <input type="radio" id="star4half" name="rating" value="4 and a half" />
-                                                    <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+                                                    <input type="radio" id="star4half${loop.index+1}" name="rating${loop.index+1}" value="4 and a half" disabled/>
+                                                    <label class="half" for="star4half${loop.index+1}" title="Pretty good - 4.5 stars"></label>
 
-                                                    <input type="radio" id="star4" name="rating" value="4" />
-                                                    <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                                                    <input type="radio" id="star4${loop.index+1}" name="rating${loop.index+1}" value="4" disabled/>
+                                                    <label class="full" for="star4${loop.index+1}" title="Pretty good - 4 stars"></label>
 
-                                                    <input type="radio" id="star3half" name="rating" value="3 and a half" />
-                                                    <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                                                    <input type="radio" id="star3half${loop.index+1}" name="rating${loop.index+1}" value="3 and a half" disabled/>
+                                                    <label class="half" for="star3half${loop.index+1}" title="Meh - 3.5 stars"></label>
 
-                                                    <input type="radio" id="star3" name="rating" value="3" />
-                                                    <label class="full" for="star3" title="Meh - 3 stars"></label>
+                                                    <input type="radio" id="star3${loop.index+1}" name="rating${loop.index+1}" value="3" disabled/>
+                                                    <label class="full" for="star3${loop.index+1}" title="Meh - 3 stars"></label>
 
-                                                    <input type="radio" id="star2half" name="rating" value="2 and a half" />
-                                                    <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+                                                    <input type="radio" id="star2half${loop.index+1}" name="rating${loop.index+1}" value="2 and a half" disabled/>
+                                                    <label class="half" for="star2half${loop.index+1}" title="Kinda bad - 2.5 stars"></label>
 
-                                                    <input type="radio" id="star2" name="rating" value="2" />
-                                                    <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                                                    <input type="radio" id="star2${loop.index+1}" name="rating${loop.index+1}" value="2" disabled/>
+                                                    <label class="full" for="star2${loop.index+1}" title="Kinda bad - 2 stars"></label>
 
-                                                    <input type="radio" id="star1half" name="rating" value="1 and a half" />
-                                                    <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                                                    <input type="radio" id="star1half${loop.index+1}" name="rating${loop.index+1}" value="1 and a half" disabled/>
+                                                    <label class="half" for="star1half${loop.index+1}" title="Meh - 1.5 stars"></label>
 
-                                                    <input type="radio" id="star1" name="rating" value="1" />
-                                                    <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                                                    <input type="radio" id="star1${loop.index+1}" name="rating${loop.index+1}" value="1" disabled/>
+                                                    <label class="full" for="star1${loop.index+1}" title="Sucks big time - 1 star"></label>
 
-                                                    <input type="radio" id="starhalf" name="rating" value="half" />
-                                                    <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                                                    <input type="radio" id="starhalf${loop.index+1}" name="rating${loop.index+1}" value="half" disabled/>
+                                                    <label class="half" for="starhalf${loop.index+1}" title="Sucks big time - 0.5 stars"></label>
                                                 </div>
                                             </td>
                                             <td>${requestScope.subjectNames.get(t.getSubjectId())}</td>
@@ -393,70 +393,84 @@
 
 
 <!--<script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>-->
-        <script>
-            $(document).ready(function () {
-                $(".form-check-input").each(function () {
-                    $(this).on("click", function () {
-                        var rcmDecision = ($(this).val());
-                        if (rcmDecision === "1") {
-                            yesOption();
-                        } else if (rcmDecision === "0")
-                            noOption();
-                    });
-
-                });
-                function yesOption() {
-                    $(".teacherRecommend--btn").css("display", "block");
-                    $(".teacherRecommend--name").css("display", "inline");
-                    selectTeacher();
-                }
-                function noOption() {
-                    $(".teacherRecommend--btn").css("display", "none");
-                    $(".teacherRecommend--name").css("display", "none");
-                    $("#teacherUsernameRcm").val(null);
-                }
-                function selectTeacher() {
-                    $("#dataTable .requestBtn").click(function () {
-                        $('#dataTable .requestBtn.select').not(this).removeClass('select');
-                        $(this).toggleClass('select');
-                        var teacherUsername = ($(this).val());
-                        $("#teacherUsernameRcm").val(teacherUsername);
-                        $(".teacherRecommend--name").html(teacherUsername);
-                        $("#teacherRcmName").html($(this).attr("data"))
-                    });
-                }
-                function checkTeacher() {
-                    $('#tbBody tr .requestBtn').each(function () {
-                        if ($(this).val() === $("#teacherUsernameRcm").val()) {
-                            $(this).toggleClass("select");
-                        }
-                    });
-                }
-                $("#searchString").on('keyup', function () {
-                    var searchString = $(this).val();
-                    var subjectId = $("#rqSubject option:selected").val();
-                    $.ajax({
-                        url: "TeacherRecommendSearch",
-                        data: {"searchString": searchString,
-                            "subjectId": subjectId},
-                        type: "POST",
-                        success: function (result)
-                        {
-                            console.log(result);
-                            $('#dataTable #tbBody').empty();
-                            $('#dataTable #tbBody').append(result);
-                            checkTeacher();
-                            selectTeacher();
-                        }
-                    });
-                });
-            });
-        </script>
 
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
 
         <!--<script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>-->
+        <script>
+$(document).ready(function () {
+    $(".form-check-input").each(function () {
+        $(this).on("click", function () {
+            var rcmDecision = ($(this).val());
+            if (rcmDecision === "1") {
+                yesOption();
+            } else if (rcmDecision === "0")
+                noOption();
+        });
+
+    });
+    function yesOption() {
+        $(".teacherRecommend--btn").css("display", "block");
+        $(".teacherRecommend--name").css("display", "inline");
+        selectTeacher();
+    }
+    function noOption() {
+        $(".teacherRecommend--btn").css("display", "none");
+        $(".teacherRecommend--name").css("display", "none");
+        $("#teacherUsernameRcm").val(null);
+    }
+    function selectTeacher() {
+        $("#dataTable .requestBtn").click(function () {
+            $('#dataTable .requestBtn.select').not(this).removeClass('select');
+            $(this).toggleClass('select');
+            var teacherUsername = ($(this).val());
+            $("#teacherUsernameRcm").val(teacherUsername);
+            $(".teacherRecommend--name").html(teacherUsername);
+            $("#teacherRcmName").html($(this).attr("data"))
+        });
+    }
+    function checkTeacher() {
+        $('#tbBody tr .requestBtn').each(function () {
+            if ($(this).val() === $("#teacherUsernameRcm").val()) {
+                $(this).toggleClass("select");
+            }
+        });
+    }
+    $("#searchString").on('keyup', function () {
+        var searchString = $(this).val();
+        var subjectId = $("#rqSubject option:selected").val();
+        $.ajax({
+            url: "TeacherRecommendSearch",
+            data: {"searchString": searchString,
+                "subjectId": subjectId},
+            type: "POST",
+            success: function (result)
+            {
+                console.log(result);
+                $('#dataTable #tbBody').empty();
+                $('#dataTable #tbBody').append(result);
+                checkTeacher();
+                selectTeacher();
+                <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
+                    window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+                </c:forEach>
+            }
+        });
+    });
+});
+            <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
+            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+            </c:forEach>
+
+            function calcRate(r, num) {
+                const f = ~~r, // = Math.floor(r)
+                        id = "star" + f + (r % f ? "half" + num : "" + num);
+                id && (document.getElementById(id).checked = !0);
+            }
+
+        </script>  
+
     </body>
 </html>
 

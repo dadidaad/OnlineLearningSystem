@@ -1,11 +1,24 @@
 // Side Bar
-var sidebar = document.querySelector(".sidebar");
-var sideBarBtn = document.getElementById("sidebarToggle");
-sideBarBtn.addEventListener("click", function () {
-  var toggledCheck = document.querySelector(".sidebar").classList.contains("toggled");
-  if (toggledCheck) sidebar.classList.remove("toggled");
-  else sidebar.classList.add("toggled");
-});
+const body = document.querySelector("body"),
+      sidebar = body.querySelector(".sidebar"),
+      toggle = body.querySelector(".toggle"),
+      modeSwitch = body.querySelector(".toggle-switch"),
+      modeText = body.querySelector(".mode-text");
+
+      toggle.addEventListener("click" , () =>{
+        sidebar.classList.toggle("close");
+      }) 
+      modeSwitch.addEventListener("click" , () =>{
+        body.classList.toggle("dark");
+        
+        if(body.classList.contains("dark")){
+            modeText.innerText = "Light mode";
+        }else{
+            modeText.innerText = "Dark mode";
+            
+        }
+      })
+
 
 // Modal Image
 var modal = document.getElementById("myModal");

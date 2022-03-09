@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-07   1.0         Duc Minh    First Implement
  */
-package Controller;
+package controller;
 
 import bean.RequestBean;
 import bean.SubjectBean;
