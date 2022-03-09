@@ -152,6 +152,10 @@
         <servlet-name>TeacherRecommendSearchController</servlet-name>
         <servlet-class>controller.TeacherRecommendSearchController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WalletController</servlet-name>
+        <servlet-class>controller.WalletController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -291,6 +295,10 @@
     <servlet-mapping>
         <servlet-name>TeacherRecommendSearchController</servlet-name>
         <url-pattern>/TeacherRecommendSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WalletController</servlet-name>
+        <url-pattern>/Wallet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * ViewRequestTeaController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Danh Tinh    First Implement
  */
 package controller;
 
