@@ -33,10 +33,6 @@
         <servlet-class>controller.CreateRequestController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EditRequestController</servlet-name>
-        <servlet-class>controller.EditRequestController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewRequestStuController</servlet-name>
         <servlet-class>controller.ViewRequestStuController</servlet-class>
     </servlet>
@@ -55,14 +51,6 @@
     <servlet>
         <servlet-name>ChangePasswordController</servlet-name>
         <servlet-class>controller.ChangePasswordController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ListAllRequestStu</servlet-name>
-        <servlet-class>controller.ListAllRequestStuController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ListAllRequestTeaController</servlet-name>
-        <servlet-class>controller.ListAllRequestTeaController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewRequestTeaController</servlet-name>
@@ -189,10 +177,6 @@
         <url-pattern>/CreateRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EditRequestController</servlet-name>
-        <url-pattern>/EditRequest</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewRequestStuController</servlet-name>
         <url-pattern>/ViewRequestStu</url-pattern>
     </servlet-mapping>
@@ -211,14 +195,6 @@
     <servlet-mapping>
         <servlet-name>ChangePasswordController</servlet-name>
         <url-pattern>/ChangePassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListAllRequestStu</servlet-name>
-        <url-pattern>/ListAllRequestStu</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListAllRequestTeaController</servlet-name>
-        <url-pattern>/ListAllRequestTea</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewRequestTeaController</servlet-name>
