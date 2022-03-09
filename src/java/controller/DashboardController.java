@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * CreateRequestController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Duc Minh    First Implement
+ */
 package controller;
 
 import dao.AccountDAO;
@@ -14,8 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handling the task when Admin want to view the dashboard of website
+ * /Dashboard is the URL of the Servlet
+ * Extend HttpServlet class
+ * @author Duc Minh
  */
 public class DashboardController extends HttpServlet {
 

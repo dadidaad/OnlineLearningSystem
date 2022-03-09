@@ -56,7 +56,7 @@ public class AccountManagerSearchController extends HttpServlet {
                 page = "1";
             }
             int pageindex = Integer.parseInt(page);
-            int pagesize = 7;
+            int pagesize = 10;
             int totalrow = iAccountDAO.totalAccountSearch(searchString);
 
             int totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
@@ -74,47 +74,4 @@ public class AccountManagerSearchController extends HttpServlet {
             Logger.getLogger(AccountManagerSearchController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
-            if (searchString.equals("")) {
-                response.sendRedirect("AccountManager");
-            }
-            IAccountDAO iAccountDAO = new AccountDAO();
-
-            String page = request.getParameter("page");
-            if (page == null || page.length() == 0) {
-                page = "1";
-            }
-            int pageindex = Integer.parseInt(page);
-            int pagesize = 7;
-            int totalrow = iAccountDAO.totalAccountSearch(searchString);
-
-            int totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
-            List<AccountBean> accounts = iAccountDAO.getAllAccountBySearch(searchString, pageindex, pagesize);
-
-            request.setAttribute("totalpage", totalpage);
-            request.setAttribute("pageindex", pageindex);
-            request.setAttribute("searchMode", "on");
-            request.setAttribute("accounts", accounts);
-            request.setAttribute("searchString", searchString);
-            request.getRequestDispatcher("./view/AccountManager.jsp").forward(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(AccountManagerSearchController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
 }

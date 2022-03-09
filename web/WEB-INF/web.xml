@@ -101,10 +101,6 @@
         <servlet-class>controller.HomeController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ChangeRequestByAjaxController</servlet-name>
-        <servlet-class>controller.ChangeRequestByAjaxController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ListTeacherSearchController</servlet-name>
         <servlet-class>controller.ListTeacherSearchController</servlet-class>
     </servlet>
@@ -139,6 +135,14 @@
     <servlet>
         <servlet-name>DashboardController</servlet-name>
         <servlet-class>controller.DashboardController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeRequestByAjaxController</servlet-name>
+        <servlet-class>controller.ChangeRequestByAjaxController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TeacherRequestSearchController</servlet-name>
+        <servlet-class>controller.TeacherRequestSearchController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -241,10 +245,6 @@
         <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ChangeRequestByAjaxController</servlet-name>
-        <url-pattern>/ChangeRequestByAjax</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ListTeacherSearchController</servlet-name>
         <url-pattern>/ListTeacherSearch</url-pattern>
     </servlet-mapping>
@@ -279,6 +279,10 @@
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
         <url-pattern>/Dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TeacherRequestSearchController</servlet-name>
+        <url-pattern>/TeacherRequestSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

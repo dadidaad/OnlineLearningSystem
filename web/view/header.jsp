@@ -31,7 +31,7 @@
                     <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="btn btn-primary">Sign-up</a>
                 </c:if>
                 <c:if test="${sessionScope.user ne null}">
-                    <img class="small-avatar" alt="avatar" src="<i:ReadUrlFromContext url="${sessionScope.user.avatar}"/>"/>
+                    <img style="width: 50px; height: 50px;" class="small-avatar" alt="avatar" src="<i:ReadUrlFromContext url="${sessionScope.user.avatar}"/>"/>
                     <div class="dropdown" style="margin-right: 1.5em;">
                         <button class="btn btn-outline-light btnclick">
                             <p class="text-dark">

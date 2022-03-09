@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-11   1.0         Duc Minh   First Implement
  */
-package controller;
+package Controller;
 
 import bean.AccountBean;
 import bean.RequestBean;
@@ -60,35 +60,74 @@ public class ListAllRequestController extends HttpServlet {
             HttpSession session = request.getSession();
             AccountBean account = (AccountBean) session.getAttribute("user");
             if (account != null) {
-                SortRequest sortRequest = new SortRequest();
-                List<RequestBean> requestList = new ArrayList<>();//call the sort modify class
-                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+                SortRequest sortRequest = new SortRequest();//call the sort modify class
+                List<RequestBean> requestList = new ArrayList<>();
 
                 ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-                Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
+                Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
 
                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
-                Map<String, String> displayNames = iAccountDAO.getDisplayNames();
+                Map<String, String> DisplayNames = iAccountDAO.getDisplayNames();
 
-                request.setAttribute("subjectNames", subjectNames);
-                request.setAttribute("displayNames", displayNames);
+                request.setAttribute("subjectNames", SubjectNames);
+                request.setAttribute("displayNames", DisplayNames);
+
+                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+                String rqStatus = request.getParameter("rqStatus");
+                if (rqStatus == null) {
+                    rqStatus = "Waiting";
+                }
+                request.setAttribute("status", rqStatus);
+
+                String page = request.getParameter("page");
+                if (page == null || page.length() == 0) {
+                    page = "1";
+                }
+                int pageindex = Integer.parseInt(page);
+                int pagesize = 10;
+                int totalrow, totalpage;
+
                 if (account.getRole().equalsIgnoreCase("student")) {
-                    requestList = iRequestDAO.getRequestForStudent(account.getUsername(), "Waiting");
+
+                    totalrow = iRequestDAO.getTotalRequestStudent(account.getUsername(), rqStatus);
+                    totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
+
+                    requestList = iRequestDAO.getRequestForStudent(account.getUsername(), rqStatus, pageindex, pagesize);
                     request.setAttribute("requests", requestList);
+
+                    request.setAttribute("totalpage", totalpage);
+                    request.setAttribute("pageindex", pageindex);
 
                     /*Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp  */
                     request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
 
                 } else if (account.getRole().equalsIgnoreCase("teacher")) {
-
+                    
                     ITeacherDAO iteacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
                     int subjectId = iteacherDAO.getSubjectId(account.getUsername());
-                    requestList = iRequestDAO.getRequestForTeacher(subjectId, "Waiting");
+                    
+                    if(rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")){
+                        totalrow = iRequestDAO.getTotalRequestForTeacher(account.getUsername(),rqStatus);
+                    }else 
+                    totalrow = iRequestDAO.getTotalRequestForTeacher(subjectId, rqStatus);
+                    
+                    totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
 
+                    if(rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")){
+                        requestList = iRequestDAO.getRequestForTeacher(account.getUsername(),rqStatus, pageindex, pagesize);
+                    }else
+                        requestList = iRequestDAO.getRequestForTeacher(subjectId, rqStatus, pageindex, pagesize);
+                    
+
+                    request.setAttribute("totalpage", totalpage);
+                    request.setAttribute("pageindex", pageindex);
+                    
+                    
                     /* Sort the list */
                     requestList = sortRequest.requestListSorted(requestList, account.getUsername());
                     request.setAttribute("requests", requestList);
                     /*Attach Attribute teachers for request and redirect it to ListAllRequestTea.jsp*/
+                    
                     request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
                 }
             } /*Redirect it to Login*/ else {

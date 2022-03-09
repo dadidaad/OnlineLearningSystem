@@ -51,7 +51,7 @@ public class AccountManagerController extends HttpServlet {
                 page = "1";
             }
             int pageindex = Integer.parseInt(page);
-            int pagesize = 7;
+            int pagesize = 10;
             int totalrow = iAccountDAO.totalAccount();
             int totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
             List<AccountBean> accounts = iAccountDAO.getAllAccount(pageindex, pagesize);

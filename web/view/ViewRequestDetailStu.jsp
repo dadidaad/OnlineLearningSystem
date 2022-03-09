@@ -1,12 +1,7 @@
 <%-- 
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * Project: Online Learning System
-
- * ViewRequestDetailStu
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-07   1.0         Duc Minh    First Implement
-
+    Document   : ViewRequestDetailStu
+    Created on : Feb 11, 2022, 9:41:09 PM
+    Author     : Duc Minh
 --%>
 
 
@@ -32,49 +27,76 @@
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ViewRequestDetailStu.css" />">
             
         <script src="https://kit.fontawesome.com/bc95aa25ab.js" crossorigin="anonymous"></script>
+        <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
         <title>Request Handling</title>
     </head>
     <body>
          <!-- Include header of web site from general-->
          <jsp:include page="./header.jsp"></jsp:include>
         <div id="wrapper" class="d-flex">
-            <!-- Sidebar -->
-            <ul
-            class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-            id="accordionSidebar"
-          >
+            <!--Side Bar  -->
+                <nav class="sidebar close">
+                    <!-- Side Bar header-->
+                    <header>
+                        <div class="image-text">
+                            <span class="image">
+                                <img src="<i:ReadUrlFromContext url="/assets/image/259151762_463419805435533_5232999905401287810_n.png" />" alt="">
+                        </span>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0" />
+                        <div class="text logo-text">
+                            <span class="name">TutorDuo</span>
+                            <span class="profession">Online Learning</span>
+                        </div>
+                    </div>
+                    <i class='bx bx-chevron-right toggle'></i>
+                </header>
 
-    
-            <!-- Nav Item  -->
-  
-            <li class="nav-item">
-              <a class="nav-link" href="ListAllTeacher">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Teacher List</span></a
-              >
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="ListAllRequest">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Request List</span> </a
-              >
-            </li>
-    
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fa-thin fa-newspaper"></i>
-                <span>Notification</span></a
-              >
-            </li>
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-              <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-          </ul>
-          <!-- End of Sidebar -->
+                <!-- Main Menu of Side Bar-->
+                <div class="menu-bar">
+                    <div class="menu">
+                        <ul class="menu-links">
+
+                            <!-- This link for list all teacher table-->
+                            <li class="nav-link">
+                                <a href="ListAllTeacher">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Teacher Ranking</span>
+                                </a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="ListAllRequest">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">My Request</span>
+                                </a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="#">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Notification</span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+                    <!-- Dark/light mode-->
+                    <div class="bottom-content">
+                        <li class="mode">
+                            <div class="sun-moon">
+                                <i class='bx bx-moon icon moon'></i>
+                                <i class='bx bx-sun icon sun'></i>
+                            </div>
+                            <span class="mode-text text">Dark mode</span>
+
+                            <div class="toggle-switch">
+                                <span class="switch"></span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+            <!-- End of Sidebar -->
 
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">

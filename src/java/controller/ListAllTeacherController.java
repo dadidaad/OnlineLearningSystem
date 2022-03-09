@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-07   1.0         Duc Minh    First Implement
  */
-package controller;
+package Controller;
 
 import bean.TeacherBean;
 import dao.ISubjectDAO;
@@ -16,7 +16,6 @@ import dao.SubjectDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -49,15 +48,26 @@ public class ListAllTeacherController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            List<TeacherBean> teacherList = new ArrayList<>();
-            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-            teacherList = iTeacherDAO.getAllTeacher();
-
+            
+         ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
+         String page = request.getParameter("page");
+         if(page == null || page.length() == 0)
+             page = "1";
+         int pageindex = Integer.parseInt(page);
+         int pagesize = 10;
+         int totalrow = iTeacherDAO.getTotalTeacher();
+         int totalpage = (totalrow%pagesize==0)?totalrow/pagesize:totalrow/pagesize + 1  ;
+        List<TeacherBean> teacherList = iTeacherDAO.getAllTeacher(pageindex, pagesize);
+       
+     
+        request.setAttribute("totalpage", totalpage);
+        request.setAttribute("pageindex", pageindex);    
+          
             ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-            Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
+            Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
 
             /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
-            request.setAttribute("subjectNames", subjectNames);
+            request.setAttribute("subjectNames", SubjectNames);
             request.setAttribute("teachers", teacherList);
             request.getRequestDispatcher("./view/ListAllTeacher.jsp").forward(request, response);
         } catch (Exception ex) {

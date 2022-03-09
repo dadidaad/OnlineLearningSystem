@@ -121,28 +121,31 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
      * getRequestByStatus method implement from IRequestDAO
-     *
-     * @return request. <code>java.util.ArrayList</code> object
+     * 
+     * @return request. <code>java.util.ArrayList</code> object  
      */
     @Override
-    public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus) {
+    public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            conn = getConnection();
-            String sql = "select *\n"
-                    + "from Request\n"
-                    + "where Status =? and Student_sent = ? order by CreatedTime desc";
-            statement = conn.prepareStatement(sql);
+            Connection conn = getConnection();
+            String sql = "select *\n" +
+                    "from Request\n" +
+                    "where Status =? and Student_sent = ? \n" +
+                    "order by Request.CreatedTime desc \n"+
+                    "OFFSET ? ROWS \n" +
+                    "FETCH NEXT ? ROWS ONLY;";   
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
-
+            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(4, pagesize);
+            
             /*Query and save in ResultSet */
-            rs = statement.executeQuery();
-            while (rs.next()) {
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
                 request.setStudentSent(rs.getString("Student_sent"));
@@ -156,12 +159,15 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
                 
+                        
                 requests.add(request);
             }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            close(conn, statement, rs);
         }
         return requests;
     }
@@ -172,7 +178,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * @return request. <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus) {
+    public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -180,12 +186,17 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select *\n"
-                    + "from Request\n"
-                    + "where Status =? and SubjectID = ?";
+            String sql = "select *\n" 
+                    + "from Request\n" 
+                    + "where Status =? and SubjectID = ? \n"
+                    + "order by Request.CreatedTime desc \n"
+                    + "OFFSET ? ROWS \n" 
+                    + "FETCH NEXT ? ROWS ONLY;";
             statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
+            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(4, pagesize);
 
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
@@ -220,7 +231,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * @return request. <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<RequestBean> getRequestForEachTeacher(String username, int subjectId, String rqStatus) {
+    public ArrayList<RequestBean> getRequestForTeacher(String username,String rqStatus, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -228,13 +239,17 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Request.*\n"
-                    + "from Request, Request_Reply\n"
-                    + "where Request.Status = ? and SubjectID = ? and Request_Reply.tutor_sent = ? ";
+            String sql = "select Request.*\n" 
+                    + "from Request, Request_Reply\n" 
+                    + "where Request.RequestId = Request_Reply.RequestId and Request_Reply.tutor_sent = ? and Request.Status = ? "
+                    + "order by Request.CreatedTime desc \n"
+                    + "OFFSET ? ROWS \n" 
+                    + "FETCH NEXT ? ROWS ONLY;";
             statement = conn.prepareStatement(sql);
-            statement.setString(1, rqStatus);
-            statement.setInt(2, subjectId);
-            statement.setString(3, username);
+            statement.setString(1, username);
+            statement.setString(2, rqStatus);
+            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(4, pagesize);
 
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
@@ -546,5 +561,391 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return total;
     }
+    @Override
+    public int getTotalRequestTeacherApply() {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select COUNT(Account.Username) AS NumberOfAccount  \n" +
+                        "from Account, Tutor\n" +
+                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfAccount");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
     
+    }
+    
+    @Override
+    public int getTotalRequestStudent(String username, String rqStatus) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(Request.RequestId) as NumberOfRequest \n" +
+                    "from Request\n" +
+                    "where Status =? and Student_sent = ?  \n";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setString(2, username);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
+    @Override
+    public int getTotalRequestForTeacher(int subjectId, String rqStatus) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(requestId) as NumberOfRequest \n" +
+                    "from Request\n" +
+                    "where Status =? and SubjectID = ?";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setInt(2, subjectId);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    @Override
+    public int getTotalRequestForTeacher(String username, String rqStatus) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(Request.RequestID) as NumberOfRequest\n" +
+                "from Request, Request_Reply\n" +
+                "where Request.RequestID = Request_Reply.RequestID and Request_Reply.tutor_sent = ? and Request.Status = ? ";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, rqStatus);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+    
+    @Override
+    public int getTotalRequestSearchForStudent(String username, String rqStatus, String searchString) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(Request.RequestId) as NumberOfRequest \n" +
+                    "from Request\n" +
+                    "where Status =? and Student_sent = ?  and Title like ? \n";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setString(2, username);
+            statement.setString(3, "%"+searchString + "%");
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+
+    @Override
+    public ArrayList<RequestBean> getRequestSearchForStudent(String username, String rqStatus, String searchString, int pageindex, int pagesize) {
+        ArrayList<RequestBean> requests = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select *\n" +
+                    "from Request\n" +
+                    "where Status =? and Student_sent = ? and title like ? \n" +
+                    "order by Request.CreatedTime desc \n"+
+                    "OFFSET ? ROWS \n" +
+                    "FETCH NEXT ? ROWS ONLY;";   
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setString(2, username);
+            statement.setString(3, "%"+searchString + "%");
+             statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setInt(5, pagesize);
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                RequestBean request = new RequestBean();
+                request.setRequestID(rs.getInt("RequestID"));
+                request.setStudentSent(rs.getString("Student_sent"));
+                request.setTutorGet(rs.getString("Tutor_get"));
+                request.setCreatedTime(rs.getDate("CreatedTime"));
+                request.setStatus(rs.getString("Status"));
+                request.setCost(rs.getInt("Cost"));
+                request.setContent(rs.getString("Content"));
+                request.setImageLink(rs.getString("Image"));
+                request.setSubjectID(rs.getInt("SubjectID"));
+                request.setLevel(rs.getInt("Level"));
+                request.setTitle(rs.getString("Title"));
+                
+                        
+                requests.add(request);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requests;
+    }
+
+    @Override
+    public int getTotalRequestSearchForTeacher(String username, String rqStatus, String searchString) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(Request.RequestID) as NumberOfRequest\n" +
+                "from Request, Request_Reply\n" +
+                "where Request.RequestID = Request_Reply.RequestID and Request_Reply.tutor_sent = ? and Request.Status = ? and Request.Title like ? ";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, rqStatus);
+            statement.setString(3, "%"+searchString + "%");
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+
+     @Override
+    public int getTotalRequestSearchForTeacher(int subjectId, String rqStatus, String searchString) {
+        int total = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql =  "select count(requestId) as NumberOfRequest \n" +
+                    "from Request\n" +
+                    "where Status =? and SubjectID = ? and Request.Title like ? ";
+            
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setInt(2, subjectId);
+            statement.setString(3, "%"+searchString + "%");
+            
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            
+            /*Assign data to an variable of Request*/
+            while(rs.next())
+            {
+                total = rs.getInt("NumberOfRequest");
+            }
+            
+            
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        return total;
+    }
+
+    
+    @Override
+    public ArrayList<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize) {
+        ArrayList<RequestBean> requests = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select Request.*\n" +
+                "from Request, Request_Reply\n" +
+                "where Request.RequestId = Request_Reply.RequestId and Request_Reply.tutor_sent = ? and Request.Status = ? and Request.Title like ? "+
+                "order by Request.CreatedTime desc \n"+
+                "OFFSET ? ROWS \n" +
+                "FETCH NEXT ? ROWS ONLY;";     
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, rqStatus);
+            statement.setString(3, "%"+searchString + "%");
+            statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setInt(5, pagesize);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                RequestBean request = new RequestBean();
+                request.setRequestID(rs.getInt("RequestID"));
+                request.setStudentSent(rs.getString("Student_sent"));
+                request.setTutorGet(rs.getString("Tutor_get"));
+                request.setCreatedTime(rs.getDate("CreatedTime"));
+                request.setStatus(rs.getString("Status"));
+                request.setCost(rs.getInt("Cost"));
+                request.setContent(rs.getString("Content"));
+                request.setImageLink(rs.getString("Image"));
+                request.setSubjectID(rs.getInt("SubjectID"));
+                request.setLevel(rs.getInt("Level"));
+                request.setTitle(rs.getString("Title"));
+                
+                        
+                requests.add(request);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requests;
+    }
+
+   
+    @Override
+    public ArrayList<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize) {
+        ArrayList<RequestBean> requests = new ArrayList<>();
+        try {
+            /*Set up connection and Sql statement for Query */
+            Connection conn = getConnection();
+            String sql = "select *\n" +
+                    "from Request\n" +
+                    "where Status =? and SubjectID = ? and Request.Title like ?  \n"+
+                    "order by Request.CreatedTime desc \n"+
+                    "OFFSET ? ROWS \n" +
+                    "FETCH NEXT ? ROWS ONLY;"; 
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, rqStatus);
+            statement.setInt(2, subjectId);
+            statement.setString(3, "%"+searchString + "%");
+            statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setInt(5, pagesize);
+            /*Query and save in ResultSet */
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                RequestBean request = new RequestBean();
+                request.setRequestID(rs.getInt("RequestID"));
+                request.setStudentSent(rs.getString("Student_sent"));
+                request.setTutorGet(rs.getString("Tutor_get"));
+                request.setCreatedTime(rs.getDate("CreatedTime"));
+                request.setStatus(rs.getString("Status"));
+                request.setCost(rs.getInt("Cost"));
+                request.setContent(rs.getString("Content"));
+                request.setImageLink(rs.getString("Image"));
+                request.setSubjectID(rs.getInt("SubjectID"));
+                request.setLevel(rs.getInt("Level"));
+                request.setTitle(rs.getString("Title"));
+                
+                        
+                requests.add(request);
+            }
+            /*Close all the connection */
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requests;
+    }
 }

@@ -9,6 +9,7 @@
 package dao;
 
 import bean.TeacherBean;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,14 +24,16 @@ public interface ITeacherDAO {
 
     /**
      * getAllTeacher method implement from ITeacherDAO
-     *
-     * @return teachers. <code>java.util.List</code> object
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
-    public List<TeacherBean> getAllTeacher();
+    public ArrayList<TeacherBean> getAllTeacher(int pageindex, int pagesize);
 
     /**
      * getTeacherByUsername method implement from ITeacherDAO
      *
+     * @param username <code>java.lang.String</code>
      * @return teacherbean object
      */
     public TeacherBean getTeacherByUsername(String username);
@@ -45,6 +48,7 @@ public interface ITeacherDAO {
      * checkTeacherStatus method implement from ITeacherDAO check status cv of
      * teacher in db
      *
+     * @param username <code>java.lang.String</code>
      * @return subjectId. <code>Integer</code> object
      */
     public boolean checkTeacherStatus(String username);
@@ -53,6 +57,7 @@ public interface ITeacherDAO {
      * getSubjectId method implement from ITeacherDAO get the id subject of
      * teacher from database
      *
+     * @param usernameTeacher <code>java.lang.String</code>
      * @return subjectId. <code>Integer</code> object
      */
     public int getSubjectId(String usernameTeacher);
@@ -60,13 +65,23 @@ public interface ITeacherDAO {
     /**
      * getTeacherBySearching method implement from ITeacherDAO
      *
-     * @return teachers. <code>java.util.List</code> object
+     * @param searchString <code>java.lang.String</code>
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
-    public List<TeacherBean> getTeacherBySearching(String searchString);
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString);
 
     /**
-     * insertNewTeacher method implement from ITeacherDAO
+     * getTeacherBySearching method implement from ITeacherDAO
      *
+     * @param searchString <code>java.lang.String</code>
+     * @param subjectId <code>java.lang.Integer</code>
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString, int subjectId);
+    
+    /**
+     * insertNewTeacher method implement from ITeacherDAO
+     * @param teacher<code>java.util.TeacherBean</code> object
      * @return boolean. <code>java.lang.Boolean</code> object
      */
     public boolean insertNewTeacher(TeacherBean teacher);
@@ -74,16 +89,35 @@ public interface ITeacherDAO {
     /**
      * getTotalTeacherApply method implement from ITeacherDAO
      * 
-     * @return total. <code>java.lang.Integer</code> object  
+     * @param status <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code>   
+     */
+    public int getTotalTeacherApply(String status);
+    
+    /**
+     * getTotalTeacherApply method implement from ITeacherDAO
+     * 
+     * @return total. <code>java.lang.Integer</code>   
      */
     public int getTotalTeacherApply();
     
     /**
      * getAllTeacherApply method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.List</code> object  
+     * @param status <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object  
      */
-    public List<TeacherBean> getAllTeacherApply(int pageindex, int pagesize);
+    public ArrayList<TeacherBean> getAllTeacherApply(String status, int pageindex, int pagesize);
+    
+    /**
+     * getAllTeacherApply method implement from ITeacherDAO
+     * 
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object  
+     */
+    public ArrayList<TeacherBean> getAllTeacherApply(int pageindex, int pagesize);
     
     /**
      * handleTeacherApply method implement from ITeacherDAO
@@ -93,4 +127,78 @@ public interface ITeacherDAO {
      * @return number of row. <code>java.lang.Integer</code> object  
      */
     public int handleTeacherApply(String username, String status);
+    
+    /**
+     * getTotalTeacher method implement from ITeacherDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacher();
+    
+    /**
+     * totalTeacherSearch method implement from ITeacherDAO
+     * 
+     * @param searchString
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacherSearch(String searchString); 
+    
+    /**
+     * getAllTeacherBySearch method implement from ITeacherDAO
+     * @param searchString
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTeacherBySearching(String searchString, int pageindex, int pagesize);
+    
+    /**
+     * getTopTeacher method implement from ITeacherDAO
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTopTeacher();
+    
+    /**
+     * getTop3Teacher method implement from ITeacherDAO
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTop3Teacher();
+    
+    /**
+     * getTotalTeacherApplySearch method implement from ITeacherDAO
+     * 
+     * @param searchString
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacherApplySearch(String searchString);
+    
+    /**
+     * getTotalTeacherApplySearch method implement from ITeacherDAO
+     * 
+     * @param status
+     * @param searchString
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalTeacherApplySearch(String status, String searchString);
+    
+    /**
+     * getAllTeacherBySearch method implement from ITeacherDAO
+     * 
+     * @param searchString
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTeacherApplyBySearching(String searchString, int pageindex, int pagesize);
+    /**
+     * getAllTeacherBySearch method implement from ITeacherDAO
+     * @param status
+     * @param searchString
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code> 
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    public ArrayList<TeacherBean> getTeacherApplyBySearching(String status, String searchString, int pageindex, int pagesize);
 }

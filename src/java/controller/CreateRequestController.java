@@ -65,7 +65,7 @@ public class CreateRequestController extends HttpServlet {
                  
                 List <TeacherBean> teacherList = new ArrayList<>();
                 ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
-                teacherList = iTeacherDAO.getAllTeacher();
+                teacherList = iTeacherDAO.getTopTeacher();
                 //Attach Attribute subjects for request and redirect it to CreateRequest.jsp
                 request.setAttribute("subjects", s);
                 request.setAttribute("teachers", teacherList);

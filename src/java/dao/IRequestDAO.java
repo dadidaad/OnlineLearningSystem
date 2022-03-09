@@ -44,7 +44,7 @@ public interface IRequestDAO {
      * 
      * @return requests. <code>java.util.List</code> object  
      */
-    public List<RequestBean> getRequestForStudent(String username, String rqStatus);
+    public List<RequestBean> getRequestForStudent(String username, String rqStatus, int pageindex, int pagesize);
     
     /**
      * getRequestBySubject method implement from IRequestDAO
@@ -82,14 +82,14 @@ public interface IRequestDAO {
      * 
      * @return request. <code>java.util.List</code> object  
      */
-    public List<RequestBean> getRequestForTeacher(int subjectId, String rqStatus);  
+    public List<RequestBean> getRequestForTeacher(int subjectId, String rqStatus, int pageindex, int pagesize);  
     
     /**
-     * getRequestForEachTeacher method implement from IRequestDAO
+     * getRequestForTeacher method implement from IRequestDAO
      * 
      * @return request. <code>java.util.List</code> object  
      */
-    public List<RequestBean> getRequestForEachTeacher(String username, int subjectId, String rqStatus);  
+    public List<RequestBean> getRequestForTeacher(String username,String rqStatus, int pageindex, int pagesize);  
     
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
@@ -111,4 +111,29 @@ public interface IRequestDAO {
      */
     public int getTotalPendingRequest();
     
+    /**
+     * getTotalRequestStudent method implement from IRequestDAO
+     * 
+     * @param username
+     * @param rqStatus
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalRequestStudent(String username, String rqStatus);
+    
+    /**
+     * getTotalRequestTeacher method implement from IRequestDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
+    public int getTotalRequestTeacherApply();
+    public int getTotalRequestForTeacher(int subjectId, String rqStatus);
+    public int getTotalRequestForTeacher(String username, String rqStatus);
+    public int getTotalRequestSearchForStudent(String username, String rqStatus, String searchString);
+    public List<RequestBean> getRequestSearchForStudent(String username, String rqStatus, String searchString, int pageindex, int pagesize);
+    
+    public int getTotalRequestSearchForTeacher(int subjectId, String rqStatus, String searchString);
+    public int getTotalRequestSearchForTeacher(String username, String rqStatus, String searchString);
+
+    public List<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize);
+    public List<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize);
 }

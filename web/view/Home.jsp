@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -83,42 +85,47 @@
                 <h1 class="heading"> THE TOP <span> TEACHER</span> </h1>
 
                 <div class="box-container">
+                    <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">   
+                        <div class="box">
+                            <img src="<i:ReadUrlFromContext url="${t.getAvatar()}"/>"  alt="">
+                            <h3>${t.getDisplayName()}</h3>
+                            <div id="rating">
+                                <input type="radio" id="star5${loop.index+1}" name="rating${loop.index+1}" value="5" disabled/>
+                                <label class="full" for="star5${loop.index+1}" title="Awesome - 5 stars"></label>
 
-                    <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/male4.jpg"/>"  alt="">
-                        <h3>Mr.Johnatha</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/teacherFemale.jpeg"/>" alt="">
-                        <h3>Miss.Eve</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/male3.jpg"/>" alt="">
-                        <h3>Mr.John</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
+                                <input type="radio" id="star4half${loop.index+1}" name="rating${loop.index+1}" value="4 and a half" disabled/>
+                                <label class="half" for="star4half${loop.index+1}" title="Pretty good - 4.5 stars"></label>
 
+                                <input type="radio" id="star4${loop.index+1}" name="rating${loop.index+1}" value="4" disabled/>
+                                <label class="full" for="star4${loop.index+1}" title="Pretty good - 4 stars"></label>
+
+                                <input type="radio" id="star3half${loop.index+1}" name="rating${loop.index+1}" value="3 and a half" disabled/>
+                                <label class="half" for="star3half${loop.index+1}" title="Meh - 3.5 stars"></label>
+
+                                <input type="radio" id="star3${loop.index+1}" name="rating${loop.index+1}" value="3" disabled/>
+                                <label class="full" for="star3${loop.index+1}" title="Meh - 3 stars"></label>
+
+                                <input type="radio" id="star2half${loop.index+1}" name="rating${loop.index+1}" value="2 and a half" disabled/>
+                                <label class="half" for="star2half${loop.index+1}" title="Kinda bad - 2.5 stars"></label>
+
+                                <input type="radio" id="star2${loop.index+1}" name="rating${loop.index+1}" value="2" disabled/>
+                                <label class="full" for="star2${loop.index+1}" title="Kinda bad - 2 stars"></label>
+
+                                <input type="radio" id="star1half${loop.index+1}" name="rating${loop.index+1}" value="1 and a half" disabled/>
+                                <label class="half" for="star1half${loop.index+1}" title="Meh - 1.5 stars"></label>
+
+                                <input type="radio" id="star1${loop.index+1}" name="rating${loop.index+1}" value="1" disabled/>
+                                <label class="full" for="star1${loop.index+1}" title="Sucks big time - 1 star"></label>
+
+                                <input type="radio" id="starhalf${loop.index+1}" name="rating${loop.index+1}" value="half" disabled/>
+                                <label class="half" for="starhalf${loop.index+1}" title="Sucks big time - 0.5 stars"></label>
+                            </div>
+                            <br>
+                            <p style="font-size:14px;font-style: italic;">${t.getDescription()}</p>
+                        </div>
+                    </c:forEach> 
                 </div>
+                <a href="ListAllTeacher" class="More">Show More</a>
             </section>
             <section class="speciality" id="speciality">
 
@@ -160,5 +167,16 @@
         <div class="container">
             <jsp:include page="./footer.jsp"></jsp:include>
         </div>
+        <script>
+            <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
+            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+            </c:forEach>
+
+            function calcRate(r, num) {
+                const f = ~~r, // = Math.floor(r)
+                        id = "star" + f + (r % f ? "half" + num : "" + num);
+                id && (document.getElementById(id).checked = !0);
+            }
+        </script>
     </body>
 </html>

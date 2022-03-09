@@ -1,13 +1,7 @@
-// Data Table
-$(document).ready(function () {
-  $("#dataTable").DataTable();
-});
 
 //   Select Teacher
 var findTeacherButton = document.querySelector(".teacherRecommend--btn"),
-        findTeacherButton1 = document.querySelector(".teacherRecommend--btn1"),
   teacherRecommendName = document.querySelector(".teacherRecommend--name"),
-  teacherUsernameRcmInput1 = document.getElementById("teacherUsernameRcm1");
   teacherOptions = document.querySelectorAll(".form-check-input"),
   teacherNames = document.getElementsByClassName("teacherName"),
   requestTeacherBtns = document.querySelectorAll(".requestBtn"),
@@ -46,24 +40,8 @@ function setTeacherRecommend() {
       element.target.classList.add("select");
       teacherRecommendName.innerHTML = element.target.getAttribute("value");
       teacherUsernameRcmInput.value=element.target.value;
-      teacherRecommendName1.value=element.target.value;
     });
   });
 }
-
-findTeacherButton1.addEventListener("click",() =>{
-    requestTeacherBtns.forEach((element) => {
-    element.addEventListener("click", (element) => {
-      requestTeacherBtns.forEach((element) => {
-        element.classList.remove("select");
-      });
-
-      element.target.classList.add("select");
-      teacherRecommendName.innerHTML = element.target.getAttribute("value");
-      teacherUsernameRcmInput1.value=element.target.value;
-//      teacherRecommendName1.value=element.target.value;
-    });
-  });
-});
 
 

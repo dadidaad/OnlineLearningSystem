@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-07   1.0         Duc Minh    First Implement
  */
-package controller;
+package Controller;
 
 import bean.TeacherBean;
 import dao.ISubjectDAO;
@@ -27,14 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the Admin wants to
- * see all the Request to apply from teacher /TeacherRequest is the URL of the
- * Servlet Extend HttpServlet class
- *
+ * This is a Servlet responsible for handling the task when the Admin wants to see all the Request to apply from teacher
+ * /TeacherRequest is the URL of the Servlet
+ * Extend HttpServlet class
  * @author Duc Minh
  */
 public class TeacherRequestController extends HttpServlet {
-
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -49,34 +48,46 @@ public class TeacherRequestController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call    
-//      Pagination   
-            String page = request.getParameter("page");
-            if (page == null || page.length() == 0) {
-                page = "1";
-            }
-            int pageindex = Integer.parseInt(page);
-            int pagesize = 7;
-            int totalrow = iTeacherDAO.getTotalTeacherApply();
-            int totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
-
-            List<TeacherBean> teacherList = iTeacherDAO.getAllTeacherApply(pageindex, pagesize);
-
+            
+        ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call    
+        String status = request.getParameter("rqStatus");
+        if(status==null) status = "waiting";
+        /*Pagination*/   
+         String page = request.getParameter("page");
+         if(page == null || page.length() == 0)
+             page = "1";
+         int pageindex = Integer.parseInt(page);
+         int pagesize = 10;
+         int totalrow,totalpage; 
+       
+        List <TeacherBean> teacherList = new ArrayList<>();
+        
+        
+        if(status.equals("waiting")){
+             totalrow = iTeacherDAO.getTotalTeacherApply(status);
+             totalpage = (totalrow%pagesize==0)?totalrow/pagesize:totalrow/pagesize + 1  ;
+            teacherList = iTeacherDAO.getAllTeacherApply("waiting", pageindex, pagesize);
+        }else{
+             totalrow = iTeacherDAO.getTotalTeacherApply();
+             totalpage = (totalrow%pagesize==0)?totalrow/pagesize:totalrow/pagesize + 1  ;
+            teacherList = iTeacherDAO.getAllTeacherApply(pageindex, pagesize);
+        }
+     
             request.setAttribute("totalpage", totalpage);
-            request.setAttribute("pageindex", pageindex);
-
-            ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-            Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
-
-            /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
-            request.setAttribute("subjectNames", subjectNames);
+            request.setAttribute("pageindex", pageindex);    
+            request.setAttribute("status", status);
+ 
+        ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+        Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
+                
+        /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/
+            request.setAttribute("subjectNames", SubjectNames);
             request.setAttribute("teachers", teacherList);
             request.getRequestDispatcher("./view/TeacherRequest.jsp").forward(request, response);
-
-        } catch (Exception ex) {
+            
+        }catch (Exception ex) {
             Logger.getLogger(TeacherRequestController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 }

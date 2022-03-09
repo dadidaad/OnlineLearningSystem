@@ -107,7 +107,7 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Account Tables</h1>
 
-                    <!-- DataTales Example -->
+                    <!-- DataTales -->
                     <div class="card shadow mb-4">
 
                         <!--Search Data-->          
@@ -115,11 +115,11 @@
 
                             <div class="col-sm-12 col-md-6">
                                 <div id="dataTable_filter" class="dataTables_filter">
-                                    <form action="AccountManagerSearch" method="POST">
+                                    <form action="AccountManagerSearch" method="GET">
                                         <label></label>    
                                         <input
                                             type="search"
-                                            class="form-control form-control-sm"
+                                            class="form-control"
                                             name ="searchString"
                                             placeholder="Enter Name or Email"
                                             value="${searchString}"
@@ -127,10 +127,13 @@
                                             />
                                         <input type="submit" class="btn btn-secondary mt-3" value="Search"/>
                                         <c:if test="${requestScope.searchMode!=null}">
-                                        <a href="AccountManager" class="btn btn-secondary mt-3" style="margin-left:16px;">Back</a>
+                                            <a href="AccountManager" class="btn btn-secondary mt-3" style="margin-left:16px;">Back</a>
                                         </c:if>
                                     </form>
                                 </div>
+                                <c:if test="${requestScope.searchMode!=null}">
+                                    <h3 class="mt-5 ml-5">1-10 of over ${totalrow} results for "${searchString}"</h3>
+                                </c:if>
                             </div>
                         </div>   
                         <div class="card-body" id="cardBody">        
@@ -270,12 +273,12 @@
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/AccountManager.js"/>"></script> 
-    </body>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
             crossorigin="anonymous">
     </script> 
     <!--Ajax Library-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    </body>
 </html>
