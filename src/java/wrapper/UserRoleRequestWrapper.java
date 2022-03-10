@@ -38,10 +38,10 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public boolean isUserInRole(String role) {
-        if (role == null) {
+        if (this.role == null) {
             return this.realRequest.isUserInRole(role);
         }
-        return role.equals(role);
+        return this.role.equals(role);
     }
 
     @Override

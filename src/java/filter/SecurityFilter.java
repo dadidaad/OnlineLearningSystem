@@ -62,12 +62,12 @@ public class SecurityFilter implements Filter {
             if (loginedUser == null) {
                 String requestUri = request.getRequestURI();
                 int redirectId = AppUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);
-                response.sendRedirect("Login?redirectId=" + redirectId);
+                response.sendRedirect(wrapRequest.getContextPath() + "/Login?redirectId=" + redirectId);
                 return;
             }
             boolean hasPermission = SecurityUtils.hasPermission(wrapRequest);
             if (!hasPermission) {
-                response.sendRedirect("Home");
+                request.getRequestDispatcher("./view/AccessDenied.jsp").forward(request, response);
                 return;
             }
         }

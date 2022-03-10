@@ -44,7 +44,7 @@ public class HomeController extends HttpServlet {
         ITeacherDAO iTeacherDAO = new TeacherDAO();
         List<TeacherBean> teacherList = iTeacherDAO.getTop3Teacher();
         request.setAttribute("teachers", teacherList);
-        request.getRequestDispatcher("/view/Home.jsp").forward(request, response); //forward Home.jsp if get url
+        request.getRequestDispatcher("./view/Home.jsp").forward(request, response); //forward Home.jsp if get url
     }
 
    

@@ -63,12 +63,26 @@
                                     <span class="text nav-text">Teacher Ranking</span>
                                 </a>
                             </li>
-                            <li class="nav-link">
-                                <a href="<i:ReadUrlFromContext url="/ListAllRequest"/>">
-                                    <i class='bx bx-table icon' ></i>
-                                    <span class="text nav-text">My Request</span>
-                                </a>
-                            </li>
+                            <c:if test="${sessionScope.user ne null}">
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.role eq 'Admin'}">
+                                        <li class="nav-link">
+                                            <a href="<i:ReadUrlFromContext url="/TeacherRequest"/>">
+                                                <i class='bx bx-table icon' ></i>
+                                                <span class="text nav-text">View Teacher Request</span>
+                                            </a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="nav-link">
+                                            <a href="<i:ReadUrlFromContext url="/ListAllRequest"/>">
+                                                <i class='bx bx-table icon' ></i>
+                                                <span class="text nav-text">My Request</span>
+                                            </a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
 
                         </ul>
                     </div>
