@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * PreventAccessJSPFilter
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
  */
 package filter;
 
@@ -18,8 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 import utils.AppUtils;
 
 /**
+ * The filter contains method doFilter to prevent user directly access jsp page or login servlet after logined
+ * Bugs: Still not have yet
  *
- * @author Admin
+ * @author Dajtvox
  */
 public class PreventAccessJSPFilter implements Filter {
     
@@ -42,11 +48,13 @@ public class PreventAccessJSPFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String uriPath = request.getRequestURI();
         String servletPath = request.getServletPath();
+        /*if uri cotainer .jsp that user access directly to jsp page, return home*/
         if(uriPath.contains(".jsp")){
             response.sendRedirect("Home");
             return;
         }
         AccountBean loginedUser = AppUtils.getLoginedUser(request.getSession());
+        /*if servletPath contains login and user already logined, return home*/
         if(loginedUser != null){
             if(servletPath.equals("/Login") || servletPath.equals("/SignUp") || servletPath.equals("/ResetPassword")){
                 response.sendRedirect("Home");

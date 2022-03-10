@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SecurityConfig
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
  */
 package config;
 
@@ -12,8 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * The class contains method init, getAllAppRoles, getUrlPatternForRole to Configure role for app.
+ * Bugs: Still not have yet
  *
- * @author Admin
+ * @author Dajtvox
  */
 public class SecurityConfig {
 
