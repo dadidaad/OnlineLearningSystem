@@ -48,7 +48,7 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
         AccountBean loginedUser = AppUtils.getLoginedUser(request.getSession());
-        if (servletPath.equals("/Login")) {
+        if (servletPath.equals("/Login") || servletPath.equals("/SignUp") || servletPath.equals("/ResetPassword")) {
             chain.doFilter(request, response);
             return;
         }
