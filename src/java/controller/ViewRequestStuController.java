@@ -9,17 +9,20 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.ReportBean;
 import bean.RequestBean;
 import bean.RequestReplyBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
+import dao.ReportDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
+import dao.WalletDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,4 +78,32 @@ public class ViewRequestStuController extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        String status = request.getParameter("btn-status");
+        
+        int rqId = Integer.parseInt(request.getParameter("requestId"));
+            
+        IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+        RequestBean rq  = iRequestDAO.getRequestById(rqId);
+        RequestReplyBean rqReply  = iRequestDAO.getRequestReplyById(rqId);
+        WalletDAO walletDB = new WalletDAO();
+        ReportDAO reportDB = new ReportDAO();
+        AccountDAO accountDB = new AccountDAO();
+        AccountBean tutorAccount = accountDB.getAccountByUsername(rqReply.getTutorSent());
+        
+        if(status.equalsIgnoreCase("accept")) {
+            //Send money to Tutor
+            walletDB.UpdateMoney(tutorAccount, rq.getCost(), tutorAccount.getUsername(), "done request");
+        }
+        else if(status.equalsIgnoreCase("not-accept")){
+            //Send report to admin
+            reportDB.CreateReport(rqId, rq.getStudentSent(), rqReply.getTutorSent(), rq.getTitle());
+        }
+        
+        response.sendRedirect("ListAllRequest");
+    }
+    
+    
 }

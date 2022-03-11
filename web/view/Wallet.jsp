@@ -28,6 +28,19 @@
     <body>
         <div class="container">
             <jsp:include page="./header.jsp"></jsp:include>
+            <div class="modal-bg">
+                <div class="modal_content">
+                    <div class="close">+</div>
+                    <form action="Wallet" method="post">
+                        <h4>Enter the amount you want here...</h4>
+                        <input class="popup-btn" name="amount" type="number" value=${amount}><br>
+                        <input class="popup-btn btn btn-primary" name="status" type="submit" value = "recharge"><br>
+                        <input class="popup-btn btn btn-primary" name="status" type="submit" value = "withdrawal"><br>
+                        ${warning}
+                    </form>
+                </div>
+            </div> 
+            
             <div class="row">
                 <div class="col-md-3 mt-1">
                     <div class="card sidebar">
@@ -132,19 +145,7 @@
                         </nav>        
                     </div>
                 </div>
-            </div>
-            <div class="modal-bg">
-                    <div class="modal_content">
-                        <div class="close">+</div>
-                        <form action="Wallet" method="post">
-                            <h4>Enter the amount you want here...</h4>
-                            <input class="popup-btn" name="amount" type="number" value=${amount}><br>
-                            <input class="popup-btn btn btn-primary" name="status" type="submit" value = "recharge"><br>
-                            <input class="popup-btn btn btn-primary" name="status" type="submit" value = "withdrawal"><br>
-                            ${warning}
-                        </form>
-                    </div>
-                </div>                     
+            </div>                
         </div>
                                 
         <script src="<i:ReadUrlFromContext url="/assets/js/PopupCard.js"/>"></script>                        
