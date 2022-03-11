@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * UserRoleRequestWrapper
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 thein          
  */
 package wrapper;
 
@@ -38,10 +42,10 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public boolean isUserInRole(String role) {
-        if (role == null) {
+        if (this.role == null) {
             return this.realRequest.isUserInRole(role);
         }
-        return role.equals(role);
+        return this.role.equals(role);
     }
 
     @Override

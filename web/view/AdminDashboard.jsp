@@ -30,7 +30,7 @@
     </head>
     <body>
         <!-- Include header of web site from general-->
-        <%@include file="./header.jsp" %>
+        <div class="container"><%@include file="./header.jsp" %></div>
         <div id="content-wrapper" class="">
             <!--Side Bar  -->
             <nav class="sidebar close">
@@ -101,7 +101,7 @@
             </nav>
 
             <!-- Main Content -->
-            <div id="content" class="maincontent d-flex flex-column">
+            <div id="content" class="maincontent d-flex flex-column container">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -301,7 +301,7 @@
 
 
         <!-- Include footer of web site from general -->
-        <%@include file="./footer.jsp" %>
+        <div class="container"><%@include file="./footer.jsp" %></div>
 
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>

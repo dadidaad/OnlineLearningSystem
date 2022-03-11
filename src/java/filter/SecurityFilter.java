@@ -1,15 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SecurityFilter
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
  */
 package filter;
 
 import bean.AccountBean;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,8 +24,10 @@ import utils.SecurityUtils;
 import wrapper.UserRoleRequestWrapper;
 
 /**
+ * The filter contains method doFilter to handle form-base authentication
+ * Bugs: Still not have yet
  *
- * @author Admin
+ * @author Dajtvox
  */
 public class SecurityFilter implements Filter {
 
@@ -48,7 +51,7 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
         AccountBean loginedUser = AppUtils.getLoginedUser(request.getSession());
-        if (servletPath.equals("/Login")) {
+        if (servletPath.equals("/Login") || servletPath.equals("/SignUp") || servletPath.equals("/ResetPassword")) {
             chain.doFilter(request, response);
             return;
         }
@@ -62,12 +65,12 @@ public class SecurityFilter implements Filter {
             if (loginedUser == null) {
                 String requestUri = request.getRequestURI();
                 int redirectId = AppUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);
-                response.sendRedirect("Login?redirectId=" + redirectId);
+                response.sendRedirect(wrapRequest.getContextPath() + "/Login?redirectId=" + redirectId);
                 return;
             }
             boolean hasPermission = SecurityUtils.hasPermission(wrapRequest);
             if (!hasPermission) {
-                response.sendRedirect("Home");
+                request.getRequestDispatcher("./view/AccessDenied.jsp").forward(request, response);
                 return;
             }
         }
