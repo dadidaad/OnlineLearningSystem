@@ -9,6 +9,7 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ReportBean;
 import dao.ReportDAO;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,11 +29,16 @@ public class ReportListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        
+        if((AccountBean)session.getAttribute("user") == null) {
+            response.sendRedirect("LoginController");
+        }
         
         String status = (request.getParameter("status") == null) ? "report" : "feedback";
         
         if(status.equalsIgnoreCase("report")){
-            ArrayList<ReportBean> list = new ArrayList<>();
+            ArrayList<ReportBean> list;
             ReportDAO reportDB = new ReportDAO();
             list = reportDB.GetAllReport();
             request.setAttribute("reportList", list);

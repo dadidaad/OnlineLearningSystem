@@ -23,6 +23,7 @@
         <li class="nav-item"><a href="<i:ReadUrlFromContext url="/ListAllTeacher"/>" class="nav-link">Request</a></li>
             <c:if test="${sessionScope.user ne null}">
                 <c:if test = "${sessionScope.user.role eq 'Admin'}">
+                <li class="nav-item"><a href="<i:ReadUrlFromContext url="/ReportList"/>" class="nav-link">Report</a></li>
                 <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Dashboard"/>" class="nav-link">Dashboard</a></li>
                 </c:if>
             </c:if>
