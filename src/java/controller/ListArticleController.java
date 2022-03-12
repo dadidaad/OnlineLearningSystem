@@ -37,16 +37,16 @@ public class ListArticleController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         /*Notification*/
-        HttpSession session = request.getSession();
-        AccountBean account = (AccountBean) session.getAttribute("user");
-        if (account != null) {
-            INotificationDAO iNotificationDAO = new NotificationDAO();
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
 
-            int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
-            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-            request.setAttribute("totalNoti", totalNoti);
-            request.setAttribute("notificationList", notiList);
-        }
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("notificationList", notiList);
+            }
 
         /*Use DAO class to get data from database for Article with corresponding */
         IArticleDAO articleDAO = new ArticleDAO();

@@ -78,6 +78,8 @@ public class ListAllRequestController extends HttpServlet {
                 INotificationDAO iNotificationDAO = new NotificationDAO();
                 int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
                 List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
                 request.setAttribute("totalNoti", totalNoti);
                 request.setAttribute("notificationList", notiList);
 

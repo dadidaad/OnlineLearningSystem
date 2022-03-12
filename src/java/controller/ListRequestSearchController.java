@@ -57,10 +57,12 @@ public class ListRequestSearchController extends HttpServlet {
 
                 int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
                 List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
                 request.setAttribute("totalNoti", totalNoti);
                 request.setAttribute("notificationList", notiList);
             }
-            
+
             SortRequest sortRequest = new SortRequest();//call the sort modify class
             String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
             String rqStatus = request.getParameter("rqStatus");

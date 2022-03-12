@@ -10,8 +10,11 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -21,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the Admin wants to
@@ -45,6 +49,19 @@ public class AccountManagerController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("notificationList", notiList);
+            }
+
             IAccountDAO iAccountDAO = new AccountDAO();
             String page = request.getParameter("page");
             if (page == null || page.length() == 0) {

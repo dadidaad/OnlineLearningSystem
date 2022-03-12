@@ -9,14 +9,19 @@
  */
 package Controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.TeacherBean;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,14 +52,26 @@ public class TeacherRequestSearchController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("notificationList", notiList);
+            }
+
             String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
             String status = request.getParameter("rqStatus");
-            
+
             if (searchString.equals("")) {
                 response.sendRedirect("TeacherRequest");
             }
             ITeacherDAO iTeacherDAO = new TeacherDAO();
-            
+
             String page = request.getParameter("page");
 
             if (page == null || page.length() == 0) {
@@ -64,18 +82,18 @@ public class TeacherRequestSearchController extends HttpServlet {
             int totalrow, totalpage;
 
             ArrayList<TeacherBean> teacherList = new ArrayList<>();
-           
+
             if (status.equals("waiting")) {
-                totalrow = iTeacherDAO.getTotalTeacherApplySearch(status,searchString);
+                totalrow = iTeacherDAO.getTotalTeacherApplySearch(status, searchString);
                 totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
-                teacherList = iTeacherDAO.getTeacherApplyBySearching(status,searchString, pageindex, pagesize);
-                 
+                teacherList = iTeacherDAO.getTeacherApplyBySearching(status, searchString, pageindex, pagesize);
+
             } else {
                 totalrow = iTeacherDAO.getTotalTeacherApplySearch(searchString);
                 totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
                 teacherList = iTeacherDAO.getTeacherApplyBySearching(searchString, pageindex, pagesize);
             }
-            
+
             request.setAttribute("totalpage", totalpage);
             request.setAttribute("pageindex", pageindex);
             request.setAttribute("status", status);

@@ -9,9 +9,13 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.TeacherBean;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
@@ -25,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the Admin wants to see all the Request to apply from teacher
@@ -48,6 +53,18 @@ public class TeacherRequestController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+        /*Notification*/
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+            request.setAttribute("notiUnread", notiUnread);
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("notificationList", notiList);
+        }    
             
         ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call    
         String status = request.getParameter("rqStatus");

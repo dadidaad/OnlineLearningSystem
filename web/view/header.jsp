@@ -28,6 +28,50 @@
                 </c:if>
             </c:if>
     </ul>
+    <c:if test="${sessionScope.user ne null}"> 
+        <div class="notifications">
+            <div class="icon_wrap"><i class="far fa-bell"></i></div>
+            <span class="badge badge-danger badge-counter notiUnread">${notiUnread}</span>
+            <div class="notification_dd">
+                <ul class="notification_ul">
+                    <c:if test="${requestScope.notificationList.size() == 0}">
+                        <h3 style="text-align: center;margin: 32px auto;">Notifications empty</h3>
+                    </c:if>
+                    <c:forEach items="${requestScope.notificationList}" var ="n" varStatus="loop">
+                        <li class="starbucks success">
+                            <div class="notify_icon" style="margin-left: 16px">
+                                <c:set var="notiTitle" value="${n.getTitle()}"></c:set>
+                                <c:if test="${fn:toLowerCase(notiTitle) == 'request'}">
+                                    <span class="icon"><i class="fas fa-file-import"></i></span>
+                                    </c:if>
+                                    <c:if test="${fn:toLowerCase(notiTitle) == 'subject'}">
+                                    <span class="icon"><i class="fab fa-leanpub"></i></span>
+                                    </c:if>
+                                    <c:if test="${fn:toLowerCase(notiTitle) == 'forum'}">
+                                    <span class="icon"><i class="fab fa-forumbee"></i></span>
+                                    </c:if>
+                                    <c:if test="${fn:toLowerCase(notiTitle) == 'admin'}">
+                                    <span class="icon"><i class="fas fa-user"></i></span>
+                                    </c:if>
+                            </div>
+                            <div class="notify_data">
+                                <div class="title">${n.getTitle()}</div>
+                                <div class="sub_title">${n.getContent()}</div>
+                            </div>
+                            <c:if test="${!n.isRead()}">
+                                <i style="color: blue;font-size: 10px;" class="fas fa-circle"></i>
+                            </c:if>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${requestScope.notificationList.size() != 0}">    
+                    <li class="show_all">
+                        <a class="link" href="ViewProfile?optionNav=4">Show All</a>
+                    </li>
+                    </c:if>
+                </ul>
+            </div>
+        </div>   
+    </c:if>             
     <c:set var="currentURI" value="${pageContext.request.requestURI}"></c:set>
     <c:if test = "${fn:containsIgnoreCase(currentURI, 'login') ne true 
                     or !fn:containsIgnoreCase(currentURI, 'signup') ne true 
@@ -56,7 +100,9 @@
         </c:if>
     </c:if>
 </header>
+<link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/Notification.css"/>"/>    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src ="<i:ReadUrlFromContext url="/assets/js/Notification.js"/>"></script>
 <script>
     jQuery.fn.extend({
         setMenu: function () {

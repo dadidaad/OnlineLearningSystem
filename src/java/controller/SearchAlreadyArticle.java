@@ -8,9 +8,13 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ArticleBean;
+import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -19,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Document: SearchAlreadyArticle Create on: 2022-02-22  10:20:35 PM
@@ -32,6 +37,19 @@ public class SearchAlreadyArticle extends HttpServlet {
             throws ServletException, IOException {
          response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        
+        /*Notification*/
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+            request.setAttribute("notiUnread", notiUnread);
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("notificationList", notiList);
+        }
+        
           /*Use DAO class to get data from database for Article with corresponding */
          IArticleDAO articleDAO = new ArticleDAO();
            /*Get index name from request*/

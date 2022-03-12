@@ -71,14 +71,15 @@ public class ListAllTeacherController extends HttpServlet {
             ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
             Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
 
+            /*Notification*/
             HttpSession session = request.getSession();
             AccountBean account = (AccountBean) session.getAttribute("user");
             if (account != null) {
                 INotificationDAO iNotificationDAO = new NotificationDAO();
 
-                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
                 List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-                request.setAttribute("totalNoti", totalNoti);
                 request.setAttribute("notificationList", notiList);
             }
             /*Attach Attribute teachers for request and redirect it to ListAllTeacher.jsp*/

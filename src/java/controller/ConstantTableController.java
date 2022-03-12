@@ -72,9 +72,9 @@ public class ConstantTableController extends HttpServlet {
             if (account != null) {
                 INotificationDAO iNotificationDAO = new NotificationDAO();
 
-                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
                 List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-                request.setAttribute("totalNoti", totalNoti);
                 request.setAttribute("notificationList", notiList);
             }
             

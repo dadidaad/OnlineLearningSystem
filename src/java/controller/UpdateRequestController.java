@@ -61,16 +61,16 @@ public class UpdateRequestController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             /*Notification*/
-            HttpSession session = request.getSession();
-            AccountBean account = (AccountBean) session.getAttribute("user");
-            if (account != null) {
-                INotificationDAO iNotificationDAO = new NotificationDAO();
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
 
-                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
-                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-                request.setAttribute("totalNoti", totalNoti);
-                request.setAttribute("notificationList", notiList);
-            }
+            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+            request.setAttribute("notiUnread", notiUnread);
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("notificationList", notiList);
+        }
 
             int rqId = Integer.parseInt(request.getParameter("requestId"));
 
@@ -86,7 +86,7 @@ public class UpdateRequestController extends HttpServlet {
             List<TeacherBean> teacherList = iTeacherDAO.getTopTeacher();
 
             request.setAttribute("teachers", teacherList);
-
+                      
             //Attach Attribute teachers for request and redirect it to UpdateRequestStu.jsp
             request.setAttribute("request", rq);
             request.setAttribute("subjectNames", SubjectNames);
@@ -141,8 +141,15 @@ public class UpdateRequestController extends HttpServlet {
             rq.setTitle(requestTitle);
 
             IRequestDAO iRequestDAO = new RequestDAO();
-            iRequestDAO.updateRequest(rq);
+            int daoCheck = iRequestDAO.updateRequest(rq);
 
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+            if ((daoCheck != 0)) {
+                iNotificationDAO.insertNotification(new NotificationBean(requestStudentSent, "Request", "You have successfully updated your request."));
+            } else {
+                iNotificationDAO.insertNotification(new NotificationBean(requestStudentSent, "Request", "You have failed updated your request."));
+            }
+            
             response.sendRedirect("ListAllRequest");
 
         } catch (Exception ex) {
