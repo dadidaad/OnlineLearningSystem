@@ -531,4 +531,29 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         }
     }
 
+    /**
+     * updateStateACcount method implement from IRequestDAO
+     *
+     * @param account object
+     * This method update the request and update to database
+     */
+    @Override
+    public void updateStateACcount(AccountBean account) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        try{
+            conn = getConnection();
+            String sql = "update Account set [State] = ? where [Username] = ?";
+            statement = conn.prepareStatement(sql);
+            statement.setBoolean(1, account.isState());
+            statement.setString(2, account.getUsername());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            close(conn, statement, null);
+        }
+    }
+    
 }

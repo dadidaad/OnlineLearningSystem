@@ -34,4 +34,5 @@ public interface IAccountDAO {
     
     public void deleteAccount(String username); //delete account with AccountBean object as parameter
 
+    public void updateStateACcount(AccountBean account); //update state of accountbean in web app
 }

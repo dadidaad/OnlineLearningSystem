@@ -38,6 +38,7 @@ public class AppUtils {
      */
     public static void storeLoginedUser(HttpSession session, AccountBean loginedUser) {
         // Trên JSP có thể truy cập thông qua ${loginedUser}
+        session.setMaxInactiveInterval(60 * 30);
         session.setAttribute("user", loginedUser);
     }
 

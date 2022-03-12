@@ -4,6 +4,7 @@
     Author     : Hoang ngoc Long
 --%>
 
+<%@page import="bean.AccountBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="i" uri="/WEB-INF/tlds/customTag"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>

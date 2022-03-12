@@ -56,18 +56,22 @@ public class ListAllTeacherController extends HttpServlet {
 
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
             String page = request.getParameter("page");
+            String filter = "allTeacher";
+            if (request.getParameter("filterTeacher") != null) {
+                filter = request.getParameter("filterTeacher");
+            }
             if (page == null || page.length() == 0) {
                 page = "1";
             }
             int pageindex = Integer.parseInt(page);
             int pagesize = 10;
-            int totalrow = iTeacherDAO.getTotalTeacher();
+            int totalrow = filter.equals("onlineTeacher") ? iTeacherDAO.getTotalOnlineTeacher() : iTeacherDAO.getTotalTeacher();
             int totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
-            List<TeacherBean> teacherList = iTeacherDAO.getAllTeacher(pageindex, pagesize);
+            List<TeacherBean> teacherList = filter.equals("onlineTeacher") ? iTeacherDAO.getAllOnlineTeacher(pageindex, pagesize) : iTeacherDAO.getAllTeacher(pageindex, pagesize);
 
             request.setAttribute("totalpage", totalpage);
             request.setAttribute("pageindex", pageindex);
-
+            request.setAttribute("filterTeatcher", filter);
             ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
             Map<Integer, String> SubjectNames = iSubjectDAO.getSubjectNames();
 

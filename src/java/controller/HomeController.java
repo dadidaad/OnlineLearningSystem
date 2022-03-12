@@ -18,6 +18,7 @@ import dao.NotificationDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,9 @@ public class HomeController extends HttpServlet {
         ITeacherDAO iTeacherDAO = new TeacherDAO();
         List<TeacherBean> teacherList = iTeacherDAO.getTop3Teacher();
         request.setAttribute("teachers", teacherList);
+        ServletContext ctx = getServletContext();
+        Integer count = (Integer)ctx.getAttribute("pcount");
+        ctx.setAttribute("pcount", ++count);  
         
         HttpSession session = request.getSession();
             AccountBean account = (AccountBean) session.getAttribute("user");

@@ -18,7 +18,7 @@
 
     <ul class="nav col-12 col-md-6 mb-2 justify-content-center mb-md-0">
         <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Home"/>" class="nav-link active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Forum</a></li>
+        <li class="nav-item"><a href="<i:ReadUrlFromContext url="/listarticle"/>" class="nav-link">Forum</a></li>
         <li class="nav-item"><a href="<i:ReadUrlFromContext url="/Subject"/>" class="nav-link">Learning</a></li>
         <li class="nav-item"><a href="<i:ReadUrlFromContext url="/ListAllTeacher"/>" class="nav-link">Request</a></li>
             <c:if test="${sessionScope.user ne null}">

@@ -12,8 +12,9 @@ package controller;
 import bean.AccountBean;
 import bean.NotificationBean;
 import dao.AccountDAO;
+import dao.CounterViewDAO;
 import dao.IAccountDAO;
-import dao.INotificationDAO;
+import dao.ICounterViewDAO;
 import dao.IRequestDAO;
 import dao.NotificationDAO;
 import dao.RequestDAO;
@@ -22,6 +23,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -75,6 +77,24 @@ public class DashboardController extends HttpServlet {
 
             request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
         } catch (Exception ex) {
+        
+        IAccountDAO iAccountDAO = new AccountDAO(); 
+        IRequestDAO iRequestDAO = new RequestDAO();
+        
+        int totalAccount = iAccountDAO.totalAccount();
+        int totalRequest = iRequestDAO.getTotalPendingRequest();
+        int totalOnline = AccountBean.getSize();
+        ServletContext ctx = getServletContext();
+        Integer countPerDay = (Integer)ctx.getAttribute("pcount");
+        ICounterViewDAO iCounterViewDAO = new CounterViewDAO();
+        int totalView = iCounterViewDAO.getTotalView();
+        request.setAttribute("totalAccount", totalAccount);
+        request.setAttribute("totalRequest", totalRequest);
+        request.setAttribute("totalOnline", totalOnline);
+        request.setAttribute("totalView", totalView);
+        request.setAttribute("countViewPage", countPerDay);
+        request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
+        }catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -45,7 +45,7 @@ public class LogOutController extends HttpServlet {
 
             request.getSession().invalidate(); // kill all session exist in request
             response.sendRedirect("Home"); //redirect to Home
-        } catch(Exception e){
+        } catch (Exception e) {
             Logger.getLogger(LogOutController.class.getName()).log(Level.SEVERE, null, e);
         }
     }

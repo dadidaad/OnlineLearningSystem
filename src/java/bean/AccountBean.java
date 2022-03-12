@@ -9,15 +9,22 @@
  */
 package bean;
 
+import dao.AccountDAO;
+import dao.IAccountDAO;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
 
 /**
  * Document: Java bean for Account object Created on: Feb 10, 2022, 8:20:03 PM
  *
  * @author Duc Minh
  */
-public class AccountBean {
+public class AccountBean implements HttpSessionBindingListener {
 
     private String username;
     private String password;
@@ -33,6 +40,7 @@ public class AccountBean {
     private String status;
     private boolean state;
     private String token;
+    private static Map<AccountBean, HttpSession> loginedUser = new HashMap<>();
 
     public AccountBean() {
         //default constructor
@@ -55,8 +63,6 @@ public class AccountBean {
         this.token = token;
     }
 
-    
-    
     @Override
     public String toString() {
         return "AccountBean{" + "username=" + username + ", password=" + password + ", mail=" + mail + ", avatar=" + avatar + ", displayName=" + displayName + ", dateOfBirth=" + dateOfBirth + ", sex=" + sex + ", description=" + description + ", cash=" + cash + ", createDate=" + createDate + ", role=" + role + ", status=" + status + ", state=" + state + '}';
@@ -182,4 +188,37 @@ public class AccountBean {
         this.state = state;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof AccountBean) && (username != null) ? username.equals(((AccountBean) other).username) : (other == this);
+    }
+
+    @Override
+    public int hashCode() {
+        return (username != null) ? (this.getClass().hashCode() + username.hashCode()) : super.hashCode();
+    }
+
+    @Override
+    public void valueBound(HttpSessionBindingEvent event) {
+        HttpSession session = loginedUser.remove(this);
+        if (session != null) {
+            session.invalidate();
+        }
+        loginedUser.put(this, event.getSession());
+        IAccountDAO db = new AccountDAO();
+        this.state = true;
+        db.updateStateACcount(this);
+    }
+
+    @Override
+    public void valueUnbound(HttpSessionBindingEvent event) {
+        IAccountDAO db = new AccountDAO();
+        this.state = false;
+        db.updateStateACcount(this);
+        loginedUser.remove(this);
+    }
+
+    public static int getSize() {
+        return loginedUser.size();
+    }
 }

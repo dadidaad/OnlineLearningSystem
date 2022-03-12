@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The class contains method init, getAllAppRoles, getUrlPatternForRole to Configure role for app.
- * Bugs: Still not have yet
+ * The class contains method init, getAllAppRoles, getUrlPatternForRole to
+ * Configure role for app. Bugs: Still not have yet
  *
  * @author Dajtvox
  */
@@ -55,6 +55,7 @@ public class SecurityConfig {
         teacherPattern.add("/CreateRequestReply");
         teacherPattern.add("/ListAllRequest");
         teacherPattern.add("/ListRequestSearch");
+        teacherPattern.add("/createarticle");
         MAP_CONFIG.put(TEACHER_ROLE, teacherPattern); // Configure the "Teacher" role.
 
         List<String> adminPattern = new ArrayList<>();
@@ -68,6 +69,15 @@ public class SecurityConfig {
         adminPattern.add("/Dashboard");
         adminPattern.add("/TeacherRequestSearch");
         adminPattern.add("/ChangeStatusAccount");
+        adminPattern.add("/alreadyarticledetail");
+        adminPattern.add("/loadalreadyarticle");
+        adminPattern.add("/loadpreparearticle");
+        adminPattern.add("/updatearticle");
+        adminPattern.add("/acceptarticle");
+        adminPattern.add("/deleteprepare");
+        adminPattern.add("/detailarticle");
+        adminPattern.add("/searchiinalreadyarticle");
+        adminPattern.add("/searcharticle");
         MAP_CONFIG.put(ADMIN_ROLE, adminPattern); // Configure the "Admin" role.
     }
 

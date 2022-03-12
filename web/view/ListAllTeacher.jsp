@@ -123,7 +123,28 @@
                                 <div class="row mt-3 mb-3" style="margin-left:10px;">
                                     <div class="col-sm-6 col-md-6">
                                         <c:if test="${requestScope.searchMode!=null}">
-                                            <h3 class="mt-5 ml-5">Find ${totalsearch} results for "${searchString}"</h3>
+                                            <h3 class="col-3 mt-5 ml-5">Find ${totalsearch} results for "${searchString}"</h3>
+                                        </c:if>
+                                        <div class="d-flex align-items-baseline">
+                                            <i class="fas fa-filter"></i>
+                                            <form action="ListAllTeacher" method="get" id="filter-form">
+                                                <input type="radio" value="allTeacher" id="all-select" name="filterTeacher" >
+                                                <label for="all-select">All</label>
+                                                <input type="radio" value="onlineTeacher" id="online-select" name="filterTeacher">
+                                                <label for="online-select">Online</label>
+                                                <input type="submit" value="Filter" class="btn btn-outline-dark">
+                                            </form>
+                                        </div>
+                                        <c:set var="filterTeacher" value="${requestScope.filterTeatcher}"></c:set>
+                                        <c:if test="${filterTeacher == 'onlineTeacher'}">
+                                            <script>
+                                                document.getElementById("online-select").checked = true;
+                                            </script>
+                                        </c:if>
+                                        <c:if test="${filterTeacher eq 'allTeacher' or filterTeacher eq null}">
+                                            <script>
+                                                document.getElementById("all-select").checked = true;
+                                            </script>
                                         </c:if>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
@@ -278,18 +299,18 @@
                                                 <ul class="pagination">
                                                     <c:if test="${pageindex>1}">   
                                                         <li class="paginate_button page-item previous" id="dataTable_previous">
-                                                            <a href="ListAllTeacher?page=${pageindex-1}" class="page-link">Previous</a>
-                                                        </li>
+                                                            <a href="ListAllTeacher?page=${pageindex-1}<c:if test="${requestScope.filterTeacher eq 'onlineTeacher'}">&filterTeacher=onlineTeacher</c:if>" class="page-link">Previous</a>
+                                                            </li>
                                                     </c:if>     
                                                     <c:forEach begin="1" end="${totalpage}" var="i">
                                                         <li class="paginate_button page-item ${pageindex==i?"active":""}">
-                                                            <a href="ListAllTeacher?page=${i}" class="page-link">${i}</a>
-                                                        </li>
+                                                            <a href="ListAllTeacher?page=${i}<c:if test="${requestScope.filterTeacher eq 'onlineTeacher'}">&filterTeacher=onlineTeacher</c:if>" class="page-link">${i}</a>
+                                                            </li>
                                                     </c:forEach>
                                                     <c:if test="${pageindex<totalpage}">   
                                                         <li class="paginate_button page-item next" id="dataTable_next">
-                                                            <a href="ListAllTeacher?page=${pageindex+1}" class="page-link" >Next</a>
-                                                        </li>
+                                                            <a href="ListAllTeacher?page=${pageindex+1}<c:if test="${requestScope.filterTeacher eq 'onlineTeacher'}">&filterTeacher=onlineTeacher</c:if>" class="page-link" >Next</a>
+                                                            </li>
                                                     </c:if>     
                                                 </ul>
                                             </div>
@@ -324,14 +345,14 @@
         <script>
 
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
-            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+                                                window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
             </c:forEach>
 
-            function calcRate(r, num) {
-                const f = ~~r, // = Math.floor(r)
-                        id = "star" + f + (r % f ? "half" + num : "" + num);
-                id && (document.getElementById(id).checked = !0);
-            }
+                                                function calcRate(r, num) {
+                                                    const f = ~~r, // = Math.floor(r)
+                                                            id = "star" + f + (r % f ? "half" + num : "" + num);
+                                                    id && (document.getElementById(id).checked = !0);
+                                                }
 
         </script>    
 
