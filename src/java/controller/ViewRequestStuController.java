@@ -96,10 +96,15 @@ public class ViewRequestStuController extends HttpServlet {
         if(status.equalsIgnoreCase("accept")) {
             //Send money to Tutor
             walletDB.UpdateMoney(tutorAccount, rq.getCost(), tutorAccount.getUsername(), "done request");
+            iRequestDAO.deleteRequest(rqId);
+            iRequestDAO.deleteRequestReply(rqId);
+            
         }
         else if(status.equalsIgnoreCase("not-accept")){
             //Send report to admin
             reportDB.CreateReport(rqId, rq.getStudentSent(), rqReply.getTutorSent(), rq.getTitle());
+            iRequestDAO.deleteRequest(rqId);
+            iRequestDAO.deleteRequestReply(rqId);
         }
         
         response.sendRedirect("ListAllRequest");

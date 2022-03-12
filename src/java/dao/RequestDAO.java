@@ -453,6 +453,28 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             close(conn, statement, rs);
         }
     }
+    
+    @Override
+    public void deleteRequestReply(int rqId) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            /*Set up connection and Sql statement for Query */
+            conn = getConnection();
+            String sql = "delete from Request_Reply where RequestID = ? ";
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, rqId);
+
+            /*Excuse Query*/
+            statement.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(conn, statement, rs);
+        }
+    }
 
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO

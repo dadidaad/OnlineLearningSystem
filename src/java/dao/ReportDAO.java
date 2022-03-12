@@ -82,6 +82,26 @@ public class ReportDAO extends BaseDAO{
         }
     }
     
+    public void DeleteReport(int id){
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            /*Set up connection and Sql statement for Query */
+            conn = getConnection();
+            String sql = "delete from Report where id = ? ";
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            /*Excuse Query*/
+            statement.executeUpdate();
+            
+        } catch (SQLException ex) {
+        } finally {
+            close(conn, statement, rs);
+        }
+    }
+    
     public static void main(String[] args) {
         ReportDAO db = new ReportDAO();
         ReportBean report = new ReportBean(40, "minhduc07", "lanhuong", "abc");
