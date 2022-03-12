@@ -27,9 +27,10 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
 
     /**
      * getAllTeacher method implement from ITeacherDAO
+     *
      * @param pageindex <code>java.lang.Integer</code>
-     * @param pagesize <code>java.lang.Integer</code> 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
     @Override
     public ArrayList<TeacherBean> getAllTeacher(int pageindex, int pagesize) {
@@ -37,24 +38,20 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select Account.*,Tutor.*\n" +
-                        "from Account, Tutor\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Status] = 'Approved' \n"+
-                "order by Tutor.Reputation desc \n" +   
-                "OFFSET ? ROWS \n" +
-                "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select Account.*, t.*\n"
+                    + "from Account, (select Tutor.*, ROW_NUMBER() OVER (ORDER BY Tutor.Reputation desc) as r from Tutor) as t\n"
+                    + "where Account.Username = t.Username and Account.[Role] = 'Teacher' and t.[Status] = 'Approved' and r between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-            statement.setInt(1, (pageindex-1)*pagesize);
+
+            statement.setInt(1, (pageindex - 1) * pagesize);
             statement.setInt(2, pagesize);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -71,7 +68,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
                 teacher.setReputation(rs.getDouble("Reputation"));
-                        
+
                 teachers.add(teacher);
             }
             /*Close all the connection */
@@ -224,10 +221,10 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? ) order by Tutor.Reputation desc ";
+            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n"
+                    + "from Account, Tutor, Subject \n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n"
+                    + "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? ) order by Tutor.Reputation desc ";
             statement = conn.prepareStatement(sql);
 
             statement.setString(1, "%" + searchString + "%");
@@ -317,12 +314,9 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Account.*,Tutor.*\n"
-                    + "from Account, Tutor\n"
-                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status != 'Waiting' \n"
-                    + "ORDER BY CreatedDate \n"
-                    + "OFFSET ? ROWS \n"
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select a.*, Tutor.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] != 'Waiting' and e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setInt(1, (pageindex - 1) * pagesize);
             statement.setInt(2, pagesize);
@@ -360,11 +354,11 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
-    
+
     /**
      * getAllTeacherApply method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
     @Override
     public ArrayList<TeacherBean> getAllTeacherApply(String status, int pageindex, int pagesize) {
@@ -375,15 +369,13 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Account.*,Tutor.*\n" 
-                    + "from Account, Tutor\n" 
-                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = ? \n"
-                    + "ORDER BY CreatedDate \n" 
-                    + "OFFSET ? ROWS \n" 
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select a.*, Tutor.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] = ? and e between ? and ?";
             statement = conn.prepareStatement(sql);
-            statement.setInt(1, (pageindex - 1) * pagesize);
-            statement.setInt(2, pagesize);
+            statement.setString(1, status);
+            statement.setInt(2, (pageindex - 1) * pagesize);
+            statement.setInt(3, pagesize);
 
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
@@ -418,6 +410,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
+
     /**
      * getTotalTeacherApply method implement from IAccountDAO
      *
@@ -453,7 +446,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return total;
     }
-    
+
     /**
      * getTotalTeacherApply method implement from IAccountDAO
      *
@@ -469,8 +462,8 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select COUNT(Account.Username) AS NumberOfAccount  \n" 
-                    + "from Account, Tutor\n" 
+            String sql = "select COUNT(Account.Username) AS NumberOfAccount  \n"
+                    + "from Account, Tutor\n"
                     + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = ? \n";
 
             statement = conn.prepareStatement(sql);
@@ -507,7 +500,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
             String sql = "Update Tutor set Status = ? "
-                    + "Where username = ? ";
+                    + "Where Username = ? ";
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, status);
@@ -524,6 +517,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return numberOfRow;
     }
+
     /**
      * getTotalTeacher method implement from IAccountDAO
      *
@@ -535,21 +529,19 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select count(Account.username) as NumberOfAccount \n" +
-                        "from Account, Tutor\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Status] = 'Approved'";
-            
+            String sql = "select count(Account.Username) as NumberOfAccount \n"
+                    + "from Account, Tutor\n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.[Status] = 'Approved'";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -557,37 +549,36 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
 
     /**
      * totalTeacherSearch method implement from ITeacherDAO
-     * 
+     *
      * @param searchString
-     * @return total. <code>java.lang.Integer</code> object  
+     * @return total. <code>java.lang.Integer</code> object
      */
     @Override
     public int getTotalTeacherSearch(String searchString) {
-        int total=0;
+        int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select count(Account.username) as NumberOfAccount \n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? )";
+            String sql = "select count(Account.username) as NumberOfAccount \n"
+                    + "from Account, Tutor, Subject \n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n"
+                    + "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? )";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-            statement.setString(1, "%"+searchString + "%");
-            statement.setString(2, "%"+searchString + "%");
-            
+
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
             /*Close all the connection */
@@ -602,8 +593,9 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
 
     /**
      * getAllTeacherBySearch method implement from ITeacherDAO
+     *
      * @param pageindex <code>java.lang.Integer</code>
-     * @param pagesize <code>java.lang.Integer</code> 
+     * @param pagesize <code>java.lang.Integer</code>
      * @return teachers. <code>java.util.ArrayList</code> object
      */
     @Override
@@ -612,29 +604,24 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select Account.*,Tutor.*, Subject.SubjectName\n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?) \n"+
-                    "order by Tutor.Reputation desc \n" +   
-                    "OFFSET ? ROWS \n" +
-                    "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select Account.*, t.*, [Subject].SubjectName\n"
+                    + "from Account, (select Tutor.*, ROW_NUMBER() OVER (ORDER BY Tutor.Reputation desc) as r from Tutor) as t,[Subject]\n"
+                    + "where Account.Username = t.Username and Account.[Role] = 'Teacher' and t.[Status] = 'Approved' and t.SubjectID = [Subject].SubjectID and (Account.DisplayName like ? or [Subject].SubjectName like ? or Account.Mail like ?) and r between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-            statement.setString(1, "%"+searchString + "%");
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
-            statement.setInt(4, (pageindex-1)*pagesize);
+
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
+            statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -651,7 +638,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
                 teacher.setReputation(rs.getDouble("Reputation"));
-                        
+
                 teachers.add(teacher);
             }
             /*Close all the connection */
@@ -663,35 +650,32 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
-    
-    
+
     @Override
     public ArrayList<TeacherBean> getTeacherBySearching(String searchString, int subjectId) {
         ArrayList<TeacherBean> teachers = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?) and Tutor.SubjectID = ? \n"+
-                    "order by Tutor.Reputation desc";
+            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n"
+                    + "from Account, Tutor, Subject \n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n"
+                    + "Tutor.SubjectID = Subject.SubjectID and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?) and Tutor.SubjectID = ? \n"
+                    + "order by Tutor.Reputation desc";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-            statement.setString(1, "%"+searchString + "%");
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
+
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
             statement.setInt(4, subjectId);
-           
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -708,7 +692,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
                 teacher.setReputation(rs.getDouble("Reputation"));
-                        
+
                 teachers.add(teacher);
             }
             /*Close all the connection */
@@ -727,23 +711,20 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID  \n"+
-                    "order by Tutor.Reputation desc";
+            String sql = "select top 10 Account.*,Tutor.*, Subject.SubjectName\n"
+                    + "from Account, Tutor, Subject \n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n"
+                    + "Tutor.SubjectID = Subject.SubjectID  \n"
+                    + "order by Tutor.Reputation desc";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-           
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -760,7 +741,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
                 teacher.setReputation(rs.getDouble("Reputation"));
-                
+
                 teachers.add(teacher);
             }
             /*Close all the connection */
@@ -772,30 +753,27 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
-    
+
     @Override
     public ArrayList<TeacherBean> getTop3Teacher() {
         ArrayList<TeacherBean> teachers = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select top 3 Account.*,Tutor.*, Subject.SubjectName\n" +
-                    "from Account, Tutor, Subject \n" +
-                    "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n" +
-                    "Tutor.SubjectID = Subject.SubjectID  \n"+
-                    "order by Tutor.Reputation desc";
+            String sql = "select top 3 Account.*,Tutor.*, Subject.SubjectName\n"
+                    + "from Account, Tutor, Subject \n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Approved' and \n"
+                    + "Tutor.SubjectID = Subject.SubjectID  \n"
+                    + "order by Tutor.Reputation desc";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-           
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -812,7 +790,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
                 teacher.setReputation(rs.getDouble("Reputation"));
-                
+
                 teachers.add(teacher);
             }
             /*Close all the connection */
@@ -824,41 +802,28 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
-    
-    
-    public static void main(String[] args) {
-        TeacherDAO dal = new TeacherDAO();
-        
-        ArrayList<TeacherBean> list = dal.getTeacherApplyBySearching("mail",1, 15);
-        for(TeacherBean t : list)
-        {
-            System.out.println(t);
-        }
-        System.out.println(dal.getTotalTeacherApplySearch("mail"));
-    }
 
     @Override
     public int getTotalTeacherApplySearch(String searchString) {
-        int total=0;
+        int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select count(Account.username) as NumberOfAccount \n" +
-                "from Account, Tutor,Subject \n" +
-                "where Account.Username = Tutor.Username and tutor.subjectid = subject.subjectid and Account.[Role] ='Teacher' and Tutor.Status != 'Waiting' \n"+
-                "and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?)";
+            String sql = "select count(Account.Username) as NumberOfAccount \n"
+                    + "from Account, Tutor,Subject \n"
+                    + "where Account.Username = Tutor.Username and Tutor.SubjectID = Subject.SubjectID and Account.[Role] ='Teacher' and Tutor.Status != 'Waiting' \n"
+                    + "and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
-            
-            statement.setString(1, "%"+searchString + "%");
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
-            
+
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
             /*Close all the connection */
@@ -873,26 +838,25 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
 
     @Override
     public int getTotalTeacherApplySearch(String status, String searchString) {
-        int total=0;
+        int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select count(Account.username) as NumberOfAccount \n" +
-                        "from Account, Tutor,Subject \n" +
-                "where Account.Username = Tutor.Username and tutor.subjectid = subject.subjectid and Account.[Role] ='Teacher' and Tutor.Status = ? \n"+
-                "and (Account.DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?)";
+            String sql = "select count(Account.Username) as NumberOfAccount \n"
+                    + "from Account, Tutor,Subject \n"
+                    + "where Account.Username = Tutor.Username and Tutor.SubjectID = Subject.SubjectID and Account.[Role] ='Teacher' and Tutor.Status = ? \n"
+                    + "and (Account.DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, status);
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
-            statement.setString(4, "%"+searchString + "%");
-            
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
+            statement.setString(4, "%" + searchString + "%");
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
             /*Close all the connection */
@@ -904,12 +868,11 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return total;
     }
-  
 
     /**
      * getAllTeacherApply method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
     @Override
     public ArrayList<TeacherBean> getTeacherApplyBySearching(String status, String searchString, int pageindex, int pagesize) {
@@ -917,29 +880,26 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select Account.*,Tutor.*\n" +
-                        "from Account, Tutor,Subject \n" +
-                "where Account.Username = Tutor.Username and tutor.subjectid = subject.subjectid and Account.[Role] ='Teacher' and Tutor.Status = ? and \n"+
-                "(Account.DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?) \n"+
-                "ORDER BY CreatedDate \n" +
-                "OFFSET ? ROWS \n" +
-                "FETCH NEXT ? ROWS ONLY;";   
+            String sql = "select a.*, Tutor.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] = ?\n"
+                    + "and t.SubjectID = [Subject].SubjectID and (Account.DisplayName like ? or [Subject].SubjectName like ? or Account.Mail like ?)\n"
+                    + "and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, status);
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
-            statement.setString(4, "%"+searchString + "%");
-            statement.setInt(5, (pageindex-1)*pagesize);
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
+            statement.setString(4, "%" + searchString + "%");
+            statement.setInt(5, (pageindex - 1) * pagesize);
             statement.setInt(6, pagesize);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -968,11 +928,11 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
-    
+
     /**
      * getAllTeacherApply method implement from ITeacherDAO
-     * 
-     * @return teachers. <code>java.util.ArrayList</code> object  
+     *
+     * @return teachers. <code>java.util.ArrayList</code> object
      */
     @Override
     public ArrayList<TeacherBean> getTeacherApplyBySearching(String searchString, int pageindex, int pagesize) {
@@ -980,28 +940,25 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select Account.*,Tutor.*\n" +
-                        "from Account, Tutor, Subject \n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status != 'waiting' and  \n"+
-                "Tutor.SubjectId = Subject.SubjectId and (DisplayName like ? or Subject.SubjectName like ? or Account.Mail like ?)"+    
-                "ORDER BY CreatedDate \n" +
-                "OFFSET ? ROWS \n" +
-                "FETCH NEXT ? ROWS ONLY;";   
+            String sql = "select a.*, Tutor.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] = 'Waiting'\n"
+                    + "and t.SubjectID = [Subject].SubjectID and (Account.DisplayName like ? or [Subject].SubjectName like ? or Account.Mail like ?)\n"
+                    + "and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, "%"+searchString + "%");
-            statement.setString(2, "%"+searchString + "%");
-            statement.setString(3, "%"+searchString + "%");
-            statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
+            statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an arraylist of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 TeacherBean teacher = new TeacherBean();
-                
+
                 teacher.setUsername(rs.getString("Username"));
                 teacher.setPassword(rs.getString("Password"));
                 teacher.setMail(rs.getString("Mail"));
@@ -1031,5 +988,3 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         return teachers;
     }
 }
-
-

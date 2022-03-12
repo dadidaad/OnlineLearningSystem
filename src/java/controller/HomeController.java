@@ -61,6 +61,7 @@ public class HomeController extends HttpServlet {
                 request.setAttribute("notificationList", notiList);
             }
         request.getRequestDispatcher("/view/Home.jsp").forward(request, response); //forward Home.jsp if get url
+        request.getRequestDispatcher("./view/Home.jsp").forward(request, response); //forward Home.jsp if get url
     }
 
    

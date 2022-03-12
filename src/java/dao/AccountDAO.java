@@ -79,7 +79,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         ResultSet rs = null;
         try {
             conn = getConnection(); //set up connection to sql
-            String sql = "select * from Account where Username COLLATE Latin1_General_CS_AS_KS_WS = ?"; //sql query
+            String sql = "select * from Account where Username = ?"; //sql query
             statement = conn.prepareStatement(sql);
             statement.setString(1, username); //set parameter to query
             rs = statement.executeQuery();
@@ -321,7 +321,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
             String sql = "SELECT COUNT(Username) AS NumberOfAccount FROM Account WHERE (DisplayName like ? or Mail like ? ) and Role <> 'Admin' and\n"
-                    + "username not in (select Username from Tutor where Status<>'Approved')";
+                    + "Username not in (select Username from Tutor where Status<>'Approved')";
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchString + "%"); //set parameter to query
@@ -361,13 +361,9 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Account.*\n"
-                    + "from Account\n"
-                    + "where (DisplayName like ? or Mail like ? ) and Role <> 'Admin' and \n"
-                    + "username not in (select Username from Tutor where Status<>'Approved')"
-                    + "ORDER BY CreatedDate desc\n"
-                    + "OFFSET ? ROWS \n"
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select a.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER(ORDER BY CreatedDate desc) as e from Account) as a\n"
+                    + "where (DisplayName like ? or Mail like ? ) and Role <> 'Admin' and Username not in (select Username from Tutor where [Status] <>'Approved') and e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchString + "%"); //set parameter to query
             statement.setString(2, "%" + searchString + "%");
@@ -423,12 +419,9 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "SELECT Account.*\n"
-                    + "FROM Account\n"
-                    + "WHERE Role <> 'Admin'\n"
-                    + "ORDER BY CreatedDate desc\n"
-                    + "OFFSET ? ROWS \n"
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select a.*\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER(ORDER BY CreatedDate) as e from Account) as a\n"
+                    + "where a.[Role] <> 'Admin' and e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setInt(1, (pageindex - 1) * pagesize);
             statement.setInt(2, pagesize);
@@ -482,7 +475,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
             String sql = "update Account\n"
-                    + "               set Status= ?  WHERE username = ?";
+                    + "               set Status= ?  WHERE Username = ?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, status);
             statement.setString(2, username);
@@ -536,10 +529,6 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
         } finally {
             close(conn, statement, rs);
         }
-    }
-    public static void main(String[] args) {
-        AccountDAO db = new AccountDAO();
-        System.out.println(db.getAccountByUsername("admin1"));
     }
 
 }

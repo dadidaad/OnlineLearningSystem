@@ -23,6 +23,7 @@
             crossorigin="anonymous"
             />
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestListStu.css" />">
 
@@ -32,7 +33,9 @@
     </head>
     <body>
         <!-- Include header of web site from general-->
-        <jsp:include page="./header.jsp"></jsp:include>
+        <div class="container">
+            <jsp:include page="./header.jsp"></jsp:include>
+        </div>
             <div id="wrapper" class="d-flex">
                 <!--Side Bar  -->
                 <nav class="sidebar close">
@@ -58,18 +61,18 @@
 
                             <!-- This link for list all teacher table-->
                             <li class="nav-link">
-                                <a href="ListAllTeacher">
+                                <a href="<i:ReadUrlFromContext url="/ListAllTeacher"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">Teacher Ranking</span>
                                 </a>
                             </li>
                             <li class="nav-link">
-                                <a href="ListAllRequest">
+                                <a href="<i:ReadUrlFromContext url="/ListAllRequest"/>">
                                     <i class='bx bx-table icon' ></i>
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
 
@@ -113,22 +116,22 @@
                                 <c:set var="status" value="${requestScope.status}"/>
                                 <ul class="navbar--top">
                                     <li class="nav-item <c:if test="${fn:toLowerCase(status) == 'waiting' || status ==null}">active</c:if>">
-                                        <a class="nav-link" href="ListAllRequest?rqStatus=Waiting" value="Waiting">Pending Request</a>
-                                    </li>
-                                    <li class="nav-item <c:if test="${fn:toLowerCase(status) == 'approved'}">active</c:if>">
-                                        <a class="nav-link" href="ListAllRequest?rqStatus=Approved" value="Approved">Done Request</a>
-                                    </li>
-                                    <li class="nav-item <c:if test="${fn:toLowerCase(status) == 'report'}">active</c:if>">
-                                        <a class="nav-link" href="ListAllRequest?rqStatus=Report" value="Report">Report Processing</a>
-                                    </li>
+                                            <a class="nav-link" href="ListAllRequest?rqStatus=Waiting" value="Waiting">Pending Request</a>
+                                        </li>
+                                        <li class="nav-item <c:if test="${fn:toLowerCase(status) == 'approved'}">active</c:if>">
+                                            <a class="nav-link" href="ListAllRequest?rqStatus=Approved" value="Approved">Done Request</a>
+                                        </li>
+                                        <li class="nav-item <c:if test="${fn:toLowerCase(status) == 'report'}">active</c:if>">
+                                            <a class="nav-link" href="ListAllRequest?rqStatus=Report" value="Report">Report Processing</a>
+                                        </li>
 
-                                </ul>
-                            </div>
-                            <!-- Request List Table -->
-                            <div class="card-body">
-                                <!--Search Data-->          
-                                <div class="row mt-3 mb-3" style="margin-left:10px;">
-                                    <div class="col-sm-6 col-md-6">
+                                    </ul>
+                                </div>
+                                <!-- Request List Table -->
+                                <div class="card-body">
+                                    <!--Search Data-->          
+                                    <div class="row mt-3 mb-3" style="margin-left:10px;">
+                                        <div class="col-sm-6 col-md-6">
                                         <c:if test="${requestScope.searchMode!=null}">
                                             <h3 class="mt-5 ml-5">Find ${totalsearch} results for "${searchString}"</h3>
                                         </c:if>
@@ -145,7 +148,7 @@
                                                     value="${searchString}"
                                                     aria-controls="dataTable"
                                                     />
-                                                    <input type="hidden" id="rqStatus" name="rqStatus" value=${requestScope.status}>  
+                                                <input type="hidden" id="rqStatus" name="rqStatus" value=${requestScope.status}>  
                                                 <input type="submit" class="btn btn-secondary mt-3" value="Search"/>
                                                 <c:if test="${requestScope.searchMode!=null}">
                                                     <a href="ListAllRequest" class="btn btn-secondary mt-3" style="margin-left:16px;">Back</a>

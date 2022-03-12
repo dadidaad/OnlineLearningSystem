@@ -26,6 +26,7 @@
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/SubjectDetailStyle.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <title>TutorDuo</title>
 </head>
 <body>

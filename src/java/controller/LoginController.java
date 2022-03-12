@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for handling login function /Login is the URL
@@ -67,9 +68,7 @@ public class LoginController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username").trim(); // get username input from Login form
             String password = request.getParameter("password").trim(); // get password input from Login form
-            String role = request.getParameter("role").trim(); //get role input from Login form
             Map<String, String> messages = new HashMap<>(); //initalize hashmap to hold message 
-            messages.put("role", role);
             messages.put("username", username);
             messages.put("password", password);
             HttpSession session = request.getSession();
@@ -83,11 +82,8 @@ public class LoginController extends HttpServlet {
             } else {
                 /*compare pw input from user and pw in db by decryption pw from db*/
                 boolean checkPass = PasswordUtils.validatePassword(password, userGetFromDb.getPassword());
-                boolean checkRole = role.equalsIgnoreCase(userGetFromDb.getRole()); //check role from user and in db
                 if (!checkPass) {
                     messages.put("loginNoti", "Invalid password");
-                } else if (!checkRole) {
-                    messages.put("loginNoti", "Invalid role");
                 } else {
                     String remember = request.getParameter("remember"); //check if user tick remember option
                     /* if user tick remember option then create cookie to store user*/
@@ -99,9 +95,19 @@ public class LoginController extends HttpServlet {
                         response.addCookie(userCookie);
                         response.addCookie(passCookie);
                     }
-                    session.setAttribute("user", userGetFromDb); // set user in session if login success
+                    AppUtils.storeLoginedUser(session, userGetFromDb); // set user in session if login success
+                    int redirectId = -1;
+                    try {
+                        redirectId = Integer.parseInt(request.getParameter("redirectId"));
+                    } catch (NumberFormatException e) {
+                    }
                     session.setAttribute("remember", remember);
-                    response.sendRedirect("Home"); //redirect to home page
+                    String requestUri = AppUtils.getRedirectAfterLoginUrl(request.getSession(), redirectId);
+                    if (requestUri != null) {
+                        response.sendRedirect(requestUri);
+                    } else {
+                        response.sendRedirect("Home");
+                    }
                     return;
                 }
             }

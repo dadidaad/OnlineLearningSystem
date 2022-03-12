@@ -27,7 +27,7 @@
     </head>
     <body>
         <div class="container">
-            <jsp:include page="./header.jsp"></jsp:include>
+            <jsp:include page="./header.jsp"></jsp:include>            
             <div class="row">
                 <div class="col-md-3 mt-1">
                     <div class="card sidebar">
@@ -132,8 +132,7 @@
                         </nav>        
                     </div>
                 </div>
-            </div>
-            <div class="modal-bg">
+                <div class="modal-bg">
                     <div class="modal_content">
                         <div class="close">+</div>
                         <form action="Wallet" method="post">
@@ -144,7 +143,8 @@
                             ${warning}
                         </form>
                     </div>
-                </div>                     
+                </div> 
+            </div>                
         </div>
                                 
         <script src="<i:ReadUrlFromContext url="/assets/js/PopupCard.js"/>"></script>                        

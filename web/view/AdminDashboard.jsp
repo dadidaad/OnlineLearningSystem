@@ -23,14 +23,14 @@
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
         <!-- Link to css file -->
-
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/AccountManagerStyle.css" />">
         <title>Admin Dashboard</title>
     </head>
     <body>
         <!-- Include header of web site from general-->
-        <%@include file="./header.jsp" %>
+        <div class="container"><%@include file="./header.jsp" %></div>
         <div id="content-wrapper" class="">
             <!--Side Bar  -->
             <nav class="sidebar close">
@@ -101,14 +101,14 @@
             </nav>
 
             <!-- Main Content -->
-            <div id="content" class="maincontent d-flex flex-column">
+            <div id="content" class="maincontent d-flex flex-column container">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        
+
                     </div>
 
                     <!-- Content Row -->
@@ -284,10 +284,10 @@
                                 </div>
                             </div>
 
-                            
+
                         </div>
 
-                        
+
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -301,7 +301,7 @@
 
 
         <!-- Include footer of web site from general -->
-        <%@include file="./footer.jsp" %>
+        <div class="container"><%@include file="./footer.jsp" %></div>
 
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>

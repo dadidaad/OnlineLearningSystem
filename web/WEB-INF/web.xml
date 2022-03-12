@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>filter.SecurityFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>PreventAccessJSPFilter</filter-name>
+        <filter-class>filter.PreventAccessJSPFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PreventAccessJSPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
@@ -148,6 +164,18 @@
         <servlet-name>ShowmoreNotificationController</servlet-name>
         <servlet-class>controller.ShowmoreNotificationController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WalletController</servlet-name>
+        <servlet-class>controller.WalletController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportListController</servlet-name>
+        <servlet-class>controller.ReportListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Test</servlet-name>
+        <servlet-class>controller.Test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -295,6 +323,16 @@
     <servlet-mapping>
         <servlet-name>ShowmoreNotificationController</servlet-name>
         <url-pattern>/ShowmoreNotification</url-pattern>
+        <servlet-name>WalletController</servlet-name>
+        <url-pattern>/Wallet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportListController</servlet-name>
+        <url-pattern>/ReportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/Test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

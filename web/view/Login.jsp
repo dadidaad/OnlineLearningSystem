@@ -46,18 +46,10 @@
                 <!-- right field -->
                 <div class="d-flex bg-light flex-fill" style="--bs-bg-opacity:.9;">
                     
-                    <!-- Choose role part -->
-                    <div class="d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="chooseRole">
-                        <h4 class="text-center text-dark py-1 my-1">Login As</h4>
-                        <button class="btn btn-warning py-2 my-1 px-5" id="roleStudent">Student</button>
-                        <button class="btn btn-warning py-2 my-1 px-5" id="roleTeacher">Teacher</button>
-                        <p class="text-center text-dark py-1 my-1">New Member? <a href="<i:ReadUrlFromContext url="/SignUp"/>" class="text-success text-center">Create new account</a></p>
-                    </div>
                     
                     <!-- input login form part -->
-                    <div class="d-none d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="loginForm">
-                        <button type="button" class="btn btn-outline-primary rounded-circle" id="backToChooseRole"><i class="fas fa-long-arrow-alt-left"></i></button>
-                        <h3>Welcome <span id="role" class="text-success"></span>!!</h3>
+                    <div class="d-flex flex-fill flex-column justify-content-center flex-wrap align-items-center" id="loginForm">
+                        <h2 class="text-bold text-success fs-2">Welcome to TutorDuo!!</h3>
                         <h4 class="text-center text-dark py-3">Login your account</h4>
                         <form id="login-form" action="Login" method="POST">
                             <div class="form__group field mb-3">
@@ -85,7 +77,7 @@
                             <div class="divider d-flex align-items-center my-4">
                                 <p class="text-center fw-bold mx-3 mb-0 text-muted">Or</p>
                             </div>
-                            <input type="hidden" name="role" id="roleUser"/>
+                            <input type="hidden" name="redirectId" value="${param.redirectId}" />
                             <div class="d-flex justify-content-center text-center mt-3 pt-1">
                                 <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
                                 <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
@@ -107,36 +99,12 @@
             if(messageForward != null){
         %>
         <script>
-            $('#chooseRole').addClass('d-none');
-            $('#loginForm').removeClass('d-none');
             $('#login-noti').html("<%=messageForward.get("loginNoti")%>");
-            $('#role').html("<%=messageForward.get("role")%>");
-            $('#roleUser').val("<%=messageForward.get("role")%>");
             $('#username').val("<%=messageForward.get("username")%>");
             $('#password_login').val("<%=messageForward.get("password")%>");
         </script>
         <%}%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidateInputForm.js"/>"></script>
-        <script>
-            $(document).ready(function () {
-                $('#roleStudent').click(function () {
-                    $('#chooseRole').toggleClass('d-none');
-                    $('#role').html('Student');
-                    $('#roleUser').val('Student');
-                    $('#loginForm').removeClass('d-none');
-                });
-                $('#roleTeacher').click(function () {
-                    $('#chooseRole').toggleClass('d-none');
-                    $('#role').html('Teacher');
-                    $('#roleUser').val('Teacher');
-                    $('#loginForm').removeClass('d-none');
-                });
-                $('#backToChooseRole').click(function () {
-                    $('#chooseRole').toggleClass('d-none');
-                    $('#loginForm').toggleClass('d-none');
-                });
-              });
-        </script>
     </body>
 </html>

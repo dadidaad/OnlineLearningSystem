@@ -141,14 +141,14 @@
                                         >
                                     </c:if>   
                                 </div>
-
-                                <c:if test = "${requestScope.requestReply!=null}">
-                                    <div class="responseContent--btn">
-                                        <button type="button" class="btn btn-success">Accept</button>
-                                        <button type="button" class="btn btn-danger">Not Accept</button>
-                                    </div>
-                                </c:if>
-
+                                <form action="ViewRequestStu?requestId=${requestScope.request.getRequestID()}" method="post">
+                                    <c:if test = "${requestScope.requestReply!=null}">
+                                        <div class="responseContent--btn">
+                                            <button type="submit" class="btn btn-success" name="btn-status" value="accept">Accept</button>
+                                            <button type="submit" class="btn btn-danger" name="btn-status" value="not-accept">Not Accept</button>
+                                        </div>
+                                    </c:if>
+                                </form>                
                             </div>
                             <!-- Request Info -->
                             <div class="responseContent--info mb-4 col-sm-4">

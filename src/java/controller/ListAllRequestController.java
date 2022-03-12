@@ -140,6 +140,9 @@ public class ListAllRequestController extends HttpServlet {
 
                     request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
                 }
+                else if(account.getRole().equalsIgnoreCase("admin")){
+                    request.getRequestDispatcher("./view/ReportList.jsp").forward(request, response);
+                }
 
             } /*Redirect it to Login*/ else {
                 response.sendRedirect("Login");

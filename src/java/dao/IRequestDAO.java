@@ -72,6 +72,12 @@ public interface IRequestDAO {
     public int deleteRequest(int rqId);
     
     /**
+     * deleteRequestReply method implement from IRequestDAO
+     * This method delete request reply and add to the databse
+     */
+    public void deleteRequestReply(int rqId);
+    
+    /**
      * updateRequestStatus method implement from IRequestDAO
      * This method update the status of request and update to database
      */
