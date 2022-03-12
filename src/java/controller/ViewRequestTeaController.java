@@ -9,16 +9,21 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.RequestBean;
 import bean.RequestReplyBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +31,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the teacher wants to
@@ -48,6 +54,18 @@ public class ViewRequestTeaController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
+
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
 
             int rqId = Integer.parseInt(request.getParameter("requestId"));
 

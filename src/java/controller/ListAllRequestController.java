@@ -10,12 +10,15 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import bean.RequestBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
@@ -72,6 +75,12 @@ public class ListAllRequestController extends HttpServlet {
                 request.setAttribute("subjectNames", SubjectNames);
                 request.setAttribute("displayNames", DisplayNames);
 
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+
                 IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
                 String rqStatus = request.getParameter("rqStatus");
                 if (rqStatus == null) {
@@ -86,7 +95,6 @@ public class ListAllRequestController extends HttpServlet {
                 int pageindex = Integer.parseInt(page);
                 int pagesize = 10;
                 int totalrow, totalpage;
-
 
                 if (account.getRole().equalsIgnoreCase("student")) {
 
@@ -104,32 +112,32 @@ public class ListAllRequestController extends HttpServlet {
                     request.getRequestDispatcher("./view/ListAllRequestStu.jsp").forward(request, response);
 
                 } else if (account.getRole().equalsIgnoreCase("teacher")) {
-                    
+
                     ITeacherDAO iteacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
                     int subjectId = iteacherDAO.getSubjectId(account.getUsername());
-                    
-                    if(rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")){
-                        totalrow = iRequestDAO.getTotalRequestForTeacher(account.getUsername(),rqStatus);
-                    }else 
-                    totalrow = iRequestDAO.getTotalRequestForTeacher(subjectId, rqStatus);
-                    
+
+                    if (rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")) {
+                        totalrow = iRequestDAO.getTotalRequestForTeacher(account.getUsername(), rqStatus);
+                    } else {
+                        totalrow = iRequestDAO.getTotalRequestForTeacher(subjectId, rqStatus);
+                    }
+
                     totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;
 
-                    if(rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")){
-                        requestList = iRequestDAO.getRequestForTeacher(account.getUsername(),rqStatus, pageindex, pagesize);
-                    }else
+                    if (rqStatus.equalsIgnoreCase("Approved") || rqStatus.equalsIgnoreCase("Report")) {
+                        requestList = iRequestDAO.getRequestForTeacher(account.getUsername(), rqStatus, pageindex, pagesize);
+                    } else {
                         requestList = iRequestDAO.getRequestForTeacher(subjectId, rqStatus, pageindex, pagesize);
-                    
+                    }
 
                     request.setAttribute("totalpage", totalpage);
                     request.setAttribute("pageindex", pageindex);
-                    
-                    
+
                     /* Sort the list */
                     requestList = sortRequest.requestListSorted(requestList, account.getUsername());
                     request.setAttribute("requests", requestList);
                     /*Attach Attribute teachers for request and redirect it to ListAllRequestTea.jsp*/
-                    
+
                     request.getRequestDispatcher("./view/ListAllRequestTea.jsp").forward(request, response);
                 }
 

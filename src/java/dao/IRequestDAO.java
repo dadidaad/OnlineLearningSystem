@@ -57,25 +57,25 @@ public interface IRequestDAO {
      * createRequest method implement from IRequestDAO
      * This method create request and add to the databse
      */
-    public void createRequest(RequestBean rq);
+    public int createRequest(RequestBean rq);
     
     /**
      * updateRequest method implement from IRequestDAO
      * This method update request and add to the databse
      */
-    public void updateRequest(RequestBean rq);
+    public int updateRequest(RequestBean rq);
     
     /**
      * deleteRequest method implement from IRequestDAO
      * This method delete request and add to the databse
      */
-    public void deleteRequest(int rqId);
+    public int deleteRequest(int rqId);
     
     /**
      * updateRequestStatus method implement from IRequestDAO
      * This method update the status of request and update to database
      */
-    public void updateRequestStatus(String status, int requestId);
+    public int updateRequestStatus(String status, int requestId);
     
     /**
      * getRequestForTeacher method implement from IRequestDAO
@@ -102,7 +102,7 @@ public interface IRequestDAO {
      * createRequestReply method implement from IRequestDAO
      * This method create the request reply to database
      */ 
-    public void createRequestReply(RequestReplyBean rq);
+    public int createRequestReply(RequestReplyBean rq);
     
     /**
      * getTotalPendingRequest method implement from IRequestDAO

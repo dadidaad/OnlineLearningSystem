@@ -9,9 +9,12 @@
  */
 package controller;
 
+import bean.NotificationBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,13 +26,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the Admin wants to handle Request to apply from teacher
- * /TeacherRequestHandle is the URL of the Servlet
- * Extend HttpServlet class
+ * This is a Servlet responsible for handling the task when the Admin wants to
+ * handle Request to apply from teacher /TeacherRequestHandle is the URL of the
+ * Servlet Extend HttpServlet class
+ *
  * @author Duc Minh
  */
 public class TeacherRequestHandleController extends HttpServlet {
-
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -45,18 +48,27 @@ public class TeacherRequestHandleController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        String type = request.getParameter("type");
-        String username = request.getParameter("username");
-        
-        ITeacherDAO iTeacherDAO = new TeacherDAO();
-        if(type.equals("accept"))
-            iTeacherDAO.handleTeacherApply(username, "Approved");
-        else if(type.equals("reject"))
-            iTeacherDAO.handleTeacherApply(username, "Reject");
-        
-        response.sendRedirect("TeacherRequest");
-       
-        }catch (Exception ex) {
+            String type = request.getParameter("type");
+            String username = request.getParameter("username");
+
+            int daoCheck;
+            ITeacherDAO iTeacherDAO = new TeacherDAO();
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+            if (type.equals("accept")) {
+                daoCheck = iTeacherDAO.handleTeacherApply(username, "Approved");
+                if ((daoCheck != 0)) {
+                    iNotificationDAO.insertNotification(new NotificationBean(username, "Admin", "Your application has been accepted."));
+                } 
+            } else if (type.equals("reject")) {
+                daoCheck = iTeacherDAO.handleTeacherApply(username, "Reject");
+                if ((daoCheck != 0)) {
+                    iNotificationDAO.insertNotification(new NotificationBean(username, "Admin", "Your application has been rejected."));
+                } 
+            }
+
+            response.sendRedirect("TeacherRequest");
+
+        } catch (Exception ex) {
             Logger.getLogger(TeacherRequestHandleController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

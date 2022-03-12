@@ -404,7 +404,6 @@ $(document).ready(function () {
             } else if (rcmDecision === "0")
                 noOption();
         });
-
     });
     function yesOption() {
         $(".teacherRecommend--btn").css("display", "block");
@@ -423,7 +422,7 @@ $(document).ready(function () {
             var teacherUsername = ($(this).val());
             $("#teacherUsernameRcm").val(teacherUsername);
             $(".teacherRecommend--name").html(teacherUsername);
-            $("#teacherRcmName").html($(this).attr("data"))
+            $("#teacherRcmName").html($(this).attr("data"));
         });
     }
     function checkTeacher() {

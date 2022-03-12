@@ -8,17 +8,23 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Document: UpdateArticleControl Create on: 2022-02-22  10:20:35 PM
+ * Document: UpdateArticleControl Create on: 2022-02-22 10:20:35 PM
  *
  * @author Hoang Ngoc Long
  */
@@ -27,23 +33,35 @@ public class UpdateArticleControl extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-         /*Get image,description,id title from request*/
+
+        /*Notification*/
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("totalNoti", totalNoti);
+            request.setAttribute("notificationList", notiList);
+        }
+
+        /*Get image,description,id title from request*/
         String image = request.getParameter("image");
         String title = request.getParameter("title").replaceAll("\\s\\s+", " ").trim();
         /*get txttitle from page*/
         String description = request.getParameter("description").replaceAll("\\s\\s+", " ").trim();
-         String id = request.getParameter("id");
-         /*Use DAO class to get data from database for Article with corresponding */
-            IArticleDAO dao =new ArticleDAO();
-          if(id!=null&&image!=null&&title!=null&&description!=null ){
-         dao.editproduct(image, title, description, id);
-         response.sendRedirect("loadalreadyarticle");
-           }
-          else{
-               response.sendRedirect("loadalreadyarticle");
-          }
+        String id = request.getParameter("id");
+        /*Use DAO class to get data from database for Article with corresponding */
+        IArticleDAO dao = new ArticleDAO();
+        if (id != null && image != null && title != null && description != null) {
+            dao.editproduct(image, title, description, id);
+            response.sendRedirect("loadalreadyarticle");
+        } else {
+            response.sendRedirect("loadalreadyarticle");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

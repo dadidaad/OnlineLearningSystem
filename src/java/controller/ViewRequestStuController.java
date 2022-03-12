@@ -9,17 +9,22 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.RequestBean;
 import bean.RequestReplyBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +32,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * This is a Servlet responsible for handling the task when the student wants to view and handle Request
- * /ViewRequestStu is the URL of the Servlet
- * Extend HttpServlet class
+ * This is a Servlet responsible for handling the task when the student wants to
+ * view and handle Request /ViewRequestStu is the URL of the Servlet Extend
+ * HttpServlet class
+ *
  * @author Duc Minh
  */
 public class ViewRequestStuController extends HttpServlet {
@@ -48,30 +55,42 @@ public class ViewRequestStuController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-            
-            int rqId = Integer.parseInt(request.getParameter("requestId"));
-            
-                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
-                RequestBean rq  = iRequestDAO.getRequestById(rqId);
-                RequestReplyBean rqReply  = iRequestDAO.getRequestReplyById(rqId);
-                
-                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
-                Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
-                
-                 IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
-                Map<String, String> displayNames = iAccountDAO.getDisplayNames();
-                
-                //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
-                request.setAttribute("request", rq);
-                request.setAttribute("requestReply", rqReply);
-                request.setAttribute("subjectNames", subjectNames);
-                request.setAttribute("displayNames", displayNames);
-            
 
-                /*Attach Attribute subjects for request and redirect it to ViewRequestDetailStu.jsp*/
-                request.getRequestDispatcher("./view/ViewRequestDetailStu.jsp").forward(request, response);
-        }catch(Exception ex){
-             Logger.getLogger(ViewRequestStuController.class.getName()).log(Level.SEVERE, null, ex);
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+
+            int rqId = Integer.parseInt(request.getParameter("requestId"));
+
+            IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call
+            RequestBean rq = iRequestDAO.getRequestById(rqId);
+            RequestReplyBean rqReply = iRequestDAO.getRequestReplyById(rqId);
+
+            ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
+            Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
+
+            IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call
+            Map<String, String> displayNames = iAccountDAO.getDisplayNames();
+
+            //Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp
+            request.setAttribute("request", rq);
+            request.setAttribute("requestReply", rqReply);
+            request.setAttribute("subjectNames", subjectNames);
+            request.setAttribute("displayNames", displayNames);
+
+
+            /*Attach Attribute subjects for request and redirect it to ViewRequestDetailStu.jsp*/
+            request.getRequestDispatcher("./view/ViewRequestDetailStu.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ViewRequestStuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

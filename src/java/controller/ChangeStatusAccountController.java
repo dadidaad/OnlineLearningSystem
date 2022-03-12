@@ -10,8 +10,11 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -145,6 +148,12 @@ public class ChangeStatusAccountController extends HttpServlet {
             
             IAccountDAO iAccount = new AccountDAO();
             iAccount.updateStatusAccount(username, status);
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+            if(status.toLowerCase().equals("actived")){
+                iNotificationDAO.insertNotification(new NotificationBean(username,"Admin", "Your account has been actived by Admin!"));
+            }else if(status.toLowerCase().equals("banned")){
+                iNotificationDAO.insertNotification(new NotificationBean(username,"Admin", "Your account has been banned by Admin!"));
+            }
             
             response.sendRedirect("AccountManager");
         }catch(Exception e){

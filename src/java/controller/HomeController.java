@@ -9,8 +9,12 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.TeacherBean;
+import dao.INotificationDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling home url
@@ -44,6 +49,17 @@ public class HomeController extends HttpServlet {
         ITeacherDAO iTeacherDAO = new TeacherDAO();
         List<TeacherBean> teacherList = iTeacherDAO.getTop3Teacher();
         request.setAttribute("teachers", teacherList);
+        
+        HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
+                
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("notificationList", notiList);
+            }
         request.getRequestDispatcher("/view/Home.jsp").forward(request, response); //forward Home.jsp if get url
     }
 

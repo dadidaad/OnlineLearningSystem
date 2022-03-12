@@ -8,17 +8,23 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.SubjectBean;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -49,6 +55,18 @@ public class CreateSubjectController extends HttpServlet {
             /*get total Number Of Subject*/
             int numberOfSubject = subjectDAO.getNumberOfSubject() + 1;
 
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+            
             /*Attach nextId Attribute, This is the id of next Subject If you want to insert*/
             request.setAttribute("nextId", numberOfSubject);
             request.getRequestDispatcher("./view/CreateSubject.jsp").forward(request, response);
@@ -75,6 +93,18 @@ public class CreateSubjectController extends HttpServlet {
             Part part = request.getPart("Image");
             String subImage = part.getSubmittedFileName();
 
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+            
             /*Query for check whether Subject Name has existed*/
             ISubjectDAO subjectDAO = new SubjectDAO();
             boolean check = subjectDAO.searchBySubName(subName);

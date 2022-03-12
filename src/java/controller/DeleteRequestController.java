@@ -9,7 +9,11 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the student wants to delete Request
@@ -40,7 +45,14 @@ public class DeleteRequestController extends HttpServlet {
         int requestId = Integer.parseInt(request.getParameter("requestId"));
         
         IRequestDAO iRequestDAO = new RequestDAO();
-        iRequestDAO.deleteRequest(requestId);
+        int daoCheck = iRequestDAO.deleteRequest(requestId);
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean)session.getAttribute("user");
+        INotificationDAO iNotificationDAO = new NotificationDAO();
+        if ((daoCheck!=0)) {
+            iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(),"Request", "You have successfully deleted your request."));
+        }        
+        else iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(),"Request", "You have failed deleted your request."));
         
         //Redirect it to request list
         response.sendRedirect("ListAllRequest");

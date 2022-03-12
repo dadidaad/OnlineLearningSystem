@@ -8,9 +8,13 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ArticleBean;
+import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -18,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,14 +34,26 @@ public class LoadPrepareArticle extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
-          /*Use DAO class to get data from database for Article with corresponding */
-        IArticleDAO articleDAO=new ArticleDAO();
-          /*get all list of getAllpreparearticle */
-         List<ArticleBean> list =articleDAO.getAllpreparearticle();
-         /*Attach Attribute for request and redirect it to ReadyAcceptArticle.jsp*/
-          request.setAttribute("listP", list);
-          request.getRequestDispatcher("./view/ReadyAcceptArticle.jsp").forward(request, response);
+        request.setCharacterEncoding("UTF-8");
+
+        /*Notification*/
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("totalNoti", totalNoti);
+            request.setAttribute("notificationList", notiList);
+        }
+        /*Use DAO class to get data from database for Article with corresponding */
+        IArticleDAO articleDAO = new ArticleDAO();
+        /*get all list of getAllpreparearticle */
+        List<ArticleBean> list = articleDAO.getAllpreparearticle();
+        /*Attach Attribute for request and redirect it to ReadyAcceptArticle.jsp*/
+        request.setAttribute("listP", list);
+        request.getRequestDispatcher("./view/ReadyAcceptArticle.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

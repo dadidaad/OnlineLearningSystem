@@ -797,8 +797,18 @@ h1.title {
   background-color: rgb(184, 184, 184);
 }
 /*----------------*/
+/*Top Teacher Box */
 .review .box{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+/*Notification Message Alert */
+.alert-warning {
+    color: black;
+    background-color: #d8d8d8;
+    border-color: black;
+    padding: 18px 45px 18px 18px;
+    width:750px;
+}
+

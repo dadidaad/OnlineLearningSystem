@@ -8,11 +8,15 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ConstantBean;
+import bean.NotificationBean;
 import bean.SubjectBean;
 import dao.ConstantDAO;
 import dao.IConstantDAO;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,6 +30,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the user wants to
@@ -61,6 +66,18 @@ public class ConstantTableController extends HttpServlet {
             /*Query to database*/
             subjects = subjectDAO.getAllSubject();
 
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+            
             /*Attach subjects and constants attribute to request and ridirect*/
             request.setAttribute("subjects", subjects);
             request.setAttribute("constants", constants);

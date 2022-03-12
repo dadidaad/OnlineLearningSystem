@@ -9,10 +9,16 @@
  */
 package controller;
 
+import bean.NotificationBean;
 import bean.RequestBean;
 import bean.RequestReplyBean;
+import bean.TeacherBean;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
+import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
+import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -60,7 +66,16 @@ public class CreateRequestReplyController extends HttpServlet {
         
         IRequestDAO iRequestDAO = new RequestDAO();
         iRequestDAO.updateRequestStatus("Approved", requestId);
-        iRequestDAO.createRequestReply(rpReply);
+        int daoCheck = iRequestDAO.createRequestReply(rpReply);
+        
+        INotificationDAO iNotificationDAO = new NotificationDAO();
+        ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
+        TeacherBean teacher = iTeacherDAO.getTeacherByUsername(teacherSent);
+        if ((daoCheck!=0)) {
+            iNotificationDAO.insertNotification(new NotificationBean(teacherSent,"Request", "You have successfully created your request."));
+            iNotificationDAO.insertNotification(new NotificationBean(studentSent,"Request", "Your request has been answered by "+teacher.getDisplayName()+"."));
+        }        
+        else iNotificationDAO.insertNotification(new NotificationBean(teacherSent,"Request", "You have failed answered the request."));
         
         response.sendRedirect("ListAllRequest");
         

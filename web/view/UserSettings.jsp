@@ -9,6 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="/WEB-INF/tlds/customTag" prefix="i"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,25 +33,26 @@
                     <div class="col-md-3 card bg-white mx-5 p-0" style="height: 80vh;">
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <h4 class="text-dark fw-bold container mt-5 mb-3 fs-3">Account Settings</h4>
-                            <button class="nav-link active py-3" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true">
+                            <button class="nav-link active py-3 navButton" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true">
                                 <div class="d-flex align-items-center container text-dark fw-light"><i class="far fa-user mx-1"></i><p>Profile</p></div>
                             </button>
-                            <button class="nav-link py-3" id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="false">
+                            <button class="nav-link py-3 navButton" id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="false">
                                 <div class="d-flex align-items-center container text-dark fw-light"><i class="fas fa-lock mx-1"></i><p>Change Password</p></div>
                             </button>
                             <h4 class="text-dark fw-bold container mt-5 mb-3 fs-3">Service</h4>
-                            <button class="nav-link py-3" id="v-pills-wallet-tab" data-bs-toggle="pill" data-bs-target="#v-pills-wallet" type="button" role="tab" aria-controls="v-pills-wallet" aria-selected="false">
+                            <button class="nav-link py-3 navButton" id="v-pills-wallet-tab" data-bs-toggle="pill" data-bs-target="#v-pills-wallet" type="button" role="tab" aria-controls="v-pills-wallet" aria-selected="false">
                                 <div class="d-flex align-items-center container text-dark fw-light"><i class="fas fa-wallet"></i><p>Wallet</p></div>
                             </button>
-                            <button class="nav-link py-3" id="v-pills-history-tab" data-bs-toggle="pill" data-bs-target="#v-pills-history" type="button" role="tab" aria-controls="v-pills-history" aria-selected="false">
+                            <button class="nav-link py-3 navButton" id="v-pills-history-tab" data-bs-toggle="pill" data-bs-target="#v-pills-history" type="button" role="tab" aria-controls="v-pills-history" aria-selected="false">
                                 <div class="d-flex align-items-center container text-dark fw-light"><i class="fas fa-history"></i><p>History</p></div>
                             </button>
-                            <button class="nav-link py-3" id="v-pills-notification-tab" data-bs-toggle="pill" data-bs-target="#v-pills-notification" type="button" role="tab" aria-controls="v-pills-notification" aria-selected="false">
+                            <button class="nav-link py-3 navButton" id="v-pills-notification-tab" data-bs-toggle="pill" data-bs-target="#v-pills-notification" type="button" role="tab" aria-controls="v-pills-notification" aria-selected="false">
                                 <div class="d-flex align-items-center container text-dark fw-light"><i class="fas fa-bell"></i><p>Notifications</p></div>
                             </button>
                         </div>
                     </div>
-                    <div class="col-md-8 card bg-white">
+                    <input type="hidden" id="optionNav" name="optionNav" value="${optionNav}">  
+                <div class="col-md-8 card bg-white">
                     <c:set var="userProfile" value="${requestScope.userProfile}"></c:set>
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
@@ -145,7 +147,37 @@
                         </div>
                         <div class="tab-pane fade" id="v-pills-wallet" role="tabpanel" aria-labelledby="v-pills-wallet-tab"></div>
                         <div class="tab-pane fade" id="v-pills-history" role="tabpanel" aria-labelledby="v-pills-history-tab"></div>
-                        <div class="tab-pane fade" id="v-pills-notification" role="tabpanel" aria-labelledby="v-pills-notification-tab"></div>
+                        <div class="tab-pane fade" id="v-pills-notification" role="tabpanel" aria-labelledby="v-pills-notification-tab">
+                            <div class="d-flex flex-column align-items-center justify-content-center my-5">
+                                <h3 class="fw-bolder fs-3 text-dark my-3">All Notification</h3>
+                                <div class="d-flex flex-column align-items-center justify-content-center" id="content-noti">
+                                    <c:if test="${requestScope.notificationList.size() == 0}">
+                                        <h3>Notifications empty</h3>
+                                    </c:if>
+                                    <c:forEach items="${requestScope.notificationList}" var ="n" varStatus="loop">
+                                        <div class="alert alert-warning alert-dismissible fade show noti-item" role="alert">
+                                            <c:set var="notiTitle" value="${n.getTitle()}"></c:set>
+                                            <c:if test="${fn:toLowerCase(notiTitle) == 'request'}">
+                                                <span class="icon"><i class="fas fa-file-import"></i></span>
+                                                </c:if>
+                                                <c:if test="${fn:toLowerCase(notiTitle) == 'subject'}">
+                                                <span class="icon"><i class="fab fa-leanpub"></i></span>
+                                                </c:if>
+                                                <c:if test="${fn:toLowerCase(notiTitle) == 'forum'}">
+                                                <span class="icon"><i class="fab fa-forumbee"></i></span>
+                                                </c:if>
+                                                <c:if test="${fn:toLowerCase(notiTitle) == 'admin'}">
+                                                <span class="icon"><i class="fas fa-user"></i></span>
+                                                </c:if>
+                                            <strong>${n.getTitle()}:</strong> ${n.getContent()}
+                                            <button type="button" value="${n.getNotificationID()}" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <input type="hidden" id="totalNoti" name="totalNoti" value=${requestScope.totalNoti}>  
+                                <a class="link" id="showmoreBtn" class="showmoreBtn"  style="cursor: pointer">Show More</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,18 +226,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js"/>
-        <script>
-            var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'));
-            triggerTabList.forEach(function (triggerEl) {
-                var tabTrigger = new bootstrap.Tab(triggerEl);
-                triggerEl.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    tabTrigger.show();
-                });
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js"/></script>
+
+    <script>
+        var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'));
+        triggerTabList.forEach(function (triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault();
+                tabTrigger.show();
             });
-        </script>
-        <script src ="<i:ReadUrlFromContext url="/assets/js/UserSettingsJs.js"/>"></script>
-        <script src ="<i:ReadUrlFromContext url="/assets/js/CheckValidateInputForm.js"/>"></script>
-    </body>
+        });
+    </script>
+    <script src ="<i:ReadUrlFromContext url="/assets/js/UserSettingsJs.js"/>"></script>
+    <script src ="<i:ReadUrlFromContext url="/assets/js/CheckValidateInputForm.js"/>"></script>
+    <script src ="<i:ReadUrlFromContext url="/assets/js/Notification.js"/>"></script>
+</body>
 </html>

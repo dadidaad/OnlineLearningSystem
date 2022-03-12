@@ -8,16 +8,22 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ChapterBean;
+import bean.NotificationBean;
 import dao.ChapterDAO;
 import dao.IChapterDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the user wants to
@@ -48,7 +54,19 @@ public class CreateChapterController extends HttpServlet {
             /*get total Number Of Chapter*/
             IChapterDAO chapterDAO = new ChapterDAO();
             int numberOfChapter = chapterDAO.getNumberOfChapter() + 1;
+            
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
 
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+            
             /*Attach nextID and subID Atrribute to request and redirect*/
             request.setAttribute("nextId", numberOfChapter);
             request.setAttribute("subId", subId);

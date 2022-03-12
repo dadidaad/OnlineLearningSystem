@@ -330,7 +330,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * request and add to the databse
      */
     @Override
-    public void createRequest(RequestBean rq) {
+    public int createRequest(RequestBean rq) {
+        int totalRow = 0;
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -351,13 +352,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             statement.setString(8, rq.getTitle());
 
             /*Excuse Query*/
-            statement.executeUpdate();
+            totalRow = statement.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }
+        return totalRow;
     }
 
     /**
@@ -365,7 +367,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * request and update to database
      */
     @Override
-    public void updateRequest(RequestBean rq) {
+    public int updateRequest(RequestBean rq) {
+        int totalRow = 0;
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -387,13 +390,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
 
             /*Excuse Query*/
-            statement.executeUpdate();
+            totalRow = statement.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }
+        return totalRow;
     }
 
     /**
@@ -401,7 +405,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * the status of request and update to database
      */
     @Override
-    public void updateRequestStatus(String status, int requestId) {
+    public int updateRequestStatus(String status, int requestId) {
+        int totalRow = 0;
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -417,13 +422,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
 
             /*Excuse Query*/
-            statement.executeUpdate();
+            totalRow = statement.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }
+        return totalRow;
     }
 
     /**
@@ -433,7 +439,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * @param rqId
      */
     @Override
-    public void deleteRequest(int rqId) {
+    public int deleteRequest(int rqId) {
+        int totalRow = 0;
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -445,13 +452,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             statement.setInt(1, rqId);
 
             /*Excuse Query*/
-            statement.executeUpdate();
+            totalRow = statement.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }
+        return totalRow;
     }
 
     /**
@@ -502,7 +510,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * the request reply to database
      */    
     @Override
-    public void createRequestReply(RequestReplyBean rq) {
+    public int createRequestReply(RequestReplyBean rq) {
+        int totalRow = 0;
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -519,13 +528,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             statement.setString(5, rq.getImageLinkReply());
 
             /*Excuse Query*/
-            statement.executeUpdate();
+            totalRow = statement.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }
+        return totalRow;
     }
 
     /**

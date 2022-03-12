@@ -10,13 +10,17 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import bean.RequestBean;
 import bean.SubjectBean;
 import bean.TeacherBean;
 import dao.AccountDAO;
+import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
@@ -132,8 +136,14 @@ public class CreateRequestController extends HttpServlet {
         rq.setTitle(requestTitle);
         
         IRequestDAO iRequestDAO = new RequestDAO();
-        iRequestDAO.createRequest(rq);
-       
+        int daoCheck = iRequestDAO.createRequest(rq);
+            
+        INotificationDAO iNotificationDAO = new NotificationDAO();
+        if ((daoCheck!=0)) {
+            iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(),"Request", "You have successfully created your request."));
+        }        
+        else iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(),"Request", "You have failed created your request."));
+        
         response.sendRedirect("ListAllRequest");
         }catch (Exception ex) {
             Logger.getLogger(CreateRequestController.class.getName()).log(Level.SEVERE, null, ex);

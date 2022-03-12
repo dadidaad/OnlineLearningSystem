@@ -8,15 +8,21 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ArticleBean;
+import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Document: DetailArticleController Create on: Feb 9, 2022, 10:20:35 PM
@@ -41,6 +47,19 @@ public class DetailArticleController extends HttpServlet {
         String aid = request.getParameter("did");
         int id = Integer.parseInt(aid);
         IArticleDAO articleDAO = new ArticleDAO();
+
+        /*Notification*/
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("totalNoti", totalNoti);
+            request.setAttribute("notificationList", notiList);
+        }
+
         //get article by id
         ArticleBean a = articleDAO.getArticleDetail(id);
         //Attach Attribute for request and redirect it to ListArticle.jsp
