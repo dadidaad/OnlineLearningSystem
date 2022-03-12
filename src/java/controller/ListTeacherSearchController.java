@@ -7,11 +7,15 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-07   1.0         Duc Minh    First Implement
  */
-package Controller;
+package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import bean.TeacherBean;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
 import java.io.IOException;
@@ -24,6 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,6 +51,18 @@ public class ListTeacherSearchController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
                        
             String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
             

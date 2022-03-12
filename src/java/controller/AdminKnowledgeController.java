@@ -8,13 +8,17 @@
  */
 package controller;
 
+import bean.AccountBean;
 import bean.ChapterBean;
 import bean.KnowledgeBean;
+import bean.NotificationBean;
 import dao.ChapterDAO;
 import dao.IChapterDAO;
 import dao.IKnowledgeDAO;
+import dao.INotificationDAO;
 import dao.ISubjectDAO;
 import dao.KnowledgeDAO;
+import dao.NotificationDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,6 +29,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * This is a Servlet responsible for handling the task when the user wants to
@@ -49,6 +54,19 @@ public class AdminKnowledgeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+
             /*get data from Parameter of request*/
             String chapId = request.getParameter("chapId");
 

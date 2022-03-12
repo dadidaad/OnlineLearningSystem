@@ -10,8 +10,11 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -21,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,6 +46,18 @@ public class AccountManagerSearchController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
 
             String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
 

@@ -9,30 +9,34 @@
  */
 package controller;
 
+import bean.AccountBean;
+import bean.NotificationBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * This is a Servlet responsible for handling the task when Admin want to view the dashboard of website
- * /Dashboard is the URL of the Servlet
- * Extend HttpServlet class
+ * This is a Servlet responsible for handling the task when Admin want to view
+ * the dashboard of website /Dashboard is the URL of the Servlet Extend
+ * HttpServlet class
+ *
  * @author Duc Minh
  */
 public class DashboardController extends HttpServlet {
 
-    
-
-    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -47,22 +51,32 @@ public class DashboardController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        
-        IAccountDAO iAccountDAO = new AccountDAO(); 
-        IRequestDAO iRequestDAO = new RequestDAO();
-        
-        int totalAccount = iAccountDAO.totalAccount();
-        int totalRequest = iRequestDAO.getTotalPendingRequest();
-        
-        request.setAttribute("totalAccount", totalAccount);
-        request.setAttribute("totalRequest", totalRequest);
-            
-        request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
-        }catch (Exception ex) {
+
+            /*Notification*/
+            HttpSession session = request.getSession();
+            AccountBean account = (AccountBean) session.getAttribute("user");
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+
+            IAccountDAO iAccountDAO = new AccountDAO();
+            IRequestDAO iRequestDAO = new RequestDAO();
+
+            int totalAccount = iAccountDAO.totalAccount();
+            int totalRequest = iRequestDAO.getTotalPendingRequest();
+
+            request.setAttribute("totalAccount", totalAccount);
+            request.setAttribute("totalRequest", totalRequest);
+
+            request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
+        } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-   
 
 }

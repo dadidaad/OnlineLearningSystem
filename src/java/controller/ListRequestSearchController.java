@@ -1,12 +1,15 @@
 package controller;
 
 import bean.AccountBean;
+import bean.NotificationBean;
 import bean.RequestBean;
 import dao.AccountDAO;
 import dao.IAccountDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
+import dao.NotificationDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import dao.TeacherDAO;
@@ -47,6 +50,17 @@ public class ListRequestSearchController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             AccountBean account = (AccountBean) session.getAttribute("user");
+            
+            /*Notification*/
+            if (account != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+                request.setAttribute("totalNoti", totalNoti);
+                request.setAttribute("notificationList", notiList);
+            }
+            
             SortRequest sortRequest = new SortRequest();//call the sort modify class
             String searchString = request.getParameter("searchString").replaceAll("\\s\\s+", " ").trim();
             String rqStatus = request.getParameter("rqStatus");
