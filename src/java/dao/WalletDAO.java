@@ -10,6 +10,7 @@ package dao;
 
 import bean.AccountBean;
 import bean.FinanceBean;
+import bean.SubjectBean;
 import static dao.BaseDAO.getConnection;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -113,9 +114,13 @@ public class WalletDAO extends BaseDAO{
        AccountBean account = new AccountBean("minhduc07", "Aa123456", "minhmomang69@gmail.com", "https://i.ndh.vn/2020/12/18/anh-1-1608284854.jpg", "Duc Minh", date, true, "duc minh dang hoc bai", BigDecimal.ZERO, date, "Teacher", "actived", true, "1");
        List<FinanceBean> list = db.GetFinanceHistoryByPage(db.GetAllFinanceHistory(account), 3, 2);
        
-       for(FinanceBean f : list) {
-           System.out.println(f.getMoney());
-       }
+       ISubjectDAO iSubjectDAO = new SubjectDAO();
+       SubjectBean subject = iSubjectDAO.getSubjectById(1);
+       
+//       for(FinanceBean f : list) {
+//           System.out.println(f.getMoney());
+//       }
+        System.out.println(subject.getSubjectName());
        
     }
 }

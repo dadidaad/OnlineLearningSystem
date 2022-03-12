@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.3.4/dist/flowbite.min.css" />
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
         <title>JSP Page</title>
-    </head>a
+    </head>
     <body>
         <jsp:include page="./header.jsp"></jsp:include>
         <div class="container">
@@ -31,7 +31,6 @@
             <div>
                 <button type="button" name="status" class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Report</button>
                 <button type="button" name="status" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Feedback</button>
-                
             </div>
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -67,7 +66,7 @@
                                                 ${x.message}
                                             </td>
                                             <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                                                <div id="button" class="text-blue-600 hover:underline cursor-pointer">Watch</div>
+                                                <a href="<i:ReadUrlFromContext url="/ReportList?status=detail-${x.id}"/>" class="text-blue-600 hover:underline cursor-pointer">Watch</a>
                                             </td>        
                                         </c:forEach>
                                         

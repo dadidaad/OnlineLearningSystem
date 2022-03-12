@@ -11,9 +11,16 @@ package controller;
 
 import bean.AccountBean;
 import bean.ReportBean;
+import bean.RequestBean;
+import bean.RequestReplyBean;
+import bean.SubjectBean;
+import dao.ISubjectDAO;
 import dao.ReportDAO;
+import dao.RequestDAO;
+import dao.SubjectDAO;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,19 +42,44 @@ public class ReportListController extends HttpServlet {
             response.sendRedirect("LoginController");
         }
         
-        String status = (request.getParameter("status") == null) ? "report" : "feedback";
+        String status = (request.getParameter("status") == null) ? "report" : request.getParameter("status");
+        
+        String[] parts = status.split("-");
+        String part1 = parts[0];
+        String part2 = "";
+        if(parts.length > 1)
+            part2 = parts[1];
         
         if(status.equalsIgnoreCase("report")){
             ArrayList<ReportBean> list;
             ReportDAO reportDB = new ReportDAO();
             list = reportDB.GetAllReport();
             request.setAttribute("reportList", list);
+            request.getRequestDispatcher("./view/ReportList.jsp").forward(request, response);
         }
-        else{
+        else if (status.equalsIgnoreCase("feedback")){
+        }
+        else if (part1.equalsIgnoreCase("detail")){
+            RequestBean rq = new RequestBean();
+            RequestReplyBean rqReply = new RequestReplyBean();
+            RequestDAO rqDB = new RequestDAO();
             
+            rq = rqDB.getRequestById(Integer.parseInt(part2));
+            rqReply = rqDB.getRequestReplyById(Integer.parseInt(part2));
+            
+            ISubjectDAO iSubjectDAO = new SubjectDAO();
+            SubjectBean subject = iSubjectDAO.getSubjectById(rq.getSubjectID());
+            
+            request.setAttribute("title", rq.getTitle());
+            request.setAttribute("subject", subject.getSubjectName());
+            request.setAttribute("class", rq.getLevel());
+            request.setAttribute("price", rq.getCost());
+            request.setAttribute("content", rq.getContent());
+            request.setAttribute("answer", rqReply.getContentReply());
+            request.getRequestDispatcher("./view/ReportDetail.jsp").forward(request, response);
         }
         
-        request.getRequestDispatcher("./view/ReportList.jsp").forward(request, response);
+        
     }
 
     @Override
