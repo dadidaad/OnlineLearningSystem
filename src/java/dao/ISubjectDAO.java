@@ -6,6 +6,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-08   1.0         Doan Tu    First Implement
  * 2022-02-24   2.0         Doan Tu    Second Implement
+ * 2022-03-07   3.0         Doan Tu    Third Implement
  */
 package dao;
 
@@ -80,6 +81,23 @@ public interface ISubjectDAO {
      */
     public SubjectBean getSubjectById(int subId) throws SQLException;
     
+    /**
+     * updateSubject Method
+     * this method will Update a subject with the corresponding subjectID
+     * 
+     * @param subject <code>Bean.SubjectBean</code> object
+     * @return numberOfRowAffected. <code>java.lang.Integer</code> object
+     * @throws SQLException 
+     */
     public int updateSubject(SubjectBean subject) throws SQLException;
+    
+    /**
+     * deleteSubject method
+     * This method will delete Subject with corresponding SubjectID
+     * 
+     * @param subId <code>java.lang.Integer</code> object
+     * @return numberOfRowAffected. <code>java.lang.Integer</code> object
+     * @throws SQLException 
+     */
     public int deleteSubject(int subId) throws SQLException;
 }

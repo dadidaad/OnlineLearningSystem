@@ -21,6 +21,14 @@ import java.util.logging.Logger;
  */
 public class RecommendDAO extends BaseDAO implements IRecommendDAO {
 
+    /**
+     * createRecommend method implement from IRecommendDAO
+     * This method will insert new recommend into Database
+     * 
+     * @param recommend <code>bean.RecommendBean</code>
+     * @return numberOfRowsAffected. <code>java.lang.Integer</code>
+     * @throws SQLException 
+     */ 
     @Override
     public int createRecommend(RecommendBean recommend) throws SQLException {
         Connection conn = null;
@@ -50,6 +58,14 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return numberOfRow;
     }
 
+    /**
+     * getByUsername method implement from IRecommendDAO
+     * This method will get all Recommend with corresponding username
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return recommends. <code>java.ultil.ArrayList</code>
+     * @throws SQLException 
+     */
     @Override
     public ArrayList<RecommendBean> getByUsername(String username) throws SQLException {
         ArrayList<RecommendBean> recommends = new ArrayList<>();
@@ -86,6 +102,14 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return recommends;
     }
 
+    /**
+     * numberOfAccept Method implement IRecommendDAO
+     * This method will return number of recommend with status is accept
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return numberOfRecommend. <code>java.lang.Integer</code>
+     * @throws SQLException 
+     */
     @Override
     public int numberOfAccept(String username) throws SQLException {
         Connection conn = null;
@@ -115,6 +139,14 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return number;
     }
     
+    /**
+     * numberOfAccept Method implement from IRecommendDAO
+     * This method will return number of recommend with status is decline
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return numberOfRecommend. <code>java.lang.Integer</code>
+     * @throws SQLException 
+     */
     @Override
     public int numberOfDecline(String username) throws SQLException {
         Connection conn = null;
@@ -142,6 +174,14 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return number;
     }
 
+    /**
+     * getByAction method implement from IRecommendDAO
+     * This method will get all Recommend with corresponding action
+     * 
+     * @param action <code>java.lang.Boolean</code>
+     * @return recommends. <code>java.ultil.ArrayList</code>
+     * @throws SQLException  
+     */
     @Override
     public ArrayList<RecommendBean> getByAction(boolean action) throws SQLException {
         ArrayList<RecommendBean> recommends = new ArrayList<>();
@@ -178,6 +218,15 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return recommends;
     }
 
+    /**
+     * changeStatus method implement from IRecommendDAO
+     * This method will change the status of recommend with corresponding Recommend ID
+     * 
+     * @param status <code>java.lang.String</code>
+     * @param RecId <code>java.lang.Integer</code>
+     * @return numberOfRowsAffected <code>java.lang.Integer</code>
+     * @throws SQLException 
+     */
     @Override
     public int changeStatus(String status, int RecId) throws SQLException {
         int numberOfRows=0;
@@ -203,8 +252,4 @@ public class RecommendDAO extends BaseDAO implements IRecommendDAO {
         return numberOfRows;
     }
 
-    public static void main(String[] args) throws SQLException {
-        RecommendDAO dao = new RecommendDAO();
-        dao.changeStatus("random", 1);
-    }
 }

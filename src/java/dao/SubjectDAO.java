@@ -240,7 +240,14 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         }
         return subject;
     }
-   
+    /**
+     * updateSubject Method implement from ISubjectDAO
+     * this method will Update a subject with the corresponding subjectID
+     * 
+     * @param subject <code>Bean.SubjectBean</code> object
+     * @return numberOfRowAffected. <code>java.lang.Integer</code> object
+     * @throws SQLException 
+     */
     @Override
     public int updateSubject(SubjectBean subject) throws SQLException {
         Connection conn =null;
@@ -271,7 +278,14 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         return numberOfRow;
     }
     
-    
+    /**
+     * deleteSubject method
+     * This method will delete Subject with corresponding SubjectID
+     * 
+     * @param subId <code>java.lang.Integer</code> object
+     * @return numberOfRowAffected. <code>java.lang.Integer</code> object
+     * @throws SQLException 
+     */
     @Override
     public int deleteSubject(int subId) throws SQLException {
         Connection conn =null;
@@ -297,8 +311,5 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
         }
         return numberOfRow;
     }
-    public static void main(String[] args) throws SQLException {
-        SubjectDAO dao = new SubjectDAO();
-        dao.deleteSubject(0);
-    }
+
 }
