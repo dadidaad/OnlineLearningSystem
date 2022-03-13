@@ -11,7 +11,8 @@ package dao;
 
 import bean.SubjectBean;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,25 +28,27 @@ public interface ISubjectDAO {
      * getAllSubject method
      * This method Get all Subject available from database
      * 
-     * @return subjects. <code>java.util.List</code> object  
+     * @return subjects. <code>java.util.ArrayList</code> object  
      * @throws java.sql.SQLException  
      */
-    public List<SubjectBean> getAllSubject() throws SQLException; //Lisst all Subject from database
+    public ArrayList<SubjectBean> getAllSubject() throws SQLException; //Lisst all Subject from database
     
     /**
      * getSubjectNames method 
      * 
      * @return subjectNames. <code>java.util.Map</code> object
+     * @throws java.sql.SQLException
      */
-    public Map<Integer, String> getSubjectNames();//Lisst all and hash ID and Name of Subject from database
+    public Map<Integer, String> getSubjectNames() throws SQLException;//Lisst all and hash ID and Name of Subject from database
     
     /**
      * getNumberOfSubject method. 
      * This method count number of Subject available in database
      * 
      * @return numberOfSubjects. <code>java.lang.Integer</code>
+     * @throws java.sql.SQLException
      */
-    public int getNumberOfSubject();
+    public int getNumberOfSubject() throws SQLException;
     
     /**
      * searchBySubName method.
@@ -53,8 +56,9 @@ public interface ISubjectDAO {
      * 
      * @param subName. Name of subject which wanted to check <code>java.lang.Strring</code>
      * @return check. <code>java.lang.Boolean</code>
+     * @throws java.sql.SQLException
      */
-    public boolean searchBySubName(String subName);
+    public boolean searchBySubName(String subName) throws SQLException;
     
     /**
      * createNewSubject method
@@ -62,8 +66,9 @@ public interface ISubjectDAO {
      * 
      * @param subject. Subject which wanted to insert. <code>Bean.SubjectBean</code> object
      * @return numberOfRows. <code>java.lang.Integer</code>
+     * @throws java.sql.SQLException
      */
-    public int createNewSubject(SubjectBean subject);
+    public int createNewSubject(SubjectBean subject) throws SQLException;
     
     /**
      * getSubjectById method
@@ -71,6 +76,10 @@ public interface ISubjectDAO {
      * 
      * @param subId. Id of Subject want to get
      * @return subject. <code>Bean.SubjectBean</code> object
+     * @throws java.sql.SQLException
      */
-    public SubjectBean getSubjectById(int subId);
+    public SubjectBean getSubjectById(int subId) throws SQLException;
+    
+    public int updateSubject(SubjectBean subject) throws SQLException;
+    public int deleteSubject(int subId) throws SQLException;
 }

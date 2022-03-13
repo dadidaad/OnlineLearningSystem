@@ -10,7 +10,8 @@
 package dao;
 
 import bean.ChapterBean;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * This is the interface class that declares the methods to access the data of the Chapter object
@@ -26,8 +27,9 @@ public interface IChapterDAO {
      * 
      * @param subId ID of Subject which Chapter belongs <code>java.lang.Integer</code> object
      * @return chapters. <code>java.util.ArrayList</code> object
+     * @throws java.sql.SQLException
      */
-    public List<ChapterBean> getBySubId(int subId); //Get All Chapter with coresponding SubjectID
+    public ArrayList<ChapterBean> getBySubId(int subId) throws SQLException; //Get All Chapter with coresponding SubjectID
     
     /**
      * getChapterById method
@@ -35,8 +37,9 @@ public interface IChapterDAO {
      * 
      * @param chapId ID of the Chapter. <code>java.lang.Integer</code> object
      * @return chapter <code>Bean.ChapterBean</code> object
+     * @throws java.sql.SQLException
      */
-    public ChapterBean getChapterById(int chapId);//Get all Chapter with coresponding ChapterID
+    public ChapterBean getChapterById(int chapId) throws SQLException;//Get all Chapter with coresponding ChapterID
     
     /**
      * getNumberOfChapterById method
@@ -44,16 +47,18 @@ public interface IChapterDAO {
      * 
      * @param subId. Id of Subject. <code>java.lang.Integer</code> object
      * @return numberOfChapter. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
-    public int getNumberOfChapterById(int subId);
+    public int getNumberOfChapterById(int subId) throws SQLException;
     
     /**
      * getNumberOfChapter method
      * This method count number of Chapter available in database
      * 
      * @return numberOfChapter. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
-    public int getNumberOfChapter();
+    public int getNumberOfChapter() throws SQLException;
     
     /**
      * searchByChapNameOfSubject method
@@ -62,8 +67,9 @@ public interface IChapterDAO {
      * @param chapName. Name of Chapter <code>java.lang.String</code> object
      * @param subId. Id of Subject <code>java.lang.Integer</code> object
      * @return check. <code>java.lang.Boolean</code> object
+     * @throws java.sql.SQLException
      */
-    public boolean searchByChapNameOfSubject(String chapName, int subId);
+    public boolean searchByChapNameOfSubject(String chapName, int subId) throws SQLException;
     
     /**
      * CreateChapter method
@@ -71,6 +77,11 @@ public interface IChapterDAO {
      * 
      * @param chapter. New Chapter which wanted to insert. <code>Bean.ChapterBean</code> object
      * @return numberOfRows. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
-    public int createChapter(ChapterBean chapter);
+    public int CreateChapter(ChapterBean chapter) throws SQLException;
+    
+    public int updateChapter(ChapterBean chapter) throws SQLException;
+    public boolean searchByChapName(String chapName) throws SQLException;
+    public int deleteChapterById(int chapId) throws SQLException;
 }

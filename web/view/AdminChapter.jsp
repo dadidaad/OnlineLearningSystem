@@ -33,7 +33,6 @@
         <%@include file="./header.jsp" %>
         <!--Side Bar-->
         <nav class="sidebar close">
-            <!--Side bar header-->
             <header>
                 <div class="image-text">
                     <span class="image">
@@ -48,13 +47,13 @@
 
                 <i class='bx bx-chevron-right toggle'></i>
             </header>
-            <!-- Main Side Bar-->        
+            <!--Main Side Bar-->
             <div class="menu-bar">
                 <div class="menu">
                     <ul class="menu-links">
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="<i:ReadUrlFromContext url="/ConstantTableController" />">
                                 <i class='bx bx-calendar-check icon'></i>
                                 <span class="text nav-text">Learning Manage</span>
                             </a>
@@ -63,31 +62,16 @@
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
+                                <span class="text nav-text">Account manager</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
+                                <span class="text nav-text">Teacher Apply</span>
                             </a>
                         </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
 
@@ -107,7 +91,7 @@
                 </div>
             </div>
         </nav>
-       <!--Overview--> 
+        <!--Overview--> 
         <main>
             <h2 class="dash-title">Overview</h2>
             <div class="dash-card">
@@ -150,7 +134,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!--Main Management-->
             <section class="recent">
                 <div class="activity-grid">
@@ -163,20 +147,24 @@
                                     <th>ChapterName</th>
                                     <th>ChapterContent</th>
                                     <th>Subject</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${requestScope.chapters}" var="c" varStatus="loop">
-                                <tr>
-                                    <td>${c.getChapterID()}</td>
-                                    <td> <a href="AdminKnowledgeController?chapId=${c.getChapterID()}" style="color: black; font-weight: 600;"> ${c.getChapterName()}</br>(Click to see Chapters)</a></td>
-                                    <td>
-                                        <div class="descrip">
-                                            <p>${c.getChapterContent()}</p>
-                                        </div>
-                                    </td>
-                                    <td>${requestScope.subject.getSubjectName()}</td>
-                                </tr>
+                                    <tr>
+                                        <td>${c.getChapterID()}</td>
+                                        <td> <a href="AdminKnowledgeController?chapId=${c.getChapterID()}" style="color: black; font-weight: 600;"> ${c.getChapterName()}</br>(Click to see Chapters)</a></td>
+                                        <td>
+                                            <div class="descrip">
+                                                <p>${c.getChapterContent()}</p>
+                                            </div>
+                                        </td>
+                                        <td>${requestScope.subject.getSubjectName()}</td>
+                                        <td><a href="ChapterUpdateController?chapId=${c.getChapterID()}" class="action" style="color: black;"><i class='bx bx-edit-alt icon' ></i></a></td>
+                                        <td><a href="#" onclick="Confirm(${c.getChapterID()}, ${c.getSubjectID()})" class="action" style="color: black; "><i class='bx bx-trash icon' ></i></a></td> 
+                                    </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -190,14 +178,14 @@
                                     <small>Chapter for Subject</small>
                                 </div>
                             </div>
- 
+
                         </div>
                     </div>
                 </div>
 
             </section>
         </main>
-                        
+
         <!-- Include footer of web site from general -->
         <%@include file="./footer.jsp" %>
 
@@ -207,4 +195,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
     crossorigin="anonymous"></script>
+    <script>
+       function Confirm(x,y){
+            let choice = confirm("Do you want to delete this Chpater?");
+            if(choice){
+                window.location.href= 'ChapterDeleteController?chapId='+x+'&subId='+y;
+            }
+       }
+    </script>
 </html>

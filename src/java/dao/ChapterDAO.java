@@ -32,13 +32,14 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
      * @param subId ID of Subject which Chapter belongs
      * <code>java.lang.Integer</code> object
      * @return chapters. <code>java.util.ArrayList</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public ArrayList<ChapterBean> getBySubId(int subId) {
+    public ArrayList<ChapterBean> getBySubId(int subId) throws SQLException {
         ArrayList<ChapterBean> chapters = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -62,7 +63,8 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return chapters;
@@ -73,13 +75,14 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
      *
      * @param chapId ID of the Chapter. <code>java.lang.Integer</code> object
      * @return chapter <code>Bean.ChapterBean</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public ChapterBean getChapterById(int chapId) {
+    public ChapterBean getChapterById(int chapId) throws SQLException {
         ChapterBean chapter = new ChapterBean();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -100,7 +103,8 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return chapter;
@@ -112,13 +116,14 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
      *
      * @param subId. Id of Subject. <code>java.lang.Integer</code> object
      * @return numberOfChapter. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public int getNumberOfChapterById(int subId) {
+    public int getNumberOfChapterById(int subId) throws SQLException {
         int numberOfChapter = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -134,7 +139,8 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return numberOfChapter;
@@ -145,13 +151,14 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
      * in database
      *
      * @return numberOfChapter. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public int getNumberOfChapter() {
+    public int getNumberOfChapter() throws SQLException {
         int numberOfChapter = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -166,7 +173,8 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return numberOfChapter;
@@ -179,13 +187,14 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
      * @param chapName. Name of Chapter <code>java.lang.String</code> object
      * @param subId. Id of Subject <code>java.lang.Integer</code> object
      * @return check. <code>java.lang.Boolean</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public boolean searchByChapNameOfSubject(String chapName, int subId) {
+    public boolean searchByChapNameOfSubject(String chapName, int subId) throws SQLException {
         boolean check = true;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -193,35 +202,36 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             statement = conn.prepareStatement(sql);
             statement.setString(1, chapName);
             statement.setInt(2, subId);
-
+            
             /*Querry and save in ResultSet*/
             rs = statement.executeQuery();
 
             while (rs.next()) {
                 check = false;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return check;
     }
 
     /**
-     * CreateChapter method This method will insert new Chapter in database
-     *
-     * @param chapter. New Chapter which wanted to insert.
-     * <code>Bean.ChapterBean</code> object
+     * CreateChapter method
+     * This method will insert new Chapter in database
+     * 
+     * @param chapter. New Chapter which wanted to insert. <code>Bean.ChapterBean</code> object
      * @return numberOfRows. <code>java.lang.Integer</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public int createChapter(ChapterBean chapter) {
+    public int CreateChapter(ChapterBean chapter) throws SQLException {
         int numberOfRow = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -231,14 +241,108 @@ public class ChapterDAO extends BaseDAO implements IChapterDAO {
             statement.setString(1, chapter.getChapterName());
             statement.setString(2, chapter.getChapterContent());
             statement.setInt(3, chapter.getSubjectID());
-
+            
             /* Insert into database*/
             numberOfRow = statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return numberOfRow;
+    }
+
+    @Override
+    public int updateChapter(ChapterBean chapter) throws SQLException {
+       Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
+        int numberOfRow=0;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            conn = getConnection();
+            String sql = "Update Chapter\n"
+                       + "Set ChapterName=?,\n"
+                       + "[Chapter Content]=?,\n"
+                       + "SubjectID=?\n"
+                       + "where ChapterID=?\n";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, chapter.getChapterName());
+            statement.setString(2, chapter.getChapterContent());
+            statement.setInt(3, chapter.getSubjectID());
+            statement.setInt(4, chapter.getChapterID());
+            /*Querry and save in ResultSet*/
+            numberOfRow = statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
+        }finally{
+            close(conn, statement, rs);
+        }
+        return numberOfRow;
+    }
+    
+    
+
+    @Override
+    public boolean searchByChapName(String chapName) throws SQLException {
+        boolean check = true;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
+        if(chapName==null) return false;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            conn = getConnection();
+            String sql = "select * from Chapter where ChapterName=?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, chapName);
+            
+            /*Querry and save in ResultSet*/
+            rs = statement.executeQuery();
+
+            while (rs.next()) {
+                check = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
+        }finally{
+            close(conn, statement, rs);
+        }
+        return check;
+    }
+
+    @Override
+    public int deleteChapterById(int chapId) throws SQLException {
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
+        int numberOfRow=0;
+        
+        try{
+            /*Set up connection and Sql statement for Querry*/
+            conn = getConnection();
+            String sql = "delete from Knowledge where ChapterID=?\n"
+                       + "delete from Chapter where ChapterID=?";
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, chapId);
+            statement.setInt(2, chapId);
+            
+            /*Execute SQL and return numberOfRow affect*/
+            numberOfRow = statement.executeUpdate();
+            
+        }catch(SQLException ex){
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
+        }finally{
+            close(conn, statement, rs);
+        }
+        return numberOfRow;
+    }
+    public static void main(String[] args) throws SQLException{
+        boolean c = new ChapterDAO().searchByChapName(null);
+        System.out.println(c);
     }
 }

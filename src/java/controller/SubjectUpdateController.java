@@ -1,11 +1,4 @@
-/*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * 
- * CreateSubjectController
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-24   1.0         Doan Tu    First Implement
- */
+
 package controller;
 
 import bean.SubjectBean;
@@ -25,15 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to
- * Create new subject and insert it into database. /CreateSubjectController is the URL of the web site Extend
- * HttpServlet class
  *
- * @author Doan Tu
+ * @author Phong Vu
  */
 @MultipartConfig
-@WebServlet(name = "CreateSubjectController", urlPatterns = {"/CreateSubjectController"})
-public class CreateSubjectController extends HttpServlet {
+@WebServlet(name = "SubjectUpdateController", urlPatterns = {"/SubjectUpdateController"})
+public class SubjectUpdateController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,6 +41,7 @@ public class CreateSubjectController extends HttpServlet {
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -62,18 +53,18 @@ public class CreateSubjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            ISubjectDAO subjectDAO = new SubjectDAO();
-            /*get total Number Of Subject*/
-            int numberOfSubject = subjectDAO.getNumberOfSubject() + 1;
-            
-            /*Attach nextId Attribute, This is the id of next Subject If you want to insert*/
-            request.setAttribute("nextId", numberOfSubject);
-            request.getRequestDispatcher("./view/CreateSubject.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateSubjectController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try (PrintWriter out = response.getWriter()) {
+                String subId = request.getParameter("subId");
+                
+                ISubjectDAO subjectDAO = new SubjectDAO();
+                SubjectBean subject = new SubjectBean();
+                subject = subjectDAO.getSubjectById(Integer.parseInt(subId));
+                
+                request.setAttribute("subject",subject);
+                request.getRequestDispatcher("./view/UpdateSubject.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(SubjectUpdateController.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     /**
@@ -91,26 +82,36 @@ public class CreateSubjectController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /*get data from parameter of request*/
             String subName = request.getParameter("subName").replaceAll("\\s\\s+", " ").trim();
+            String currentSubName = request.getParameter("currentSubject").replaceAll("\\s\\s+", " ").trim();
             String subId = request.getParameter("subId");
             String description = request.getParameter("description").replaceAll("\\s\\s+", " ").trim();
-            Part part = request.getPart("Image");
+            String currentImage = request.getParameter("currentImage");
+            Part part = request.getPart("Image"); 
             String subImage = part.getSubmittedFileName();
-
+            String actuallySubImage = "assets/image/" + subImage;
+            if(subImage.equals("")){
+                actuallySubImage = currentImage;
+            }
+            
             /*Query for check whether Subject Name has existed*/
             ISubjectDAO subjectDAO = new SubjectDAO();
             boolean check = subjectDAO.searchBySubName(subName);
+            
             /*If existed, reiderect*/
-            if (check == false) {
-                request.setAttribute("nextId", subId);
+            if (check == false && !currentSubName.equals(subName)) {
+                SubjectBean currentSubject = new SubjectBean();
+                currentSubject = subjectDAO.getSubjectById(Integer.parseInt(subId));
+                
+                request.setAttribute("subject",currentSubject);
                 request.setAttribute("check", check);
-                request.getRequestDispatcher("./view/CreateSubject.jsp").forward(request, response);
-            }else{//If not, Inset new Subject into database
-                SubjectBean subject = new SubjectBean(Integer.parseInt(subId), subName, description, "assets/image/"+subImage);
-                int numberOfRows = subjectDAO.createNewSubject(subject);
+                request.getRequestDispatcher("./view/UpdateSubject.jsp").forward(request, response);
+            }else{
+                SubjectBean subject = new SubjectBean(Integer.parseInt(subId), subName, description, actuallySubImage);
+                int numberOfRows = subjectDAO.updateSubject(subject);
                 response.sendRedirect("AdminSubjectController");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CreateSubjectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubjectUpdateController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -122,6 +123,6 @@ public class CreateSubjectController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

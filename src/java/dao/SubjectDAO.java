@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,6 +61,7 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
         } finally {
             close(conn, statement, rs);
         }
@@ -70,13 +72,14 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
      * getSubjectNames method implement from ISubjectDAO
      *
      * @return subjectNames. <code>java.util.Map</code> object
+     * @throws java.sql.SQLException
      */
     @Override
-    public Map<Integer, String> getSubjectNames() {
+    public Map<Integer, String> getSubjectNames() throws SQLException {
         Map<Integer, String> subjectNames = new HashMap<>();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -92,24 +95,24 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return subjectNames;
     }
-
     /**
-     * getNumberOfSubject method implement from ISubjectDAO This method count
-     * number of Subject available in database
-     *
+     * getNumberOfSubject method implement from ISubjectDAO 
+     * This method count number of Subject available in database
+     * 
      * @return numberOfSubjects. <code>java.lang.Integer</code>
      */
     @Override
-    public int getNumberOfSubject() {
+    public int getNumberOfSubject() throws SQLException {
         int numberOfSubject = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -123,29 +126,28 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             while (rs.next()) {
                 numberOfSubject = rs.getInt("Number");
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return numberOfSubject;
     }
 
     /**
-     * searchBySubName method. This method check whether A Subject Name has
-     * existed in database
-     *
-     * @param subName. Name of subject which wanted to check
-     * <code>java.lang.Strring</code>
+     * searchBySubName method.
+     * This method check whether A Subject Name has existed in database
+     * 
+     * @param subName. Name of subject which wanted to check <code>java.lang.Strring</code>
      * @return check. <code>java.lang.Boolean</code>
      */
     @Override
-    public boolean searchBySubName(String subName) {
+    public boolean searchBySubName(String subName) throws SQLException{
         boolean check = true;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -154,32 +156,32 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             statement.setString(1, subName);
             /*Querry and save in ResultSet*/
             rs = statement.executeQuery();
-            
+
             while (rs.next()) {
                 check = false;
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return check;
     }
 
     /**
-     * createNewSubject method This method will insert new Subject into database
-     *
-     * @param subject. Subject which wanted to insert.
-     * <code>Bean.SubjectBean</code> object
+     * createNewSubject method
+     * This method will insert new Subject into database
+     * 
+     * @param subject. Subject which wanted to insert. <code>Bean.SubjectBean</code> object
      * @return numberOfRows. <code>java.lang.Integer</code>
      */
     @Override
-    public int createNewSubject(SubjectBean subject) {
+    public int createNewSubject(SubjectBean subject) throws SQLException {
         int numberOfRow = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -194,25 +196,26 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
             numberOfRow = statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return numberOfRow;
     }
 
     /**
-     * getSubjectById method This method will get the Subject with corresponding
-     * ID
-     *
+     * getSubjectById method
+     * This method will get the Subject with corresponding ID
+     * 
      * @param subId. Id of Subject want to get
      * @return subject. <code>Bean.SubjectBean</code> object
      */
     @Override
-    public SubjectBean getSubjectById(int subId) {
+    public SubjectBean getSubjectById(int subId) throws SQLException {
         SubjectBean subject = new SubjectBean();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
@@ -229,12 +232,73 @@ public class SubjectDAO extends BaseDAO implements ISubjectDAO {
                 subject.setDescription(rs.getString("Description"));
                 subject.setSubjectImage(rs.getString("SubjectImage"));
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return subject;
+    }
+   
+    @Override
+    public int updateSubject(SubjectBean subject) throws SQLException {
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
+        int numberOfRow=0;
+        try {
+            /*Set up connection and Sql statement for Querry*/
+            conn = getConnection();
+            String sql = "Update Subject\n"
+                       + "Set SubjectName=?,\n"
+                       + "Description=?,\n"
+                       + "SubjectImage=?\n"
+                       + "where SubjectID=?\n";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, subject.getSubjectName());
+            statement.setString(2, subject.getDescription());
+            statement.setString(3, subject.getSubjectImage());
+            statement.setInt(4, subject.getSubjectID());
+            /*Querry and save in ResultSet*/
+            numberOfRow = statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
+        }finally{
+            close(conn, statement, rs);
+        }
+        return numberOfRow;
+    }
+    
+    
+    @Override
+    public int deleteSubject(int subId) throws SQLException {
+        Connection conn =null;
+        PreparedStatement statement=null;
+        ResultSet rs =null;
+        int numberOfRow=0;
+        
+        try{
+            /*Set up connection and Sql statement for Querry*/
+            conn = getConnection();
+            String sql = "delete from Subject where SubjectID=?";
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, subId);
+            
+            /*Execute SQL and return numberOfRow affect*/
+            numberOfRow = statement.executeUpdate();
+            
+        }catch(SQLException ex){
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw(ex);
+        }finally{
+            close(conn, statement, rs);
+        }
+        return numberOfRow;
+    }
+    public static void main(String[] args) throws SQLException {
+        SubjectDAO dao = new SubjectDAO();
+        dao.deleteSubject(0);
     }
 }

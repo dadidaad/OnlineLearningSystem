@@ -1,8 +1,9 @@
 <%-- 
-    Document   : CreateKnowledge
-    Created on : Feb 25, 2022, 8:00:58 PM
+    Document   : Recommend
+    Created on : Mar 9, 2022, 8:16:56 PM
     Author     : Phong Vu
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
@@ -24,7 +25,7 @@
 
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateSubjectStyle.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateRecommendStyle.css" />">
         <title>TutorDuo</title>
     </head>
     <body>
@@ -36,7 +37,8 @@
             <header>
                 <div class="image-text">
                     <span class="image">
-                        <img src="<i:ReadUrlFromContext url="/assets/image/259151762_463419805435533_5232999905401287810_n.png" />" alt="">                </span>
+                        <img src="<i:ReadUrlFromContext url="/assets/image/259151762_463419805435533_5232999905401287810_n.png" />" alt="">
+                    </span>
 
                     <div class="text logo-text">
                         <span class="name">TutorDuo</span>
@@ -46,47 +48,31 @@
 
                 <i class='bx bx-chevron-right toggle'></i>
             </header>
-            
             <!--Main Side Bar-->
             <div class="menu-bar">
                 <div class="menu">
                     <ul class="menu-links">
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="<i:ReadUrlFromContext url="/ConstantTableController" />">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Management</span>
+                                <span class="text nav-text">Learning Manage</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Management</span>
+                                <span class="text nav-text">Account manager</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Management</span>
+                                <span class="text nav-text">Teacher Apply</span>
                             </a>
                         </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Management</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Management</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
 
@@ -106,46 +92,47 @@
                 </div>
             </div>
         </nav>
-        
-        <!--Create New Knowledge-->
+
         <div class="container">
-            <div class="title">New Knowledge</div>
-            <form action="CreateKnowledgeController" id="form" method="Post" enctype="multipart/form-data">
+            <div class="title">Your Recommend</div>
+            <form action="RecomendController" id="form" method="Post">
                 <div class="user-detail">
+                    <input type="hidden" value="${sessionScope.user.getUsername()}" name="username">
                     <div class="input-box">
-                        <span class="details">KnowledgeID</span>
-                        <input type="text" id="subId" name="knowledgeId" placeholder="Knowledge ID here" required value="${requestScope.nextId}" readonly="true">
+                        <span class="details">Choose subject</span>
+                        <select name="subject-select">
+                            <c:forEach items="${requestScope.subjects}" var="s">
+                                <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
+                            </c:forEach>
+                        </select>
                     </div>
 
                     <div class="input-box">
-                        <span class="details" >Knowledge Name</span>
-                        <input type="text" id="subName" placeholder="Knowledge Name here" name="knowledgeName">
-
+                        <span class="details">Action</span>
+                        <select name="action-select">
+                            <option value="1">New Knowledge</option>
+                            <option value="0">Update Knowledge</option>
+                        </select>
                     </div>
 
                     <div class="input-box">
-                        <span class="details">Knowledge Content</span>
-                        <input type="file" name="Image" required>
+                        <span class="details">Description</span>
+                        <textarea name="description" id="description" cols="75" rows="5"></textarea>
                     </div>
 
-                    <div class="input-box">
-                        <span class="details">ChapterID</span>
-                        <input type="text" id="subId" name="chapId" placeholder="Chapter ID here" required value="${requestScope.chapId}" readonly="true">
-                    </div>
                     <span class="error">Error message</span>
-                    <c:if test="${requestScope.check eq false}"> <span class="final-error">This Knowledge Name has been existing</span></c:if>
-                        <div class="button">
-                            <input type="submit" value="Add Knowledge">
-                        </div>
+                    <div class="button">
+                        <input type="submit" value="Add Subject">
                     </div>
-                </form>
-            </div>
-
-            <!-- Include footer of web site from general -->
+                </div>
+            </form>
+        </div>
+                                
+        <!-- Include footer of web site from general -->
         <%@include file="./footer.jsp" %>
-
+        
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
-        <script src="<i:ReadUrlFromContext url="/assets/js/CreateSubjectScript.js"/>"></script>
+        <script src="<i:ReadUrlFromContext url="/assets/js/RecommendScript.js"/>"></script>
     </body>
 </html>

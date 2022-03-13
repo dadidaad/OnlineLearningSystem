@@ -1,25 +1,15 @@
 /*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * 
- * AdminKnowledgeController
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-24   1.0         Doan Tu    First Implement
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller;
 
-import bean.ChapterBean;
-import bean.KnowledgeBean;
 import dao.ChapterDAO;
 import dao.IChapterDAO;
-import dao.IKnowledgeDAO;
-import dao.ISubjectDAO;
-import dao.KnowledgeDAO;
-import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -29,14 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to
- * see the list of knowledges for Admin manage. /AdminKnowledgeController is the URL of the web site Extend
- * HttpServlet class
  *
- * @author Doan Tu
+ * @author Phong Vu
  */
-@WebServlet(name = "AdminKnowledgeController", urlPatterns = {"/AdminKnowledgeController"})
-public class AdminKnowledgeController extends HttpServlet {
+@WebServlet(name = "ChapterDeleteController", urlPatterns = {"/ChapterDeleteController"})
+public class ChapterDeleteController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,9 +38,11 @@ public class AdminKnowledgeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -67,38 +56,15 @@ public class AdminKnowledgeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /*get data from Parameter of request*/
+            String subId = request.getParameter("subId");
             String chapId = request.getParameter("chapId");
             
-            /*Declare Variables*/
-            ISubjectDAO subjectDAO = new SubjectDAO();
             IChapterDAO chapterDAO = new ChapterDAO();
-            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();
+            chapterDAO.deleteChapterById(Integer.parseInt(chapId));
             
-            /*Queries to get number of Subject, Knowledge, Chapter*/
-            int numberOfSubject = subjectDAO.getNumberOfSubject();
-            int numberOfChapter = chapterDAO.getNumberOfChapter();
-            int numberOfKnowledge = knowledgeDAO.getNumbberOfKnowledge();
-            
-            int[] numbers = new int[3];
-            numbers[0] = numberOfSubject;
-            numbers[1] = numberOfChapter;
-            numbers[2] = numberOfKnowledge;
-            
-            /*Get Chapter and all Knowledge of the Chapter Queries*/
-            ArrayList<KnowledgeBean> knowledges = new ArrayList<>();
-            knowledges = knowledgeDAO.getByChapterId(Integer.parseInt(chapId));
-            ChapterBean chapter = new ChapterBean();
-            chapter = chapterDAO.getChapterById(Integer.parseInt(chapId));
-            
-            /*Attach knowledges, chapter, numbers attribute to request and ridirect*/
-            request.setAttribute("knowledges", knowledges);
-            request.setAttribute("chapter", chapter);
-            request.setAttribute("numbers", numbers);
-            
-            request.getRequestDispatcher("./view/AdminKnowledge.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("AdminChapterController?subId="+subId); 
+        }catch (SQLException ex) {
+            Logger.getLogger(ChapterDeleteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -124,6 +90,6 @@ public class AdminKnowledgeController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

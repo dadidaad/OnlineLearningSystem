@@ -1,9 +1,8 @@
 <%-- 
-    Document   : AdminKnowledge
-    Created on : Feb 25, 2022, 3:55:51 PM
+    Document   : RecommendHistory
+    Created on : Mar 9, 2022, 9:13:21 PM
     Author     : Phong Vu
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
@@ -26,7 +25,7 @@
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/AdminSubjectStyle.css" />">
-        <title>TutorDuo</title>
+        <title>TutorDou</title>
     </head>
     <body>
         <!-- Include header of web site from general-->
@@ -52,6 +51,7 @@
             <div class="menu-bar">
                 <div class="menu">
                     <ul class="menu-links">
+
                         <li class="nav-link">
                             <a href="<i:ReadUrlFromContext url="/ConstantTableController" />">
                                 <i class='bx bx-calendar-check icon'></i>
@@ -91,78 +91,43 @@
                 </div>
             </div>
         </nav>
-         
-        <!--Overview-->
+
         <main>
-            <h2 class="dash-title">Overview</h2>
-            <div class="dash-card">
-                <div class="card-single">
-                    <div class="card-body">
-                        <span class="ti-briefcase"><i class='bx bx-book-bookmark icon' ></i></span>
-                        <div>
-                            <h5>Total of Subject</h5>
-                            <h4>${requestScope.numbers[0]}</h4>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#">Available</a>
-                    </div>
-                </div>
-
-                <div class="card-single">
-                    <div class="card-body">
-                        <span class="ti-reload"><i class='bx bx-notepad icon' ></i></span>
-                        <div>
-                            <h5>Total of Chapter</h5>
-                            <h4>${requestScope.numbers[1]}</h4>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#">Available</a>
-                    </div>
-                </div>
-
-                <div class="card-single">
-                    <div class="card-body">
-                        <span class="ti-check-box"><i class='bx bx-bookmark icon' ></i></span>
-                        <div>
-                            <h5>Total of Knowledge</h5>
-                            <h4>${requestScope.numbers[2]}</h4>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#">Available</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!--Main Management-->
             <section class="recent">
                 <div class="activity-grid">
-
                     <div class="activity-card">
-                        <h3 class="">All Knowledge for ${requestScope.chapter.getChapterName()}</h3> <span class="new-subject"><a href="CreateKnowledgeController?chapId=${requestScope.chapter.getChapterID()}">Add New Knowledge</a></span>
-                        <table borders="2">
+                        <h3 class="">Knowledge Recommend History</h3> <span class="new-subject">Add New Recommend</span>
+                        <table borders="1">
                             <thead>
                                 <tr>
-                                    <th>KnowledgeID</th>
-                                    <th>KnowledgeName</th>
-                                    <th>KnowledgeContent</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
+                                    <th>Recommend</th>
+                                    <th>Subject</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${requestScope.knowledges}" var="k" varStatus="loop">
+                                <c:forEach items="${requestScope.recommends}" var="recommend" varStatus="loop">
                                     <tr>
-                                        <td class="id-name">${k.getKnowledgeID()}</td>
-                                        <td class="id-name"><a href="" style="color: black; font-weight: 600;"> ${k.getKnowledgeName()}</a></td>
-                                        <td class="knowledgeContent">
-                                            <img src="./${k.getKnowledgeContent()}" alt="" class="img">
+                                        <td class="id-name" style="text-align: left">${recommend.getRecommendID()}</td>
+              
+                                        <td class="id-name" style="text-align: left">${requestScope.subjects[loop.index]}</td>
+                                        <td class="rec-description" style="text-align: left">${recommend.getDescription()}</td>
+                                        <td>
+                                            <c:if test="${recommend.getStatus() eq 'waiting'}">
+                                                <i class="fas fa-history fa-2x" style="margin-bottom: 10px; color: yellow;"></i>
+                                            </c:if>
+
+                                            <c:if test="${recommend.getStatus() eq 'accept'}">
+                                                <i class="fas fa-check fa-2x" style="margin-bottom: 10px; color: green;"></i>
+                                            </c:if>
+
+                                            <c:if test="${recommend.getStatus() eq 'decline'}">
+                                                <i class="fas fa-times fa-2x" style="color: red;"></i>
+                                            </c:if>
                                         </td>
-                                        <td><a href="KnowledgeUpdateController?knowledgeId=${k.getKnowledgeID()}" class="action" style="color: black;"><i class='bx bx-edit-alt icon' ></i></a></td>
-                                        <td><span onclick="Confirm(${k.getKnowledgeID()}, ${k.getChapterID()})" class="action" style="color: black; " id="delete" ><i class='bx bx-trash icon' ></i></span></td>
                                     </tr>
+
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -170,19 +135,35 @@
                     <div class="summary">
                         <div class="summary-card">
                             <div class="summary-single">
-                                <span><i class='bx bx-bookmark icon' ></i></span>
+                                <span><i class='bx bx-notepad icon' ></i></span>
                                 <div>
-                                    <h5>${requestScope.knowledges.size()}</h5>
-                                    <small>Knowledge for Chapter</small>
+                                    <h5>${requestScope.recommends.size()}</h5>
+                                    <small>Total Recommend</small>
                                 </div>
                             </div>
 
+                            <div class="summary-single">
+                                <span><i class='bx bx-bookmark icon' ></i></span>
+                                <div>
+                                    <h5>${requestScope.numberOfAccept}</h5>
+                                    <small>Total of Accept</small>
+                                </div>
+                            </div>
+
+                            <div class="summary-single">
+                                <span><i class='bx bx-bookmark icon' ></i></span>
+                                <div>
+                                    <h5>${requestScope.numberOfDecline}</h5>
+                                    <small>Total Of Decline</small>
+                                </div>
+                            </div>
+                                    
                         </div>
                     </div>
                 </div>
 
             </section>
-        </main>
+        </main>                      
 
         <!-- Include footer of web site from general -->
         <%@include file="./footer.jsp" %>
@@ -190,15 +171,4 @@
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/ListSubjectScript.js"/>"></script>
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-    crossorigin="anonymous"></script>
-    <script>
-       function Confirm(x,y){
-            let choice = confirm("Do you want to delete this Knowledge?");
-            if(choice){
-                window.location.href= 'KnowledgeDeleteController?knowledgeId='+x+'&chapId='+y;
-            }
-       }
-    </script>
 </html>

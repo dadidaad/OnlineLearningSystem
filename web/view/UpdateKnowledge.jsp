@@ -109,33 +109,32 @@
         
         <!--Create New Knowledge-->
         <div class="container">
-            <div class="title">New Knowledge</div>
-            <form action="CreateKnowledgeController" id="form" method="Post" enctype="multipart/form-data">
+            <div class="title">Update Knowledge</div>
+            <form action="KnowledgeUpdateController" id="form" method="Post" enctype="multipart/form-data">
                 <div class="user-detail">
                     <div class="input-box">
                         <span class="details">KnowledgeID</span>
-                        <input type="text" id="subId" name="knowledgeId" placeholder="Knowledge ID here" required value="${requestScope.nextId}" readonly="true">
+                        <input type="text" id="subId" name="knowledgeId" placeholder="Knowledge ID here" required value="${requestScope.knowledge.getKnowledgeID()}" readonly="true">
                     </div>
 
                     <div class="input-box">
                         <span class="details" >Knowledge Name</span>
-                        <input type="text" id="subName" placeholder="Knowledge Name here" name="knowledgeName">
-
+                        <input type="text" id="subName" placeholder="Knowledge Name here" name="knowledgeName" value="${requestScope.knowledge.getKnowledgeName()}">
+                        <input type="text" name="currentName" value="${requestScope.knowledge.getKnowledgeName()}" hidden="true">
+                        <input type="text" name="chapId" value="${requestScope.knowledge.getChapterID()}" hidden="true">
                     </div>
-
+                        
                     <div class="input-box">
                         <span class="details">Knowledge Content</span>
-                        <input type="file" name="Image" required>
+                        <input type="file" name="Image">
+                        <input type="text" name="currentKnowledge" value="${requestScope.knowledge.getKnowledgeContent()}" hidden="true">
+                        <img src="${requestScope.knowledge.getKnowledgeContent()}" style="width: 400px; height:200px;  margin-top: 10px;">
                     </div>
-
-                    <div class="input-box">
-                        <span class="details">ChapterID</span>
-                        <input type="text" id="subId" name="chapId" placeholder="Chapter ID here" required value="${requestScope.chapId}" readonly="true">
-                    </div>
+                        
                     <span class="error">Error message</span>
                     <c:if test="${requestScope.check eq false}"> <span class="final-error">This Knowledge Name has been existing</span></c:if>
                         <div class="button">
-                            <input type="submit" value="Add Knowledge">
+                            <input type="submit" value="Update Knowledge">
                         </div>
                     </div>
                 </form>

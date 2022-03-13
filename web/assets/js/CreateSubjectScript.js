@@ -3,7 +3,7 @@ form.addEventListener('submit', (e)=>{
     let name = document.getElementById('subName');
     let des = document.getElementById('description');
     
-    if(name.value.trim()==""){
+    if(name.value.trim()==="" || name.value.trim().length > 20){
         e.preventDefault();
         let error = form.querySelector('.error');
         error.innerText ="Name can not be Empty";

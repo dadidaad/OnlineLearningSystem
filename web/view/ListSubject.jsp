@@ -23,7 +23,7 @@
               integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" 
               crossorigin="anonymous"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
+
         <!-- Link to css file -->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <title>TutorDuo</title>
@@ -110,10 +110,11 @@
                             You can also search important constant, term in high school education program
                             We will summarize the most important knowledge parts of the math, physics, 
                             chemistry in the high school program, these knowledge are the foundation and 
-                            they are arranged in the order of the course syllabus, not the division. 
+                            they are arranged in the order of the course syllabus, not the division.    
                             Coordinate the current program.
                         </p>
-                        <button class="btn btn-primary btn-lg"> <a href="#subject-list"> Start learning </a></button>
+                        <c:if test="${sessionScope.user.getRole() eq 'Student'}"><button class="btn btn-primary btn-lg"> <a href="RecommendController"> Start learning </a></button></c:if>
+                        <c:if test="${sessionScope.user.getRole() eq 'Student'}"><button class="btn btn-primary btn-lg"> <a href="RecommendHistoryCOntroller"> Start learning </a></button></c:if>
                     </div>
                     <img class="img-fluid w-50 mx-3 d-none d-sm-block" src="<i:ReadUrlFromContext url="/assets/image/istockphoto-1206750602-1024x1024.jpg" />" alt="">
                 </div>

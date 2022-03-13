@@ -24,15 +24,14 @@ import java.util.logging.Logger;
  * @author Doan Tu
  */
 public class ConstantDAO extends BaseDAO implements IConstantDAO {
-
-
+    
     /**
      * getAllConstant() method implement from IConstantDAO
-     *
+     * 
      * @return constants. <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<ConstantBean> getAllConstant() {
+    public ArrayList<ConstantBean> getAllConstant() throws SQLException {
         ArrayList<ConstantBean> constants = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -42,6 +41,7 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
             conn = getConnection();
             String sql = "select * from Constant";
             statement = conn.prepareStatement(sql);
+
             /*Querry and save in ResultSet*/
             rs = statement.executeQuery();
 
@@ -59,7 +59,8 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return constants;
@@ -67,12 +68,12 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
 
     /**
      * getByConstantName method implement from IConstantDAO
-     *
+     * 
      * @param constantName, <code>java.lang.String</code> object
      * @return constants. <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<ConstantBean> getByConstantName(String constantName) {
+    public ArrayList<ConstantBean> getByConstantName(String constantName) throws SQLException {
         ArrayList<ConstantBean> constants = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -98,10 +99,10 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
                 c.setDescription(rs.getString("Description"));
                 constants.add(c);
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return constants;
@@ -109,12 +110,12 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
 
     /**
      * getBySignOrConvention method implement from IConstantDAO
-     *
+     * 
      * @param sign. <code>java.lang.String</code> object
      * @return <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<ConstantBean> getBySignOrConvention(String sign) {
+    public ArrayList<ConstantBean> getBySignOrConvention(String sign) throws SQLException {
         ArrayList<ConstantBean> constants = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -122,7 +123,7 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
         try {
             /*Set up connection and Sql statement for Querry*/
             conn = getConnection();
-            String sql = "select * from Constant where [Sign] like N'%" + sign + "%' or ReadingConvention like N'%" + sign + "%'";
+            String sql = "select * from Constant where [Sign] like N'%" + sign + "%' or ReadingConvention like N'%" +sign + "%'";
             statement = conn.prepareStatement(sql);
 
             /*Querry and save in ResultSet*/
@@ -142,21 +143,22 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return constants;
     }
-
+  
     /**
      * getByNameAndSign method implement from IConstantDAO
-     *
+     * 
      * @param name. <code>java.lang.String</code> object
      * @param sign. <code>java.lang.String</code> object
      * @return <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<ConstantBean> getByNameAndSign(String name, String sign) {
+    public ArrayList<ConstantBean> getByNameAndSign(String name, String sign) throws SQLException {
         ArrayList<ConstantBean> constants = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -166,7 +168,7 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
             conn = getConnection();
             String sql = "select * from Constant where "
                     + "ConstantName like N'%" + name + "%' "
-                    + "and ([Sign] like N'%" + sign + "%'"
+                    + "and ([Sign] like N'%" +sign + "%'"
                     + "or ReadingConvention like N'%" + sign + "%')";
             statement = conn.prepareStatement(sql);
 
@@ -187,7 +189,8 @@ public class ConstantDAO extends BaseDAO implements IConstantDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            throw(ex);
+        }finally{
             close(conn, statement, rs);
         }
         return constants;

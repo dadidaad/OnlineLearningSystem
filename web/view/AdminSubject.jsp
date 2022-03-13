@@ -54,7 +54,7 @@
                     <ul class="menu-links">
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="<i:ReadUrlFromContext url="/AdminSubjectController" />">
                                 <i class='bx bx-calendar-check icon'></i>
                                 <span class="text nav-text">Learning Manage</span>
                             </a>
@@ -63,31 +63,16 @@
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
+                                <span class="text nav-text">Account manager</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="#">
                                 <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
+                                <span class="text nav-text">Teacher Apply</span>
                             </a>
                         </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-link">
-                            <a href="#">
-                                <i class='bx bx-calendar-check icon'></i>
-                                <span class="text nav-text">Learning Manage</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
 
@@ -156,6 +141,7 @@
                 <div class="activity-grid">
                     <div class="activity-card">
                         <h3 class="">All Subject</h3> <span class="new-subject"><a href="CreateSubjectController">Add New Subject</a></span>
+                        <span class="new-subject" style="transform: translate(-110%, 25%)"><a href="AdminRecommendController?action=new">Check Recommend</a></span>
                         <table borders="1">
                             <thead>
                                 <tr>
@@ -163,6 +149,8 @@
                                     <th>Name</th>
                                     <th>Descripton</th>
                                     <th>Image</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -172,18 +160,20 @@
                                         <td> <a href="AdminChapterController?subId=${s.getSubjectID()}" style="color: black; font-weight: 600;"> ${s.getSubjectName()}</br>(Click to see Chapters)</a></td>
                                         <td>
                                             <div class="descrip">
-                                                <p>${s.getDescription()}l</p>
+                                                <p>${s.getDescription()}</p>
                                             </div>
                                         </td>
                                         <td class="illus">
                                             <img src="${s.getSubjectImage()}" alt="" class="img">
                                         </td>
+                                        <td><a href="SubjectUpdateController?subId=${s.getSubjectID()}" class="action" style="color: black;"><i class='bx bx-edit-alt icon' ></i></a></td>
+                                        <td><a href="#" onclick="Confirm(${s.getSubjectID()})" class="action" style="color: black; "><i class='bx bx-trash icon' ></i></a></td> 
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
-                    <div class="summary">
+<!--                    <div class="summary">
                         <div class="summary-card">
                             <div class="summary-single">
                                 <span><i class='bx bx-user icon' ></i></span>
@@ -209,7 +199,7 @@
                                 </div>
                             </div>  
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
             </section>
@@ -223,4 +213,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
     crossorigin="anonymous"></script>
+    <script>
+       function Confirm(x){
+            let choice = confirm("Do you want to delete this Subject?");
+            if(choice){
+                window.location.href= 'SubjectDeleteController?subId='+x;
+            }
+       }
+    </script>
 </html>

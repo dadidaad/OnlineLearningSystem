@@ -1,6 +1,6 @@
 <%-- 
-    Document   : CreateKnowledge
-    Created on : Feb 25, 2022, 8:00:58 PM
+    Document   : CreateChapter
+    Created on : Feb 25, 2022, 10:16:39 AM
     Author     : Phong Vu
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -30,7 +30,7 @@
     <body>
         <!-- Include header of web site from general-->
         <%@include file="./header.jsp" %>
-
+        
         <!--Side Bar-->
         <nav class="sidebar close">
             <header>
@@ -47,7 +47,7 @@
                 <i class='bx bx-chevron-right toggle'></i>
             </header>
             
-            <!--Main Side Bar-->
+             <!--Main Side Bar-->
             <div class="menu-bar">
                 <div class="menu">
                     <ul class="menu-links">
@@ -107,35 +107,44 @@
             </div>
         </nav>
         
-        <!--Create New Knowledge-->
+        <!--Create New Chapter -->
         <div class="container">
-            <div class="title">New Knowledge</div>
-            <form action="CreateKnowledgeController" id="form" method="Post" enctype="multipart/form-data">
+            <div class="title">Update Chapter</div>
+            <form action="ChapterUpdateController" id="form" method="Post">
                 <div class="user-detail">
                     <div class="input-box">
-                        <span class="details">KnowledgeID</span>
-                        <input type="text" id="subId" name="knowledgeId" placeholder="Knowledge ID here" required value="${requestScope.nextId}" readonly="true">
-                    </div>
-
-                    <div class="input-box">
-                        <span class="details" >Knowledge Name</span>
-                        <input type="text" id="subName" placeholder="Knowledge Name here" name="knowledgeName">
-
-                    </div>
-
-                    <div class="input-box">
-                        <span class="details">Knowledge Content</span>
-                        <input type="file" name="Image" required>
-                    </div>
-
-                    <div class="input-box">
                         <span class="details">ChapterID</span>
-                        <input type="text" id="subId" name="chapId" placeholder="Chapter ID here" required value="${requestScope.chapId}" readonly="true">
+                        <input type="text" id="subId" name="chapId" placeholder="Chapter ID here" required value="${requestScope.chapter.getChapterID()}" readonly="true">
+                    </div>
+
+                    <div class="input-box">
+                        <span class="details" >Chapter Name</span>
+                        <input type="text" id="subName" placeholder="Chapter Name here" name="chapName" value="${requestScope.chapter.getChapterName()}">
+                        <input type="text" name="currentName" value="${requestScope.chapter.getChapterName()}" hidden="true">
+                    </div>
+
+                    <div class="input-box">
+                        <span class="details">Chapter Content</span>
+                        <input type="text" id="description" placeholder="Chapter Content here" name="chapContent" value="${requestScope.chapter.getChapterContent()}">
+                    </div>
+
+                    <div class="input-box">
+                        <span class="details">Subject</span>
+                        <select name="subject" style="width: 100%; padding: 5px 15px; border: 1px solid #ccc; border-radius: 5px;">
+                            <c:forEach items="${requestScope.subjects}" var="s">
+                                <c:if test="${s.getSubjectID() eq requestScope.chapter.getSubjectID()}">
+                                    <option value="${s.getSubjectID()}" selected="true">${s.getSubjectName()}</option>
+                                </c:if>
+                                <c:if test="${s.getSubjectID() != requestScope.chapter.getSubjectID()}">
+                                    <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
                     </div>
                     <span class="error">Error message</span>
-                    <c:if test="${requestScope.check eq false}"> <span class="final-error">This Knowledge Name has been existing</span></c:if>
+                    <c:if test="${requestScope.check eq false}"> <span class="final-error">This Chapter Name has been existing</span></c:if>
                         <div class="button">
-                            <input type="submit" value="Add Knowledge">
+                            <input type="submit" value="Update Chapter">
                         </div>
                     </div>
                 </form>

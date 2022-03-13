@@ -1,10 +1,7 @@
 /*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * 
- * CreateKnowledgeController
- * Record of change:
- * DATE         Version     AUTHOR     Description
- * 2022-02-25   1.0         Doan Tu    First Implement
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller;
 
@@ -25,15 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 /**
- * This is a Servlet responsible for handling the task when the user wants to
- * Create new knowledge and insert it into database. /CreateKnowledgeController is the URL of the web site Extend
- * HttpServlet class
  *
- * @author Doan Tu
+ * @author Phong Vu
  */
 @MultipartConfig
-@WebServlet(name = "CreateKnowledgeController", urlPatterns = {"/CreateKnowledgeController"})
-public class CreateKnowledgeController extends HttpServlet {
+@WebServlet(name = "KnowledgeUpdateController", urlPatterns = {"/KnowledgeUpdateController"})
+public class KnowledgeUpdateController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,21 +57,20 @@ public class CreateKnowledgeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /*Get data from Parameter of request*/
-            String chapId = request.getParameter("chapId");
-            
-            /*get total Number Of Knowledge*/
-            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();
-            int numberOfKnowledge = knowledgeDAO.getNumbberOfKnowledge() + 1;
+            String knowledgeId = request.getParameter("knowledgeId");
 
-            /*Attach nextID and chapID Atrribute to request and redirect*/
-            request.setAttribute("nextId", numberOfKnowledge);
-            request.setAttribute("chapId", chapId);
-            request.getRequestDispatcher("./view/CreateKnowledge.jsp").forward(request, response);
+            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();
+            KnowledgeBean knowledge = new KnowledgeBean();
+            knowledge = knowledgeDAO.getKnowledgeById(Integer.parseInt(knowledgeId));
+
+            request.setAttribute("knowledge", knowledge);
+            request.getRequestDispatcher("./view/UpdateKnowledge.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(CreateKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KnowledgeUpdateController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,27 +91,38 @@ public class CreateKnowledgeController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /*get data from parameter of request*/
             String knowledgeName = request.getParameter("knowledgeName").replaceAll("\\s\\s+", " ").trim();
+            String currentKnowledgeName = request.getParameter("currentName").replaceAll("\\s\\s+", " ").trim();
             String knowledgeId = request.getParameter("knowledgeId");
-            String chapId = request.getParameter("chapId");
-            Part part = request.getPart("Image");
-            String knowledgeContent = part.getSubmittedFileName();
             
-            /*Query for check whether Knowledge Name has existed*/
+            String currentKnowledge = request.getParameter("currentKnowledge");
+            String chapId = request.getParameter("chapId");
+            
+            Part part = request.getPart("Image"); 
+            String subImage = part.getSubmittedFileName();
+            String actuallyKnowContent = "assets/image/Algebra/" + subImage;
+            if(subImage.equals("")){
+                actuallyKnowContent = currentKnowledge;
+            }
+            
+            /*Query for check whether Subject Name has existed*/
             IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();
             boolean check = knowledgeDAO.searchByKnowledgeNameOfChap(knowledgeName, Integer.parseInt(chapId));
+            
             /*If existed, reiderect*/
-            if(check==false){
-                request.setAttribute("nextId", knowledgeId);
-                request.setAttribute("chapId", chapId);
+            if (check == false && !currentKnowledgeName.equals(knowledgeName)) {
+                KnowledgeBean curKnowledge = new KnowledgeBean();
+                curKnowledge = knowledgeDAO.getKnowledgeById(Integer.parseInt(knowledgeId));
+                
+                request.setAttribute("knowledge",curKnowledge);
                 request.setAttribute("check", check);
-                request.getRequestDispatcher("./view/CreateKnowledge.jsp").forward(request, response);
-            }else{//If not, insert new Chapter into database
-                KnowledgeBean knowledge = new KnowledgeBean(Integer.parseInt(knowledgeId), knowledgeName,"assets/image/Algebra/"+knowledgeContent, Integer.parseInt(chapId));
-                int numberOfRow = knowledgeDAO.createKnowledge(knowledge);
+                request.getRequestDispatcher("./view/UpdateKnowledge.jsp").forward(request, response);
+            }else{
+                KnowledgeBean knowledge = new KnowledgeBean(Integer.parseInt(knowledgeId), knowledgeName, actuallyKnowContent, Integer.parseInt(chapId));
+                int numberOfRows = knowledgeDAO.updateKnowledge(knowledge);
                 response.sendRedirect("AdminKnowledgeController?chapId="+chapId);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CreateKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KnowledgeUpdateController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -130,6 +134,6 @@ public class CreateKnowledgeController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }
