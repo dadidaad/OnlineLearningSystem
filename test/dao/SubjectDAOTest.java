@@ -8,8 +8,8 @@
  */
 package dao;
 
-import dao.SubjectDAO;
 import bean.SubjectBean;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import org.junit.After;
@@ -62,7 +62,7 @@ public class SubjectDAOTest {
      * Test of getSubjectNames method, of class SubjectDAO.
      */
     @Test
-    public void testGetSubjectNames() {
+    public void testGetSubjectNames() throws SQLException {
         System.out.println("getSubjectNames");
         SubjectDAO instance = new SubjectDAO();
         Map<Integer, String> expResult = null;
@@ -76,7 +76,7 @@ public class SubjectDAOTest {
      * Test of getNumberOfSubject method, of class SubjectDAO.
      */
     @Test
-    public void testGetNumberOfSubject() {
+    public void testGetNumberOfSubject() throws SQLException {
         System.out.println("getNumberOfSubject");
         SubjectDAO instance = new SubjectDAO();
         int expResult = 9;
@@ -88,7 +88,7 @@ public class SubjectDAOTest {
      * Test of getNumberOfSubject method with No data, of class SubjectDAO.
      */
     @Test
-    public void testGetNumberOfSubjectWithNoData() {
+    public void testGetNumberOfSubjectWithNoData() throws SQLException {
         System.out.println("getNumberOfSubject");
         SubjectDAO instance = new SubjectDAO();
         int expResult = 0;
@@ -100,7 +100,7 @@ public class SubjectDAOTest {
      * Test of searchBySubName method, of class SubjectDAO.
      */
     @Test
-    public void testSearchBySubName() {
+    public void testSearchBySubName() throws SQLException {
         System.out.println("searchBySubName");
         String subName = "Algebra";
         SubjectDAO instance = new SubjectDAO();
@@ -112,7 +112,7 @@ public class SubjectDAOTest {
      * Test of searchBySubName method with null value, of class SubjectDAO.
      */
     @Test
-    public void testSearchBySubNameNull() {
+    public void testSearchBySubNameNull() throws SQLException {
         System.out.println("searchBySubName");
         String subName = null;
         SubjectDAO instance = new SubjectDAO();
@@ -125,7 +125,7 @@ public class SubjectDAOTest {
      * Test of searchBySubName method with false value, of class SubjectDAO.
      */
     @Test
-    public void testSearchBySubNameFalse() {
+    public void testSearchBySubNameFalse() throws SQLException {
         System.out.println("searchBySubName");
         String subName = "Modern Physics";
         SubjectDAO instance = new SubjectDAO();
@@ -138,7 +138,7 @@ public class SubjectDAOTest {
      * Test of createNewSubject method with Empty, of class SubjectDAO.
      */
     @Test
-    public void testCreateNewSubjectEmpty() {
+    public void testCreateNewSubjectEmpty() throws SQLException {
         System.out.println("createNewSubject");
         SubjectBean subject = new SubjectBean();
         SubjectDAO instance = new SubjectDAO();
@@ -152,7 +152,7 @@ public class SubjectDAOTest {
      * Test of createNewSubject method, of class SubjectDAO.
      */
     @Test
-    public void testCreateNewSubject() {
+    public void testCreateNewSubject() throws SQLException {
         System.out.println("createNewSubject");
         SubjectBean subject = new SubjectBean(10,"Modern Physic","description", "image");
         SubjectDAO instance = new SubjectDAO();
@@ -166,7 +166,7 @@ public class SubjectDAOTest {
      * Test of createNewSubject method with Null value, of class SubjectDAO.
      */
     @Test(expected = Exception.class)
-    public void testCreateNewSubjectNull() {
+    public void testCreateNewSubjectNull() throws SQLException {
         System.out.println("createNewSubject");
         SubjectBean subject = null;
         SubjectDAO instance = new SubjectDAO();
@@ -177,7 +177,7 @@ public class SubjectDAOTest {
      * Test of getSubjectById method with Boundary value, of class SubjectDAO.
      */
     @Test
-    public void testGetSubjectByIdWithBoundary(){
+    public void testGetSubjectByIdWithBoundary() throws SQLException{
         System.out.println("getSubjectById");
         int subId = 0;
         SubjectDAO instance = new SubjectDAO();
@@ -190,7 +190,7 @@ public class SubjectDAOTest {
      * Test of getSubjectById method with Boundary value, of class SubjectDAO.
      */
     @Test
-    public void testGetSubjectByIdWithBoundary2(){
+    public void testGetSubjectByIdWithBoundary2() throws SQLException{
         System.out.println("getSubjectById");
         int subId = 10;
         SubjectDAO instance = new SubjectDAO();
@@ -203,7 +203,7 @@ public class SubjectDAOTest {
      * Test of getSubjectById method, of class SubjectDAO.
      */
     @Test
-    public void testGetSubjectById(){
+    public void testGetSubjectById() throws SQLException{
         System.out.println("getSubjectById");
         int subId = 1;
         SubjectDAO instance = new SubjectDAO();
@@ -216,6 +216,81 @@ public class SubjectDAOTest {
                 + "equations to abstract studies like groups, rings, and fields, "
                 + "This will be the subject you learn really care full in high school", "assets/image/Algebra.jpg").toString();
         String result = instance.getSubjectById(subId).toString();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of updateSubject method, of class SubjectDAO.
+     */
+    @Test
+    public void testUpdateSubject() throws Exception {
+        System.out.println("updateSubject");
+        SubjectBean subject = new SubjectBean(11, "demosubject2", "description", "image");
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 1;
+        int result = instance.updateSubject(subject);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testUpdateSubjectWithEmpty() throws Exception {
+        System.out.println("updateSubject");
+        SubjectBean subject = new SubjectBean();
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 0;
+        int result = instance.updateSubject(subject);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testUpdateSubjectWithNonExistedSubject() throws Exception {
+        System.out.println("updateSubject");
+        SubjectBean subject = new SubjectBean(13, "demosubject2", "description", "image");
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 0;
+        int result = instance.updateSubject(subject);
+        assertEquals(expResult, result);
+    }
+    
+    @Test(expected = Exception.class)
+    public void testUpdateSubjectWithNull() throws Exception {
+        System.out.println("updateSubject");
+        SubjectBean subject = null;
+        SubjectDAO instance = new SubjectDAO();
+        instance.updateSubject(subject);
+
+    }
+
+    /**
+     * Test of deleteSubject method, of class SubjectDAO.
+     */
+    @Test
+    public void testDeleteSubject() throws Exception {
+        System.out.println("deleteSubject");
+        int subId = 11;
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 0;
+        int result = instance.deleteSubject(subId);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testDeleteSubjectWithNonExistedSubject() throws Exception {
+        System.out.println("deleteSubject");
+        int subId = 20;
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 0;
+        int result = instance.deleteSubject(subId);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testDeleteSubjectWithZero() throws Exception {
+        System.out.println("deleteSubject");
+        int subId = 0;
+        SubjectDAO instance = new SubjectDAO();
+        int expResult = 0;
+        int result = instance.deleteSubject(subId);
         assertEquals(expResult, result);
     }
 
