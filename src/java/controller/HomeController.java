@@ -26,14 +26,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * This is a Servlet responsible for handling home url
- * /Home is the URL of the web site
- * Extend HttpServlet class
- * 
+ * This is a Servlet responsible for handling home url /Home is the URL of the
+ * web site Extend HttpServlet class
+ *
  * @author DajtVox
  */
 public class HomeController extends HttpServlet {
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -51,22 +49,21 @@ public class HomeController extends HttpServlet {
         List<TeacherBean> teacherList = iTeacherDAO.getTop3Teacher();
         request.setAttribute("teachers", teacherList);
         ServletContext ctx = getServletContext();
-        Integer count = (Integer)ctx.getAttribute("pcount");
-        ctx.setAttribute("pcount", ++count);  
-        
+        Integer count = (Integer) ctx.getAttribute("pcount");
+        ctx.setAttribute("pcount", ++count);
+
         HttpSession session = request.getSession();
-            AccountBean account = (AccountBean) session.getAttribute("user");
-            if (account != null) {
-                INotificationDAO iNotificationDAO = new NotificationDAO();
-                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
-                request.setAttribute("notiUnread", notiUnread);
-                
-                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-                request.setAttribute("notificationList", notiList);
-            }
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+            request.setAttribute("notiUnread", notiUnread);
+
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("notificationList", notiList);
+        }
         request.getRequestDispatcher("/view/Home.jsp").forward(request, response); //forward Home.jsp if get url
-        request.getRequestDispatcher("./view/Home.jsp").forward(request, response); //forward Home.jsp if get url
+
     }
 
-   
 }

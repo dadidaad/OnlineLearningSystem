@@ -15,6 +15,7 @@ import dao.AccountDAO;
 import dao.CounterViewDAO;
 import dao.IAccountDAO;
 import dao.ICounterViewDAO;
+import dao.INotificationDAO;
 import dao.IRequestDAO;
 import dao.NotificationDAO;
 import dao.RequestDAO;
@@ -71,31 +72,19 @@ public class DashboardController extends HttpServlet {
 
             int totalAccount = iAccountDAO.totalAccount();
             int totalRequest = iRequestDAO.getTotalPendingRequest();
-
+            int totalOnline = AccountBean.getSize();
+            ServletContext ctx = getServletContext();
+            Integer countPerDay = (Integer) ctx.getAttribute("pcount");
+            ICounterViewDAO iCounterViewDAO = new CounterViewDAO();
+            int totalView = iCounterViewDAO.getTotalView();
             request.setAttribute("totalAccount", totalAccount);
             request.setAttribute("totalRequest", totalRequest);
-
+            request.setAttribute("totalOnline", totalOnline);
+            request.setAttribute("totalView", totalView);
+            request.setAttribute("countViewPage", countPerDay);
             request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
         } catch (Exception ex) {
-        
-        IAccountDAO iAccountDAO = new AccountDAO(); 
-        IRequestDAO iRequestDAO = new RequestDAO();
-        
-        int totalAccount = iAccountDAO.totalAccount();
-        int totalRequest = iRequestDAO.getTotalPendingRequest();
-        int totalOnline = AccountBean.getSize();
-        ServletContext ctx = getServletContext();
-        Integer countPerDay = (Integer)ctx.getAttribute("pcount");
-        ICounterViewDAO iCounterViewDAO = new CounterViewDAO();
-        int totalView = iCounterViewDAO.getTotalView();
-        request.setAttribute("totalAccount", totalAccount);
-        request.setAttribute("totalRequest", totalRequest);
-        request.setAttribute("totalOnline", totalOnline);
-        request.setAttribute("totalView", totalView);
-        request.setAttribute("countViewPage", countPerDay);
-        request.getRequestDispatcher("./view/AdminDashboard.jsp").forward(request, response);
-        }catch (Exception ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 

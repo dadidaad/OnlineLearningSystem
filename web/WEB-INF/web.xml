@@ -20,6 +20,10 @@
         <description>ServletContextListener</description>
         <listener-class>listener.CountViewPageListener</listener-class>
     </listener>
+    <listener>
+        <description>HttpSessionAttributeListener</description>
+        <listener-class>listener.RequestAcceptListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
@@ -184,6 +188,10 @@
         <servlet-name>CounterController</servlet-name>
         <servlet-class>controller.CounterController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeStatusRequestController</servlet-name>
+        <servlet-class>controller.ChangeStatusRequestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -332,7 +340,7 @@
         <servlet-name>ShowmoreNotificationController</servlet-name>
         <url-pattern>/ShowmoreNotification</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>    
+    <servlet-mapping>
         <servlet-name>WalletController</servlet-name>
         <url-pattern>/Wallet</url-pattern>
     </servlet-mapping>
@@ -347,6 +355,10 @@
     <servlet-mapping>
         <servlet-name>CounterController</servlet-name>
         <url-pattern>/Counter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeStatusRequestController</servlet-name>
+        <url-pattern>/ChangeStatusRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

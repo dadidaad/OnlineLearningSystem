@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +61,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
+
                 requests.add(request);
             }
             /*Close all the connection */
@@ -107,10 +108,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
+
                 return request;
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -121,8 +122,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
      * getRequestByStatus method implement from IRequestDAO
-     * 
-     * @return request. <code>java.util.ArrayList</code> object  
+     *
+     * @return request. <code>java.util.ArrayList</code> object
      */
     @Override
     public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus, int pageindex, int pagesize) {
@@ -130,22 +131,18 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select *\n" +
-                    "from Request\n" +
-                    "where Status =? and Student_sent = ? \n" +
-                    "order by Request.CreatedTime desc \n"+
-                    "OFFSET ? ROWS \n" +
-                    "FETCH NEXT ? ROWS ONLY;";   
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
+                    + "Where t.[Status] = ? and t.Student_sent = ? and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
-            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(3, (pageindex - 1) * pagesize);
             statement.setInt(4, pagesize);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
                 request.setStudentSent(rs.getString("Student_sent"));
@@ -158,8 +155,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
-                        
+
                 requests.add(request);
             }
             /*Close all the connection */
@@ -186,16 +182,13 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select *\n" 
-                    + "from Request\n" 
-                    + "where Status =? and SubjectID = ? \n"
-                    + "order by Request.CreatedTime desc \n"
-                    + "OFFSET ? ROWS \n" 
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
+                    + "Where t.[Status] = ? and t.SubjectID = ? and e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
-            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(3, (pageindex - 1) * pagesize);
             statement.setInt(4, pagesize);
 
             /*Query and save in ResultSet */
@@ -213,10 +206,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
+
                 requests.add(request);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -231,7 +224,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
      * @return request. <code>java.util.ArrayList</code> object
      */
     @Override
-    public ArrayList<RequestBean> getRequestForTeacher(String username,String rqStatus, int pageindex, int pagesize) {
+    public ArrayList<RequestBean> getRequestForTeacher(String username, String rqStatus, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -239,16 +232,13 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Request.*\n" 
-                    + "from Request, Request_Reply\n" 
-                    + "where Request.RequestId = Request_Reply.RequestId and Request_Reply.tutor_sent = ? and Request.Status = ? "
-                    + "order by Request.CreatedTime desc \n"
-                    + "OFFSET ? ROWS \n" 
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request where Request.Tutor_get = ? or Request.Tutor_get is null)t\n" +
+            "Where  t.[Status] = ? and e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
-            statement.setInt(3, (pageindex-1)*pagesize);
+            statement.setInt(3, (pageindex - 1) * pagesize);
             statement.setInt(4, pagesize);
 
             /*Query and save in ResultSet */
@@ -266,10 +256,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
+
                 requests.add(request);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -313,10 +303,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
+
                 requests.add(request);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -353,7 +343,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -391,7 +381,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -423,7 +413,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -453,7 +443,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -461,7 +451,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return totalRow;
     }
-    
+
     @Override
     public void deleteRequestReply(int rqId) {
         Connection conn = null;
@@ -476,7 +466,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -515,10 +505,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setCreatedTimeReply(rs.getDate("CreatedTime"));
                 request.setContentReply(rs.getString("Content_reply"));
                 request.setImageLinkReply(rs.getString("Image_reply"));
-                
+
                 return request;
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -530,7 +520,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     /**
      * createRequestReply method implement from IRequestDAO This method create
      * the request reply to database
-     */    
+     */
     @Override
     public int createRequestReply(RequestReplyBean rq) {
         int totalRow = 0;
@@ -551,7 +541,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
             /*Excuse Query*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -575,7 +565,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
             String sql = "select count(RequestID) as NumberOfRequest from Request where [Status] = 'Waiting'";
-            
+
             statement = conn.prepareStatement(sql);
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
@@ -584,7 +574,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
+
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -593,27 +583,26 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return total;
     }
+
     @Override
     public int getTotalRequestTeacherApply() {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select COUNT(Account.Username) AS NumberOfAccount  \n" +
-                        "from Account, Tutor\n" +
-                "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n";
-            
+            String sql = "select COUNT(Account.Username) AS NumberOfAccount  \n"
+                    + "from Account, Tutor\n"
+                    + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -621,34 +610,32 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
-    
+
     }
-    
+
     @Override
     public int getTotalRequestStudent(String username, String rqStatus) {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(Request.RequestId) as NumberOfRequest \n" +
-                    "from Request\n" +
-                    "where Status =? and Student_sent = ?  \n";
-            
+            String sql = "select count(Request.RequestID) as NumberOfRequest \n"
+                    + "from Request\n"
+                    + "where Status =? and Student_sent = ?  \n";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -656,34 +643,32 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
-    
+
     @Override
     public int getTotalRequestForTeacher(int subjectId, String rqStatus) {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(requestId) as NumberOfRequest \n" +
-                    "from Request\n" +
-                    "where Status =? and SubjectID = ?";
-            
+            String sql = "select count(RequestID) as NumberOfRequest \n"
+                    + "from Request\n"
+                    + "where Status =? and SubjectID = ?";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -691,32 +676,31 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
+
     @Override
     public int getTotalRequestForTeacher(String username, String rqStatus) {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(Request.RequestID) as NumberOfRequest\n" +
-                "from Request, Request_Reply\n" +
-                "where Request.RequestID = Request_Reply.RequestID and Request_Reply.tutor_sent = ? and Request.Status = ? ";
-            
+            String sql = "select count(Request.RequestID) as NumberOfRequest\n"
+                    + "from Request, Request_Reply\n"
+                    + "where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and Request.Status = ? ";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -724,34 +708,32 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
-    
+
     @Override
     public int getTotalRequestSearchForStudent(String username, String rqStatus, String searchString) {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(Request.RequestId) as NumberOfRequest \n" +
-                    "from Request\n" +
-                    "where Status =? and Student_sent = ?  and Title like ? \n";
-            
+            String sql = "select count(Request.RequestID) as NumberOfRequest \n"
+                    + "from Request\n"
+                    + "where Status =? and Student_sent = ?  and Title like ? \n";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
-            statement.setString(3, "%"+searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -759,7 +741,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
 
@@ -769,23 +751,19 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select *\n" +
-                    "from Request\n" +
-                    "where Status =? and Student_sent = ? and title like ? \n" +
-                    "order by Request.CreatedTime desc \n"+
-                    "OFFSET ? ROWS \n" +
-                    "FETCH NEXT ? ROWS ONLY;";   
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
+                    + "Where t.[Status] = ? and t.Student_sent = ? and t.Title like ?  and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
-            statement.setString(3, "%"+searchString + "%");
-             statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setString(3, "%" + searchString + "%");
+            statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
-            
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
                 request.setStudentSent(rs.getString("Student_sent"));
@@ -798,8 +776,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
-                        
+
                 requests.add(request);
             }
             /*Close all the connection */
@@ -818,24 +795,22 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(Request.RequestID) as NumberOfRequest\n" +
-                "from Request, Request_Reply\n" +
-                "where Request.RequestID = Request_Reply.RequestID and Request_Reply.tutor_sent = ? and Request.Status = ? and Request.Title like ? ";
-            
+            String sql = "select count(Request.RequestID) as NumberOfRequest\n"
+                    + "from Request, Request_Reply\n"
+                    + "where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and Request.Status = ? and Request.Title like ? ";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
-            statement.setString(3, "%"+searchString + "%");
+            statement.setString(3, "%" + searchString + "%");
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -843,35 +818,33 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
 
-     @Override
+    @Override
     public int getTotalRequestSearchForTeacher(int subjectId, String rqStatus, String searchString) {
         int total = 0;
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql =  "select count(requestId) as NumberOfRequest \n" +
-                    "from Request\n" +
-                    "where Status =? and SubjectID = ? and Request.Title like ? ";
-            
+            String sql = "select count(RequestID) as NumberOfRequest \n"
+                    + "from Request\n"
+                    + "where Status =? and SubjectID = ? and Request.Title like ? ";
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
-            statement.setString(3, "%"+searchString + "%");
-            
+            statement.setString(3, "%" + searchString + "%");
+
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            
+
             /*Assign data to an variable of Request*/
-            while(rs.next())
-            {
+            while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
-            
-            
+
             /*Close all the connection */
             rs.close();
             statement.close();
@@ -879,33 +852,28 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return total;
     }
 
-    
     @Override
     public ArrayList<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select Request.*\n" +
-                "from Request, Request_Reply\n" +
-                "where Request.RequestId = Request_Reply.RequestId and Request_Reply.tutor_sent = ? and Request.Status = ? and Request.Title like ? "+
-                "order by Request.CreatedTime desc \n"+
-                "OFFSET ? ROWS \n" +
-                "FETCH NEXT ? ROWS ONLY;";     
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t, Request_Reply\n"
+                    + "Where t.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and t.[Status] = ? and t.Title like ?  and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
-            statement.setString(3, "%"+searchString + "%");
-            statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setString(3, "%" + searchString + "%");
+            statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
                 request.setStudentSent(rs.getString("Student_sent"));
@@ -918,8 +886,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
-                        
+
                 requests.add(request);
             }
             /*Close all the connection */
@@ -932,29 +899,24 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         return requests;
     }
 
-   
     @Override
     public ArrayList<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
         try {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
-            String sql = "select *\n" +
-                    "from Request\n" +
-                    "where Status =? and SubjectID = ? and Request.Title like ?  \n"+
-                    "order by Request.CreatedTime desc \n"+
-                    "OFFSET ? ROWS \n" +
-                    "FETCH NEXT ? ROWS ONLY;"; 
+            String sql = "select t.*\n"
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
+                    + "Where t.[Status] = ? and t.SubjectID = ? and t.Title like ? and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
-            statement.setString(3, "%"+searchString + "%");
-            statement.setInt(4, (pageindex-1)*pagesize);
+            statement.setString(3, "%" + searchString + "%");
+            statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
                 request.setStudentSent(rs.getString("Student_sent"));
@@ -967,8 +929,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                 request.setSubjectID(rs.getInt("SubjectID"));
                 request.setLevel(rs.getInt("Level"));
                 request.setTitle(rs.getString("Title"));
-                
-                        
+
                 requests.add(request);
             }
             /*Close all the connection */
@@ -980,4 +941,5 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return requests;
     }
+    
 }

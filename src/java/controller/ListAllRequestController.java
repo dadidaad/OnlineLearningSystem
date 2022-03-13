@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for handling the task when the user wants to
@@ -60,8 +61,8 @@ public class ListAllRequestController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            HttpSession session = request.getSession();
-            AccountBean account = (AccountBean) session.getAttribute("user");
+            HttpSession session = request.getSession(false);
+            AccountBean account = AppUtils.getLoginedUser(session);
             if (account != null) {
                 SortRequest sortRequest = new SortRequest();//call the sort modify class
                 List<RequestBean> requestList = new ArrayList<>();

@@ -27,11 +27,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * This is a Servlet responsible for handling the task when the teacher wants to create the reply of Request
- * /CreateRequestReply is the URL of the Servlet
+ * This is a Servlet responsible for handling the task when the teacher wants to
+ * create the reply of Request /CreateRequestReply is the URL of the Servlet
  * Extend HttpServlet class
+ *
  * @author Duc Minh
  */
 public class CreateRequestReplyController extends HttpServlet {
@@ -51,35 +53,42 @@ public class CreateRequestReplyController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        int requestId = Integer.parseInt(request.getParameter("requestId"));
-        String teacherSent = request.getParameter("teacherSent");
-        String studentSent = request.getParameter("studentSent");
-        String contentReply = request.getParameter("contentReply").replaceAll("\\s\\s+", " ").trim();
-        String imgReply = "/assets/image/" + request.getParameter("imgReply");
-        
-        RequestReplyBean rpReply = new RequestReplyBean();
-        rpReply.setRequestID(requestId);
-        rpReply.setTutorSent(teacherSent);
-        rpReply.setStudentGet(studentSent);
-        rpReply.setContentReply(contentReply);
-        rpReply.setImageLinkReply(imgReply);
-        
-        IRequestDAO iRequestDAO = new RequestDAO();
-        iRequestDAO.updateRequestStatus("Approved", requestId);
-        int daoCheck = iRequestDAO.createRequestReply(rpReply);
-        
-        INotificationDAO iNotificationDAO = new NotificationDAO();
-        ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
-        TeacherBean teacher = iTeacherDAO.getTeacherByUsername(teacherSent);
-        if ((daoCheck!=0)) {
-            iNotificationDAO.insertNotification(new NotificationBean(teacherSent,"Request", "You have successfully created your request."));
-            iNotificationDAO.insertNotification(new NotificationBean(studentSent,"Request", "Your request has been answered by "+teacher.getDisplayName()+"."));
-        }        
-        else iNotificationDAO.insertNotification(new NotificationBean(teacherSent,"Request", "You have failed answered the request."));
-        
-        response.sendRedirect("ListAllRequest");
-        
-        }catch (Exception ex) {
+            HttpSession session = request.getSession(true);
+            RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
+            if(requestAccept == null){
+                response.sendRedirect("ListAllRequest");
+            }
+            int requestId = Integer.parseInt(request.getParameter("requestId"));
+            String teacherSent = request.getParameter("teacherSent");
+            String studentSent = request.getParameter("studentSent");
+            String contentReply = request.getParameter("contentReply").replaceAll("\\s\\s+", " ").trim();
+            String imgReply = "/assets/image/" + request.getParameter("imgReply");
+
+            RequestReplyBean rpReply = new RequestReplyBean();
+            rpReply.setRequestID(requestId);
+            rpReply.setTutorSent(teacherSent);
+            rpReply.setStudentGet(studentSent);
+            rpReply.setContentReply(contentReply);
+            rpReply.setImageLinkReply(imgReply);
+
+            requestAccept.setStatus("Approved");
+            session.setAttribute("requestAccept", requestAccept);
+            IRequestDAO iRequestDAO = new RequestDAO();
+            int daoCheck = iRequestDAO.createRequestReply(rpReply);
+
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+            ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
+            TeacherBean teacher = iTeacherDAO.getTeacherByUsername(teacherSent);
+            if ((daoCheck != 0)) {
+                iNotificationDAO.insertNotification(new NotificationBean(teacherSent, "Request", "You have successfully created your request."));
+                iNotificationDAO.insertNotification(new NotificationBean(studentSent, "Request", "Your request has been answered by " + teacher.getDisplayName() + "."));
+            } else {
+                iNotificationDAO.insertNotification(new NotificationBean(teacherSent, "Request", "You have failed answered the request."));
+            }
+
+            response.sendRedirect("ListAllRequest");
+
+        } catch (Exception ex) {
             Logger.getLogger(CreateRequestReplyController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

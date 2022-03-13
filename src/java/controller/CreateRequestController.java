@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for handling the task when the student wants to
@@ -111,7 +112,7 @@ public class CreateRequestController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             String requestTitle = request.getParameter("rqTitle").replaceAll("\\s\\s+", " ").trim();
             String requestSubject = request.getParameter("rqSubject");
             String requestLevel = request.getParameter("rqLevel");
@@ -130,17 +131,15 @@ public class CreateRequestController extends HttpServlet {
             WalletDAO walletDB = new WalletDAO();
             AccountDAO accountDB = new AccountDAO();
 
-            AccountBean account = (AccountBean) session.getAttribute("user");
+            AccountBean account = AppUtils.getLoginedUser(session);
             walletDB.UpdateMoney(account, -Double.valueOf(requestPrice), "admin", "request");
-            account = accountDB.getAccountByUsername(account.getUsername());
-            session.setAttribute("user", account);
 
             String requestContent = request.getParameter("content").replaceAll("\\s\\s+", " ").trim();
             String requestImg = "/assets/image/" + request.getParameter("imgContent");
 
             RequestBean rq = new RequestBean();
             rq.setStudentSent(requestStudentSent);
-            rq.setTutorGet(requestTeacherRcm);
+            rq.setTutorGet(rqTeacherRcmFromList);
             rq.setCost(Integer.parseInt(requestPrice));
             rq.setContent(requestContent);
             rq.setImageLink(requestImg);

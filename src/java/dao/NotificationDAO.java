@@ -37,7 +37,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
             String sql = "select top 7 Notification.*\n"
-                    + "from Notification where username = ? \n"
+                    + "from Notification where Username = ? \n"
                     + "ORDER BY Time desc\n";
 
             statement = conn.prepareStatement(sql);
@@ -164,7 +164,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "SELECT COUNT(NotificationID) AS NumberOfNotification FROM Notification WHERE username = ? ";
+            String sql = "SELECT COUNT(NotificationID) AS NumberOfNotification FROM Notification WHERE Username = ? ";
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
@@ -197,7 +197,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
             String sql = "SELECT COUNT(NotificationID) AS NumberOfNotification FROM Notification WHERE [Readed] = 'false' "
-                    + "and username = ?";
+                    + "and Username = ?";
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
@@ -227,7 +227,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         PreparedStatement statement = null;
         try {
             conn = getConnection(); // get connection to database
-            String sql = "Update Notification set [Readed] = ? where username = ? ";
+            String sql = "Update Notification set [Readed] = ? where Username = ? ";
             statement = conn.prepareStatement(sql);
             /* set parameter for query*/
             statement.setBoolean(1, true);

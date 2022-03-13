@@ -70,7 +70,7 @@
                                     <span class="text nav-text">Request List</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
 
@@ -102,7 +102,7 @@
                         <div class="card--top"></div>
                         <h1>Request</h1>
                         <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
-                        
+
                         <hr />
                         <div class="card--top--menu d-flex">
                             <h3>Request Handling</h3>
@@ -124,7 +124,7 @@
 
                                             <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
                                             <!--Request's Infomation-->               
-                                            <input type="hidden" id="custId" name="requestId" value="${requestScope.request.getRequestID()}">  
+                                            <input type="hidden" id="requestId" name="requestId" value="${requestScope.request.getRequestID()}">  
                                             <input type="hidden" id="custId" name="studentSent" value="${requestScope.request.getStudentSent()}">  
                                             <label for="reTitle" class="d-block">Request Title: </label>
                                             <input
@@ -216,11 +216,12 @@
                                     <c:set var="rqStatus" value="${requestScope.request.getStatus()}"/>            
                                     <!--Request Decision-->    
                                     <c:if test = "${fn:toLowerCase(rqStatus) == 'waiting'}">
-                                        <a href="#answerCard" class="btn btn-primary mt-3 mb-5 acceptBtn">
+                                        <a href="#answerCard" class="btn btn-primary mt-3 mb-5 acceptBtn" id="accept-btn">
                                             Accept Request
                                         </a>
                                         <a href="ListAllRequest" class="btn btn-secondary mt-3 mb-5">Reject Request</a>
-                                    </c:if>              
+                                    </c:if>         
+                                    <p class="text-success" id="noti-accept"></p>
                                     <div class="card shadow answerCard p-2" id="answerCard">
                                         <div class="card-body">
                                             <h5 class="text-hightlight1 mb-32px">Answer</h5>
@@ -259,52 +260,65 @@
         <!-- End of Footer -->
 
         <!-- link to java script file -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/ViewRequestDetailTea.js"/>"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.min.js"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
         <script>
                                         $(document).ready(function () {
-
-                                            $.validator.addMethod("noSpace", function (value, element) {
-                                                return !value.trim() == '';
-                                            }, "No space please and don't leave it empty");
-                                            $.validator.addMethod("minLength", function (value, element, param) {
-                                                return this.optional(element) || value.trim().length > param;
-                                            }, "Please enter at least 10 characters.");
-                                            $.validator.addMethod("maxLength", function (value, element, param) {
-                                                return this.optional(element) || value.trim().length < param;
-                                            }, "Please enter no more than 1000 characters.");
-
-                                            $("#replyForm").validate({
-                                                onblur: true,
-                                                rules: {
-                                                    message: {
-                                                        required: true,
-                                                        noSpace: true,
-                                                        minLength: 10,
-                                                        maxLength: 1000
+                                            $('#accept-btn').click(function () {
+                                                var requestId = $('#requestId').val();
+                                                $.ajax({
+                                                    url: 'ChangeStatusRequest',
+                                                    data: {"requestId": requestId},
+                                                    type: 'POST',
+                                                    success: function (result) {
+                                                        $('#noti-accept').html(result);
                                                     }
-                                                },
-
-                                                messages: {
-                                                    message: {
-                                                        required: "Please fill this Content"
-                                                    }
-                                                }
+                                                });
                                             });
                                         });
+        </script>
+        <script>
+            $(document).ready(function () {
 
+                $.validator.addMethod("noSpace", function (value, element) {
+                    return !value.trim() == '';
+                }, "No space please and don't leave it empty");
+                $.validator.addMethod("minLength", function (value, element, param) {
+                    return this.optional(element) || value.trim().length > param;
+                }, "Please enter at least 10 characters.");
+                $.validator.addMethod("maxLength", function (value, element, param) {
+                    return this.optional(element) || value.trim().length < param;
+                }, "Please enter no more than 1000 characters.");
+                $("#replyForm").validate({
+                    onblur: true,
+                    rules: {
+                        message: {
+                            required: true,
+                            noSpace: true,
+                            minLength: 10,
+                            maxLength: 1000
+                        }
+                    },
+                    messages: {
+                        message: {
+                            required: "Please fill this Content"
+                        }
+                    }
+                });
+            });
         </script>
         <script>
             var content = document.querySelector("#message");
             var submitBtn = document.querySelector(".doneBtn")
             submitBtn.addEventListener('click', function (e) {
-            if (content.value.trim() == "") {
-            e.preventDefault();
+                if (content.value.trim() == "") {
+                    e.preventDefault();
                     alert('You must not enter only the full distance in this field!');
+                }
             });
-
         </script>
     </body>
 </html>

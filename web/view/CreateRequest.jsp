@@ -4,6 +4,7 @@
     Author     : Duc Minh
 --%>
 
+<%@page import="utils.AppUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="/WEB-INF/tlds/customTag" prefix="i" %>
@@ -67,7 +68,7 @@
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
 
@@ -196,7 +197,6 @@
 
 
                                                             <input type="hidden" id="teacherUsernameRcm" name="rqTeacherRcm" readonly >
-                                                            <input type="hidden" id="studentSent" name="studentSent" value=${sessionScope.user.getUsername()}>  
                                                         </div>
                                                         <button
                                                             type="button"
@@ -208,6 +208,7 @@
                                                         </button>
                                                     </div>
                                                 </c:if>
+                                                <input type="hidden" id="studentSent" name="studentSent" value="<%=AppUtils.getLoginedUser(request.getSession()).getUsername()%>">
                                                 <c:if test = "${requestScope.rqTeacherRcmFromList!=null}">
                                                     <input type="text" id="teacherUsernameRcmfrList" name="rqTeacherRcmFromList" readonly value="${rqTeacherRcmFromList}">
                                                 </c:if>
@@ -387,7 +388,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    
+
 
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
@@ -395,65 +396,65 @@
 
         <!--<script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>-->
         <script>
-$(document).ready(function () {
-    $(".form-check-input").each(function () {
-        $(this).on("click", function () {
-            var rcmDecision = ($(this).val());
-            if (rcmDecision === "1") {
-                yesOption();
-            } else if (rcmDecision === "0")
-                noOption();
-        });
-    });
-    function yesOption() {
-        $(".teacherRecommend--btn").css("display", "block");
-        $(".teacherRecommend--name").css("display", "inline");
-        selectTeacher();
-    }
-    function noOption() {
-        $(".teacherRecommend--btn").css("display", "none");
-        $(".teacherRecommend--name").css("display", "none");
-        $("#teacherUsernameRcm").val(null);
-    }
-    function selectTeacher() {
-        $("#dataTable .requestBtn").click(function () {
-            $('#dataTable .requestBtn.select').not(this).removeClass('select');
-            $(this).toggleClass('select');
-            var teacherUsername = ($(this).val());
-            $("#teacherUsernameRcm").val(teacherUsername);
-            $(".teacherRecommend--name").html(teacherUsername);
-            $("#teacherRcmName").html($(this).attr("data"));
-        });
-    }
-    function checkTeacher() {
-        $('#tbBody tr .requestBtn').each(function () {
-            if ($(this).val() === $("#teacherUsernameRcm").val()) {
-                $(this).toggleClass("select");
-            }
-        });
-    }
-    $("#searchString").on('keyup', function () {
-        var searchString = $(this).val();
-        var subjectId = $("#rqSubject option:selected").val();
-        $.ajax({
-            url: "TeacherRecommendSearch",
-            data: {"searchString": searchString,
-                "subjectId": subjectId},
-            type: "POST",
-            success: function (result)
-            {
-                console.log(result);
-                $('#dataTable #tbBody').empty();
-                $('#dataTable #tbBody').append(result);
-                checkTeacher();
-                selectTeacher();
-                <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
-                    window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
-                </c:forEach>
-            }
-        });
-    });
-});
+            $(document).ready(function () {
+                $(".form-check-input").each(function () {
+                    $(this).on("click", function () {
+                        var rcmDecision = ($(this).val());
+                        if (rcmDecision === "1") {
+                            yesOption();
+                        } else if (rcmDecision === "0")
+                            noOption();
+                    });
+                });
+                function yesOption() {
+                    $(".teacherRecommend--btn").css("display", "block");
+                    $(".teacherRecommend--name").css("display", "inline");
+                    selectTeacher();
+                }
+                function noOption() {
+                    $(".teacherRecommend--btn").css("display", "none");
+                    $(".teacherRecommend--name").css("display", "none");
+                    $("#teacherUsernameRcm").val(null);
+                }
+                function selectTeacher() {
+                    $("#dataTable .requestBtn").click(function () {
+                        $('#dataTable .requestBtn.select').not(this).removeClass('select');
+                        $(this).toggleClass('select');
+                        var teacherUsername = ($(this).val());
+                        $("#teacherUsernameRcm").val(teacherUsername);
+                        $(".teacherRecommend--name").html(teacherUsername);
+                        $("#teacherRcmName").html($(this).attr("data"));
+                    });
+                }
+                function checkTeacher() {
+                    $('#tbBody tr .requestBtn').each(function () {
+                        if ($(this).val() === $("#teacherUsernameRcm").val()) {
+                            $(this).toggleClass("select");
+                        }
+                    });
+                }
+                $("#searchString").on('keyup', function () {
+                    var searchString = $(this).val();
+                    var subjectId = $("#rqSubject option:selected").val();
+                    $.ajax({
+                        url: "TeacherRecommendSearch",
+                        data: {"searchString": searchString,
+                            "subjectId": subjectId},
+                        type: "POST",
+                        success: function (result)
+                        {
+                            console.log(result);
+                            $('#dataTable #tbBody').empty();
+                            $('#dataTable #tbBody').append(result);
+                            checkTeacher();
+                            selectTeacher();
+            <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
+                            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+            </c:forEach>
+                        }
+                    });
+                });
+            });
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
             window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
             </c:forEach>

@@ -202,7 +202,10 @@ public class AccountBean implements HttpSessionBindingListener {
     public void valueBound(HttpSessionBindingEvent event) {
         HttpSession session = loginedUser.remove(this);
         if (session != null) {
-            session.invalidate();
+            try {
+                session.invalidate();
+            } catch (IllegalStateException i) {
+            }
         }
         loginedUser.put(this, event.getSession());
         IAccountDAO db = new AccountDAO();
