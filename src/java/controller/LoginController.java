@@ -72,7 +72,6 @@ public class LoginController extends HttpServlet {
             messages.put("username", username);
             messages.put("password", password);
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(1800); //set age for session
             IAccountDAO db = new AccountDAO();
             AccountBean userGetFromDb = db.getAccountByUsername(username); //get AccountBean from database 
 
