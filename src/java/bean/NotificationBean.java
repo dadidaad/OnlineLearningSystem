@@ -25,6 +25,7 @@ public class NotificationBean {
     private String content;
     private Date timeCreate;
     private boolean read;
+    private String linkDirect;
 
     public NotificationBean() {
     //default constructor
@@ -43,6 +44,14 @@ public class NotificationBean {
         this.title = title;
         this.content = content;
     }
+
+    public NotificationBean(String username, String title, String content, String linkDirect) {
+        this.username = username;
+        this.title = title;
+        this.content = content;
+        this.linkDirect = linkDirect;
+    }
+    
 
     /**
      * Get notificationID's data retrieval method

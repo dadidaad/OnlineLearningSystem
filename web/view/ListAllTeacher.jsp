@@ -258,7 +258,7 @@
                                                     </td>
                                                     <c:if test = "${fn:toLowerCase(userRole) ne 'teacher'}">
                                                         <td>
-                                                            <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}"><i class="far fa-share-square"></i></a>
+                                                            <a href="CreateRequest?teacherRcmFromList=${t.getUsername()}&subjectId=${t.getSubjectId()}"><i class="far fa-share-square"></i></a>
                                                         </td>
                                                     </c:if>
                                                 </tr>

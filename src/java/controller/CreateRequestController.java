@@ -68,8 +68,11 @@ public class CreateRequestController extends HttpServlet {
             Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
 
             String teacherRcmFromList = request.getParameter("teacherRcmFromList");
+            String subjectId = request.getParameter("subjectId");
             if (teacherRcmFromList != null) {
                 request.setAttribute("rqTeacherRcmFromList", teacherRcmFromList);
+                request.setAttribute("subjectIdFromList", subjectId);
+                request.setAttribute("subjectNameFromList", subjectNames.get(Integer.parseInt(subjectId)));
             }
 
             /*Notification*/
@@ -123,7 +126,10 @@ public class CreateRequestController extends HttpServlet {
             String rqTeacherRcmFromList = request.getParameter("rqTeacherRcmFromList");
             if (rqTeacherRcmFromList == null && request.getParameter("rqTeacherRcm").length() > 0) {
                 requestTeacherRcm = request.getParameter("rqTeacherRcm");
-            } else {
+            }else if(rqTeacherRcmFromList!=null){
+                requestTeacherRcm = rqTeacherRcmFromList;
+            }
+            else {
                 requestTeacherRcm = null;
             }
 
@@ -139,7 +145,7 @@ public class CreateRequestController extends HttpServlet {
 
             RequestBean rq = new RequestBean();
             rq.setStudentSent(requestStudentSent);
-            rq.setTutorGet(rqTeacherRcmFromList);
+            rq.setTutorGet(requestTeacherRcm);
             rq.setCost(Integer.parseInt(requestPrice));
             rq.setContent(requestContent);
             rq.setImageLink(requestImg);

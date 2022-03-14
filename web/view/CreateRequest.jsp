@@ -130,10 +130,15 @@
                                                     <!--Subject Section-->
                                                     <label for="rqSubject">Subject: </label>
                                                     <select class="form-control" id="rqSubject" name="rqSubject" required>
-                                                        <option value="" disabled selected>Select Subject</option>
-                                                        <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">    
-                                                            <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
-                                                        </c:forEach>  
+                                                        <c:if test = "${requestScope.subjectIdFromList!=null}">
+                                                            <option value="${requestScope.subjectIdFromList}" selected>${requestScope.subjectNameFromList}</option>
+                                                        </c:if>
+                                                        <c:if test = "${requestScope.subjectIdFromList==null}">
+                                                            <option value="" disabled selected>Select Subject</option>
+                                                            <c:forEach items="${requestScope.subjects}" var ="s" varStatus="loop">    
+                                                                <option value="${s.getSubjectID()}">${s.getSubjectName()}</option>
+                                                            </c:forEach>  
+                                                        </c:if>
                                                     </select>
                                                     <span class="form-message"></span>
                                                 </div>
