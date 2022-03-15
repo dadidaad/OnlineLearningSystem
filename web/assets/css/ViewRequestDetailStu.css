@@ -34,7 +34,6 @@
 /* Request Info */
 .responseContent--info ul {
   list-style: none;
-  margin-left: -2rem;
 }
 .requestStuInfo li span {
   font-size: 18px;

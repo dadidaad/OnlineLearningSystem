@@ -161,6 +161,26 @@ public class NotificationBean {
         this.read = read;
     }
 
+    /**
+     * Get read linkDirect of data retrieval method
+     * 
+     * @return linkDirect. <code>java.lang.String</code> object 
+     */
+    public String getLinkDirect() {
+        return linkDirect;
+    }
+
+    /**
+     * Set value for linkDirect
+     * 
+     * @param linkDirect. <code>java.lang.String</code> object 
+     */
+    public void setLinkDirect(String linkDirect) {
+        this.linkDirect = linkDirect;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "NotificationBean{" + "notificationID=" + notificationID + ", username=" + username + ", title=" + title + ", content=" + content + ", timeCreate=" + timeCreate + ", read=" + read + '}';

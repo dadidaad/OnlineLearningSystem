@@ -62,7 +62,7 @@ public class CreateRequestController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            List<SubjectBean> s = new ArrayList<>();
+            List<SubjectBean> s; 
             ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call
             s = iSubjectDAO.getAllSubject();
             Map<Integer, String> subjectNames = iSubjectDAO.getSubjectNames();
@@ -87,7 +87,7 @@ public class CreateRequestController extends HttpServlet {
                 request.setAttribute("notificationList", notiList);
             }
 
-            List<TeacherBean> teacherList = new ArrayList<>();
+            List<TeacherBean> teacherList; 
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call
             teacherList = iTeacherDAO.getTopTeacher();
             //Attach Attribute subjects for request and redirect it to CreateRequest.jsp
@@ -155,10 +155,10 @@ public class CreateRequestController extends HttpServlet {
 
             IRequestDAO iRequestDAO = new RequestDAO();
             int daoCheck = iRequestDAO.createRequest(rq);
-
+            int lastRequestId = iRequestDAO.getLastRequestId();
             INotificationDAO iNotificationDAO = new NotificationDAO();
-            if ((daoCheck != 0)) {
-                iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(), "Request", "You have successfully created your request."));
+            if ((daoCheck != 0 && lastRequestId > 0)) {
+                iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(), "Request", "You have successfully created your request.","ViewRequestStu?requestId="+lastRequestId));
             } else {
                 iNotificationDAO.insertNotification(new NotificationBean(account.getUsername(), "Request", "You have failed created your request."));
             }

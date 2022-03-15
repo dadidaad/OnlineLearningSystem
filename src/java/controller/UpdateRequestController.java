@@ -145,7 +145,7 @@ public class UpdateRequestController extends HttpServlet {
 
             INotificationDAO iNotificationDAO = new NotificationDAO();
             if ((daoCheck != 0)) {
-                iNotificationDAO.insertNotification(new NotificationBean(requestStudentSent, "Request", "You have successfully updated your request."));
+                iNotificationDAO.insertNotification(new NotificationBean(requestStudentSent, "Request", "You have successfully updated your request.","ViewRequestStu?requestId="+requestId));
             } else {
                 iNotificationDAO.insertNotification(new NotificationBean(requestStudentSent, "Request", "You have failed updated your request."));
             }

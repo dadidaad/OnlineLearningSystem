@@ -941,5 +941,39 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return requests;
     }
-    
+    public static void main(String[] args) {
+        RequestDAO dal = new RequestDAO();
+        System.out.println(dal.getLastRequestId());
+    }
+
+    @Override
+    public int getLastRequestId() {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        int requestID = 0;
+        try {
+            /*Set up connection and Sql statement for Query */
+            conn = getConnection();
+            String sql = "select top 1 RequestID\n" 
+                    + "from Request\n" 
+                    + "order by RequestID desc";
+
+            statement = conn.prepareStatement(sql);
+            /*Query and save in ResultSet */
+            rs = statement.executeQuery();
+
+            /*Assign data to an variable of Request*/
+            while (rs.next()) {
+                requestID = rs.getInt("RequestId");
+            }
+
+        } catch (SQLException ex) {
+            /*Exception Handle*/
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(conn, statement, rs);
+        }
+        return requestID;
+    }
 }

@@ -36,6 +36,34 @@ public class RequestBean {
          //default constructor
     }
 
+    public RequestBean(String studentSent, String tutorGet, String status, int cost, String content, String imageLink, int subjectID, int level, String title) {
+        this.studentSent = studentSent;
+        this.tutorGet = tutorGet;
+        this.status = status;
+        this.cost = cost;
+        this.content = content;
+        this.imageLink = imageLink;
+        this.subjectID = subjectID;
+        this.level = level;
+        this.title = title;
+    }
+
+    public RequestBean(int requestID, String studentSent, String tutorGet, Date createdTime, String status, int cost, String content, String imageLink, int subjectID, int level, String title) {
+        this.requestID = requestID;
+        this.studentSent = studentSent;
+        this.tutorGet = tutorGet;
+        this.createdTime = createdTime;
+        this.status = status;
+        this.cost = cost;
+        this.content = content;
+        this.imageLink = imageLink;
+        this.subjectID = subjectID;
+        this.level = level;
+        this.title = title;
+    }
+    
+    
+    
     /**
      * The method used to print the attribute values of Request
      *

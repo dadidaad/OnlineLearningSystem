@@ -53,6 +53,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
                 noti.setContent(rs.getString("Content"));
                 noti.setTimeCreate(rs.getDate("Time"));
                 noti.setRead(rs.getBoolean("Readed"));
+                noti.setLinkDirect(rs.getString("Link_direct"));
                 notifications.add(noti);
             }
             /*Close all the connection */
@@ -96,6 +97,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
                 noti.setContent(rs.getString("Content"));
                 noti.setTimeCreate(rs.getDate("Time"));
                 noti.setRead(rs.getBoolean("Readed"));
+                noti.setLinkDirect(rs.getString("Link_direct"));
                 notifications.add(noti);
             }
             /*Close all the connection */
@@ -115,13 +117,14 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         PreparedStatement statement = null;
         try {
             conn = getConnection(); // get connection to database
-            String sql = "Insert into Notification([Username], [Title], [Content], [Time], [Readed]) values (?, ?, ?, GETDATE(), ?)";
+            String sql = "Insert into Notification([Username], [Title], [Content], [Time], [Readed], [Link_direct]) values (?, ?, ?, GETDATE(), ?, ?)";
             statement = conn.prepareStatement(sql);
             /* set parameter for query*/
             statement.setString(1, noti.getUsername());
             statement.setString(2, noti.getTitle());
             statement.setString(3, noti.getContent());
             statement.setBoolean(4, false);
+            statement.setString(5, noti.getLinkDirect());
             
             /*Insert New Notification into Database*/
             totalRow = statement.executeUpdate();
@@ -135,18 +138,18 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
     }
     public static void main(String[] args) {
         INotificationDAO dal = new NotificationDAO();
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
+//
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
+//
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
+//
+//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
 //        System.out.println(iNotificationDAO.updateReadedNotification());
 //        List<NotificationBean> list = dal.getTop5Notification();
 //        for(NotificationBean n : list){

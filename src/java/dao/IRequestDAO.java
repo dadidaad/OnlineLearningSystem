@@ -142,4 +142,10 @@ public interface IRequestDAO {
 
     public List<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize);
     public List<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize);
+    /**
+     * getLastRequestId method implement from IRequestDAO
+     *
+     * @return requestId. <code>java.lang.Integer</code> object
+     */
+    public int getLastRequestId();
 }

@@ -523,9 +523,10 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                     + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = ? \n";
 
             statement = conn.prepareStatement(sql);
+             statement.setString(1, status);
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
-
+                    
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
@@ -977,9 +978,9 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select a.*, Tutor.*\n"
-                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor, Subject \n"
                     + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] = ?\n"
-                    + "and t.SubjectID = [Subject].SubjectID and (Account.DisplayName like ? or [Subject].SubjectName like ? or Account.Mail like ?)\n"
+                    + "and Tutor.SubjectID = [Subject].SubjectID and (a.DisplayName like ? or [Subject].SubjectName like ? or a.Mail like ?)\n"
                     + "and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, status);
@@ -1037,9 +1038,9 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select a.*, Tutor.*\n"
-                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor\n"
+                    + "from (select Account.*, ROW_NUMBER() OVER (ORDER BY CreatedDate) as e from Account) as a, Tutor, Subject \n"
                     + "where a.Username = Tutor.Username and  a.[Role] ='Teacher' and Tutor.[Status] = 'Waiting'\n"
-                    + "and t.SubjectID = [Subject].SubjectID and (Account.DisplayName like ? or [Subject].SubjectName like ? or Account.Mail like ?)\n"
+                    + "and Tutor.SubjectID = [Subject].SubjectID and (a.DisplayName like ? or [Subject].SubjectName like ? or a.Mail like ?)\n"
                     + "and e between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchString + "%");
@@ -1082,5 +1083,12 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return teachers;
+    }
+    public static void main(String[] args) {
+        TeacherDAO dal = new TeacherDAO();
+        System.out.println(dal.getTeacherApplyBySearching("Waiting", "tung", 1, 20).size());
+//        System.out.println(dal.getTotalTeacherApplySearch("giang"));
+//System.out.println(dal.checkTeacherStatus("ducgiang"));
+                
     }
 }

@@ -20,6 +20,7 @@
             crossorigin="anonymous"
             />
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/CreateRequest.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/StarRating.css"/>"/>  

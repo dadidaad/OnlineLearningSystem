@@ -24,6 +24,7 @@
             crossorigin="anonymous"
             />
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ViewRequestDetailTea.css" />">
 

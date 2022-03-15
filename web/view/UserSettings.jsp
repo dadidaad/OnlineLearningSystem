@@ -155,23 +155,25 @@
                                         <h3>Notifications empty</h3>
                                     </c:if>
                                     <c:forEach items="${requestScope.notificationList}" var ="n" varStatus="loop">
-                                        <div class="alert alert-warning alert-dismissible fade show noti-item" role="alert">
-                                            <c:set var="notiTitle" value="${n.getTitle()}"></c:set>
-                                            <c:if test="${fn:toLowerCase(notiTitle) == 'request'}">
-                                                <span class="icon"><i class="fas fa-file-import"></i></span>
-                                                </c:if>
-                                                <c:if test="${fn:toLowerCase(notiTitle) == 'subject'}">
-                                                <span class="icon"><i class="fab fa-leanpub"></i></span>
-                                                </c:if>
-                                                <c:if test="${fn:toLowerCase(notiTitle) == 'forum'}">
-                                                <span class="icon"><i class="fab fa-forumbee"></i></span>
-                                                </c:if>
-                                                <c:if test="${fn:toLowerCase(notiTitle) == 'admin'}">
-                                                <span class="icon"><i class="fas fa-user"></i></span>
-                                                </c:if>
-                                            <strong>${n.getTitle()}:</strong> ${n.getContent()}
-                                            <button type="button" value="${n.getNotificationID()}" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
+                                        <a href="<c:if test="${n.getLinkDirect()!=null}">${n.getLinkDirect()}</c:if><c:if test="${n.getLinkDirect()==null}">#</c:if>" style="color: Black;">
+                                            <div class="alert alert-warning alert-dismissible fade show noti-item" role="alert">
+                                                <c:set var="notiTitle" value="${n.getTitle()}"></c:set>
+                                                <c:if test="${fn:toLowerCase(notiTitle) == 'request'}">
+                                                    <span class="icon"><i class="fas fa-file-import"></i></span>
+                                                    </c:if>
+                                                    <c:if test="${fn:toLowerCase(notiTitle) == 'subject'}">
+                                                    <span class="icon"><i class="fab fa-leanpub"></i></span>
+                                                    </c:if>
+                                                    <c:if test="${fn:toLowerCase(notiTitle) == 'forum'}">
+                                                    <span class="icon"><i class="fab fa-forumbee"></i></span>
+                                                    </c:if>
+                                                    <c:if test="${fn:toLowerCase(notiTitle) == 'admin'}">
+                                                    <span class="icon"><i class="fas fa-user"></i></span>
+                                                    </c:if>
+                                                <strong>${n.getTitle()}:</strong> ${n.getContent()}
+                                                <button type="button" value="${n.getNotificationID()}" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                        </a>
                                     </c:forEach>
                                 </div>
                                 <input type="hidden" id="totalNoti" name="totalNoti" value=${requestScope.totalNoti}>  
