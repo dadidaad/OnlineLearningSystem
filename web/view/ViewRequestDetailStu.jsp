@@ -70,7 +70,7 @@
                                     <span class="text nav-text">My Request</span>
                                 </a>
                             </li>
-                           
+
                         </ul>
                     </div>
 
@@ -102,9 +102,9 @@
                         <div class="card--top"></div>
                         <h1>Request</h1>
                         <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
-                        
+
                         <hr />
-                        <div class="card--top--menu d-flex">
+                        <div class="card--top--menu d-flex" id="cardTop">
                             <h3>Response</h3>
                             <a class="createRequestBtn" href="CreateRequest">Creare Request</a>
                         </div>
@@ -217,14 +217,18 @@
         <%@include file="./footer.jsp" %>
         <!-- End of Footer -->
 
-        <!-- Datatable Jquery library -->    
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/ViewRequestDetailStu.js"/>"></script>
 
+        <script>
+            $(document).ready(function () {
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
+            });
+        </script>
     </body>
 </html>

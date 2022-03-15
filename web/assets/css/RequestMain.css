@@ -6,18 +6,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&display=swap");
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 textarea:focus,
 input:focus {
-  outline: none;
+    outline: none;
 }
 #wrapper #content-wrapper {
-  background-color: #f8f9fc;
-  width: 100%;
-  overflow-x: hidden;
+    background-color: #f8f9fc;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 *{
@@ -70,7 +70,7 @@ body.dark{
 }
 
 /* ===== Sidebar ===== */
- .sidebar{
+.sidebar{
     position: fixed;
     top: 0;
     left: 0;
@@ -338,140 +338,144 @@ body.dark .text{
     background-size: cover;
 }
 .container-fluid > h1 {
-  margin-top: 16px;
+    margin-top: 16px;
 
-  text-align: center;
-  font-family: "Ubuntu", sans-serif;
-  font-weight: 300;
-  font-size: 4rem;
+    text-align: center;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+    font-size: 4rem;
 }
 .container-fluid > p {
-  text-align: center;
-  font-size: 18px;
+    text-align: center;
+    font-size: 18px;
 }
 /* top title */
 .container-fluid .card--top--menu {
-  justify-content: space-between;
-  margin: 16px;
+    justify-content: space-between;
+    margin: 30px 16px 16px 16px;
+}
+.card--top--menu h3{
+    font-size: 32px;
+    color: #0367b4;
 }
 .container-fluid .card--top--menu .createRequestBtn {
-  color: white;
-  font-weight: 700;
-  padding: 0.625rem 0.3rem;
-  min-width: 7rem;
-  text-align: center;
-  border-radius: 6px;
-  color: #fff;
-  background: #0367b4;
-  border: none;
-  outline: none;
-  transition: 0.2s ease-out;
-  text-decoration: none;
+    color: white;
+    font-weight: 700;
+    padding: 0.625rem 0.3rem;
+    min-width: 7rem;
+    text-align: center;
+    border-radius: 6px;
+    color: #fff;
+    background: #0367b4;
+    border: none;
+    outline: none;
+    transition: 0.2s ease-out;
+    text-decoration: none;
 }
 .container-fluid .card--top--menu .createRequestBtn:hover {
-  background: #165585;
+    background: #165585;
 }
 .backBtn-container .backBtn {
-  text-decoration: none;
-  color: gray;
+    text-decoration: none;
+    color: gray;
 }
 .backBtn-container .backBtn:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 /* Image modal */
 .imgZoom {
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 .imgZoom:hover {
-  opacity: 0.9;
+    opacity: 0.9;
 }
 
 /* The Modal (background) */
 .modal--Img {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 5; /* Sit on top */
-  padding-top: 20px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height*/
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 5; /* Sit on top */
+    padding-top: 20px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height*/
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
 }
 
 /* Modal Content (image) */
 .modal-content--Img {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
 }
 
 /* Caption of Modal Image */
 #caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  height: 150px;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
 }
 
 /* Add Animation */
 .modal-content--Img,
 #caption {
-  -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.6s;
-  animation-name: zoom;
-  animation-duration: 0.6s;
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
 }
 
 @-webkit-keyframes zoom {
-  from {
-    -webkit-transform: scale(0);
-  }
-  to {
-    -webkit-transform: scale(1);
-  }
+    from {
+        -webkit-transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(1);
+    }
 }
 
 @keyframes zoom {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 /* The Close Button */
 .close--Img {
-  position: absolute;
-  top: 15px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
 .close--Img:hover,
 .close--Img:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px) {
-  .modal-content {
-    width: 100%;
-  }
+    .modal-content {
+        width: 100%;
+    }
 }
 

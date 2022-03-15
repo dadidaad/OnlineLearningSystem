@@ -101,7 +101,7 @@
                         <div class="card--top"></div>
                         <h1>Request</h1>
                         <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
-                        <div class="card--top--menu d-flex">
+                        <div class="card--top--menu d-flex" id="cardTop">
                             <h3>Update Request</h3>
                         </div>
                         <div class="backBtn-container">
@@ -448,5 +448,16 @@ $(document).ready(function () {
             }
 
         </script>  
+        <script>
+            // Onload event
+            $(document).ready(function () {
+                cosole.log("load");
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
+            });
+
+        </script>
     </body>
 </html>

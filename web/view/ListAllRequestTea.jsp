@@ -105,7 +105,7 @@
                         <div class="card--top"></div>
                         <h1>Request</h1>
                         <p>List of all the request in our system had sent by Student is sorted by time created.</p>
-                        <div class="card--top--menu d-flex">
+                        <div class="card--top--menu d-flex" id="cardTop">
                             <h3 >Request List</h3>
                         </div>
 
@@ -276,7 +276,17 @@
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestListTea.js"/>"></script>
+        <script>
+            // Onload event
+            $(document).ready(function () {
+                cosole.log("load");
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
+            });
 
+        </script>
 
     </body>
 </html>

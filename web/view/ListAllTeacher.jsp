@@ -115,7 +115,7 @@
                         <div class="card--top"></div>
 
                         <!-- Requests DataTales -->
-                        <div class="card shadow mb-4">
+                        <div class="card shadow mb-4" id="cardTop">
                             <h1>Teacher Ranking</h1>
                             <p>List of all the teachers in our system is sorted by student-rated reputation.</p>
                             <div class="card-body">
@@ -341,7 +341,6 @@
         </div>
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
-        <!--<script src="<i:ReadUrlFromContext url="/assets/js/ListAllTeacher.js"/>"></script>-->
         <script>
 
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
@@ -354,7 +353,17 @@
                                                     id && (document.getElementById(id).checked = !0);
                                                 }
 
-        </script>    
+        </script> 
+        <script>
+            // Onload event
+            $(document).ready(function () {
+                console.log("load");
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
+            });
 
+        </script>
     </body>
 </html>

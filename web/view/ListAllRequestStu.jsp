@@ -105,7 +105,7 @@
                         <h1>Request</h1>
                         <p>List of all the request in our system had sent by Student is sorted by time created.</p>
                         <!-- Create Request Button -->
-                        <div class="card--top--menu d-flex">
+                        <div class="card--top--menu d-flex" id="cardTop">
                             <h3 >Request List</h3>
                             <a href="CreateRequest" class="createRequestBtn">Creare Request</a>
                         </div>
@@ -278,7 +278,14 @@
         <!-- link to java script file -->
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestListStu.js"/>"></script>
-
+        <script>
+            $(document).ready(function () {
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
+            });
+        </script>
 
 
 

@@ -101,7 +101,7 @@
                         <div class="card--top"></div>
                         <h1>Request</h1>
                         <p>The request in our system contains exercise has sent by Student to Teacher in website.</p>
-                        <div class="card--top--menu d-flex">
+                        <div class="card--top--menu d-flex" id="cardTop">
                             <h3>Creare Request</h3>
                         </div>
                         <div class="backBtn-container">
@@ -227,13 +227,13 @@
                                         <div class="card-body">
                                             <h5 class="text-hightlight1 mb-32px">2. Content</h5>
                                             <div class="form-group responseContent--text mt-3">
-                                                <label for="TopicTextArea">Topic</label>
+                                                <label for="TopicTextArea">Topic: </label>
                                                 <textarea class="TopicTextArea" name="content" style="width: 100%" id="message" type="text" value="" minlength="10" maxlength="1000" rows="5" cols="30" dir="ltr" required></textarea>
 
                                                 <span class="form-message"></span>
                                             </div>
                                             <div class="form-group">
-                                                <label for="formFile" class="form-label"> Image attachment </label>
+                                                <label for="formFile" class="form-label"> Image attachment: </label>
                                                 <input class="form-control" type="file" id="formFile" name="imgContent"/>
                                                 <span class="form-message"></span>
                                             </div>
@@ -403,6 +403,10 @@
         <!--<script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>-->
         <script>
             $(document).ready(function () {
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
                 $(".form-check-input").each(function () {
                     $(this).on("click", function () {
                         var rcmDecision = ($(this).val());
@@ -473,6 +477,14 @@
 
         </script>  
 
+        <script>
+            // Onload event
+         
+                console.log("load");
+                
+        
+
+        </script>
     </body>
 </html>
 
