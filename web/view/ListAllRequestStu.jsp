@@ -102,10 +102,10 @@
                     <div class="container-fluid">
                         <!-- Page Heading -->
                         <div class="card--top"></div>
-                        <h1>Request</h1>
+                        <h1 id="cardTop">Request</h1>
                         <p>List of all the request in our system had sent by Student is sorted by time created.</p>
                         <!-- Create Request Button -->
-                        <div class="card--top--menu d-flex" id="cardTop">
+                        <div class="card--top--menu d-flex">
                             <h3 >Request List</h3>
                             <a href="CreateRequest" class="createRequestBtn">Creare Request</a>
                         </div>

@@ -57,3 +57,6 @@ label.error {
     width:100%;
     color:red;
 }
+.container-fluid label{
+    margin: 16px 0 8px 0;
+}

@@ -451,7 +451,6 @@ $(document).ready(function () {
         <script>
             // Onload event
             $(document).ready(function () {
-                cosole.log("load");
                 $("#cardTop")[0].scrollIntoView({
                     behavior: "smooth", // or "auto" or "instant"
                     block: "start" // or "end"

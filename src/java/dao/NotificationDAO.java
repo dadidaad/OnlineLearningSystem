@@ -141,11 +141,11 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
 //        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
 //        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
 //
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
+        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
+        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
 //
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Subject", "Add Subject Successfully")));
 //        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
 //        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
 //
