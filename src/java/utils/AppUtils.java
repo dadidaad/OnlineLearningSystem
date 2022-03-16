@@ -10,6 +10,7 @@
 package utils;
 
 import bean.AccountBean;
+import dao.AccountDAO;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;

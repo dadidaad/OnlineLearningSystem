@@ -15,16 +15,16 @@ import java.util.logging.Logger;
 class BaseDAO {
 
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433;"
-            + "databaseName=OnlineLearningSystem;";
+            + "databaseName=OnlineLearningSystem";
     private static final String USER_NAME = "sa";
-    private static final String PASSWORD = "123";
+    private static final String PASSWORD = "1234";
 
     public static Connection getConnection() throws SQLException {
         Connection conn = null;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;

@@ -16,9 +16,9 @@ public interface IAccountDAO {
 
     public AccountBean getAccountByMail(String email); //get account from db by checking exist mail;
 
-    public boolean updateNewPassword(AccountBean account); //update account with AccountBean object as parameter
+    public int updateNewPassword(AccountBean account); //update account with AccountBean object as parameter
 
-    public boolean insertNewAccount(AccountBean account); //insert new account with AccountBean object as parameter
+    public int insertNewAccount(AccountBean account); //insert new account with AccountBean object as parameter
     
     public boolean updateInformation(AccountBean account); //update new information with AccountBean object as parameter
     

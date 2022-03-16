@@ -55,9 +55,9 @@ public class VerifyAccountController extends HttpServlet {
             boolean checkToken = captcha.equals(newUser.getToken()); //create boolean to check equals with input captcha and captcha in session
             if(checkToken){
                 IAccountDAO accountDAO = new AccountDAO();
-                boolean checkInsertAccount = accountDAO.insertNewAccount(newUser); //insert account in session to database
+                int checkInsertAccount = accountDAO.insertNewAccount(newUser); //insert account in session to database
                 /*check status of inserting*/
-                if(checkInsertAccount){
+                if(checkInsertAccount == 1){
                     out.print("success");
                 }
                 else{

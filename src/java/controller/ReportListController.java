@@ -22,9 +22,12 @@ import dao.ReportDAO;
 import dao.RequestDAO;
 import dao.SubjectDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +85,12 @@ public class ReportListController extends HttpServlet {
             rqReply = rqDB.getRequestReplyById(Integer.parseInt(part2));
 
             ISubjectDAO iSubjectDAO = new SubjectDAO();
-            SubjectBean subject = iSubjectDAO.getSubjectById(rq.getSubjectID());
+            SubjectBean subject = null;
+            try {
+                subject = iSubjectDAO.getSubjectById(rq.getSubjectID());
+            } catch (SQLException ex) {
+                Logger.getLogger(ReportListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             request.setAttribute("title", rq.getTitle());
             request.setAttribute("subject", subject.getSubjectName());

@@ -23,8 +23,10 @@ public class RequestAcceptListener implements HttpSessionAttributeListener {
     public void attributeAdded(HttpSessionBindingEvent event) {
         HttpSession session = event.getSession();
         RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
-        IRequestDAO db = new RequestDAO();
-        db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+        if (requestAccept != null) {
+            IRequestDAO db = new RequestDAO();
+            db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+        }
 
     }
 
@@ -32,10 +34,12 @@ public class RequestAcceptListener implements HttpSessionAttributeListener {
     public void attributeRemoved(HttpSessionBindingEvent event) {
         HttpSession session = event.getSession();
         RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
-        IRequestDAO db = new RequestDAO();
-        if(requestAccept.getStatus().equals("On-time")){
-            requestAccept.setStatus("Waiting");
-            db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+        if (requestAccept != null) {
+            IRequestDAO db = new RequestDAO();
+            if (requestAccept.getStatus().equals("On-time")) {
+                requestAccept.setStatus("Waiting");
+                db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+            }
         }
     }
 
@@ -43,7 +47,9 @@ public class RequestAcceptListener implements HttpSessionAttributeListener {
     public void attributeReplaced(HttpSessionBindingEvent event) {
         HttpSession session = event.getSession();
         RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
-        IRequestDAO db = new RequestDAO();
-        db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+        if (requestAccept != null) {
+            IRequestDAO db = new RequestDAO();
+            db.updateRequestStatus(requestAccept.getStatus(), requestAccept.getRequestID());
+        }
     }
 }

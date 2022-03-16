@@ -105,22 +105,4 @@ public class WalletDAO extends BaseDAO{
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public static void main(String[] args) {
-       Date date = new Date(2001-07-10);
-       Date crdate = new Date(2022-02-10);
-       WalletDAO db = new WalletDAO();
-       AccountBean account = new AccountBean("minhduc07", "Aa123456", "minhmomang69@gmail.com", "https://i.ndh.vn/2020/12/18/anh-1-1608284854.jpg", "Duc Minh", date, true, "duc minh dang hoc bai", BigDecimal.ZERO, date, "Teacher", "actived", true, "1");
-       List<FinanceBean> list = db.GetFinanceHistoryByPage(db.GetAllFinanceHistory(account), 3, 2);
-       
-       ISubjectDAO iSubjectDAO = new SubjectDAO();
-       SubjectBean subject = iSubjectDAO.getSubjectById(1);
-       
-//       for(FinanceBean f : list) {
-//           System.out.println(f.getMoney());
-//       }
-        System.out.println(subject.getSubjectName());
-       
-    }
 }

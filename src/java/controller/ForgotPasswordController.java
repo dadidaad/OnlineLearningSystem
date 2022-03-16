@@ -137,8 +137,8 @@ public class ForgotPasswordController extends HttpServlet {
             String encryptionPw = PasswordUtils.generatePasswordHash(newPassword); //encrypt password and set it to reset User
             resetUser.setPassword(encryptionPw);
             IAccountDAO accountDAO = new AccountDAO();
-            boolean checkUpdatePw = accountDAO.updateNewPassword(resetUser); //call updateNewPassword method from AccountDAO
-            if (checkUpdatePw) {
+            int checkUpdatePw = accountDAO.updateNewPassword(resetUser); //call updateNewPassword method from AccountDAO
+            if (checkUpdatePw == 1) {
                 out.print("success");
                 session.removeAttribute("userReset");
             } else {

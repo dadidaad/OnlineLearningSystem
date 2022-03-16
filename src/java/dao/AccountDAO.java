@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
+import org.junit.Assert;
+
 
 /**
  * This class contain method to find account, insert, update account Extend
@@ -29,6 +32,12 @@ import java.util.logging.Logger;
  */
 public class AccountDAO extends BaseDAO implements IAccountDAO {
 
+
+    public AccountDAO() {
+    }
+
+   
+    
     /**
      * getDisplayName method implement from IAccountDAO
      *
@@ -164,11 +173,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @return
      */
     @Override
-    public boolean updateNewPassword(AccountBean account) {
-        AccountBean x = getAccountByMail(account.getMail()); // get account by mail to check if exist in db, if no return false
-        if (x == null) {
-            return false;
-        }
+    public int updateNewPassword(AccountBean account) {
         Connection conn = null;
         PreparedStatement statement = null;
         try {
@@ -181,15 +186,13 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             statement.setString(1, account.getPassword());
             statement.setString(2, account.getMail());
             int status = statement.executeUpdate();
-            if (status == 1) {
-                return true; // return true if success update data in database
-            }
+            return status;
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, null);
         }
-        return false;
+        return 0;
     }
 
     /**
@@ -200,11 +203,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      * @return
      */
     @Override
-    public boolean insertNewAccount(AccountBean account) {
-        AccountBean x = getAccountByUsername(account.getUsername()); // get account from user to check exist, if null return false
-        if (x != null) {
-            return false;
-        }
+    public int insertNewAccount(AccountBean account) {
         Connection conn = null;
         PreparedStatement statement = null;
         try {
@@ -217,16 +216,13 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             statement.setString(3, account.getMail());
             statement.setBoolean(4, account.getSex());
             int status = statement.executeUpdate();
-            if (status == 1) {
-                return true;
-            }
+            return status;
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return 0;
         } finally {
             close(conn, statement, null);
         }
-        return false;
     }
 
     /**
@@ -238,6 +234,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      */
     @Override
     public boolean updateInformation(AccountBean account) {
+        Assert.assertNotNull(account);
         AccountBean x = getAccountByUsername(account.getUsername());
         if (x == null) {
             return false;
@@ -539,6 +536,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      */
     @Override
     public void updateStateACcount(AccountBean account) {
+        Assert.assertNotNull(account);
         Connection conn = null;
         PreparedStatement statement = null;
         try{
@@ -555,5 +553,4 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             close(conn, statement, null);
         }
     }
-    
 }

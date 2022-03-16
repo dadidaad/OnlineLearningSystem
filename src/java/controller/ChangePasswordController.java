@@ -58,8 +58,8 @@ public class ChangePasswordController extends HttpServlet {
             newPassword = PasswordUtils.generatePasswordHash(newPassword); //hash new password and set it to user account 
             loginUser.setPassword(newPassword);
             IAccountDAO accountDAO = new AccountDAO();
-            boolean checkUpdatePass = accountDAO.updateNewPassword(loginUser); //pass account user to dao, if success update then return true
-            if (checkUpdatePass) {
+            int checkUpdatePass = accountDAO.updateNewPassword(loginUser); //pass account user to dao, if success update then return true
+            if (checkUpdatePass == 1) {
                 out.print("Update password success");
             } else {
                 out.print("Error when change password!! Try again");
