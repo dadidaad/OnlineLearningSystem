@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.junit.Assert;
+
 
 
 /**
@@ -234,7 +234,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      */
     @Override
     public boolean updateInformation(AccountBean account) {
-        Assert.assertNotNull(account);
+
         AccountBean x = getAccountByUsername(account.getUsername());
         if (x == null) {
             return false;
@@ -536,7 +536,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
      */
     @Override
     public void updateStateACcount(AccountBean account) {
-        Assert.assertNotNull(account);
+
         Connection conn = null;
         PreparedStatement statement = null;
         try{
