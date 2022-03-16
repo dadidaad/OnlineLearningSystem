@@ -87,7 +87,7 @@ public class ViewRequestTeaController extends HttpServlet {
             request.setAttribute("subjectNames", subjectNames);
             request.setAttribute("displayNames", displayNames);
 
-
+            
             /*Attach Attribute subjects for request and redirect it to ViewRequestDetailTea.jsp*/
             request.getRequestDispatcher("./view/ViewRequestDetailTea.jsp").forward(request, response);
         } catch (Exception ex) {

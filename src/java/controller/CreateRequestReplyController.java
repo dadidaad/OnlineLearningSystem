@@ -80,7 +80,8 @@ public class CreateRequestReplyController extends HttpServlet {
             ITeacherDAO iTeacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call   
             TeacherBean teacher = iTeacherDAO.getTeacherByUsername(teacherSent);
             if ((daoCheck != 0)) {
-                iNotificationDAO.insertNotification(new NotificationBean(teacherSent, "Request", "You have successfully created your request."));
+                iRequestDAO.updateRequestStatus("Approved", requestId);
+                iNotificationDAO.insertNotification(new NotificationBean(teacherSent, "Request", "You have successfully answered one more request."));
                 iNotificationDAO.insertNotification(new NotificationBean(studentSent, "Request", "Your request has been answered by " + teacher.getDisplayName() + "."));
             } else {
                 iNotificationDAO.insertNotification(new NotificationBean(teacherSent, "Request", "You have failed answered the request."));

@@ -232,9 +232,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select t.*\n"
-                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request where Request.Tutor_get = ? or Request.Tutor_get is null)t\n" +
-            "Where  t.[Status] = ? and e between ? and ?";
+            String sql = "select t.*\n" 
+                    + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request, Request_Reply where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ?  and Request.[Status]= ?)t\n"
+                    + "Where  e between ? and ?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
@@ -943,7 +943,11 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
     public static void main(String[] args) {
         RequestDAO dal = new RequestDAO();
-        System.out.println(dal.getLastRequestId());
+        ArrayList<RequestBean> list = dal.getRequestForTeacher("ducgiang", "Approved", 1, 10);
+        for(RequestBean r : list){
+            System.out.println(r);
+        }
+        
     }
 
     @Override

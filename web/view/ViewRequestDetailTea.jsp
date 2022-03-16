@@ -123,7 +123,7 @@
                                     <div class="card p-2 mb-4">
                                         <div class="card-body">
 
-                                            <h5 class="text-hightlight1 mb-32px">1. Infomation</h5>
+                                            <h4 class="text-hightlight1 mb-32px">1. Infomation</h4>
                                             <!--Request's Infomation-->               
                                             <input type="hidden" id="requestId" name="requestId" value="${requestScope.request.getRequestID()}">  
                                             <input type="hidden" id="custId" name="studentSent" value="${requestScope.request.getStudentSent()}">  
@@ -194,7 +194,7 @@
                                     <div class="card shadow p-2">
                                         <div class="card-body">
                                             <!--Request's Content-->               
-                                            <h5 class="text-hightlight1 mb-32px">2. Content</h5>
+                                            <h4 class="text-hightlight1 mb-32px">2. Content</h4>
                                             <div class="responseContent--text mt-3">
                                                 <label for="AnswerTextarea">Topic: </label>
                                                 <textarea
@@ -223,9 +223,9 @@
                                         <a href="ListAllRequest" class="btn btn-secondary mt-3 mb-5">Reject Request</a>
                                     </c:if>         
                                     <p class="text-success" id="noti-accept"></p>
-                                    <div class="card shadow answerCard p-2" id="answerCard">
+                                    <div class="card shadow answerCard p-2 mt-3" id="answerCard">
                                         <div class="card-body">
-                                            <h5 class="text-hightlight1 mb-32px">Answer</h5>
+                                            <h4 class="text-hightlight1 mb-32px">3.Answer</h4>
                                             <div class="responseContent--text mt-3">
                                                 <label for="AnswerTextarea">Content: </label>
                                                 <span style="font-size: 12px;color: red;">*Required</span>
@@ -238,6 +238,28 @@
 
                                     <input type="submit" class="btn btn-primary mt-3 mb-5 doneBtn" value="Done" onclick="submit_form();"/>
                                 </form>
+                                <!--The Answer of Request-->        
+                                <c:if test = "${requestScope.requestReply!=null}">
+                                    <div class="card shadow p-2" id="answerCard">
+                                        <div class="card-body">
+                                            <h4 class="text-hightlight1 mb-32px">3.Answer</h4>
+                                            <div class="responseContent--text mt-3">
+                                                <label for="AnswerTextarea">Content: </label>
+
+                                                <textarea class="TopicTextArea" name="contentReply" style="width: 100%" id="message" type="text" value="" minlength="10" maxlength="1000" rows="5" cols="30" dir="ltr" readonly>${requestScope.requestReply.getContentReply()}</textarea>
+                                            </div>
+                                      
+                                            <em class="d-block">Image: (if exist)</em><span></span>
+                                            <img
+                                                class="imgZoom mt-3"
+                                                src="<i:ReadUrlFromContext url="${requestScope.requestReply.getImageLinkReply()}"/>"
+                                                alt=""
+                                                style="box-shadow: 0 0 0 1px graytext;"
+                                                />
+                                        </div>
+                                    </div>
+                                                
+                                </c:if>    
                             </div>
                         </div>
                     </div>
@@ -319,6 +341,14 @@
                     e.preventDefault();
                     alert('You must not enter only the full distance in this field!');
                 }
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#cardTop")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                });
             });
         </script>
     </body>

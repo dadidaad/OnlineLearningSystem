@@ -137,7 +137,9 @@ public class ListAllRequestController extends HttpServlet {
                     request.setAttribute("pageindex", pageindex);
 
                     /* Sort the list */
-                    requestList = sortRequest.requestListSorted(requestList, account.getUsername());
+                    if(rqStatus.equalsIgnoreCase("waiting")){
+                        requestList = sortRequest.requestListSorted(requestList, account.getUsername());
+                    }
                     request.setAttribute("requests", requestList);
                     /*Attach Attribute teachers for request and redirect it to ListAllRequestTea.jsp*/
 
