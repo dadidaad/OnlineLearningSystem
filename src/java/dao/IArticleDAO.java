@@ -9,6 +9,7 @@
 package dao;
 
 import bean.ArticleBean;
+import bean.CommentArticleBean;
 import java.util.List;
 
 /**
@@ -33,9 +34,21 @@ public interface IArticleDAO {
      * @return Article. <code>java.util.List</code> object
      */
     public List<ArticleBean> pagingAricle(int index);
-
-    public List<ArticleBean> pagingSearchArticle(int index, String txt);
-
+    
+        /**
+     * pagingAricle with coresponding index
+     *
+     * @return Article. <code>java.util.List</code> object
+     */
+       public List<ArticleBean> pagingManager(int index);
+       
+         /**
+     * pagingAricle with coresponding index
+     *
+     * @return Article. <code>java.util.List</code> object
+**/
+   
+         public List<ArticleBean> pagingSearchArticle(int index, String txt);
     /**
      * count number of article
      *
@@ -79,17 +92,17 @@ public interface IArticleDAO {
     public void acceptArticle(String txt);
 
     /**
-     * getAllpreparearticle
+     * acceptArticle
      *
      * @return Article. <code>java.util.List</code> object
      */
 
     public List<ArticleBean> getAllpreparearticle();
 
-    /**
-     * deleteprepare
+     /**
+     * getAllpreparearticle
      *
-     * excute method
+     * @return Article. <code>java.util.List</code> object
      */
 
     public void deleteprepare(String id);
@@ -103,6 +116,7 @@ public interface IArticleDAO {
     public ArticleBean getArticlebyid(String id);
 
     /**
+     * getArticlebyid with coresponding ArticleID
      * deleteprepare
      *
      * excute method
@@ -116,5 +130,79 @@ public interface IArticleDAO {
      */
 
     public void addNew(String title, String des, String image, String createname);
+       /**
+     * addNew with title des , image , createname
+     *
+     * excute method
+     */
 
+    public void like(String uid, String aid);
+    
+    /**
+     * getFavor method
+     *
+     * @return Article. <code>java.util.List</code> object
+     */
+    
+    public List<ArticleBean> getFavor(String id);
+    
+     /**
+     * deleteFavor
+     *
+     * excute method
+     */
+
+    public void deleteFavor(String username, String article);
+    
+    /**
+     * deleteFavor
+     *
+     * excute method
+     */
+    public boolean getArticleLike(String username, String article);
+    
+    /**
+     * getArticleLike
+     *
+     * excute method check true false
+     */
+    
+     public void getview(int id);
+     
+     
+      /**
+     * getview
+     *
+     * excute method
+     */
+    public List<CommentArticleBean> getAllComment(int id);
+            /**
+     * getFavor method
+     *
+     * @return Article. <code>java.util.List</code> object
+     */
+    public void AddNewComment(String username, String articleid,String content);
+     /**
+     * AddNewComment
+     *
+     * excute method
+     * @return 
+     */
+    public int totalcomment();
+    
+    public int totalview();
+    
+     public boolean checkArticleUpdateCreate(String title);
+     /**
+     * checkArticleUpdateCreate
+     *
+     * excute method check true false
+     */
+     public void deleteComment(String id);
+     
+     public int getArticleID(String id);
+     
+     public List<CommentArticleBean> pagingcomment(String articlid ,int index);
+     
+     public int totalview(String articleid);
 }

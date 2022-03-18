@@ -24,6 +24,7 @@ public class ArticleBean {
     private String description;
     private String image;
     private String createName;
+    private int view;
     private String pulished;
   /**
      * Initialization method
@@ -157,6 +158,23 @@ public class ArticleBean {
      * 
      * @return <code>java.lang.String</code> object
      */
+       public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+     public ArticleBean(int id, String title, String description, String image, String pulished, String createName,int view) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.createName = createName;
+        this.view = view;
+        this.pulished = pulished;
+    }
+
     @Override
     public String toString() {
         return "ArticleBean{" + "id=" + id + ", title=" + title + ", description=" + description + ", image=" + image + ", createName=" + createName + ", pulished=" + pulished + '}';

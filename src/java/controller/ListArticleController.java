@@ -32,26 +32,24 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ListArticleController", urlPatterns = {"/listarticle"})
 public class ListArticleController extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        /*Notification*/
-            HttpSession session = request.getSession();
-            AccountBean account = (AccountBean) session.getAttribute("user");
-            if (account != null) {
-                INotificationDAO iNotificationDAO = new NotificationDAO();
-
-                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
-                request.setAttribute("notiUnread", notiUnread);
-                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-                request.setAttribute("notificationList", notiList);
-            }
-
         /*Use DAO class to get data from database for Article with corresponding */
         IArticleDAO articleDAO = new ArticleDAO();
         /*Get index ID from request*/
+           /*Use session*/
+         HttpSession session = request.getSession();
+        AccountBean a = (AccountBean) session.getAttribute("user");
         String indexpage = request.getParameter("index");
+         if (a != null) {
+                INotificationDAO iNotificationDAO = new NotificationDAO();
+
+                int notiUnread = iNotificationDAO.getTotalNotiUnread(a.getUsername());
+                request.setAttribute("notiUnread", notiUnread);
+                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(a.getUsername());
+                request.setAttribute("notificationList", notiList);
+            }
         /*Caculate total page*/
         if (indexpage == null) {
             indexpage = "1";
@@ -64,7 +62,7 @@ public class ListArticleController extends HttpServlet {
             endPage++;
         }
         //get top 4 newest article and total article
-        List<ArticleBean> list = articleDAO.pagingAricle(idex);
+     List<ArticleBean> list = articleDAO.pagingAricle(idex);
         List<ArticleBean> list2 = articleDAO.getTop4Article();
         //Attach Attribute for request and redirect it to ListArticle.jsp
         request.setAttribute("listP", list);
@@ -72,7 +70,27 @@ public class ListArticleController extends HttpServlet {
         request.setAttribute("tag", idex);
         request.setAttribute("a", idex);
         request.setAttribute("endP", endPage);
+        session.setAttribute("account", a);
         request.getRequestDispatcher("./view/ListArticle.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }
