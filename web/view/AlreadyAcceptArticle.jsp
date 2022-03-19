@@ -11,7 +11,7 @@
         <title>Manager article</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-              <!-- Link to bootstrap fontawesome and Boxicon -->
+        <!-- Link to bootstrap fontawesome and Boxicon -->
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script
@@ -19,22 +19,22 @@
         <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-        
+
     </head>
     <body>
-          <!-- Include container of web site from general-->
+        <!-- Include container of web site from general-->
         <div class="container">
             <h2>Manager article</h2>
 
-           <form method="post" action="searchiinalreadyarticle" class="form-inline" onsubmit="return FormValidate();" >
-                    <div class="form-group">
+            <form method="post" action="searchiinalreadyarticle" class="form-inline" onsubmit="return FormValidate();" >
+                <div class="form-group">
 
-                        <input type="name"
-                               class="form-control" id="name" name="name" value="${txtS}"
-                               placeholder="Enter title">
-                    </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>
+                    <input type="name"
+                           class="form-control" id="name" name="name" value="${txtS}"
+                           placeholder="Enter title">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -66,38 +66,71 @@
                                    class="btn btn-info" role="button">Update</a></td>
                             <td><a class="btn btn-info" role="button"  onclick="showMessage(${o.id})">Delete</a></td>    
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" >
+                                <button type="button" class="userinfo btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" >
                                     Show details
                                 </button>     
                                 <!-- Modal -->
-                               
-                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+
+                                <!--                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLongTitle">${o.title}</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group">
+                                                                                    <label>Description: </label>
+                                ${o.description}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+                                <script type='text/javascript'>
+                                    $(document).ready(function () {
+                                        $('.userinfo').click(function () {
+                                            var userid = $(this).data('id');
+                                            $.ajax({
+                                                url: './view/AlreadyAcceptArticle.jsp',
+                                                type: 'post',
+                                                data: {userid: userid},
+                                                success: function (response) {
+                                                    $('.modal-body').html(response);
+                                                    $('#empModal').modal('show');
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                                </div>
+                                <div class="modal fade" id="empModal" role="dialog">
+                                    <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">${e.title}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                <h4 class="modal-title">User Info</h4>
+                                                <button type="button" class="close" data-dismiss="modal">×</button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Description: </label>
-                                                    ${e.description}
-                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                             
+
                         </tr>
 
                     </c:forEach>
-                        <h1 style="color:red; text-align: center">${message}</h1>
+                <h1 style="color:red; text-align: center">${message}</h1>
                 </tbody>
             </table> 
             <ul class="pagination" style="margin-top: 50px; margin-left: 45px;">
@@ -120,17 +153,16 @@
                     window.location.href = 'deletealreadyarticle?pid=' + id;
                 }
             }
-              function FormValidate() {
-                        var name = document.getElementById('name').value.trim();
-                        var errorName = document.getElementById('errorName');
-                        if (name == '' || name == null) {
-                            errorName.innerHTML = "Please enter title";
-                        }
-                        else{
-                        return name;
-                    }
-                    return false;
-                    }
+            function FormValidate() {
+                var name = document.getElementById('name').value.trim();
+                var errorName = document.getElementById('errorName');
+                if (name == '' || name == null) {
+                    errorName.innerHTML = "Please enter title";
+                } else {
+                    return name;
+                }
+                return false;
+            }
         </script>                                                 
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

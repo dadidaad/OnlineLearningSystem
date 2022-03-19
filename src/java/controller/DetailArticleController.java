@@ -10,6 +10,7 @@ package controller;
 
 import bean.AccountBean;
 import bean.ArticleBean;
+import bean.CommentArticleBean;
 import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
@@ -29,43 +30,50 @@ import javax.servlet.http.HttpSession;
  *
  * @author Hoang Ngoc Long
  */
-@WebServlet(name = "DetailArticleController", urlPatterns = {"/detail"})
+@WebServlet(name = "DetailArticleController", urlPatterns = {"/detailarticle"})
 public class DetailArticleController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Get id of article from listarticle
+         //Get id of article from listarticle
         String aid = request.getParameter("did");
         int id = Integer.parseInt(aid);
         IArticleDAO articleDAO = new ArticleDAO();
-
-        /*Notification*/
-        HttpSession session = request.getSession();
-        AccountBean account = (AccountBean) session.getAttribute("user");
-        if (account != null) {
-            INotificationDAO iNotificationDAO = new NotificationDAO();
-
-            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
-            request.setAttribute("notiUnread", notiUnread);
-            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-            request.setAttribute("notificationList", notiList);
-        }
-
         //get article by id
         ArticleBean a = articleDAO.getArticleDetail(id);
-        //Attach Attribute for request and redirect it to ListArticle.jsp
-        request.setAttribute("article", a);
-        request.getRequestDispatcher("./view/ArticleDetail.jsp").forward(request, response);
+         /*Use session*/          
+         HttpSession session = request.getSession();
+         AccountBean b = (AccountBean) session.getAttribute("user");
+          List<CommentArticleBean> list = articleDAO.getAllComment(id);
+        request.setAttribute("comments", list);
+        request.setAttribute("article", a);   
+        if(b!=null){
+        request.setAttribute("name", b.getUsername());
+            }
+         request.getRequestDispatcher("./view/ArticleDetail.jsp").forward(request, response);
+        if(b.getUsername()!=null){
+         articleDAO.getview(id);
+        }
+                //Attach Attribute for request and redirect it to ListArticle.jsp
 
     }
+     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

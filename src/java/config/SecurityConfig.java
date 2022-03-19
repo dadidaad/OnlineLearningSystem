@@ -36,7 +36,7 @@ public class SecurityConfig {
         List<String> studentPattern = new ArrayList<>();
         studentPattern.add("/ViewProfile");
         studentPattern.add("/EditProfile");
-        studentPattern.add("/BecomeTutor");
+        studentPattern.add("/BecomeTutor");   
         studentPattern.add("/ChangePassword");
         studentPattern.add("/CreateRequest");
         studentPattern.add("/ViewRequestStu");
@@ -75,7 +75,6 @@ public class SecurityConfig {
         adminPattern.add("/updatearticle");
         adminPattern.add("/acceptarticle");
         adminPattern.add("/deleteprepare");
-        adminPattern.add("/detailarticle");
         adminPattern.add("/searchiinalreadyarticle");
         adminPattern.add("/searcharticle");
         MAP_CONFIG.put(ADMIN_ROLE, adminPattern); // Configure the "Admin" role.

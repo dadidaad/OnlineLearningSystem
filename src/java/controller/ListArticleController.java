@@ -42,14 +42,7 @@ public class ListArticleController extends HttpServlet {
          HttpSession session = request.getSession();
         AccountBean a = (AccountBean) session.getAttribute("user");
         String indexpage = request.getParameter("index");
-         if (a != null) {
-                INotificationDAO iNotificationDAO = new NotificationDAO();
-
-                int notiUnread = iNotificationDAO.getTotalNotiUnread(a.getUsername());
-                request.setAttribute("notiUnread", notiUnread);
-                List<NotificationBean> notiList = iNotificationDAO.getTopNotification(a.getUsername());
-                request.setAttribute("notificationList", notiList);
-            }
+ 
         /*Caculate total page*/
         if (indexpage == null) {
             indexpage = "1";
