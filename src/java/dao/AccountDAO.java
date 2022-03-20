@@ -522,7 +522,7 @@ public class AccountDAO extends BaseDAO implements IAccountDAO {
             statement.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(conn, statement, rs);
         }

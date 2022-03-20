@@ -6,6 +6,10 @@
 package dao;
 
 import bean.AccountBean;
+import com.mockrunner.mock.jdbc.MockConnection;
+import com.mockrunner.mock.jdbc.MockPreparedStatement;
+import com.mockrunner.mock.jdbc.MockResultSet;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,22 +22,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
+import org.mockito.InjectMocks;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.mockito.internal.progress.ArgumentMatcherStorage;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.stubbing.Answer;
+import org.mockito.Spy;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import utils.PasswordUtils;
 
 /**
  *
@@ -48,22 +45,20 @@ public class AccountDAOTest {
     private AccountDAO accountDAOspy;
 
     @Mock
-    private Connection conn;
+    private MockConnection mockConn;
 
     @Mock
-    private PreparedStatement statement;
+    private MockPreparedStatement mockStatement;
 
-    @Mock
-    private ResultSet rs;
+    @Spy
+    @InjectMocks
+    private MockResultSet mockRs = new MockResultSet("MyMock");
 
     @Before
     public void setUp() throws SQLException {
         accountDAO = new AccountDAO();
         PowerMockito.mockStatic(BaseDAO.class);
         accountDAOspy = PowerMockito.spy(new AccountDAO());
-        when(BaseDAO.getConnection()).thenReturn(conn);
-        when(conn.prepareStatement(anyString())).thenReturn(statement);
-        when(statement.executeQuery()).thenReturn(rs);
     }
 
     @After
@@ -72,57 +67,95 @@ public class AccountDAOTest {
 
     @Test
     public void testGetDisplayNames() throws Exception {
-        Map<String, String> expResult = new HashMap<>();
-        PowerMockito.doReturn(expResult).when(accountDAOspy, "getDisplayNames");
-        Map<String, String> result = accountDAOspy.getDisplayNames();
-        assertThat(result, CoreMatchers.is(expResult));
+        Map<String, String> result = new HashMap<>();
+        mockRs = initMockResultSet();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        PowerMockito.when(mockStatement.executeQuery()).thenReturn(mockRs);
+        result = accountDAOspy.getDisplayNames();
+        assertEquals(3, result.size());
     }
 
     @Test
     public void testGetAccountByUsernameNotFound() throws Exception {
         String username = "";
         AccountBean expResult = null;
-        PowerMockito.doReturn(expResult).when(accountDAOspy, "getAccountByUsername", anyString());
+        mockRs = initMockResultSet();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        PowerMockito.when(mockStatement.executeQuery()).thenReturn(mockRs);
         AccountBean result = accountDAOspy.getAccountByUsername(username);
         assertThat(result, CoreMatchers.is(expResult));
     }
+
     @Test
     public void testGetAccountByUsername() throws Exception {
         String username = "admin";
-        AccountBean expResult = null;
+        AccountBean expResult = new AccountBean();
+        mockRs = initMockResultSet();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        PowerMockito.when(mockStatement.executeQuery()).thenReturn(mockRs);
         PowerMockito.doReturn(expResult).when(accountDAOspy, "getAccountByUsername", anyString());
         AccountBean result = accountDAOspy.getAccountByUsername(username);
         assertThat(result, CoreMatchers.is(expResult));
     }
 
     @Test
-    public void testGetAccountByMail() {
-        System.out.println("getAccountByMail");
+    public void testGetAccountByMailNotFound() {
         String email = "";
-        AccountDAO instance = new AccountDAO();
         AccountBean expResult = null;
-        AccountBean result = instance.getAccountByMail(email);
+        AccountBean result = accountDAOspy.getAccountByMail(email);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    }
+    @Test
+    public void testGetAccountByMailFound() throws Exception {
+        String username = "dat@gmail.com";
+        AccountBean expResult = new AccountBean();
+        mockRs = initMockResultSet();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        PowerMockito.when(mockStatement.executeQuery()).thenReturn(mockRs);
+        PowerMockito.doReturn(expResult).when(accountDAOspy, "getAccountByMail", anyString());
+        AccountBean result = accountDAOspy.getAccountByMail(username);
+        assertThat(result, CoreMatchers.is(expResult));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testUpdateNewPasswordWithNull() throws Exception {
+        AccountBean x = null;
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        accountDAOspy.updateNewPassword(x);
+    }
+    @Test()
+    public void testUpdateNewPasswordWithEmpty() throws Exception {
+        AccountBean x = new AccountBean();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        int result = accountDAOspy.updateNewPassword(x);
+        assertEquals(0, result);
+    }
+    @Test()
+    public void testUpdateNewPasswordWithValid() throws Exception {
+        AccountBean x = new AccountBean();
+        x.setMail("dat@gmail.com");
+        x.setPassword("hello");
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        accountDAOspy.updateNewPassword(x);
     }
 
     @Test
-    public void testUpdateNewPassword() {
-        System.out.println("updateNewPassword");
-        AccountBean account = null;
-        AccountDAO instance = new AccountDAO();
-        boolean expResult = false;
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testInsertNewValidAccount() {
+    public void testInsertNewValidAccount() throws SQLException {
         AccountBean account = new AccountBean();
         account.setUsername("username");
         account.setPassword("Gello");
         account.setMail("dat@gmail.com");
         account.setSex(true);
-        accountDAO.insertNewAccount(account);
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        accountDAOspy.insertNewAccount(account);
     }
 
     @Test(expected = NullPointerException.class)
@@ -134,98 +167,58 @@ public class AccountDAOTest {
     @Test
     public void testInsertNewEmptyAccount() throws SQLException {
         AccountBean x = new AccountBean();
-        accountDAO.insertNewAccount(x);
-        verify(statement).setString(1, x.getUsername());
-        verify(statement).setString(2, x.getPassword());
-        verify(statement).setString(3, x.getMail());
-        verify(statement).setBoolean(4, x.getSex());
-        verify(statement).executeUpdate();
-
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        accountDAOspy.insertNewAccount(x);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testUpdateInformation() {
-        System.out.println("updateInformation");
         AccountBean account = null;
-        AccountDAO instance = new AccountDAO();
-        boolean expResult = false;
-        boolean result = instance.updateInformation(account);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        accountDAOspy.updateInformation(account);
     }
 
     @Test
-    public void testTotalAccount() {
-        System.out.println("totalAccount");
-        AccountDAO instance = new AccountDAO();
-        int expResult = 0;
-        int result = instance.totalAccount();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testTotalAccount() throws SQLException {
+        mockRs = initMockResultSet();
+        PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+        PowerMockito.when(mockStatement.executeQuery()).thenReturn(mockRs);
+        int result = accountDAOspy.totalAccount();
+        assertEquals(3, result);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testDeleteAccountWithNull() {
+       String username = null;
+       accountDAOspy.deleteAccount(username);
+    }
     @Test
-    public void testTotalAccountSearch() {
-        System.out.println("totalAccountSearch");
-        String searchString = "";
-        AccountDAO instance = new AccountDAO();
-        int expResult = 0;
-        int result = instance.totalAccountSearch(searchString);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testDeleteAccount() throws SQLException {
+       String username = "admin";
+       PowerMockito.when(BaseDAO.getConnection()).thenReturn(mockConn);
+        PowerMockito.when(mockConn.prepareStatement(anyString())).thenReturn(mockStatement);
+       accountDAOspy.deleteAccount(username);
     }
 
-    @Test
-    public void testGetAllAccountBySearch() {
-        System.out.println("getAllAccountBySearch");
-        String searchString = "";
-        int pageindex = 0;
-        int pagesize = 0;
-        AccountDAO instance = new AccountDAO();
-        List<AccountBean> expResult = null;
-        List<AccountBean> result = instance.getAllAccountBySearch(searchString, pageindex, pagesize);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testGetAllAccount() {
-        System.out.println("getAllAccount");
-        int pageindex = 0;
-        int pagesize = 0;
-        AccountDAO instance = new AccountDAO();
-        List<AccountBean> expResult = null;
-        List<AccountBean> result = instance.getAllAccount(pageindex, pagesize);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testUpdateStatusAccount() {
-        System.out.println("updateStatusAccount");
-        String username = "";
-        String status = "";
-        AccountDAO instance = new AccountDAO();
-        instance.updateStatusAccount(username, status);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testDeleteAccount() {
-        System.out.println("deleteAccount");
-        String username = "";
-        AccountDAO instance = new AccountDAO();
-        instance.deleteAccount(username);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testUpdateStateACcount() {
-        System.out.println("updateStateACcount");
-        AccountBean account = null;
-        AccountDAO instance = new AccountDAO();
-        instance.updateStateACcount(account);
-        fail("The test case is a prototype.");
+    private MockResultSet initMockResultSet() throws SQLException {
+        mockRs.addColumn("Username", new String[]{"admin1", "vodat", "minhthu"});
+        mockRs.addColumn("Password", new String[]{"hello", "hello", "hello"});
+        mockRs.addColumn("Mail", new String[]{"dat@gmail.com", "dat1@gmail.com", "dat2@gmail.com"});
+        mockRs.addColumn("Avatar", new String[]{"avatar.png", "avatar.png", "avatar.png"});
+        mockRs.addColumn("DisplayName", new String[]{"Dat Vo", "Dat Vo 1", "Dat Vo 2"});
+        mockRs.addColumn("DateOfBirth", new java.sql.Date[]{new java.sql.Date(20010228), new java.sql.Date(20010228), new java.sql.Date(20010228)});
+        mockRs.addColumn("Sex", new Boolean[]{true, true, true});
+        mockRs.addColumn("Description", new String[]{"hello", "hello", "hello"});
+        mockRs.addColumn("Cash In Account", new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO});
+        mockRs.addColumn("CreatedDate", new java.sql.Date[]{new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis())});
+        mockRs.addColumn("Role", new String[]{"Student", "Teacher", "Admin"});
+        mockRs.addColumn("Status", new String[]{"Waiting", "Actived", "Banned"});
+        mockRs.addColumn("State", new Boolean[]{false, false, false});
+        mockRs.addColumn("NumberOfAccount", new Integer[]{3,3,3});
+        return mockRs;
     }
 
 }

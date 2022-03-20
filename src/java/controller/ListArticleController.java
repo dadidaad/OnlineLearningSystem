@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * Document: ListArticleController Create on: Feb 9, 2022, 10:20:35 PM
@@ -40,7 +41,7 @@ public class ListArticleController extends HttpServlet {
         /*Get index ID from request*/
            /*Use session*/
          HttpSession session = request.getSession();
-        AccountBean a = (AccountBean) session.getAttribute("user");
+        AccountBean a = AppUtils.getLoginedUser(session);
         String indexpage = request.getParameter("index");
  
         /*Caculate total page*/
@@ -63,7 +64,6 @@ public class ListArticleController extends HttpServlet {
         request.setAttribute("tag", idex);
         request.setAttribute("a", idex);
         request.setAttribute("endP", endPage);
-        session.setAttribute("account", a);
         request.getRequestDispatcher("./view/ListArticle.jsp").forward(request, response);
     }
 
