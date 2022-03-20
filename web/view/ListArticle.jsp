@@ -31,7 +31,7 @@
                     <h4 style="margin-left: 40px;float: left; margin-top: 40px; font-size: 30px;">Top new article</h4> 
                                
             </div>
-            <c:if test="${sessionScope.account != null}">
+            <c:if test="${sessionScope.user != null}">
                  <a  href="favorarticle"
                      class="btn btn-danger" role="button" style="float: right;margin-top: 40px; margin-right: 10%;">Favor Aritcle</a></td>  
                      </c:if>

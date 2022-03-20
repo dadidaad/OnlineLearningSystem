@@ -79,6 +79,19 @@
                                     <span class="text nav-text">Teacher Apply</span>
                                 </a>
                             </li>
+                              </li>
+                             <li class="nav-link">
+                                <a href="loadalreadyarticle">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Manager Article</span>
+                                </a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="loadpreparearticle">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Waitting Article</span>
+                                </a>
+                            </li>
 
 
                         </ul>

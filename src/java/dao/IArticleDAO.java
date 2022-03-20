@@ -206,4 +206,6 @@ public interface IArticleDAO {
      public List<CommentArticleBean> pagingcomment(String articlid ,int index);
      
      public int totalview(String articleid);
+     
+     public CommentArticleBean getComment(String id);
 }

@@ -135,8 +135,7 @@
                         <th>CreateDay</th>
                           <th>Title</th>
                             <th>Description</th>
-                            <th>Update/
-                                Delete
+                            <th>Action
                             </th>
                     </tr>
                 </thead>

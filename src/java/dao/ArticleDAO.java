@@ -1129,4 +1129,48 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         return 0;
     }
 
+    @Override
+    public CommentArticleBean getComment(String id) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            /*Set up connection and Sql statement for Query*/
+            query = "select a.Username, a.DisplayName,a.Avatar,t.commentdate,t.comment,t.ArticleID,t.feedbackId\n" +
+"  from Account a join Feedback_Article t on a.Username=t.username where t.feedbackId = ?";
+            //Set up connection and Sql statement for Querry
+            conn = getConnection();
+            statement = conn.prepareStatement(query);
+            statement.setString(1, id);
+            /*Query and save in ResultSet*/
+            rs = statement.executeQuery();
+            //Assign data to an List of Article
+            while (rs.next()) {
+                return new CommentArticleBean(
+                         /*get ArticleID*/
+                        rs.getString(1),
+                        /*get title of article*/
+                        rs.getString(2),
+                        /*get descripcut of article*/
+                        rs.getString(3),
+                        /*get imagelink of article*/
+                        rs.getString(4),
+                        /*get published of article*/
+                        rs.getString(5),
+                        /*get published of article*/
+                        rs.getInt(6),
+                        rs.getInt(7)
+                );
+            }
+
+        } catch (SQLException e) {
+            /*Exeption Handle*/
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            /*Close connection, prepare statement, result set*/
+            ArticleDAO.close(conn, statement, rs);
+        }
+        return null;
+    }
+
 }
