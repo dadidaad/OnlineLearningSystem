@@ -1,63 +1,62 @@
 /*
  * Copyright(C)2022, Group 2 SE1511 FPTU-HN
  * 
- * UpdateArticleControl
+ * ViewDetail
  * Record of change:
  * DATE         Version     AUTHOR               Description
  * 2022-02-22   1.0         Hoang Ngoc Long    First Implement
  */
 package controller;
 
-import bean.AccountBean;
 import bean.ArticleBean;
-import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
-import dao.INotificationDAO;
-import dao.NotificationDAO;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- * Document: UpdateArticleControl Create on: 2022-02-22 10:20:35 PM
+ * Document: ViewDetail Create on: 2022-02-22 10:20:35 PM
  *
  * @author Hoang Ngoc Long
  */
-@WebServlet(name = "UpdateArticleControl", urlPatterns = {"/updatearticle"})
-public class UpdateArticleControl extends HttpServlet {
+@WebServlet(name = "ViewDetail", urlPatterns = {"/viewdetailarticle"})
+public class ViewDetail extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-           request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-         /*Get image,description,id title from request*/
-        String image = request.getParameter("image");
-        String title = request.getParameter("title").replaceAll("\\s\\s+", " ").trim();
-        /*get txttitle from page*/
-        String description = request.getParameter("description").replaceAll("\\s\\s+", " ").trim();
-         String id = request.getParameter("id");
-         /*Use DAO class to get data from database for Article with corresponding */
-            IArticleDAO dao =new ArticleDAO();
-            ArticleBean d= dao.getArticlebyid(id);
-            
-          if(dao.checkArticleUpdateCreate(title)){
-         dao.editproduct(image, title, description, id);
-         /*sendirect to articleloading */
-        request.setAttribute("message", "Update successfull");
-        response.sendRedirect("loadalreadyarticle");
-           }
-          else{
-              request.setAttribute("detail", d);
-              request.setAttribute("message", "Title is exist");
-            request.getRequestDispatcher("./view/UpdateArticle.jsp").forward(request, response);
-          }
-   
+        PrintWriter out = response.getWriter();
+        String id = request.getParameter("idService");
+        IArticleDAO articleDAO = new ArticleDAO();
+        ArticleBean ad = articleDAO.getArticlebyid(id);
+        try {
+            String modal = "<div class=\"modal fade\" id=\"exampleModalLong\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLongTitle\" aria-hidden=\"true\">\n"
+                    + "<div class=\"modal-dialog\" role=\"document\">\n"
+                    + "    <div class=\"modal-content\">\n"
+                    + "      <div class=\"modal-header\">\n"
+                    + "        <h5 class=\"modal-title\" id=\"exampleModalLongTitle\">"+ad.getTitle()+"+</h5>\n"
+                    + "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n"
+                    + "          <span aria-hidden=\"true\">&times;</span>\n"
+                    + "        </button>\n"
+                    + "      </div>\n"
+                    + "      <div class=\"modal-body\">\n"
+                    + "        "+ad.getDescription()+"+\n"
+                    + "      </div>\n"
+                    + "      <div class=\"modal-footer\">\n"
+                    + "        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n"
+                    + "      </div>\n"
+                    + "    </div>\n"
+                    + "  </div>"
+                    + "  </div>";
+            out.print(modal);
+        } catch (Exception e) {
+            out.print("error");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

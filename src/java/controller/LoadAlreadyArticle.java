@@ -38,16 +38,16 @@ public class LoadAlreadyArticle extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         /*Notification*/
-//        HttpSession session = request.getSession();
-//        AccountBean account = (AccountBean) session.getAttribute("user");
-//        if (account != null) {
-//            INotificationDAO iNotificationDAO = new NotificationDAO();
-//
-//            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
-//            request.setAttribute("notiUnread", notiUnread);
-//            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
-//            request.setAttribute("notificationList", notiList);
-//        }
+        HttpSession session = request.getSession();
+        AccountBean account = (AccountBean) session.getAttribute("user");
+        if (account != null) {
+            INotificationDAO iNotificationDAO = new NotificationDAO();
+
+            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());
+            request.setAttribute("notiUnread", notiUnread);
+            List<NotificationBean> notiList = iNotificationDAO.getTopNotification(account.getUsername());
+            request.setAttribute("notificationList", notiList);
+        }
 
         /*Use DAO class to get data from database for Article with corresponding */
         IArticleDAO articleDAO = new ArticleDAO();

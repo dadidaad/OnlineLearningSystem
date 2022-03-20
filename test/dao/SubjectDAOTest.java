@@ -294,4 +294,8 @@ public class SubjectDAOTest {
         assertEquals(expResult, result);
     }
 
+    private void assertEquals(int expResult, int result) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

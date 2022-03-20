@@ -115,6 +115,7 @@ public interface IArticleDAO {
 
     public ArticleBean getArticlebyid(String id);
 
+
     /**
      * getArticlebyid with coresponding ArticleID
      * deleteprepare

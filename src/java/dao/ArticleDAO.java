@@ -211,6 +211,7 @@ public class ArticleDAO extends BaseDAO implements IArticleDAO {
         }
         return null;
     }
+    
 
     /**
      * getTop4Article newest method implement from IArticleDAO

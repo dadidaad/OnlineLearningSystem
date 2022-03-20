@@ -37,9 +37,14 @@ public class CreateArticleControl extends HttpServlet {
           /*Use DAO class to get data from database for Article with corresponding */
          IArticleDAO articleDAO =new ArticleDAO();
          //add new article
+         if(articleDAO.checkArticleUpdateCreate(title)){
          articleDAO.addNew(title, des, image, createname);
+         }
            /*Attach Attribute  redirect it to CreateArticle.jsp*/
-         response.sendRedirect("loadpreparearticle");
+           else{
+              request.setAttribute("message", "Title is exist");
+            request.getRequestDispatcher("./view/UpdateArticle.jsp").forward(request, response);
+          }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

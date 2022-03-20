@@ -1,22 +1,15 @@
 /*
- * Copyright(C)2022, Group 2 SE1511 FPTU-HN
- * 
- * UpdateArticleControl
- * Record of change:
- * DATE         Version     AUTHOR               Description
- * 2022-02-22   1.0         Hoang Ngoc Long    First Implement
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller;
 
 import bean.AccountBean;
-import bean.ArticleBean;
-import bean.NotificationBean;
 import dao.ArticleDAO;
 import dao.IArticleDAO;
-import dao.INotificationDAO;
-import dao.NotificationDAO;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,39 +18,35 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Document: UpdateArticleControl Create on: 2022-02-22 10:20:35 PM
  *
- * @author Hoang Ngoc Long
+ * @author hoang
  */
-@WebServlet(name = "UpdateArticleControl", urlPatterns = {"/updatearticle"})
-public class UpdateArticleControl extends HttpServlet {
+@WebServlet(name = "DeleteFavorArticle", urlPatterns = {"/deletefavorarticle"})
+public class DeleteFavorArticle extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-           request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-         /*Get image,description,id title from request*/
-        String image = request.getParameter("image");
-        String title = request.getParameter("title").replaceAll("\\s\\s+", " ").trim();
-        /*get txttitle from page*/
-        String description = request.getParameter("description").replaceAll("\\s\\s+", " ").trim();
-         String id = request.getParameter("id");
-         /*Use DAO class to get data from database for Article with corresponding */
-            IArticleDAO dao =new ArticleDAO();
-            ArticleBean d= dao.getArticlebyid(id);
-            
-          if(dao.checkArticleUpdateCreate(title)){
-         dao.editproduct(image, title, description, id);
-         /*sendirect to articleloading */
-        request.setAttribute("message", "Update successfull");
-        response.sendRedirect("loadalreadyarticle");
-           }
-          else{
-              request.setAttribute("detail", d);
-              request.setAttribute("message", "Title is exist");
-            request.getRequestDispatcher("./view/UpdateArticle.jsp").forward(request, response);
-          }
-   
+        String id = request.getParameter("pid");
+        /*Use DAO class to get data from database for Article with corresponding */
+        IArticleDAO articleDAO = new ArticleDAO();
+        /*Get index aid from request*/
+        HttpSession session = request.getSession();
+        //add favor aticle corrending to username
+        AccountBean a = (AccountBean) session.getAttribute("user");
+        //add favor aticle corrending to username
+        articleDAO.deleteFavor(a.getUsername(), id);
+        //Attach Attribute for request and redirect it to ListArticle.jsp
+        request.getRequestDispatcher("favorarticle").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
