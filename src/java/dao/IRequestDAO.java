@@ -25,12 +25,6 @@ import java.util.List;
  * @author Duc Minh
  */
 public interface IRequestDAO {
-    /**
-     * getAllRequest method implement from IRequestDAO
-     * 
-     * @return requests. <code>java.util.List</code> object  
-     */
-    public List<RequestBean> getAllRequest();
     
     /**
      * getRequestById method implement from IRequestDAO

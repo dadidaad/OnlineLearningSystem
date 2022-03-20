@@ -28,53 +28,6 @@ import java.util.logging.Logger;
 public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
-     * getAllRequest method implement from IRequestDAO
-     *
-     * @return requests. <code>java.util.ArrayList</code> object
-     */
-    @Override
-    public ArrayList<RequestBean> getAllRequest() {
-        ArrayList<RequestBean> requests = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            /*Set up connection and Sql statement for Query */
-            conn = getConnection();
-            String sql = "select *\n"
-                    + "from Request";
-            statement = conn.prepareStatement(sql);
-            /*Query and save in ResultSet */
-            rs = statement.executeQuery();
-
-            /*Assign data to an arraylist of Request*/
-            while (rs.next()) {
-                RequestBean request = new RequestBean();
-                request.setRequestID(rs.getInt("RequestID"));
-                request.setStudentSent(rs.getString("Student_sent"));
-                request.setTutorGet(rs.getString("Tutor_get"));
-                request.setCreatedTime(rs.getDate("CreatedTime"));
-                request.setStatus(rs.getString("Status"));
-                request.setCost(rs.getInt("Cost"));
-                request.setContent(rs.getString("Content"));
-                request.setImageLink(rs.getString("Image"));
-                request.setSubjectID(rs.getInt("SubjectID"));
-                request.setLevel(rs.getInt("Level"));
-                request.setTitle(rs.getString("Title"));
-
-                requests.add(request);
-            }
-            /*Close all the connection */
-        } catch (SQLException ex) {
-            /*Exception Handle*/
-            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            close(conn, statement, rs);
-        }
-        return requests;
-    }
-
-    /**
      * getRequestById method implement from IRequestDAO
      *
      * @return request. <code>Bean.RequestBean</code> object
