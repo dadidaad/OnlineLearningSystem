@@ -112,6 +112,66 @@
                     </div>
                 </div>
             </nav>
+                         <div class="row">
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-4 mb-4" style="margin-left: 200px;">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total number of article
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${articlenumber}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-4 mb-4" style="margin-left: 200px;">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                           Total view 
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${viewnumber}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-eye fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-4 col-md-4 mb-4" style="margin-left: 200px;">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Total number of comment
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> ${commentnumber}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
             <!-- Include container of web site from general-->
             <div class="container">
                 <h2>Manager article</h2>

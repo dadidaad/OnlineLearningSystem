@@ -64,12 +64,21 @@ public class LoadAlreadyArticle extends HttpServlet {
         if (count % 6 != 0) {
             endPage++;
         }
+         //total view
+        int a = articleDAO.totalview();
+          //total comment
+        int b = articleDAO.totalcomment();
+        //total article
+        int c = articleDAO.totalArticle();
         //get top 4 newest article and total article
         List<ArticleBean> list = articleDAO.pagingAricle(idex);
         //Attach Attribute for request and redirect it to AlreadyAcceptArticle.jsp
         request.setAttribute("listP", list);
         request.setAttribute("tag", idex);
         request.setAttribute("a", idex);
+        request.setAttribute("articlenumber", c);
+        request.setAttribute("commentnumber", b);
+          request.setAttribute("viewnumber", a);
         request.setAttribute("endP", endPage);
         request.getRequestDispatcher("./view/AlreadyAcceptArticle.jsp").forward(request, response);
     }
