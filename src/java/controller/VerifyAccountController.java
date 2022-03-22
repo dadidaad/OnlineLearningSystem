@@ -59,6 +59,7 @@ public class VerifyAccountController extends HttpServlet {
                 /*check status of inserting*/
                 if(checkInsertAccount == 1){
                     out.print("success");
+                    session.removeAttribute("userRes");
                 }
                 else{
                     out.print("Error when create new account!! Please try again!!");

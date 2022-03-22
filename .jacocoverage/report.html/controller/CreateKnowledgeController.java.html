@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CreateKnowledgeController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">CreateKnowledgeController.java</span></div><h1>CreateKnowledgeController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * CreateKnowledgeController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-25   1.0         Doan Tu    First Implement
+ */
+package controller;
+
+import bean.KnowledgeBean;
+import dao.IKnowledgeDAO;
+import dao.KnowledgeDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+/**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * Create new knowledge and insert it into database. /CreateKnowledgeController is the URL of the web site Extend
+ * HttpServlet class
+ *
+ * @author Doan Tu
+ */
+@MultipartConfig
+@WebServlet(name = &quot;CreateKnowledgeController&quot;, urlPatterns = {&quot;/CreateKnowledgeController&quot;})
+<span class="nc" id="L36">public class CreateKnowledgeController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L49">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L50">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        }</span>
+<span class="nc" id="L52">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L66">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L67">        try (PrintWriter out = response.getWriter()) {</span>
+            /*Get data from Parameter of request*/
+<span class="nc" id="L69">            String chapId = request.getParameter(&quot;chapId&quot;);</span>
+            
+            /*get total Number Of Knowledge*/
+<span class="nc" id="L72">            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();</span>
+<span class="nc" id="L73">            int numberOfKnowledge = knowledgeDAO.getNumbberOfKnowledge() + 1;</span>
+
+            /*Attach nextID and chapID Atrribute to request and redirect*/
+<span class="nc" id="L76">            request.setAttribute(&quot;nextId&quot;, numberOfKnowledge);</span>
+<span class="nc" id="L77">            request.setAttribute(&quot;chapId&quot;, chapId);</span>
+<span class="nc" id="L78">            request.getRequestDispatcher(&quot;./view/CreateKnowledge.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L79" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L80">            Logger.getLogger(CreateKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L81">        }</span>
+<span class="nc" id="L82">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L95">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L96">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L97">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L98">        try (PrintWriter out = response.getWriter()) {</span>
+            /*get data from parameter of request*/
+<span class="nc" id="L100">            String knowledgeName = request.getParameter(&quot;knowledgeName&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L101">            String knowledgeId = request.getParameter(&quot;knowledgeId&quot;);</span>
+<span class="nc" id="L102">            String chapId = request.getParameter(&quot;chapId&quot;);</span>
+<span class="nc" id="L103">            Part part = request.getPart(&quot;Image&quot;);</span>
+<span class="nc" id="L104">            String knowledgeContent = part.getSubmittedFileName();</span>
+            
+            /*Query for check whether Knowledge Name has existed*/
+<span class="nc" id="L107">            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();</span>
+<span class="nc" id="L108">            boolean check = knowledgeDAO.searchByKnowledgeNameOfChap(knowledgeName, Integer.parseInt(chapId));</span>
+            /*If existed, reiderect*/
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if(check==false){</span>
+<span class="nc" id="L111">                request.setAttribute(&quot;nextId&quot;, knowledgeId);</span>
+<span class="nc" id="L112">                request.setAttribute(&quot;chapId&quot;, chapId);</span>
+<span class="nc" id="L113">                request.setAttribute(&quot;check&quot;, check);</span>
+<span class="nc" id="L114">                request.getRequestDispatcher(&quot;./view/CreateKnowledge.jsp&quot;).forward(request, response);</span>
+            }else{//If not, insert new Chapter into database
+<span class="nc" id="L116">                KnowledgeBean knowledge = new KnowledgeBean(Integer.parseInt(knowledgeId), knowledgeName,&quot;assets/image/Algebra/&quot;+knowledgeContent, Integer.parseInt(chapId));</span>
+<span class="nc" id="L117">                int numberOfRow = knowledgeDAO.createKnowledge(knowledge);</span>
+<span class="nc" id="L118">                response.sendRedirect(&quot;AdminKnowledgeController?chapId=&quot;+chapId);</span>
+            }
+<span class="nc bnc" id="L120" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L121">            Logger.getLogger(CreateKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L132">        return &quot;Short description&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

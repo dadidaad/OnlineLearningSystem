@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AppUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">AppUtils.java</span></div><h1>AppUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * AppUtils
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
+ */
+package utils;
+
+import bean.AccountBean;
+import dao.AccountDAO;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
+
+/**
+ * The class contains method storeLoginedUser, getLoginedUser To support store user in session 
+ * after logined to application
+ * Bugs: Still not have yet
+ *
+ * @author Dajtvox
+ */
+<span class="nc" id="L25">public class AppUtils {</span>
+
+<span class="fc" id="L27">    private static int REDIRECT_ID = 0;</span>
+
+<span class="fc" id="L29">    private static final Map&lt;Integer, String&gt; ID_URI_MAP = new HashMap&lt;Integer, String&gt;();</span>
+<span class="fc" id="L30">    private static final Map&lt;String, Integer&gt; URI_ID_MAP = new HashMap&lt;String, Integer&gt;();</span>
+
+    /**
+     * Add information of user to session .
+     *
+     * @param session session from request It is
+     * a &lt;code&gt;javax.servlet.http.HttpSession&lt;/code&gt; object
+     * @param loginedUser object
+     *
+     */
+    public static void storeLoginedUser(HttpSession session, AccountBean loginedUser) {
+        // Trên JSP có thể truy cập thông qua ${loginedUser}
+<span class="fc" id="L42">        session.setAttribute(&quot;user&quot;, loginedUser);</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Get information of user from session .
+     *
+     * @param session session from request It is
+     * a &lt;code&gt;javax.servlet.http.HttpSession&lt;/code&gt; object
+     * @return AccountBean object
+     *
+     */
+    public static AccountBean getLoginedUser(HttpSession session) {
+<span class="nc" id="L54">        AccountBean loginedUser = (AccountBean) session.getAttribute(&quot;user&quot;);</span>
+<span class="nc" id="L55">        return loginedUser;</span>
+    }
+
+    public static int storeRedirectAfterLoginUrl(HttpSession session, String requestUri) {
+<span class="nc" id="L59">        Integer id = URI_ID_MAP.get(requestUri);</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L62">            id = REDIRECT_ID++;</span>
+
+<span class="nc" id="L64">            URI_ID_MAP.put(requestUri, id);</span>
+<span class="nc" id="L65">            ID_URI_MAP.put(id, requestUri);</span>
+<span class="nc" id="L66">            return id;</span>
+        }
+
+<span class="nc" id="L69">        return id;</span>
+    }
+
+    public static String getRedirectAfterLoginUrl(HttpSession session, int redirectId) {
+<span class="nc" id="L73">        String url = ID_URI_MAP.get(redirectId);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (url != null) {</span>
+<span class="nc" id="L75">            return url;</span>
+        }
+<span class="nc" id="L77">        return null;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

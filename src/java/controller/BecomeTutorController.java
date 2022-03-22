@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.io.FilenameUtils;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for handle data from user want become tutor
@@ -66,7 +67,7 @@ public class BecomeTutorController extends HttpServlet {
         }
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(false); //get session from request
-            AccountBean loginUser = (AccountBean) session.getAttribute("user"); //check user login, if not exist then redirect to login
+            AccountBean loginUser = AppUtils.getLoginedUser(session); //check user login, if not exist then redirect to login
             TeacherBean teacher = new TeacherBean();
             teacher.setUsername(loginUser.getUsername());
             String cvPath = null;
@@ -82,7 +83,13 @@ public class BecomeTutorController extends HttpServlet {
             teacher.setCvImg(cvPath);
             teacher.setSubjectId(Integer.parseInt(subjectID));
             ITeacherDAO teacherDAO = new TeacherDAO();
-            boolean checkInsert = teacherDAO.insertNewTeacher(teacher);
+            boolean checkInsert = false;
+            if(!teacherDAO.getTeacherStatus(loginUser.getUsername())){
+                checkInsert = teacherDAO.insertNewTeacher(teacher);
+            }
+            else{
+                checkInsert = teacherDAO.UpdateNewTeacher(teacher);
+            }
             if (checkInsert) {
                 out.print("Success upload CV!! Please wait for admin check your CV");
             } else {

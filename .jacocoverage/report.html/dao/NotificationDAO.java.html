@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NotificationDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">NotificationDAO.java</span></div><h1>NotificationDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * NotificationDAO
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Duc Minh    First Implement
+ */
+package dao;
+
+import bean.NotificationBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * This class contain method to find Notification information from database Extend
+ * BaseDAO class to call getConnection() method Implement INotificationDAO Interface
+ *
+ * @author Duc Minh
+ */
+<span class="nc" id="L28">public class NotificationDAO extends BaseDAO implements INotificationDAO{</span>
+
+    @Override
+    public List&lt;NotificationBean&gt; getTopNotification(String username) {
+<span class="nc" id="L32">        List&lt;NotificationBean&gt; notifications = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L33">        Connection conn = null;</span>
+<span class="nc" id="L34">        PreparedStatement statement = null;</span>
+<span class="nc" id="L35">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L38">            conn = getConnection();</span>
+<span class="nc" id="L39">            String sql = &quot;select top 7 Notification.*\n&quot;</span>
+                    + &quot;from Notification where Username = ? \n&quot;
+                    + &quot;ORDER BY Time desc\n&quot;;
+
+<span class="nc" id="L43">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L44">            statement.setString(1, username);</span>
+            /*Query and save in ResultSet */
+<span class="nc" id="L46">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L50">                NotificationBean noti = new NotificationBean();</span>
+<span class="nc" id="L51">                noti.setNotificationID(rs.getInt(&quot;NotificationID&quot;));</span>
+<span class="nc" id="L52">                noti.setTitle(rs.getString(&quot;Title&quot;));</span>
+<span class="nc" id="L53">                noti.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L54">                noti.setTimeCreate(rs.getDate(&quot;Time&quot;));</span>
+<span class="nc" id="L55">                noti.setRead(rs.getBoolean(&quot;Readed&quot;));</span>
+<span class="nc" id="L56">                noti.setLinkDirect(rs.getString(&quot;Link_direct&quot;));</span>
+<span class="nc" id="L57">                notifications.add(noti);</span>
+<span class="nc" id="L58">            }</span>
+            /*Close all the connection */
+
+<span class="nc" id="L61">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L63">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L65">            close(conn, statement, rs);</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return notifications;</span>
+    }
+    @Override
+    public List&lt;NotificationBean&gt; getNotification(int index, int amount, String username ) {
+<span class="nc" id="L71">        List&lt;NotificationBean&gt; notifications = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L72">        Connection conn = null;</span>
+<span class="nc" id="L73">        PreparedStatement statement = null;</span>
+<span class="nc" id="L74">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L77">            conn = getConnection();</span>
+<span class="nc" id="L78">            String sql = &quot;select Notification.*\n&quot;</span>
+                    + &quot;from Notification where Username = ? \n&quot;
+                    + &quot;ORDER BY Time desc\n&quot;
+                    + &quot;OFFSET ? ROWS \n&quot; 
+                    + &quot;FETCH NEXT ? ROWS ONLY;&quot;;
+
+<span class="nc" id="L84">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L85">            statement.setString(1, username);</span>
+<span class="nc" id="L86">            statement.setInt(2, index);</span>
+<span class="nc" id="L87">            statement.setInt(3, amount);</span>
+            
+            /*Query and save in ResultSet */
+<span class="nc" id="L90">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of Request*/
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L94">                NotificationBean noti = new NotificationBean();</span>
+<span class="nc" id="L95">                noti.setNotificationID(rs.getInt(&quot;NotificationID&quot;));</span>
+<span class="nc" id="L96">                noti.setTitle(rs.getString(&quot;Title&quot;));</span>
+<span class="nc" id="L97">                noti.setContent(rs.getString(&quot;Content&quot;));</span>
+<span class="nc" id="L98">                noti.setTimeCreate(rs.getDate(&quot;Time&quot;));</span>
+<span class="nc" id="L99">                noti.setRead(rs.getBoolean(&quot;Readed&quot;));</span>
+<span class="nc" id="L100">                noti.setLinkDirect(rs.getString(&quot;Link_direct&quot;));</span>
+<span class="nc" id="L101">                notifications.add(noti);</span>
+<span class="nc" id="L102">            }</span>
+            /*Close all the connection */
+
+<span class="nc" id="L105">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L107">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L109">            close(conn, statement, rs);</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">        return notifications;</span>
+    }
+    @Override
+    public int insertNotification(NotificationBean noti) {
+<span class="nc" id="L115">        int totalRow = 0;</span>
+<span class="nc" id="L116">        Connection conn = null;</span>
+<span class="nc" id="L117">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L119">            conn = getConnection(); // get connection to database</span>
+<span class="nc" id="L120">            String sql = &quot;Insert into Notification([Username], [Title], [Content], [Time], [Readed], [Link_direct]) values (?, ?, ?, GETDATE(), ?, ?)&quot;;</span>
+<span class="nc" id="L121">            statement = conn.prepareStatement(sql);</span>
+            /* set parameter for query*/
+<span class="nc" id="L123">            statement.setString(1, noti.getUsername());</span>
+<span class="nc" id="L124">            statement.setString(2, noti.getTitle());</span>
+<span class="nc" id="L125">            statement.setString(3, noti.getContent());</span>
+<span class="nc" id="L126">            statement.setBoolean(4, false);</span>
+<span class="nc" id="L127">            statement.setString(5, noti.getLinkDirect());</span>
+            
+            /*Insert New Notification into Database*/
+<span class="nc" id="L130">            totalRow = statement.executeUpdate();</span>
+            
+<span class="nc" id="L132">        } catch (SQLException ex) {</span>
+<span class="nc" id="L133">            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L135">            close(conn, statement, null);</span>
+<span class="nc" id="L136">        }</span>
+<span class="nc" id="L137">        return totalRow;</span>
+    }
+    public static void main(String[] args) {
+<span class="nc" id="L140">        INotificationDAO dal = new NotificationDAO();</span>
+//        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Fail!&quot;)));
+//        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Successfully&quot;)));
+//
+<span class="nc" id="L144">        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Forum&quot;, &quot;Delete Article Successfully&quot;)));</span>
+<span class="nc" id="L145">        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Fail!&quot;)));</span>
+<span class="nc" id="L146">        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Successfully&quot;)));</span>
+//
+<span class="nc" id="L148">        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Subject&quot;, &quot;Add Subject Successfully&quot;)));</span>
+//        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Fail!&quot;)));
+//        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Admin&quot;, &quot;Change Password Successfully&quot;)));
+//
+//        System.out.println(dal.insertNotification(new NotificationBean(&quot;minhduc07&quot;,&quot;Forum&quot;, &quot;Delete Article Successfully&quot;)));
+//        System.out.println(iNotificationDAO.updateReadedNotification());
+//        List&lt;NotificationBean&gt; list = dal.getTop5Notification();
+//        for(NotificationBean n : list){
+//            System.out.println(n);
+//        }
+
+<span class="nc" id="L159">    }</span>
+
+     @Override
+    public int getTotalNoti(String username) {
+<span class="nc" id="L163">        int total = 0;</span>
+<span class="nc" id="L164">        Connection conn = null;</span>
+<span class="nc" id="L165">        PreparedStatement statement = null;</span>
+<span class="nc" id="L166">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L169">            conn = getConnection();</span>
+<span class="nc" id="L170">            String sql = &quot;SELECT COUNT(NotificationID) AS NumberOfNotification FROM Notification WHERE Username = ? &quot;;</span>
+
+<span class="nc" id="L172">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L173">            statement.setString(1, username);</span>
+            
+            /*Query and save in ResultSet */
+<span class="nc" id="L176">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an variable of Request*/
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L180">                total = rs.getInt(&quot;NumberOfNotification&quot;);</span>
+            }
+
+            /*Close all the connection */
+<span class="nc" id="L184">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L186">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L188">            close(conn, statement, rs);</span>
+<span class="nc" id="L189">        }</span>
+<span class="nc" id="L190">        return total;</span>
+    }
+    
+    @Override
+    public int getTotalNotiUnread(String username) {
+<span class="nc" id="L195">        int total = 0;</span>
+<span class="nc" id="L196">        Connection conn = null;</span>
+<span class="nc" id="L197">        PreparedStatement statement = null;</span>
+<span class="nc" id="L198">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Query */
+<span class="nc" id="L201">            conn = getConnection();</span>
+<span class="nc" id="L202">            String sql = &quot;SELECT COUNT(NotificationID) AS NumberOfNotification FROM Notification WHERE [Readed] = 'false' &quot;</span>
+                    + &quot;and Username = ?&quot;;
+
+<span class="nc" id="L205">            statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L206">            statement.setString(1, username);</span>
+            
+            /*Query and save in ResultSet */
+<span class="nc" id="L209">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an variable of Request*/
+<span class="nc bnc" id="L212" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L213">                total = rs.getInt(&quot;NumberOfNotification&quot;);</span>
+            }
+
+            /*Close all the connection */
+<span class="nc" id="L217">        } catch (SQLException ex) {</span>
+            /*Exception Handle*/
+<span class="nc" id="L219">            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L221">            close(conn, statement, rs);</span>
+<span class="nc" id="L222">        }</span>
+<span class="nc" id="L223">        return total;</span>
+    }
+
+    @Override
+    public int updateReadedNotification(String username) {
+<span class="nc" id="L228">        int totalRow = 0;</span>
+<span class="nc" id="L229">        Connection conn = null;</span>
+<span class="nc" id="L230">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L232">            conn = getConnection(); // get connection to database</span>
+<span class="nc" id="L233">            String sql = &quot;Update Notification set [Readed] = ? where Username = ? &quot;;</span>
+<span class="nc" id="L234">            statement = conn.prepareStatement(sql);</span>
+            /* set parameter for query*/
+<span class="nc" id="L236">            statement.setBoolean(1, true);</span>
+<span class="nc" id="L237">            statement.setString(2, username);</span>
+            
+            /*Insert New Notification into Database*/
+<span class="nc" id="L240">            totalRow = statement.executeUpdate();</span>
+            
+<span class="nc" id="L242">        } catch (SQLException ex) {</span>
+<span class="nc" id="L243">            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L245">            close(conn, statement, null);</span>
+<span class="nc" id="L246">        }</span>
+<span class="nc" id="L247">        return totalRow;</span>
+    }
+
+    @Override
+    public int deleteNotification(int notiId) {
+<span class="nc" id="L252">        int totalRow = 0;</span>
+<span class="nc" id="L253">        Connection conn = null;</span>
+<span class="nc" id="L254">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L256">            conn = getConnection(); // get connection to database</span>
+<span class="nc" id="L257">            String sql = &quot;Delete from Notification where [NotificationID] = ? &quot;;</span>
+<span class="nc" id="L258">            statement = conn.prepareStatement(sql);</span>
+            /* set parameter for query*/
+<span class="nc" id="L260">            statement.setInt(1, notiId);</span>
+            
+            /*Insert New Notification into Database*/
+<span class="nc" id="L263">            totalRow = statement.executeUpdate();</span>
+            
+<span class="nc" id="L265">        } catch (SQLException ex) {</span>
+<span class="nc" id="L266">            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L268">            close(conn, statement, null);</span>
+<span class="nc" id="L269">        }</span>
+<span class="nc" id="L270">        return totalRow;</span>
+    }
+
+   
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

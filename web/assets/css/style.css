@@ -734,6 +734,11 @@ h1.title {
   height: 200px;
   overflow: hidden;
 }
+.card textarea:disabled{
+  border-style: none; 
+    border-color: Transparent; 
+    overflow: auto;        
+}
 .top-left-content {
   position: relative;
   width: 100%;
@@ -753,7 +758,7 @@ h1.title {
   background-color: transparent;
   border: none;
 }
-.top-right-content input {
+.top-right-content input:disabled {
   background: none;
   border: none;
   width: fit-content;

@@ -89,10 +89,10 @@ public class ResendCaptchaController extends HttpServlet {
             return;
         }
         try (PrintWriter out = response.getWriter()) {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String sex = request.getParameter("sex");
+            String username = request.getParameter("username").trim();
+            String password = request.getParameter("password").trim();
+            String email = request.getParameter("email").trim();
+            String sex = request.getParameter("sex").trim();
             String encryptionPassword = PasswordUtils.generatePasswordHash(password); // encryp password to PBKD type then return encryption password
             /* set value to AccountBean object */
             AccountBean newUser = new AccountBean();
@@ -116,7 +116,6 @@ public class ResendCaptchaController extends HttpServlet {
                 if (sendMailStatus) {
                     /*if success then create new session hold AccountBean object of user*/
                     HttpSession session = request.getSession();
-                    session.setMaxInactiveInterval(900); //set age for session
                     session.setAttribute("userRes", newUser);
                     out.print("Resended captcha!!");
                 } else {

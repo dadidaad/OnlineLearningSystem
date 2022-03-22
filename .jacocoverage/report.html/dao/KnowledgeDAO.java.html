@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>KnowledgeDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">KnowledgeDAO.java</span></div><h1>KnowledgeDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * KnowledgeDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Doan Tu    First Implement
+ * 2022-02-25   2.0         Doan Tu    Second Implement
+ * 2022-03-08   3.0         Doan Tu    Third Implement
+ */
+package dao;
+
+import bean.KnowledgeBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+/**
+ * This class contain method to find Knowledge information from database
+ * Extend BaseDAO class to call getConnection() method
+ * Implement IKnowledgeDAO Interface
+ * 
+ * @author Doan Tu
+ */
+<span class="fc" id="L30">public class KnowledgeDAO extends BaseDAO implements IKnowledgeDAO{</span>
+
+    /**
+     * getByChapterId method implement from IKnowledgeDAO
+     * 
+     * @param chapId ID of Chapter which Knowledge belongs. &lt;code&gt;java.lang.Intege&lt;/code&gt;
+     * @return knowledges. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;KnowledgeBean&gt; getByChapterId(int chapId) throws SQLException {
+<span class="fc" id="L40">        ArrayList&lt;KnowledgeBean&gt; knowledges = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L41">        Connection conn = null;</span>
+<span class="fc" id="L42">        PreparedStatement statement = null;</span>
+<span class="fc" id="L43">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L46">            conn = getConnection();</span>
+<span class="fc" id="L47">            String sql = &quot;select * from Knowledge where ChapterID=?&quot;;</span>
+<span class="fc" id="L48">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L49">            statement.setInt(1, chapId);</span>
+            
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L52">            rs = statement.executeQuery();</span>
+            
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            while(rs.next())</span>
+            {
+<span class="nc" id="L57">                KnowledgeBean knowledge = new KnowledgeBean();</span>
+<span class="nc" id="L58">                knowledge.setKnowledgeID(rs.getInt(&quot;KnowledgeID&quot;));</span>
+<span class="nc" id="L59">                knowledge.setKnowledgeName(rs.getString(&quot;KnowledgeName&quot;));</span>
+<span class="nc" id="L60">                knowledge.setKnowledgeContent(rs.getString(&quot;Title&quot;));</span>
+<span class="nc" id="L61">                knowledge.setChapterID(rs.getInt(&quot;ChapterID&quot;));</span>
+                
+<span class="nc" id="L63">                knowledges.add(knowledge);</span>
+<span class="nc" id="L64">            }</span>
+<span class="nc" id="L65">        } catch (SQLException ex) {</span>
+<span class="nc" id="L66">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L67">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L69">            close(conn, statement, rs);</span>
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">        return knowledges;</span>
+    }
+
+    /**
+     * getNumberOfKnowledgeByChapterId method
+     * This method will count number of all Knowledge with corresponding ChapterID
+     * 
+     * @param chapId. Id of Chapter which wanted to get Knowledge. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @return numberOfKnowledge. &lt;code&gt;java.lang.Intege&lt;/code&gt; Object
+     */
+    @Override
+    public int getNumberOfKnowledgeByChpaterId(int chapId) throws SQLException {
+<span class="fc" id="L83">       int numberOfKnowledge=0;</span>
+<span class="fc" id="L84">       Connection conn = null;</span>
+<span class="fc" id="L85">       PreparedStatement statement = null;</span>
+<span class="fc" id="L86">       ResultSet rs = null;</span>
+       try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L89">            conn = getConnection();</span>
+<span class="fc" id="L90">            String sql = &quot;select COUNT(*) as Number from Knowledge where ChapterID = ?&quot;;</span>
+<span class="fc" id="L91">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L92">            statement.setInt(1, chapId);</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L94">            rs = statement.executeQuery();</span>
+            
+            /*Assign data to an arraylist of SubjectBean*/
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            while(rs.next())</span>
+            {
+<span class="fc" id="L99">                numberOfKnowledge = rs.getInt(&quot;Number&quot;);</span>
+            }
+<span class="nc" id="L101">        } catch (SQLException ex) {</span>
+<span class="nc" id="L102">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L103">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L105">           close(conn, statement, rs);</span>
+<span class="fc" id="L106">       }</span>
+<span class="fc" id="L107">        return numberOfKnowledge;</span>
+    }
+
+    /**
+     * getNumberOfKnowledge method
+     * This method will count All Knowledge Available in database
+     * 
+     * @return numberOfKnowledge. &lt;code&gt;java.lang.Intege&lt;/code&gt; Object
+     */
+    @Override
+    public int getNumbberOfKnowledge() throws SQLException {
+<span class="fc" id="L118">        int numberOfKnowledge=0;</span>
+<span class="fc" id="L119">        Connection conn = null;</span>
+<span class="fc" id="L120">        PreparedStatement statement = null;</span>
+<span class="fc" id="L121">        ResultSet rs = null;</span>
+       try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L124">            conn = getConnection();</span>
+<span class="fc" id="L125">            String sql = &quot;select COUNT(*) as Number from Knowledge&quot;;</span>
+<span class="fc" id="L126">            statement = conn.prepareStatement(sql);</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L128">            rs = statement.executeQuery();</span>
+            
+            /*Assign data to an numberOfKnowledge Integer Type*/
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            while(rs.next())</span>
+            {
+<span class="fc" id="L133">                numberOfKnowledge = rs.getInt(&quot;Number&quot;);</span>
+            }
+<span class="nc" id="L135">        } catch (SQLException ex) {</span>
+<span class="nc" id="L136">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L137">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L139">           close(conn, statement, rs);</span>
+<span class="fc" id="L140">       }</span>
+<span class="fc" id="L141">        return numberOfKnowledge;</span>
+    }
+    
+    /**
+     * createKnowledge Method
+     * This method will insert new Knowledge into database
+     * 
+     * @param knowledge. Knowledge which we want to insert into database
+     * @return numberOfRow. &lt;code&gt;java.lang.Intege&lt;/code&gt; Object
+     */
+    @Override
+    public int createKnowledge(KnowledgeBean knowledge) throws SQLException {
+<span class="fc" id="L153">        int numberOfRow=0;</span>
+<span class="fc" id="L154">        Connection conn = null;</span>
+<span class="fc" id="L155">        PreparedStatement statement = null;</span>
+<span class="fc" id="L156">        ResultSet rs = null;</span>
+        try{
+<span class="fc" id="L158">            conn = getConnection();</span>
+<span class="fc" id="L159">            String sql = &quot;Insert into Knowledge(KnowledgeName, Title, ChapterID)&quot;</span>
+                    + &quot;values(?,?,?)&quot;;
+<span class="fc" id="L161">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L162">            statement.setString(1, knowledge.getKnowledgeName());</span>
+<span class="fc" id="L163">            statement.setString(2, knowledge.getKnowledgeContent());</span>
+<span class="fc" id="L164">            statement.setInt(3, knowledge.getChapterID());</span>
+
+<span class="nc" id="L166">            numberOfRow = statement.executeUpdate();</span>
+<span class="fc" id="L167">        }catch (SQLException ex) {</span>
+<span class="fc" id="L168">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L169">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L171">            close(conn, statement, rs);</span>
+<span class="nc" id="L172">        }</span>
+<span class="nc" id="L173">        return numberOfRow;</span>
+    }
+    
+    /**
+     * searchByKnowledgeNameOfChap method
+     * This method will get Knowledge which has corresponding knowledgeName, and Chapter ID 
+     * 
+     * @param knowledgeName. Name Of Knowledge we want to search.&lt;code&gt;java.lang.String&lt;/code&gt; Object
+     * @param chapId. Id of chapter. &lt;code&gt;java.lang.Intege&lt;/code&gt; Object
+     * @return check. &lt;code&gt;java.lang.Boolean&lt;/code&gt; Object
+     */
+    @Override
+    public boolean searchByKnowledgeNameOfChap(String knowledgeName, int chapId) throws SQLException {
+<span class="fc" id="L186">        boolean check = true;</span>
+<span class="fc" id="L187">        Connection conn = null;</span>
+<span class="fc" id="L188">        PreparedStatement statement = null;</span>
+<span class="fc" id="L189">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L192">            conn = getConnection();</span>
+<span class="fc" id="L193">            String sql = &quot;select * from Knowledge where KnowledgeName=? and ChapterID=?&quot;;</span>
+<span class="fc" id="L194">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L195">            statement.setString(1, knowledgeName);</span>
+<span class="fc" id="L196">            statement.setInt(2, chapId);</span>
+            
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L199">            rs = statement.executeQuery();</span>
+
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L202">                check = false;</span>
+            }
+<span class="nc" id="L204">        } catch (SQLException ex) {</span>
+<span class="nc" id="L205">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L206">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L208">            close(conn, statement, rs);</span>
+<span class="fc" id="L209">        }</span>
+<span class="fc" id="L210">        return check;</span>
+    }
+
+    @Override
+    public int updateKnowledge(KnowledgeBean knowledge) throws SQLException {
+<span class="fc" id="L215">        Connection conn =null;</span>
+<span class="fc" id="L216">        PreparedStatement statement=null;</span>
+<span class="fc" id="L217">        ResultSet rs =null;</span>
+<span class="fc" id="L218">        int numberOfRow=0;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L221">            conn = getConnection();</span>
+<span class="fc" id="L222">            String sql = &quot;Update Knowledge\n&quot;</span>
+                       + &quot;Set KnowledgeName=?,\n&quot;
+                       + &quot;Title=?,\n&quot;
+                       + &quot;ChapterID=?\n&quot;
+                       + &quot;where KnowledgeID=?\n&quot;;
+<span class="fc" id="L227">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L228">            statement.setString(1, knowledge.getKnowledgeName());</span>
+<span class="fc" id="L229">            statement.setString(2, knowledge.getKnowledgeContent());</span>
+<span class="fc" id="L230">            statement.setInt(3, knowledge.getChapterID());</span>
+<span class="fc" id="L231">            statement.setInt(4, knowledge.getKnowledgeID());</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L233">            numberOfRow = statement.executeUpdate();</span>
+<span class="nc" id="L234">        } catch (SQLException ex) {</span>
+<span class="nc" id="L235">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L236">            throw(ex);</span>
+        }finally{
+<span class="fc" id="L238">            close(conn, statement, rs);</span>
+<span class="fc" id="L239">        }</span>
+<span class="fc" id="L240">        return numberOfRow;</span>
+    }
+
+    @Override
+    public KnowledgeBean getKnowledgeById(int knowledgeID) throws SQLException {
+<span class="fc" id="L245">        KnowledgeBean knowledge = new KnowledgeBean();</span>
+<span class="fc" id="L246">        Connection conn =null;</span>
+<span class="fc" id="L247">        PreparedStatement statement=null;</span>
+<span class="fc" id="L248">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L251">            conn = getConnection();</span>
+<span class="fc" id="L252">            String sql = &quot;select * from Knowledge where KnowledgeID=?&quot;;</span>
+<span class="fc" id="L253">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L254">            statement.setInt(1, knowledgeID);</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L256">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of SubjectBean*/
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L260">                knowledge.setKnowledgeID(rs.getInt(&quot;KnowledgeID&quot;));</span>
+<span class="nc" id="L261">                knowledge.setKnowledgeName(rs.getString(&quot;KnowledgeName&quot;));</span>
+<span class="nc" id="L262">                knowledge.setKnowledgeContent(rs.getString(&quot;Title&quot;));</span>
+<span class="nc" id="L263">                knowledge.setChapterID(rs.getInt(&quot;ChapterID&quot;));</span>
+            }
+<span class="nc" id="L265">        } catch (SQLException ex) {</span>
+<span class="nc" id="L266">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L267">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L269">            close(conn, statement, rs);</span>
+<span class="fc" id="L270">        }</span>
+<span class="fc" id="L271">        return knowledge;</span>
+    }
+
+    @Override
+    public int deleteKnowledgeById(int knowledgeId) throws SQLException {
+<span class="fc" id="L276">        Connection conn =null;</span>
+<span class="fc" id="L277">        PreparedStatement statement=null;</span>
+<span class="fc" id="L278">        ResultSet rs =null;</span>
+<span class="fc" id="L279">        int numberOfRow=0;</span>
+        
+        try{
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L283">            conn = getConnection();</span>
+<span class="fc" id="L284">            String sql = &quot;delete from Knowledge where KnowledgeID=?&quot;;</span>
+<span class="fc" id="L285">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L286">            statement.setInt(1, knowledgeId);</span>
+            
+            /*Execute SQL and return numberOfRow affect*/
+<span class="fc" id="L289">            numberOfRow = statement.executeUpdate();</span>
+            
+<span class="nc" id="L291">        }catch(SQLException ex){</span>
+<span class="nc" id="L292">            Logger.getLogger(KnowledgeDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L293">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L295">            close(conn, statement, rs);</span>
+<span class="fc" id="L296">        }</span>
+<span class="fc" id="L297">        return numberOfRow;</span>
+    }
+    
+    public static void main(String[] args) throws SQLException {
+<span class="nc" id="L301">       KnowledgeBean k = new KnowledgeDAO().getKnowledgeById(1);</span>
+<span class="nc" id="L302">        System.out.println(k);</span>
+<span class="nc" id="L303">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

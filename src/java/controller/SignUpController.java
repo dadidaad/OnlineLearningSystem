@@ -97,7 +97,6 @@ public class SignUpController extends HttpServlet {
                 if (sendMailStatus) {
                     /*if success then create new session hold AccountBean object of user*/
                     HttpSession session = request.getSession();
-                    session.setMaxInactiveInterval(900); //set age for session
                     session.setAttribute("userRes", newUser);
                     message.put("notiRes", "success");
                 } else {

@@ -189,7 +189,7 @@ public class AccountDAOTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testDeleteAccountWithNull() {
+        public void testDeleteAccountWithNull() {
        String username = null;
        accountDAOspy.deleteAccount(username);
     }

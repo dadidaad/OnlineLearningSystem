@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ChapterBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">ChapterBean.java</span></div><h1>ChapterBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * Chapter Bean
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Doan Tu    First Implement
+ */
+
+package bean;
+
+/**
+ * The class contains information attribute about Chapter Model
+ * All attributes are declare in private chapterID, chapterName, semester, chapterContent subjectID
+ * Get set methods used to retrieve data
+ * The toString method is overridden to print the data
+ * 
+ * @author Doan Tu
+ */
+public class ChapterBean {
+    private int chapterID;
+    private String chapterName;
+    private int semester;
+    private String chapterContent;
+    private int subjectID;
+
+<span class="fc" id="L27">    public ChapterBean() {</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Initialization method
+     * 
+     * @param chapterID the ID of Chapter. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param chapterName the Name of Chapter. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param semester the semester of Chapter. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param chapterContent the Content of Chapter. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param subjectID the subject id which chapter belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+<span class="fc" id="L39">    public ChapterBean(int chapterID, String chapterName, int semester, String chapterContent, int subjectID) {</span>
+<span class="fc" id="L40">        this.chapterID = chapterID;</span>
+<span class="fc" id="L41">        this.chapterName = chapterName;</span>
+<span class="fc" id="L42">        this.semester = semester;</span>
+<span class="fc" id="L43">        this.chapterContent = chapterContent;</span>
+<span class="fc" id="L44">        this.subjectID = subjectID;</span>
+<span class="fc" id="L45">    }</span>
+    
+    /**
+     * ChapterID's data retrieval method
+     * 
+     * @return chapterID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getChapterID() {
+<span class="fc" id="L53">        return chapterID;</span>
+    }
+
+    /**
+     * Set value for chapterID
+     * 
+     * @param chapterID.  &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setChapterID(int chapterID) {
+<span class="fc" id="L62">        this.chapterID = chapterID;</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * ChapterName's data retrieval method
+     * 
+     * @return chapterName. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getChapterName() {
+<span class="fc" id="L71">        return chapterName;</span>
+    }
+
+    /**
+     * Set value for chapterName
+     * 
+     * @param chapterName .  &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setChapterName(String chapterName) {
+<span class="fc" id="L80">        this.chapterName = chapterName;</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * semester's data retrieval method
+     * 
+     * @return semester. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getSemester() {
+<span class="fc" id="L89">        return semester;</span>
+    }
+
+    /**
+     * Set value for semester
+     * 
+     * @param semester.  &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setSemester(int semester) {
+<span class="fc" id="L98">        this.semester = semester;</span>
+<span class="fc" id="L99">    }</span>
+
+    /**
+     * ChapterContent's data retrieval method
+     * 
+     * @return chapterContent. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getChapterContent() {
+<span class="fc" id="L107">        return chapterContent;</span>
+    }
+
+    /**
+     * Set value for chapterContent
+     * 
+     * @param chapterContent .  &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public void setChapterContent(String chapterContent) {
+<span class="fc" id="L116">        this.chapterContent = chapterContent;</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     * SubjectID's data retrieval method
+     * 
+     * @return subjectID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getSubjectID() {
+<span class="fc" id="L125">        return subjectID;</span>
+    }
+
+    /**
+     * Set value for subjectID
+     * 
+     * @param subjectID .  &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setSubjectID(int subjectID) {
+<span class="fc" id="L134">        this.subjectID = subjectID;</span>
+<span class="fc" id="L135">    }</span>
+
+    /**
+     * The method used to print the attribute values of Chapter
+     * 
+     * @return &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L144">        return &quot;ChapterBean{&quot; + &quot;chapterID=&quot; + chapterID + &quot;, chapterName=&quot; + chapterName + &quot;, semester=&quot; + semester + &quot;, chapterContent=&quot; + chapterContent + &quot;, subjectID=&quot; + subjectID + '}';</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

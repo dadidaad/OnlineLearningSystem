@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ChapterDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">ChapterDAO.java</span></div><h1>ChapterDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * ChapterDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Doan Tu    First Implement
+ * 2022-02-24   2.0         Doan Tu    Second Implement
+ * 2022-03-07   3.0         Doan Tu    Third Implement
+ */
+package dao;
+
+import bean.ChapterBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * This class contain method to find Chapter information from database Extend
+ * BaseDAO class to call getConnection() method Implement IChapterDAO Interface
+ *
+ * @author Doan Tu
+ */
+<span class="fc" id="L28">public class ChapterDAO extends BaseDAO implements IChapterDAO {</span>
+
+    /**
+     * getAllSubject method implement from IChapterDAO
+     *
+     * @param subId ID of Subject which Chapter belongs
+     * &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return chapters. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public ArrayList&lt;ChapterBean&gt; getBySubId(int subId) throws SQLException {
+<span class="fc" id="L40">        ArrayList&lt;ChapterBean&gt; chapters = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L41">        Connection conn =null;</span>
+<span class="fc" id="L42">        PreparedStatement statement=null;</span>
+<span class="fc" id="L43">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L46">            conn = getConnection();</span>
+<span class="fc" id="L47">            String sql = &quot;select * from Chapter where SubjectID=?&quot;;</span>
+<span class="fc" id="L48">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L49">            statement.setInt(1, subId);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L52">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L56">                ChapterBean chapter = new ChapterBean();</span>
+<span class="nc" id="L57">                chapter.setChapterID(rs.getInt(&quot;ChapterID&quot;));</span>
+<span class="nc" id="L58">                chapter.setChapterName(rs.getString(&quot;ChapterName&quot;));</span>
+<span class="nc" id="L59">                chapter.setSemester(rs.getInt(&quot;Semester&quot;));</span>
+<span class="nc" id="L60">                chapter.setChapterContent(rs.getString(&quot;Chapter Content&quot;));</span>
+<span class="nc" id="L61">                chapter.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+
+<span class="nc" id="L63">                chapters.add(chapter);</span>
+<span class="nc" id="L64">            }</span>
+<span class="nc" id="L65">        } catch (SQLException ex) {</span>
+<span class="nc" id="L66">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L67">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L69">            close(conn, statement, rs);</span>
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">        return chapters;</span>
+    }
+
+    /**
+     * getChapterById method implement from IChapterDAO
+     *
+     * @param chapId ID of the Chapter. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return chapter &lt;code&gt;Bean.ChapterBean&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public ChapterBean getChapterById(int chapId) throws SQLException {
+<span class="fc" id="L83">        ChapterBean chapter = new ChapterBean();</span>
+<span class="fc" id="L84">        Connection conn =null;</span>
+<span class="fc" id="L85">        PreparedStatement statement=null;</span>
+<span class="fc" id="L86">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L89">            conn = getConnection();</span>
+<span class="fc" id="L90">            String sql = &quot;select * from Chapter where ChapterID=?&quot;;</span>
+<span class="fc" id="L91">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L92">            statement.setInt(1, chapId);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L95">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an ChapterBean*/
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L99">                chapter.setChapterID(rs.getInt(&quot;ChapterID&quot;));</span>
+<span class="nc" id="L100">                chapter.setChapterName(rs.getString(&quot;ChapterName&quot;));</span>
+<span class="nc" id="L101">                chapter.setSemester(rs.getInt(&quot;Semester&quot;));</span>
+<span class="nc" id="L102">                chapter.setChapterContent(rs.getString(&quot;Chapter Content&quot;));</span>
+<span class="nc" id="L103">                chapter.setSubjectID(rs.getInt(&quot;SubjectID&quot;));</span>
+            }
+<span class="nc" id="L105">        } catch (SQLException ex) {</span>
+<span class="nc" id="L106">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L107">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L109">            close(conn, statement, rs);</span>
+<span class="fc" id="L110">        }</span>
+<span class="fc" id="L111">        return chapter;</span>
+    }
+
+    /**
+     * getNumberOfChapterById method This method count number of Chapter
+     * available in database with corresponding Subject ID
+     *
+     * @param subId. Id of Subject. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return numberOfChapter. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public int getNumberOfChapterById(int subId) throws SQLException {
+<span class="fc" id="L124">        int numberOfChapter = 0;</span>
+<span class="fc" id="L125">        Connection conn =null;</span>
+<span class="fc" id="L126">        PreparedStatement statement=null;</span>
+<span class="fc" id="L127">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L130">            conn = getConnection();</span>
+<span class="fc" id="L131">            String sql = &quot;select COUNT(*) as Number from Chapter where SubjectID = ?&quot;;</span>
+<span class="fc" id="L132">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L133">            statement.setInt(1, subId);</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L135">            rs = statement.executeQuery();</span>
+
+            /*Assign data to numberOfChapter Integer type*/
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L139">                numberOfChapter = rs.getInt(&quot;Number&quot;);</span>
+            }
+<span class="nc" id="L141">        } catch (SQLException ex) {</span>
+<span class="nc" id="L142">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L143">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L145">            close(conn, statement, rs);</span>
+<span class="fc" id="L146">        }</span>
+<span class="fc" id="L147">        return numberOfChapter;</span>
+    }
+
+    /**
+     * getNumberOfChapter method This method count number of Chapter available
+     * in database
+     *
+     * @return numberOfChapter. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public int getNumberOfChapter() throws SQLException {
+<span class="fc" id="L159">        int numberOfChapter = 0;</span>
+<span class="fc" id="L160">        Connection conn =null;</span>
+<span class="fc" id="L161">        PreparedStatement statement=null;</span>
+<span class="fc" id="L162">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L165">            conn = getConnection();</span>
+<span class="fc" id="L166">            String sql = &quot;select COUNT(*) as Number from Chapter&quot;;</span>
+<span class="fc" id="L167">            statement = conn.prepareStatement(sql);</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L169">            rs = statement.executeQuery();</span>
+
+            /*Assign data to numberOfChapter Integer type*/
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L173">                numberOfChapter = rs.getInt(&quot;Number&quot;);</span>
+            }
+<span class="nc" id="L175">        } catch (SQLException ex) {</span>
+<span class="nc" id="L176">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L177">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L179">            close(conn, statement, rs);</span>
+<span class="fc" id="L180">        }</span>
+<span class="fc" id="L181">        return numberOfChapter;</span>
+    }
+
+    /**
+     * searchByChapNameOfSubject method This method will check whether the
+     * ChapterName with corresponding ID has existed in database
+     *
+     * @param chapName. Name of Chapter &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param subId. Id of Subject &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return check. &lt;code&gt;java.lang.Boolean&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public boolean searchByChapNameOfSubject(String chapName, int subId) throws SQLException {
+<span class="fc" id="L195">        boolean check = true;</span>
+<span class="fc" id="L196">        Connection conn =null;</span>
+<span class="fc" id="L197">        PreparedStatement statement=null;</span>
+<span class="fc" id="L198">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L201">            conn = getConnection();</span>
+<span class="fc" id="L202">            String sql = &quot;select * from Chapter where ChapterName=? and SubjectID=?&quot;;</span>
+<span class="fc" id="L203">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L204">            statement.setString(1, chapName);</span>
+<span class="fc" id="L205">            statement.setInt(2, subId);</span>
+            
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L208">            rs = statement.executeQuery();</span>
+
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L211">                check = false;</span>
+            }
+<span class="nc" id="L213">        } catch (SQLException ex) {</span>
+<span class="nc" id="L214">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L215">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L217">            close(conn, statement, rs);</span>
+<span class="fc" id="L218">        }</span>
+<span class="fc" id="L219">        return check;</span>
+    }
+
+    /**
+     * CreateChapter method
+     * This method will insert new Chapter in database
+     * 
+     * @param chapter. New Chapter which wanted to insert. &lt;code&gt;Bean.ChapterBean&lt;/code&gt; object
+     * @return numberOfRows. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @throws java.sql.SQLException
+     */
+    @Override
+    public int CreateChapter(ChapterBean chapter) throws SQLException {
+<span class="fc" id="L232">        int numberOfRow = 0;</span>
+<span class="fc" id="L233">        Connection conn =null;</span>
+<span class="fc" id="L234">        PreparedStatement statement=null;</span>
+<span class="fc" id="L235">        ResultSet rs =null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L238">            conn = getConnection();</span>
+<span class="fc" id="L239">            String sql = &quot;Insert into Chapter(ChapterName, [Chapter Content], SubjectID)&quot;</span>
+                    + &quot;values(?,?,?)&quot;;
+<span class="fc" id="L241">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L242">            statement.setString(1, chapter.getChapterName());</span>
+<span class="fc" id="L243">            statement.setString(2, chapter.getChapterContent());</span>
+<span class="fc" id="L244">            statement.setInt(3, chapter.getSubjectID());</span>
+            
+            /* Insert into database*/
+<span class="fc" id="L247">            numberOfRow = statement.executeUpdate();</span>
+<span class="fc" id="L248">        } catch (SQLException ex) {</span>
+<span class="fc" id="L249">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L250">            throw(ex);</span>
+        }finally{
+<span class="fc" id="L252">            close(conn, statement, rs);</span>
+<span class="fc" id="L253">        }</span>
+<span class="fc" id="L254">        return numberOfRow;</span>
+    }
+
+    /**
+     * updateChapter method implement from IChpaterDAO
+     * This method will update Chapter with corresponding chapter iD
+     * 
+     * @param chapter &lt;code&gt;bean.ChapterBean&lt;/code&gt;
+     * @return numberOfRowaffected &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @throws SQLException 
+     */
+    @Override
+    public int updateChapter(ChapterBean chapter) throws SQLException {
+<span class="fc" id="L267">       Connection conn =null;</span>
+<span class="fc" id="L268">        PreparedStatement statement=null;</span>
+<span class="fc" id="L269">        ResultSet rs =null;</span>
+<span class="fc" id="L270">        int numberOfRow=0;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L273">            conn = getConnection();</span>
+<span class="fc" id="L274">            String sql = &quot;Update Chapter\n&quot;</span>
+                       + &quot;Set ChapterName=?,\n&quot;
+                       + &quot;[Chapter Content]=?,\n&quot;
+                       + &quot;SubjectID=?\n&quot;
+                       + &quot;where ChapterID=?\n&quot;;
+<span class="fc" id="L279">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L280">            statement.setString(1, chapter.getChapterName());</span>
+<span class="fc" id="L281">            statement.setString(2, chapter.getChapterContent());</span>
+<span class="fc" id="L282">            statement.setInt(3, chapter.getSubjectID());</span>
+<span class="fc" id="L283">            statement.setInt(4, chapter.getChapterID());</span>
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L285">            numberOfRow = statement.executeUpdate();</span>
+<span class="nc" id="L286">        } catch (SQLException ex) {</span>
+<span class="nc" id="L287">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L288">            throw(ex);</span>
+        }finally{
+<span class="fc" id="L290">            close(conn, statement, rs);</span>
+<span class="fc" id="L291">        }</span>
+<span class="fc" id="L292">        return numberOfRow;</span>
+    }
+    
+    
+    /**
+     * searchByChapName method implement from IChapterDAO
+     * This method will check whether The chapter name has exist in database
+     * 
+     * @param chapName &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @return check. &lt;code&gt;java.lang.Boolean&lt;/code&gt; object
+     * @throws SQLException 
+     */
+    @Override
+    public boolean searchByChapName(String chapName) throws SQLException {
+<span class="fc" id="L306">        boolean check = true;</span>
+<span class="fc" id="L307">        Connection conn =null;</span>
+<span class="fc" id="L308">        PreparedStatement statement=null;</span>
+<span class="fc" id="L309">        ResultSet rs =null;</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">        if(chapName==null) return false;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L313">            conn = getConnection();</span>
+<span class="fc" id="L314">            String sql = &quot;select * from Chapter where ChapterName=?&quot;;</span>
+<span class="fc" id="L315">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L316">            statement.setString(1, chapName);</span>
+            
+            /*Querry and save in ResultSet*/
+<span class="fc" id="L319">            rs = statement.executeQuery();</span>
+
+<span class="pc bpc" id="L321" title="1 of 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L322">                check = false;</span>
+            }
+<span class="nc" id="L324">        } catch (SQLException ex) {</span>
+<span class="nc" id="L325">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L326">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L328">            close(conn, statement, rs);</span>
+<span class="fc" id="L329">        }</span>
+<span class="fc" id="L330">        return check;</span>
+    }
+    
+    /**
+     * deleteChapterById method implement from IChapterDAO
+     * This method will delete Chapter with corresponding chapterID
+     * 
+     * @param chapId &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @return numberOfRowaffected &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @throws SQLException 
+     */
+    @Override
+    public int deleteChapterById(int chapId) throws SQLException {
+<span class="fc" id="L343">        Connection conn =null;</span>
+<span class="fc" id="L344">        PreparedStatement statement=null;</span>
+<span class="fc" id="L345">        ResultSet rs =null;</span>
+<span class="fc" id="L346">        int numberOfRow=0;</span>
+        
+        try{
+            /*Set up connection and Sql statement for Querry*/
+<span class="fc" id="L350">            conn = getConnection();</span>
+<span class="fc" id="L351">            String sql = &quot;delete from Knowledge where ChapterID=?\n&quot;</span>
+                       + &quot;delete from Chapter where ChapterID=?&quot;;
+<span class="fc" id="L353">            statement = conn.prepareStatement(sql);</span>
+<span class="fc" id="L354">            statement.setInt(1, chapId);</span>
+<span class="fc" id="L355">            statement.setInt(2, chapId);</span>
+            
+            /*Execute SQL and return numberOfRow affect*/
+<span class="fc" id="L358">            numberOfRow = statement.executeUpdate();</span>
+            
+<span class="nc" id="L360">        }catch(SQLException ex){</span>
+<span class="nc" id="L361">            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L362">            throw(ex);</span>
+        }finally{
+<span class="pc" id="L364">            close(conn, statement, rs);</span>
+<span class="fc" id="L365">        }</span>
+<span class="fc" id="L366">        return numberOfRow;</span>
+    }
+    public static void main(String[] args) throws SQLException{
+<span class="nc" id="L369">        boolean c = new ChapterDAO().searchByChapName(null);</span>
+<span class="nc" id="L370">        System.out.println(c);</span>
+<span class="nc" id="L371">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

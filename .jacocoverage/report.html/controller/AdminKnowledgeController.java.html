@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AdminKnowledgeController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">AdminKnowledgeController.java</span></div><h1>AdminKnowledgeController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * AdminKnowledgeController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-24   1.0         Doan Tu    First Implement
+ */
+package controller;
+
+import bean.ChapterBean;
+import bean.KnowledgeBean;
+import dao.ChapterDAO;
+import dao.IChapterDAO;
+import dao.IKnowledgeDAO;
+import dao.ISubjectDAO;
+import dao.KnowledgeDAO;
+import dao.SubjectDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * see the list of knowledges for Admin manage. /AdminKnowledgeController is the URL of the web site Extend
+ * HttpServlet class
+ *
+ * @author Doan Tu
+ */
+@WebServlet(name = &quot;AdminKnowledgeController&quot;, urlPatterns = {&quot;/AdminKnowledgeController&quot;})
+<span class="nc" id="L39">public class AdminKnowledgeController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L52">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L53">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        }</span>
+<span class="nc" id="L55">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L68">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L69">        try (PrintWriter out = response.getWriter()) {</span>
+            /*get data from Parameter of request*/
+<span class="nc" id="L71">            String chapId = request.getParameter(&quot;chapId&quot;);</span>
+            
+            /*Declare Variables*/
+<span class="nc" id="L74">            ISubjectDAO subjectDAO = new SubjectDAO();</span>
+<span class="nc" id="L75">            IChapterDAO chapterDAO = new ChapterDAO();</span>
+<span class="nc" id="L76">            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();</span>
+            
+            /*Queries to get number of Subject, Knowledge, Chapter*/
+<span class="nc" id="L79">            int numberOfSubject = subjectDAO.getNumberOfSubject();</span>
+<span class="nc" id="L80">            int numberOfChapter = chapterDAO.getNumberOfChapter();</span>
+<span class="nc" id="L81">            int numberOfKnowledge = knowledgeDAO.getNumbberOfKnowledge();</span>
+            
+<span class="nc" id="L83">            int[] numbers = new int[3];</span>
+<span class="nc" id="L84">            numbers[0] = numberOfSubject;</span>
+<span class="nc" id="L85">            numbers[1] = numberOfChapter;</span>
+<span class="nc" id="L86">            numbers[2] = numberOfKnowledge;</span>
+            
+            /*Get Chapter and all Knowledge of the Chapter Queries*/
+<span class="nc" id="L89">            ArrayList&lt;KnowledgeBean&gt; knowledges = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L90">            knowledges = knowledgeDAO.getByChapterId(Integer.parseInt(chapId));</span>
+<span class="nc" id="L91">            ChapterBean chapter = new ChapterBean();</span>
+<span class="nc" id="L92">            chapter = chapterDAO.getChapterById(Integer.parseInt(chapId));</span>
+            
+            /*Attach knowledges, chapter, numbers attribute to request and ridirect*/
+<span class="nc" id="L95">            request.setAttribute(&quot;knowledges&quot;, knowledges);</span>
+<span class="nc" id="L96">            request.setAttribute(&quot;chapter&quot;, chapter);</span>
+<span class="nc" id="L97">            request.setAttribute(&quot;numbers&quot;, numbers);</span>
+            
+<span class="nc" id="L99">            request.getRequestDispatcher(&quot;./view/AdminKnowledge.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L100" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L101">            Logger.getLogger(AdminKnowledgeController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L116">        processRequest(request, response);</span>
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L126">        return &quot;Short description&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

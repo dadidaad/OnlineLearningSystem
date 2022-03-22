@@ -33,8 +33,8 @@ public class RequestAcceptListener implements HttpSessionAttributeListener {
     @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
         HttpSession session = event.getSession();
-        RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
-        if (requestAccept != null) {
+        if (session.getAttribute("requestAccept") != null) {
+            RequestBean requestAccept = (RequestBean) session.getAttribute("requestAccept");
             IRequestDAO db = new RequestDAO();
             if (requestAccept.getStatus().equals("On-time")) {
                 requestAccept.setStatus("Waiting");

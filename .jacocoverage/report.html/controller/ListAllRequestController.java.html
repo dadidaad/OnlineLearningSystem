@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ListAllRequestController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ListAllRequestController.java</span></div><h1>ListAllRequestController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Online Learning System
+
+ * ListAllRequestController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Duc Minh   First Implement
+ */
+package controller;
+
+import bean.AccountBean;
+import bean.NotificationBean;
+import bean.RequestBean;
+import dao.AccountDAO;
+import dao.IAccountDAO;
+import dao.INotificationDAO;
+import dao.IRequestDAO;
+import dao.ISubjectDAO;
+import dao.ITeacherDAO;
+import dao.NotificationDAO;
+import dao.RequestDAO;
+import dao.SubjectDAO;
+import dao.TeacherDAO;
+import utils.SortRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utils.AppUtils;
+
+/**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * see the list of Request /ListALlRequest is the URL of the Servlet Extend
+ * HttpServlet class
+ *
+ * @author Duc Minh
+ */
+<span class="nc" id="L47">public class ListAllRequestController extends HttpServlet {</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L60">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L61">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L62">        try (PrintWriter out = response.getWriter()) {</span>
+
+<span class="nc" id="L64">            HttpSession session = request.getSession(false);</span>
+<span class="nc" id="L65">            AccountBean account = AppUtils.getLoginedUser(session);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (account != null) {</span>
+<span class="nc" id="L67">                SortRequest sortRequest = new SortRequest();//call the sort modify class</span>
+<span class="nc" id="L68">                List&lt;RequestBean&gt; requestList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L70">                ISubjectDAO iSubjectDAO = new SubjectDAO(); //Use ISubjectDAO interface to call</span>
+<span class="nc" id="L71">                Map&lt;Integer, String&gt; SubjectNames = iSubjectDAO.getSubjectNames();</span>
+
+<span class="nc" id="L73">                IAccountDAO iAccountDAO = new AccountDAO(); //Use ISubjectDAO interface to call</span>
+<span class="nc" id="L74">                Map&lt;String, String&gt; DisplayNames = iAccountDAO.getDisplayNames();</span>
+
+<span class="nc" id="L76">                request.setAttribute(&quot;subjectNames&quot;, SubjectNames);</span>
+<span class="nc" id="L77">                request.setAttribute(&quot;displayNames&quot;, DisplayNames);</span>
+
+<span class="nc" id="L79">                INotificationDAO iNotificationDAO = new NotificationDAO();</span>
+<span class="nc" id="L80">                int totalNoti = iNotificationDAO.getTotalNoti(account.getUsername());</span>
+<span class="nc" id="L81">                List&lt;NotificationBean&gt; notiList = iNotificationDAO.getTopNotification(account.getUsername());</span>
+<span class="nc" id="L82">                int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());</span>
+<span class="nc" id="L83">                request.setAttribute(&quot;notiUnread&quot;, notiUnread);</span>
+<span class="nc" id="L84">                request.setAttribute(&quot;totalNoti&quot;, totalNoti);</span>
+<span class="nc" id="L85">                request.setAttribute(&quot;notificationList&quot;, notiList);</span>
+
+<span class="nc" id="L87">                IRequestDAO iRequestDAO = new RequestDAO(); //Use ITeacherDAO interface to call</span>
+<span class="nc" id="L88">                String rqStatus = request.getParameter(&quot;rqStatus&quot;);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                if (rqStatus == null) {</span>
+<span class="nc" id="L90">                    rqStatus = &quot;Waiting&quot;;</span>
+                }
+<span class="nc" id="L92">                request.setAttribute(&quot;status&quot;, rqStatus);</span>
+
+<span class="nc" id="L94">                String page = request.getParameter(&quot;page&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">                if (page == null || page.length() == 0) {</span>
+<span class="nc" id="L96">                    page = &quot;1&quot;;</span>
+                }
+<span class="nc" id="L98">                int pageindex = Integer.parseInt(page);</span>
+<span class="nc" id="L99">                int pagesize = 10;</span>
+                int totalrow, totalpage;
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                if (account.getRole().equalsIgnoreCase(&quot;student&quot;)) {</span>
+
+<span class="nc" id="L104">                    totalrow = iRequestDAO.getTotalRequestStudent(account.getUsername(), rqStatus);</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                    totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;</span>
+
+<span class="nc" id="L107">                    requestList = iRequestDAO.getRequestForStudent(account.getUsername(), rqStatus, pageindex, pagesize);</span>
+
+<span class="nc" id="L109">                    request.setAttribute(&quot;requests&quot;, requestList);</span>
+
+<span class="nc" id="L111">                    request.setAttribute(&quot;totalpage&quot;, totalpage);</span>
+<span class="nc" id="L112">                    request.setAttribute(&quot;pageindex&quot;, pageindex);</span>
+
+                    /*Attach Attribute teachers for request and redirect it to ListAllRequestStu.jsp  */
+<span class="nc" id="L115">                    request.getRequestDispatcher(&quot;./view/ListAllRequestStu.jsp&quot;).forward(request, response);</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                } else if (account.getRole().equalsIgnoreCase(&quot;teacher&quot;)) {</span>
+
+<span class="nc" id="L119">                    ITeacherDAO iteacherDAO = new TeacherDAO(); //Use ITeacherDAO interface to call</span>
+<span class="nc" id="L120">                    int subjectId = iteacherDAO.getSubjectId(account.getUsername());</span>
+
+<span class="nc bnc" id="L122" title="All 4 branches missed.">                    if (rqStatus.equalsIgnoreCase(&quot;Approved&quot;) || rqStatus.equalsIgnoreCase(&quot;Report&quot;)) {</span>
+<span class="nc" id="L123">                        totalrow = iRequestDAO.getTotalRequestForTeacher(account.getUsername(), rqStatus);</span>
+                    } else {
+<span class="nc" id="L125">                        totalrow = iRequestDAO.getTotalRequestForTeacher(subjectId, rqStatus);</span>
+                    }
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                    totalpage = (totalrow % pagesize == 0) ? totalrow / pagesize : totalrow / pagesize + 1;</span>
+
+<span class="nc bnc" id="L130" title="All 4 branches missed.">                    if (rqStatus.equalsIgnoreCase(&quot;Approved&quot;) || rqStatus.equalsIgnoreCase(&quot;Report&quot;)) {</span>
+<span class="nc" id="L131">                        requestList = iRequestDAO.getRequestForTeacher(account.getUsername(), rqStatus, pageindex, pagesize);</span>
+                    } else {
+<span class="nc" id="L133">                        requestList = iRequestDAO.getRequestForTeacher(subjectId, rqStatus, pageindex, pagesize);</span>
+                    }
+
+<span class="nc" id="L136">                    request.setAttribute(&quot;totalpage&quot;, totalpage);</span>
+<span class="nc" id="L137">                    request.setAttribute(&quot;pageindex&quot;, pageindex);</span>
+
+                    /* Sort the list */
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                    if(rqStatus.equalsIgnoreCase(&quot;waiting&quot;)){</span>
+<span class="nc" id="L141">                        requestList = sortRequest.requestListSorted(requestList, account.getUsername());</span>
+                    }
+<span class="nc" id="L143">                    request.setAttribute(&quot;requests&quot;, requestList);</span>
+                    /*Attach Attribute teachers for request and redirect it to ListAllRequestTea.jsp*/
+
+<span class="nc" id="L146">                    request.getRequestDispatcher(&quot;./view/ListAllRequestTea.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L147">                }</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                else if(account.getRole().equalsIgnoreCase(&quot;admin&quot;)){</span>
+<span class="nc" id="L149">                    request.getRequestDispatcher(&quot;./view/ReportList.jsp&quot;).forward(request, response);</span>
+                }
+
+<span class="nc" id="L152">            } /*Redirect it to Login*/ else {</span>
+<span class="nc" id="L153">                response.sendRedirect(&quot;Login&quot;);</span>
+            }
+<span class="nc bnc" id="L155" title="All 8 branches missed.">        } catch (Exception ex) {</span>
+<span class="nc" id="L156">            Logger.getLogger(ListAllRequestController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

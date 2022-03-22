@@ -102,7 +102,7 @@
                                         </div>
                                         <div id="notiCaptcha" class="small text-danger"></div>
                                         <div class="d-flex">
-                                            <button onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
+                                            <button type="button"onclick="previous()" class="btn btn-outline-primary px-3 py-1 mx-3">Back</button>
                                             <button class="btn btn-primary px-3 py-1 btn-next" id="inputCaptcha-btn" type="submit">Verify</button>
                                         </div>
                                     </form>

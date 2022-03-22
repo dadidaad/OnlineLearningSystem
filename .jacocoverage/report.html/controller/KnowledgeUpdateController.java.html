@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>KnowledgeUpdateController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">KnowledgeUpdateController.java</span></div><h1>KnowledgeUpdateController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import bean.KnowledgeBean;
+import dao.IKnowledgeDAO;
+import dao.KnowledgeDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+/**
+ *
+ * @author Phong Vu
+ */
+@MultipartConfig
+@WebServlet(name = &quot;KnowledgeUpdateController&quot;, urlPatterns = {&quot;/KnowledgeUpdateController&quot;})
+<span class="nc" id="L30">public class KnowledgeUpdateController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L43">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L44">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        }</span>
+<span class="nc" id="L46">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L60">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L61">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L62">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L63">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L64">            String knowledgeId = request.getParameter(&quot;knowledgeId&quot;);</span>
+
+<span class="nc" id="L66">            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();</span>
+<span class="nc" id="L67">            KnowledgeBean knowledge = new KnowledgeBean();</span>
+<span class="nc" id="L68">            knowledge = knowledgeDAO.getKnowledgeById(Integer.parseInt(knowledgeId));</span>
+
+<span class="nc" id="L70">            request.setAttribute(&quot;knowledge&quot;, knowledge);</span>
+<span class="nc" id="L71">            request.getRequestDispatcher(&quot;./view/UpdateKnowledge.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L72" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L73">            Logger.getLogger(KnowledgeUpdateController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L88">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L89">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L90">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L91">        try (PrintWriter out = response.getWriter()) {</span>
+            /*get data from parameter of request*/
+<span class="nc" id="L93">            String knowledgeName = request.getParameter(&quot;knowledgeName&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L94">            String currentKnowledgeName = request.getParameter(&quot;currentName&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();</span>
+<span class="nc" id="L95">            String knowledgeId = request.getParameter(&quot;knowledgeId&quot;);</span>
+            
+<span class="nc" id="L97">            String currentKnowledge = request.getParameter(&quot;currentKnowledge&quot;);</span>
+<span class="nc" id="L98">            String chapId = request.getParameter(&quot;chapId&quot;);</span>
+            
+<span class="nc" id="L100">            Part part = request.getPart(&quot;Image&quot;); </span>
+<span class="nc" id="L101">            String subImage = part.getSubmittedFileName();</span>
+<span class="nc" id="L102">            String actuallyKnowContent = &quot;assets/image/Algebra/&quot; + subImage;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if(subImage.equals(&quot;&quot;)){</span>
+<span class="nc" id="L104">                actuallyKnowContent = currentKnowledge;</span>
+            }
+            
+            /*Query for check whether Subject Name has existed*/
+<span class="nc" id="L108">            IKnowledgeDAO knowledgeDAO = new KnowledgeDAO();</span>
+<span class="nc" id="L109">            boolean check = knowledgeDAO.searchByKnowledgeNameOfChap(knowledgeName, Integer.parseInt(chapId));</span>
+            
+            /*If existed, reiderect*/
+<span class="nc bnc" id="L112" title="All 4 branches missed.">            if (check == false &amp;&amp; !currentKnowledgeName.equals(knowledgeName)) {</span>
+<span class="nc" id="L113">                KnowledgeBean curKnowledge = new KnowledgeBean();</span>
+<span class="nc" id="L114">                curKnowledge = knowledgeDAO.getKnowledgeById(Integer.parseInt(knowledgeId));</span>
+                
+<span class="nc" id="L116">                request.setAttribute(&quot;knowledge&quot;,curKnowledge);</span>
+<span class="nc" id="L117">                request.setAttribute(&quot;check&quot;, check);</span>
+<span class="nc" id="L118">                request.getRequestDispatcher(&quot;./view/UpdateKnowledge.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L119">            }else{</span>
+<span class="nc" id="L120">                KnowledgeBean knowledge = new KnowledgeBean(Integer.parseInt(knowledgeId), knowledgeName, actuallyKnowContent, Integer.parseInt(chapId));</span>
+<span class="nc" id="L121">                int numberOfRows = knowledgeDAO.updateKnowledge(knowledge);</span>
+<span class="nc" id="L122">                response.sendRedirect(&quot;AdminKnowledgeController?chapId=&quot;+chapId);</span>
+            }
+<span class="nc bnc" id="L124" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L125">            Logger.getLogger(KnowledgeUpdateController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L136">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

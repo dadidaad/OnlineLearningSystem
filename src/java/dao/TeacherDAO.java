@@ -195,7 +195,7 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
      * @return teacher object
      */
     @Override
-    public boolean checkTeacherStatus(String username) {
+    public boolean getTeacherStatus(String username) {
 
         Connection conn = null;
         PreparedStatement statement = null;
@@ -222,6 +222,54 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             close(conn, statement, rs);
         }
         return false;
+    }
+
+    @Override
+    public TeacherBean getTeacherCV(String username) {
+
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            /*Set up connection and Sql statement for Query */
+            conn = getConnection();
+            String sql = "select Tutor.*\n"
+                    + "from Tutor\n"
+                    + "where Tutor.[Username] = ? and Tutor.[Status] = 'Waiting'";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            /*Query and save in ResultSet */
+            rs = statement.executeQuery();
+
+            /*Assign data to an arraylist of Request*/
+            while (rs.next()) {
+                TeacherBean teacher = new TeacherBean();
+
+                teacher.setUsername(rs.getString("Username"));
+                teacher.setPassword(rs.getString("Password"));
+                teacher.setMail(rs.getString("Mail"));
+                teacher.setAvatar(rs.getString("Avatar"));
+                teacher.setDisplayName(rs.getString("DisplayName"));
+                teacher.setDateOfBirth(rs.getDate("DateOfBirth"));
+                teacher.setSex(rs.getBoolean("Sex"));
+                teacher.setDescription(rs.getString("Description"));
+                teacher.setCash(rs.getBigDecimal("Cash in account"));
+                teacher.setCreateDate(rs.getDate("CreatedDate"));
+                teacher.setRole(rs.getString("Role"));
+                teacher.setStatus(rs.getString("Status"));
+                teacher.setState(rs.getBoolean("State"));
+                teacher.setCvImg(rs.getString("CV"));
+                teacher.setSubjectId(rs.getInt("SubjectID"));
+
+                return teacher;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(conn, statement, rs);
+        }
+        return null;
     }
 
     /**
@@ -343,6 +391,40 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             statement.setString(1, teacher.getUsername());
             statement.setInt(2, teacher.getSubjectId());
             statement.setString(3, teacher.getCvImg());
+            int result = statement.executeUpdate();
+            if (result == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(conn, statement, rs);
+        }
+        return false;
+    }
+
+    /**
+     * updateNewTeacher method implement from ITeacherDAO
+     *
+     * @param teacher
+     * @return teachers. <code>java.util.ArrayList</code> object
+     */
+    @Override
+    public boolean UpdateNewTeacher(TeacherBean teacher) {
+
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            String sql = "UPDATE [dbo].[Tutor]\n"
+                    + "   SET [CV] = ?\n"
+                    + "      ,[SubjectID] = ?\n"
+                    + " WHERE [Username] = ?"; //sql query
+            conn = getConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, teacher.getCvImg());
+            statement.setInt(2, teacher.getSubjectId());
+            statement.setString(3, teacher.getUsername());
             int result = statement.executeUpdate();
             if (result == 1) {
                 return true;
@@ -523,10 +605,10 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                     + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = ? \n";
 
             statement = conn.prepareStatement(sql);
-             statement.setString(1, status);
+            statement.setString(1, status);
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
-                    
+
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
@@ -1084,12 +1166,13 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
         }
         return teachers;
     }
+
     public static void main(String[] args) {
         TeacherDAO dal = new TeacherDAO();
         System.out.println(dal.getTotalTeacher());
         System.out.println(dal.getAllTeacher(10, 15).size());
 //        System.out.println(dal.getTotalTeacherApplySearch("giang"));
 //System.out.println(dal.checkTeacherStatus("ducgiang"));
-                
+
     }
 }

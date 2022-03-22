@@ -61,7 +61,11 @@ public interface ITeacherDAO {
      * @param username <code>java.lang.String</code>
      * @return subjectId. <code>Integer</code> object
      */
-    public boolean checkTeacherStatus(String username);
+    public TeacherBean getTeacherCV(String username);
+
+    public boolean UpdateNewTeacher(TeacherBean teacher);
+
+    public boolean getTeacherStatus(String username);
 
     /**
      * getSubjectId method implement from ITeacherDAO get the id subject of
@@ -70,6 +74,7 @@ public interface ITeacherDAO {
      * @param usernameTeacher <code>java.lang.String</code>
      * @return subjectId. <code>Integer</code> object
      */
+
     public int getSubjectId(String usernameTeacher);
 
     /**

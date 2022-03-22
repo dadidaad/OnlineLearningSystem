@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">config</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SecurityConfig
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
+ */
+package config;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * The class contains method init, getAllAppRoles, getUrlPatternForRole to
+ * Configure role for app. Bugs: Still not have yet
+ *
+ * @author Dajtvox
+ */
+<span class="nc" id="L24">public class SecurityConfig {</span>
+
+    public static final String ADMIN_ROLE = &quot;Admin&quot;;
+    public static final String TEACHER_ROLE = &quot;Teacher&quot;;
+    public static final String STUDENT_ROLE = &quot;Student&quot;;
+<span class="nc" id="L29">    private static final Map&lt;String, List&lt;String&gt;&gt; MAP_CONFIG = new HashMap&lt;&gt;();</span>
+
+    static {
+<span class="nc" id="L32">        init();</span>
+<span class="nc" id="L33">    }</span>
+
+    private static void init() {
+<span class="nc" id="L36">        List&lt;String&gt; studentPattern = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L37">        studentPattern.add(&quot;/ViewProfile&quot;);</span>
+<span class="nc" id="L38">        studentPattern.add(&quot;/EditProfile&quot;);</span>
+<span class="nc" id="L39">        studentPattern.add(&quot;/BecomeTutor&quot;);   </span>
+<span class="nc" id="L40">        studentPattern.add(&quot;/ChangePassword&quot;);</span>
+<span class="nc" id="L41">        studentPattern.add(&quot;/CreateRequest&quot;);</span>
+<span class="nc" id="L42">        studentPattern.add(&quot;/ViewRequestStu&quot;);</span>
+<span class="nc" id="L43">        studentPattern.add(&quot;/ListAllRequest&quot;);</span>
+<span class="nc" id="L44">        studentPattern.add(&quot;/DeleteRequest&quot;);</span>
+<span class="nc" id="L45">        studentPattern.add(&quot;/UpdateRequest&quot;);</span>
+<span class="nc" id="L46">        studentPattern.add(&quot;/ListRequestSearch&quot;);</span>
+<span class="nc" id="L47">        studentPattern.add(&quot;/TeacherRecommendSearch&quot;);</span>
+<span class="nc" id="L48">        MAP_CONFIG.put(STUDENT_ROLE, studentPattern);// Configure the &quot;Student&quot; role.</span>
+
+<span class="nc" id="L50">        List&lt;String&gt; teacherPattern = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L51">        teacherPattern.add(&quot;/ViewProfile&quot;);</span>
+<span class="nc" id="L52">        teacherPattern.add(&quot;/EditProfile&quot;);</span>
+<span class="nc" id="L53">        teacherPattern.add(&quot;ChangePassword&quot;);</span>
+<span class="nc" id="L54">        teacherPattern.add(&quot;/ViewRequestTea&quot;);</span>
+<span class="nc" id="L55">        teacherPattern.add(&quot;/CreateRequestReply&quot;);</span>
+<span class="nc" id="L56">        teacherPattern.add(&quot;/ListAllRequest&quot;);</span>
+<span class="nc" id="L57">        teacherPattern.add(&quot;/ListRequestSearch&quot;);</span>
+<span class="nc" id="L58">        teacherPattern.add(&quot;/createarticle&quot;);</span>
+<span class="nc" id="L59">        MAP_CONFIG.put(TEACHER_ROLE, teacherPattern); // Configure the &quot;Teacher&quot; role.</span>
+
+<span class="nc" id="L61">        List&lt;String&gt; adminPattern = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L62">        adminPattern.add(&quot;/ViewProfile&quot;);</span>
+<span class="nc" id="L63">        adminPattern.add(&quot;/EditProfile&quot;);</span>
+<span class="nc" id="L64">        adminPattern.add(&quot;/ChangePassword&quot;);</span>
+<span class="nc" id="L65">        adminPattern.add(&quot;/AccountManager&quot;);</span>
+<span class="nc" id="L66">        adminPattern.add(&quot;/AccountManagerSearch&quot;);</span>
+<span class="nc" id="L67">        adminPattern.add(&quot;/TeacherRequest&quot;);</span>
+<span class="nc" id="L68">        adminPattern.add(&quot;/TeacherRequestHandle&quot;);</span>
+<span class="nc" id="L69">        adminPattern.add(&quot;/Dashboard&quot;);</span>
+<span class="nc" id="L70">        adminPattern.add(&quot;/TeacherRequestSearch&quot;);</span>
+<span class="nc" id="L71">        adminPattern.add(&quot;/ChangeStatusAccount&quot;);</span>
+<span class="nc" id="L72">        adminPattern.add(&quot;/alreadyarticledetail&quot;);</span>
+<span class="nc" id="L73">        adminPattern.add(&quot;/loadalreadyarticle&quot;);</span>
+<span class="nc" id="L74">        adminPattern.add(&quot;/loadpreparearticle&quot;);</span>
+<span class="nc" id="L75">        adminPattern.add(&quot;/updatearticle&quot;);</span>
+<span class="nc" id="L76">        adminPattern.add(&quot;/acceptarticle&quot;);</span>
+<span class="nc" id="L77">        adminPattern.add(&quot;/deleteprepare&quot;);</span>
+<span class="nc" id="L78">        adminPattern.add(&quot;/searchiinalreadyarticle&quot;);</span>
+<span class="nc" id="L79">        adminPattern.add(&quot;/searcharticle&quot;);</span>
+<span class="nc" id="L80">        MAP_CONFIG.put(ADMIN_ROLE, adminPattern); // Configure the &quot;Admin&quot; role.</span>
+<span class="nc" id="L81">    }</span>
+
+    public static Set&lt;String&gt; getAllAppRoles() {
+<span class="nc" id="L84">        return MAP_CONFIG.keySet();</span>
+    }
+
+    public static List&lt;String&gt; getUrlPatternForRole(String role) {
+<span class="nc" id="L88">        return MAP_CONFIG.get(role);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

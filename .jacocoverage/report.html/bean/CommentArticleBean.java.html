@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CommentArticleBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">CommentArticleBean.java</span></div><h1>CommentArticleBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * CommentArticleBean Bean
+ * Record of change:
+ * DATE         Version     AUTHOR               Description
+ * 2022-02-08   1.0         Hoang Ngoc Long    First Implement
+ */
+package bean;
+
+/**
+ * The class contains information attribute about Knowledge Model
+ * All attributes are declare String username, String name,String pulished, String content
+ * Get set methods used to retrieve data
+ * The toString method is overridden to print the data
+ * 
+ * @author Hoang Ngoc Long 
+ */
+public class CommentArticleBean {
+    private int commentid;
+    private String username;
+    private String name;
+    private String image;
+    private String pulished;
+    private String content;
+    private int articleid;
+
+    public int getCommentid() {
+<span class="nc" id="L29">        return commentid;</span>
+    }
+
+    public void setCommentid(int commentid) {
+<span class="nc" id="L33">        this.commentid = commentid;</span>
+<span class="nc" id="L34">    }</span>
+
+    
+    
+
+    /**
+     * Initialization method
+     * 
+     * @param username the Id of CommentArticleBean. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param name the Name of CommentArticleBean. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param pulished the Content of CommentArticleBean. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param content image CommentArticleBean belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param articleid date of pulished CommentArticleBean belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * 
+     */
+    /**
+     * ArticleID's data retrieval method
+     * 
+     * @return ArticleID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+
+    public String getImage() {
+<span class="nc" id="L56">        return image;</span>
+    }
+
+    public void setImage(String image) {
+<span class="nc" id="L60">        this.image = image;</span>
+<span class="nc" id="L61">    }</span>
+    public int getArticleid() {
+<span class="nc" id="L63">        return articleid;</span>
+    }
+
+    public void setArticleid(int articleid) {
+<span class="nc" id="L67">        this.articleid = articleid;</span>
+<span class="nc" id="L68">    }</span>
+
+ /**
+     * Username's data retrieval method
+     * 
+     * @return Username. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getUsername() {
+<span class="nc" id="L76">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="nc" id="L80">        this.username = username;</span>
+<span class="nc" id="L81">    }</span>
+    /**
+     * Name's data retrieval method
+     * 
+     * @return Name. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getName() {
+<span class="nc" id="L88">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L92">        this.name = name;</span>
+<span class="nc" id="L93">    }</span>
+     /**
+     * pulished data retrieval method
+     * 
+     * @return pulished. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    
+    public String getPulished() {
+<span class="nc" id="L101">        return pulished;</span>
+    }
+
+    public void setPulished(String pulished) {
+<span class="nc" id="L105">        this.pulished = pulished;</span>
+<span class="nc" id="L106">    }</span>
+
+    public String getContent() {
+<span class="nc" id="L109">        return content;</span>
+    }
+     /**
+     * pulished data retrieval method
+     * 
+     * @return pulished. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public void setContent(String content) {
+<span class="nc" id="L117">        this.content = content;</span>
+<span class="nc" id="L118">    }</span>
+
+<span class="nc" id="L120">    public CommentArticleBean(String username, String name, String image, String pulished, String content, int articleid) {</span>
+<span class="nc" id="L121">        this.username = username;</span>
+<span class="nc" id="L122">        this.name = name;</span>
+<span class="nc" id="L123">        this.image = image;</span>
+<span class="nc" id="L124">        this.pulished = pulished;</span>
+<span class="nc" id="L125">        this.content = content;</span>
+<span class="nc" id="L126">        this.articleid = articleid;</span>
+<span class="nc" id="L127">    }</span>
+
+<span class="nc" id="L129">    public CommentArticleBean( String username, String name, String image, String pulished, String content, int articleid,int commentid) {</span>
+<span class="nc" id="L130">        this.commentid = commentid;</span>
+<span class="nc" id="L131">        this.username = username;</span>
+<span class="nc" id="L132">        this.name = name;</span>
+<span class="nc" id="L133">        this.image = image;</span>
+<span class="nc" id="L134">        this.pulished = pulished;</span>
+<span class="nc" id="L135">        this.content = content;</span>
+<span class="nc" id="L136">        this.articleid = articleid;</span>
+<span class="nc" id="L137">    }</span>
+
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

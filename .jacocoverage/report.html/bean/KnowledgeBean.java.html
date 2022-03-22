@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>KnowledgeBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">KnowledgeBean.java</span></div><h1>KnowledgeBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * Knowledge Bean
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-08   1.0         Doan Tu    First Implement
+ */
+package bean;
+
+/**
+ * The class contains information attribute about Knowledge Model
+ * All attributes are declare in private knowledgeID, knowledgeName, knowledgeContent and chapterID
+ * Get set methods used to retrieve data
+ * The toString method is overridden to print the data
+ * 
+ * @author Doan Tu
+ */
+public class KnowledgeBean {
+    private int knowledgeID;
+    private String knowledgeName;
+    private String knowledgeContent;
+    private int chapterID;
+
+<span class="fc" id="L25">    public KnowledgeBean() {</span>
+<span class="fc" id="L26">    }</span>
+    
+    /**
+     * Initialization method
+     * 
+     * @param knowledgeID the Id of Knowledge. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param knowledgeName the Name of Knowledge. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param knowledgeContent the Content of Knowledge. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param chapterID ID of the chapter to which knowledge belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+<span class="fc" id="L36">    public KnowledgeBean(int knowledgeID, String knowledgeName, String knowledgeContent, int chapterID) {</span>
+<span class="fc" id="L37">        this.knowledgeID = knowledgeID;</span>
+<span class="fc" id="L38">        this.knowledgeName = knowledgeName;</span>
+<span class="fc" id="L39">        this.knowledgeContent = knowledgeContent;</span>
+<span class="fc" id="L40">        this.chapterID = chapterID;</span>
+<span class="fc" id="L41">    }</span>
+    
+    /**
+     * knowledgeID's data retrieval method
+     * 
+     * @return knowledgeID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getKnowledgeID() {
+<span class="fc" id="L49">        return knowledgeID;</span>
+    }
+
+    /**
+     * Set value for knowledgeID
+     * 
+     * @param knowledgeID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setKnowledgeID(int knowledgeID) {
+<span class="fc" id="L58">        this.knowledgeID = knowledgeID;</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * knowledgeName's data retrieval method
+     * 
+     * @return knowledgeName. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getKnowledgeName() {
+<span class="fc" id="L67">        return knowledgeName;</span>
+    }
+
+    /**
+     * Set value for knowledgeName
+     * 
+     * @param knowledgeName . &lt;code&gt;java.lang.String&lt;/code&gt; object 
+     */
+    public void setKnowledgeName(String knowledgeName) {
+<span class="fc" id="L76">        this.knowledgeName = knowledgeName;</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * knowledgeContent's data retrieval method
+     * 
+     * @return knowledgeContent. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    public String getKnowledgeContent() {
+<span class="fc" id="L85">        return knowledgeContent;</span>
+    }
+
+    /**
+     * Set value for knowledgeContent
+     * 
+     * @param knowledgeContent . &lt;code&gt;java.lang.String&lt;/code&gt; object 
+     */
+    public void setKnowledgeContent(String knowledgeContent) {
+<span class="fc" id="L94">        this.knowledgeContent = knowledgeContent;</span>
+<span class="fc" id="L95">    }</span>
+
+    /**
+     * ChpaterID's data retrieval method
+     * 
+     * @return chapterID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getChapterID() {
+<span class="fc" id="L103">        return chapterID;</span>
+    }
+
+    /**
+     * Set value for ChapterID
+     * 
+     * @param chapterID . &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setChapterID(int chapterID) {
+<span class="fc" id="L112">        this.chapterID = chapterID;</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * The method used to print the attribute values of Knowledge
+     * 
+     * @return &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L122">        return &quot;KnowledgeBean{&quot; + &quot;knowledgeID=&quot; + knowledgeID + &quot;, knowledgeName=&quot; + knowledgeName + &quot;, knowledgeContent=&quot; + knowledgeContent + &quot;, chapterID=&quot; + chapterID + '}';</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

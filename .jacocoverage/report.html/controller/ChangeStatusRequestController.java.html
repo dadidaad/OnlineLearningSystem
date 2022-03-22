@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ChangeStatusRequestController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ChangeStatusRequestController.java</span></div><h1>ChangeStatusRequestController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import bean.RequestBean;
+import dao.IRequestDAO;
+import dao.RequestDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author Admin
+ */
+<span class="nc" id="L23">public class ChangeStatusRequestController extends HttpServlet {</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L36">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L37">            String requestId = request.getParameter(&quot;requestId&quot;);</span>
+<span class="nc" id="L38">            IRequestDAO db = new RequestDAO();</span>
+<span class="nc" id="L39">            RequestBean requestAccept = db.getRequestById(Integer.parseInt(requestId));</span>
+<span class="nc" id="L40">            requestAccept.setStatus(&quot;On-time&quot;);</span>
+<span class="nc" id="L41">            HttpSession session = request.getSession(false);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if(session == null){</span>
+<span class="nc" id="L43">                session = request.getSession(true);</span>
+            }
+<span class="nc" id="L45">            session.setAttribute(&quot;requestAccept&quot;, requestAccept);</span>
+<span class="nc" id="L46">            out.print(&quot;Accept successfully, you have 30 minutes to reply request!&quot;);</span>
+<span class="nc bnc" id="L47" title="All 8 branches missed.">        } catch (Exception e) {</span>
+
+<span class="nc" id="L49">        }</span>
+<span class="nc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

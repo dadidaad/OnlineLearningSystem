@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CreateChapterController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">CreateChapterController.java</span></div><h1>CreateChapterController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * CreateChapterController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-25   1.0         Doan Tu    First Implement
+ */
+package controller;
+
+import bean.ChapterBean;
+import dao.ChapterDAO;
+import dao.IChapterDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * Create new chapter and insert it into database. /CreateChapterController is the URL of the web site Extend
+ * HttpServlet class
+ *
+ * @author Doan Tu
+ */
+@WebServlet(name = &quot;CreateChapterController&quot;, urlPatterns = {&quot;/CreateChapterController&quot;})
+<span class="nc" id="L33">public class CreateChapterController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L46">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L47">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc bnc" id="L48" title="All 4 branches missed.">        }</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L62">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L63">        try (PrintWriter out = response.getWriter()) {</span>
+            /*Get data from Parameter of request*/
+<span class="nc" id="L65">            String subId = request.getParameter(&quot;subId&quot;);</span>
+            
+            /*get total Number Of Chapter*/
+<span class="nc" id="L68">            IChapterDAO chapterDAO = new ChapterDAO();</span>
+<span class="nc" id="L69">            int numberOfChapter = chapterDAO.getNumberOfChapter() + 1;</span>
+
+            /*Attach nextID and subID Atrribute to request and redirect*/
+<span class="nc" id="L72">            request.setAttribute(&quot;nextId&quot;, numberOfChapter);</span>
+<span class="nc" id="L73">            request.setAttribute(&quot;subId&quot;, subId);</span>
+<span class="nc" id="L74">            request.getRequestDispatcher(&quot;./view/CreateChapter.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L75" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L76">            Logger.getLogger(CreateChapterController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L77">        }</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L91">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L92">        try (PrintWriter out = response.getWriter()) {</span>
+            /*Get data from Parameter of request*/
+<span class="nc" id="L94">            String chapId = request.getParameter(&quot;chapId&quot;);</span>
+<span class="nc" id="L95">            String chapName = request.getParameter(&quot;chapName&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();;</span>
+<span class="nc" id="L96">            String chapContent = request.getParameter(&quot;chapContent&quot;).replaceAll(&quot;\\s\\s+&quot;, &quot; &quot;).trim();;</span>
+<span class="nc" id="L97">            String subId = request.getParameter(&quot;subId&quot;);</span>
+            
+            /*Query for check whether Subject Name has existed*/
+<span class="nc" id="L100">            IChapterDAO chapterDAO = new ChapterDAO();</span>
+<span class="nc" id="L101">            boolean check = chapterDAO.searchByChapNameOfSubject(chapName, Integer.parseInt(subId));</span>
+            
+            /*If existed, reiderect*/
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if(check==false){</span>
+<span class="nc" id="L105">                request.setAttribute(&quot;nextId&quot;, chapId);</span>
+<span class="nc" id="L106">                request.setAttribute(&quot;subId&quot;, subId);</span>
+<span class="nc" id="L107">                request.setAttribute(&quot;check&quot;, check);</span>
+<span class="nc" id="L108">                request.getRequestDispatcher(&quot;./view/CreateChapter.jsp&quot;).forward(request, response);</span>
+            }else{//If not, insert new Chapter into database
+<span class="nc" id="L110">                ChapterBean chapter = new ChapterBean(Integer.parseInt(chapId), chapName,0, chapContent, Integer.parseInt(subId));</span>
+<span class="nc" id="L111">                int numberOfRow = chapterDAO.CreateChapter(chapter);</span>
+<span class="nc" id="L112">                response.sendRedirect(&quot;AdminChapterController?subId=&quot;+subId);</span>
+            }
+<span class="nc bnc" id="L114" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L115">            Logger.getLogger(CreateChapterController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L116">        }</span>
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L126">        return &quot;Short description&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

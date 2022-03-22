@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RecomendController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">RecomendController.java</span></div><h1>RecomendController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import bean.RecommendBean;
+import bean.SubjectBean;
+import dao.IRecommendDAO;
+import dao.ISubjectDAO;
+import dao.RecommendDAO;
+import dao.SubjectDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author Phong Vu
+ */
+@WebServlet(name = &quot;RecomendController&quot;, urlPatterns = {&quot;/RecomendController&quot;})
+<span class="nc" id="L31">public class RecomendController extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L44">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L45">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc bnc" id="L46" title="All 4 branches missed.">        }</span>
+<span class="nc" id="L47">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L61">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L62">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L63">            ISubjectDAO subjectDAO = new SubjectDAO();</span>
+<span class="nc" id="L64">            ArrayList&lt;SubjectBean&gt; subjects = new ArrayList&lt;&gt;();</span>
+            
+<span class="nc" id="L66">            subjects= subjectDAO.getAllSubject();</span>
+            
+<span class="nc" id="L68">            request.setAttribute(&quot;subjects&quot;, subjects);</span>
+<span class="nc" id="L69">            request.getRequestDispatcher(&quot;./view/Recommend.jsp&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L70" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L71">            Logger.getLogger(RecomendController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L86">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L87">        try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L88">            String username = request.getParameter(&quot;username&quot;);</span>
+<span class="nc" id="L89">            String subjectId = request.getParameter(&quot;subject-select&quot;);</span>
+<span class="nc" id="L90">            String action = request.getParameter(&quot;action-select&quot;);</span>
+<span class="nc" id="L91">            String description = request.getParameter(&quot;description&quot;);</span>
+            boolean check;
+            
+<span class="nc" id="L94">            check = action.equals(&quot;1&quot;);</span>
+            
+<span class="nc" id="L96">            RecommendBean recommed = new RecommendBean();</span>
+<span class="nc" id="L97">            recommed.setUsername(username);</span>
+<span class="nc" id="L98">            recommed.setSubjectID(Integer.parseInt(subjectId));</span>
+<span class="nc" id="L99">            recommed.setAction(check);</span>
+<span class="nc" id="L100">            recommed.setDescription(description);</span>
+<span class="nc" id="L101">            recommed.setStatus(&quot;waiting&quot;);</span>
+            
+<span class="nc" id="L103">            IRecommendDAO recommendDAO = new RecommendDAO();</span>
+<span class="nc" id="L104">            recommendDAO.createRecommend(recommed);</span>
+            
+<span class="nc" id="L106">            request.getRequestDispatcher(&quot;RecommendHistoryController&quot;).forward(request, response);</span>
+<span class="nc bnc" id="L107" title="All 8 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L108">            Logger.getLogger(RecomendController.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L119">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UrlPatternUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">UrlPatternUtils.java</span></div><h1>UrlPatternUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * UrlPatternUtils
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
+ */
+package utils;
+
+/**
+ *
+ * Bugs: Still not have yet
+ *
+ * @author Dajtvox
+ */
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
+import javax.servlet.http.HttpServletRequest;
+
+<span class="nc" id="L24">public class UrlPatternUtils {</span>
+
+    private static boolean hasUrlPattern(ServletContext servletContext, String urlPattern) {
+
+<span class="nc" id="L28">        Map&lt;String, ? extends ServletRegistration&gt; map = servletContext.getServletRegistrations();</span>
+
+<span class="nc" id="L30">        return map.keySet().stream().map((servletName) -&gt; map.get(servletName)).map((sr) -&gt; sr.getMappings()).anyMatch((mappings) -&gt; (mappings.contains(urlPattern)));</span>
+    }
+
+    // servletPath:
+    // ==&gt; /spath
+    // ==&gt; /spath/*
+    // ==&gt; *.ext
+    // ==&gt; /
+    public static String getUrlPattern(HttpServletRequest request) {
+<span class="nc" id="L39">        ServletContext servletContext = request.getServletContext();</span>
+<span class="nc" id="L40">        String servletPath = request.getServletPath();</span>
+<span class="nc" id="L41">        String pathInfo = request.getPathInfo();</span>
+
+<span class="nc" id="L43">        String urlPattern = null;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (pathInfo != null) {</span>
+<span class="nc" id="L45">            urlPattern = servletPath + &quot;/*&quot;;</span>
+<span class="nc" id="L46">            return urlPattern;</span>
+        }
+<span class="nc" id="L48">        urlPattern = servletPath;</span>
+
+<span class="nc" id="L50">        boolean has = hasUrlPattern(servletContext, urlPattern);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (has) {</span>
+<span class="nc" id="L52">            return urlPattern;</span>
+        }
+<span class="nc" id="L54">        int i = servletPath.lastIndexOf('.');</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (i != -1) {</span>
+<span class="nc" id="L56">            String ext = servletPath.substring(i + 1);</span>
+<span class="nc" id="L57">            urlPattern = &quot;*.&quot; + ext;</span>
+<span class="nc" id="L58">            has = hasUrlPattern(servletContext, urlPattern);</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (has) {</span>
+<span class="nc" id="L61">                return urlPattern;</span>
+            }
+        }
+<span class="nc" id="L64">        return &quot;/&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

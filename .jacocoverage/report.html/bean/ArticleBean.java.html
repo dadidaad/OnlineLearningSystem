@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ArticleBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">ArticleBean.java</span></div><h1>ArticleBean.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * Knowledge Bean
+ * Record of change:
+ * DATE         Version     AUTHOR               Description
+ * 2022-02-08   1.0         Hoang Ngoc Long    First Implement
+ */
+package bean;
+
+/**
+ * The class contains information attribute about Article Model All attributes
+ * are declare in private ArticleID, title,  description, image,
+ * createName and pulished Get set methods used to retrieve data The toString
+ * method is overridden to print the data
+ *
+ * @author Hoang Ngoc Long
+ */
+
+public class ArticleBean {
+
+    private int id;
+    private String title;
+    private String description;
+    private String image;
+    private String createName;
+    private int view;
+    private String pulished;
+  /**
+     * Initialization method
+     * 
+     * @param id the Id of Article. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param title the Name of Article. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param description the Content of Article. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param image image Article belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     * @param pulished date of pulished Article belongs. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+<span class="nc" id="L38">    public ArticleBean(int id, String title, String description, String image, String pulished) {</span>
+<span class="nc" id="L39">        this.id = id;</span>
+<span class="nc" id="L40">        this.title = title;</span>
+<span class="nc" id="L41">        this.description = description;</span>
+<span class="nc" id="L42">        this.image = image;</span>
+<span class="nc" id="L43">        this.pulished = pulished;</span>
+<span class="nc" id="L44">    }</span>
+    /**
+     * pulished data retrieval method
+     * 
+     * @return pulished. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    
+    
+<span class="nc" id="L52">    public ArticleBean(int id, String title, String description, String image,  String pulished,String createName) {</span>
+<span class="nc" id="L53">        this.id = id;</span>
+<span class="nc" id="L54">        this.title = title;</span>
+<span class="nc" id="L55">        this.description = description;</span>
+<span class="nc" id="L56">        this.image = image;</span>
+<span class="nc" id="L57">        this.createName = createName;</span>
+<span class="nc" id="L58">        this.pulished = pulished;</span>
+<span class="nc" id="L59">    }</span>
+
+    public String getPulished() {
+<span class="fc" id="L62">        return pulished;</span>
+    }
+        /**
+     * Set value for pulished
+     * 
+     * @param pulished. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setPulished(String pulished) {
+<span class="fc" id="L70">        this.pulished = pulished;</span>
+<span class="fc" id="L71">    }</span>
+
+<span class="fc" id="L73">    public ArticleBean() {</span>
+<span class="fc" id="L74">    }</span>
+
+     /**
+     * ArticleID's data retrieval method
+     * 
+     * @return ArticleID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public int getId() {
+<span class="fc" id="L82">        return id;</span>
+    }
+     /**
+     * Set value for ArticleID
+     * 
+     * @param ArticleID. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setId(int id) {
+<span class="fc" id="L90">        this.id = id;</span>
+<span class="fc" id="L91">    }</span>
+    /**
+     * title data retrieval method
+     * 
+     * @return title. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getTitle() {
+<span class="fc" id="L98">        return title;</span>
+    }
+     /**
+     * Set value for title
+     * 
+     * @param title. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setTitle(String title) {
+<span class="fc" id="L106">        this.title = title;</span>
+<span class="fc" id="L107">    }</span>
+       /**
+     * description data retrieval method
+     * 
+     * @return description. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getDescription() {
+<span class="fc" id="L114">        return description;</span>
+    }
+    /**
+     * Set value for description
+     * 
+     * @param description. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setDescription(String description) {
+<span class="fc" id="L122">        this.description = description;</span>
+<span class="fc" id="L123">    }</span>
+     /**
+     * image data retrieval method
+     * 
+     * @return image. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getImage() {
+<span class="nc" id="L130">        return image;</span>
+    }
+   /**
+     * Set value for image
+     * 
+     * @param image. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setImage(String image) {
+<span class="nc" id="L138">        this.image = image;</span>
+<span class="nc" id="L139">    }</span>
+    /**
+     * createName data retrieval method
+     * 
+     * @return createName. &lt;code&gt;java.lang.Integer&lt;/code&gt; object
+     */
+    public String getCreateName() {
+<span class="fc" id="L146">        return createName;</span>
+    }
+    /**
+     * Set value for createName
+     * 
+     * @param createName. &lt;code&gt;java.lang.Integer&lt;/code&gt; object 
+     */
+    public void setCreateName(String createName) {
+<span class="fc" id="L154">        this.createName = createName;</span>
+<span class="fc" id="L155">    }</span>
+     /**
+     * The method used to print the attribute values of Knowledge
+     * 
+     * @return &lt;code&gt;java.lang.String&lt;/code&gt; object
+     */
+       public int getView() {
+<span class="nc" id="L162">        return view;</span>
+    }
+
+    public void setView(int view) {
+<span class="nc" id="L166">        this.view = view;</span>
+<span class="nc" id="L167">    }</span>
+<span class="nc" id="L168">     public ArticleBean(int id, String title, String description, String image, String pulished, String createName,int view) {</span>
+<span class="nc" id="L169">        this.id = id;</span>
+<span class="nc" id="L170">        this.title = title;</span>
+<span class="nc" id="L171">        this.description = description;</span>
+<span class="nc" id="L172">        this.image = image;</span>
+<span class="nc" id="L173">        this.createName = createName;</span>
+<span class="nc" id="L174">        this.view = view;</span>
+<span class="nc" id="L175">        this.pulished = pulished;</span>
+<span class="nc" id="L176">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L180">        return &quot;ArticleBean{&quot; + &quot;id=&quot; + id + &quot;, title=&quot; + title + &quot;, description=&quot; + description + &quot;, image=&quot; + image + &quot;, createName=&quot; + createName + &quot;, pulished=&quot; + pulished + '}';</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

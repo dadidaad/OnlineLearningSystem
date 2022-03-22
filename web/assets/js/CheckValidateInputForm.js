@@ -20,7 +20,10 @@ $.validator.addMethod("pwcheck", function (value) {
     return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
 });
 $.validator.addMethod("usernamecheck", function (value) {
-    return /^[a-zA-Z0-9]+$/.test(value);
+    return /^[a-zA-Z0-9]+$/.test(value.trim());
+});
+$.validator.addMethod("lengthcheck", function (value) {
+    return value.trim().length > 5 || value.trim().length < 21;
 });
 $.validator.addMethod("emailcheck", function (value) {
     return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value);
@@ -46,9 +49,9 @@ $.validator.addMethod("dobcheck", function (value) {
 $('#editProfile-form').validate({
     rules: {
         displayName: {
-            maxlength: 20,
             required: true,
-            namecheck: true
+            namecheck: true,
+            lengthcheck: true
         },
         dob: {
             required: true,
@@ -57,7 +60,8 @@ $('#editProfile-form').validate({
     },
     messages: {
         displayName: {
-            namecheck: "Not allow only space or number"
+            namecheck: "Not allow only space or number",
+            lengthcheck: "Must from 6 and 20 characters"
         },
         dob: {
             dobcheck: 'Must from 01/01/1900 -> now'
@@ -83,13 +87,12 @@ $('#editProfile-form').validate({
 $('#changepw-form').validate({
     rules: {
         newPassword: {
-            minlength: 6,
-            maxlength: 20,
             required: true,
             //pwcheck: true,
             checklower: true,
             checkupper: true,
             checkdigit: true,
+            lengthcheck: true
         },
         confirmPassword: {
             equalTo: "#password_new"
@@ -207,22 +210,20 @@ $('#forgotPassword-form').validate({
 $('#signup-form').validate({
     rules: {
         password: {
-            minlength: 6,
-            maxlength: 20,
             required: true,
             //pwcheck: true,
             checklower: true,
             checkupper: true,
-            checkdigit: true
+            checkdigit: true,
+            lengthcheck: true
         },
         confirmPassword: {
             equalTo: "#password_reg",
         },
         username: {
-            minlength: 6,
-            maxlength: 20,
             required: true,
-            usernamecheck: true
+            usernamecheck: true,
+            lengthcheck: true
         },
         email: {
             required: true,
@@ -234,10 +235,12 @@ $('#signup-form').validate({
             pwcheck: "Password is not strong enough",
             checklower: "Need at least 1 lowercase alphabet",
             checkupper: "Need at least 1 uppercase alphabet",
-            checkdigit: "Need at least 1 digit"
+            checkdigit: "Need at least 1 digit",
+            lengthcheck: "Must from 6 and 20 characters"
         },
         username: {
-            usernamecheck: "Must only contains alphabet and number"
+            usernamecheck: "Must only contains alphabet and number",
+            lengthcheck: "Must from 6 and 20 characters"
         },
         email: {
             emailcheck: "Invalid format email"

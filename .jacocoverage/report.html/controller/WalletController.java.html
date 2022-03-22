@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WalletController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">WalletController.java</span></div><h1>WalletController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+
+ * ViewRequestTeaController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-07   1.0         Danh Tinh    First Implement
+ */
+package controller;
+
+import bean.AccountBean;
+import bean.FinanceBean;
+import bean.NotificationBean;
+import bean.PaginationBean;
+import dao.AccountDAO;
+import dao.INotificationDAO;
+import dao.NotificationDAO;
+import dao.WalletDAO;
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utils.DateCompare;
+
+/**
+ *
+ * @author tinht
+ */
+<span class="nc" id="L33">public class WalletController extends HttpServlet {</span>
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L38">        HttpSession session = request.getSession();</span>
+
+<span class="nc" id="L40">        WalletDAO db = new WalletDAO();</span>
+<span class="nc" id="L41">        AccountBean account = (AccountBean) session.getAttribute(&quot;user&quot;);</span>
+<span class="nc" id="L42">        List&lt;FinanceBean&gt; list = db.GetAllFinanceHistory(account);</span>
+
+        /*Notification*/
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (account != null) {</span>
+<span class="nc" id="L46">            INotificationDAO iNotificationDAO = new NotificationDAO();</span>
+
+<span class="nc" id="L48">            int notiUnread = iNotificationDAO.getTotalNotiUnread(account.getUsername());</span>
+<span class="nc" id="L49">            request.setAttribute(&quot;notiUnread&quot;, notiUnread);</span>
+<span class="nc" id="L50">            List&lt;NotificationBean&gt; notiList = iNotificationDAO.getTopNotification(account.getUsername());</span>
+<span class="nc" id="L51">            request.setAttribute(&quot;notificationList&quot;, notiList);</span>
+        }
+
+        int page;
+<span class="nc" id="L55">        int row_per_page = 6;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (request.getParameter(&quot;page&quot;) != null) {</span>
+<span class="nc" id="L57">            page = (Integer.parseInt(request.getParameter(&quot;page&quot;)));</span>
+        } else {
+<span class="nc" id="L59">            page = 1;</span>
+        }
+
+<span class="nc" id="L62">        DateCompare dc = new DateCompare();</span>
+
+<span class="nc" id="L64">        list = dc.sortedList(list);</span>
+<span class="nc" id="L65">        PaginationBean pagination = new PaginationBean(page, row_per_page, list.size());</span>
+<span class="nc" id="L66">        list = db.GetFinanceHistoryByPage(list, page, row_per_page);</span>
+
+<span class="nc" id="L68">        request.setAttribute(&quot;listFinance&quot;, list);</span>
+<span class="nc" id="L69">        request.setAttribute(&quot;page&quot;, page);</span>
+<span class="nc" id="L70">        request.setAttribute(&quot;row_per_page&quot;, row_per_page);</span>
+<span class="nc" id="L71">        request.setAttribute(&quot;pagination&quot;, pagination);</span>
+<span class="nc" id="L72">        request.getRequestDispatcher(&quot;./view/Wallet.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L78">        HttpSession session = request.getSession();</span>
+
+<span class="nc" id="L80">        WalletDAO walletDB = new WalletDAO();</span>
+<span class="nc" id="L81">        AccountDAO accountDB = new AccountDAO();</span>
+
+<span class="nc" id="L83">        AccountBean account = (AccountBean) session.getAttribute(&quot;user&quot;);</span>
+<span class="nc" id="L84">        double cash = account.getCash().doubleValue();</span>
+<span class="nc" id="L85">        String status = &quot;&quot;;</span>
+<span class="nc" id="L86">        String warning = &quot;&quot;;</span>
+<span class="nc" id="L87">        double amount = 0;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (request.getParameter(&quot;amount&quot;) != null) {</span>
+<span class="nc" id="L89">            amount = Integer.parseInt(request.getParameter(&quot;amount&quot;));</span>
+        }
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (request.getParameter(&quot;status&quot;) != null) {</span>
+<span class="nc" id="L93">            status = request.getParameter(&quot;status&quot;);</span>
+        }
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (status.equals(&quot;withdrawal&quot;)) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (amount &gt; 0) {</span>
+<span class="nc" id="L98">                amount = -amount;</span>
+            }
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            if (cash + amount &gt;= 0) {</span>
+<span class="nc" id="L101">                walletDB.UpdateMoney(account, amount, &quot;admin&quot;, status);</span>
+<span class="nc" id="L102">                warning = &quot;successed!&quot;;</span>
+            } else {
+<span class="nc" id="L104">                warning = &quot;failed&quot;;</span>
+            }
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        } else if (status.equals(&quot;recharge&quot;)) {</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (amount &gt;= 0) {</span>
+<span class="nc" id="L109">                walletDB.UpdateMoney(account, amount, &quot;admin&quot;, status);</span>
+<span class="nc" id="L110">                warning = &quot;successed!&quot;;</span>
+            } else {
+<span class="nc" id="L112">                warning = &quot;failed&quot;;</span>
+            }
+        }
+
+<span class="nc" id="L116">        amount = 0;</span>
+
+<span class="nc" id="L118">        account = accountDB.getAccountByUsername(account.getUsername());</span>
+<span class="nc" id="L119">        session.setAttribute(&quot;user&quot;, account);</span>
+<span class="nc" id="L120">        request.setAttribute(&quot;warning&quot;, warning);</span>
+<span class="nc" id="L121">        request.setAttribute(&quot;amount&quot;, amount);</span>
+<span class="nc" id="L122">        response.sendRedirect(&quot;Wallet&quot;);</span>
+
+<span class="nc" id="L124">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L133">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

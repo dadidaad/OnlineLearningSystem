@@ -65,8 +65,8 @@ public class EditProfileController extends HttpServlet {
             HttpSession session = request.getSession(false); //get session from request
             AccountBean loginUser = (AccountBean) session.getAttribute("user"); //check user login, if not exist then redirect to login
             String avatarPath = null;
-            Part avatar = request.getPart("avatar"); //get part object of avatar
-            if (avatar != null) {
+            Part avatar = request.getPart("avatar"); //vatar.getSubmittedFileName()) != null || !FilenameUtils.getExtensiget part object of avatar
+            if (FilenameUtils.getExtension(avatar.getSubmittedFileName()) != null || !FilenameUtils.getExtension(avatar.getSubmittedFileName()).equals("//s+")) {
                 String fileName = "ava_" + loginUser.getUsername() + "." + FilenameUtils.getExtension(avatar.getSubmittedFileName()); // create name for picture
                 InputStream is = avatar.getInputStream();
                 Files.copy(is, Paths.get(uploadFolder + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING); //upload to server image
@@ -77,7 +77,9 @@ public class EditProfileController extends HttpServlet {
             String dob = request.getParameter("dob").trim();
             IAccountDAO accountDAO = new AccountDAO();
             /*set new information for user*/
-            loginUser.setAvatar(avatarPath);
+            if (avatarPath != null) {
+                loginUser.setAvatar(avatarPath);
+            }
             loginUser.setDisplayName(displayName);
             loginUser.setDateOfBirth(Date.valueOf(dob));
             loginUser.setDescription(description);

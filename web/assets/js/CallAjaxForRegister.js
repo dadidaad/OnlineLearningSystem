@@ -29,10 +29,10 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
     $('#resend-btn').click(function () {
-        var uname = $('#username').val();
-        var email = $('#email').val();
-        var sex = $('#sex').val();
-        var pw = $('#password_reg').val();
+        var uname = $('#username').val().trim();
+        var email = $('#email').val().trim();
+        var sex = $('#sex').val().trim();
+        var pw = $('#password_reg').val().trim();
         $.ajax({
             url: 'ResendToken',
             data: {"username": uname, "email": email, "sex": sex, "password": pw},

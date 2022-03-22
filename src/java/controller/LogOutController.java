@@ -42,8 +42,9 @@ public class LogOutController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             response.setHeader("Cache-Control", "no-cache, no-store");
             response.setHeader("Pragma", "no-cache");
-
-            request.getSession().invalidate(); // kill all session exist in request
+            if (request.getSession(false) != null) {
+                request.getSession().invalidate(); // kill all session exist in request
+            }
             response.sendRedirect("Home"); //redirect to Home
         } catch (Exception e) {
             Logger.getLogger(LogOutController.class.getName()).log(Level.SEVERE, null, e);

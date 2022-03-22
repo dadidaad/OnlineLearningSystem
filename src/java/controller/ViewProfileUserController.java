@@ -12,6 +12,7 @@ package controller;
 import bean.AccountBean;
 import bean.NotificationBean;
 import bean.SubjectBean;
+import bean.TeacherBean;
 import dao.INotificationDAO;
 import dao.ISubjectDAO;
 import dao.ITeacherDAO;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.AppUtils;
 
 /**
  * This is a Servlet responsible for view detail information of login user in
@@ -50,8 +52,7 @@ public class ViewProfileUserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(false); //call session in request
-            AccountBean loginUser = (AccountBean) session.getAttribute("user"); //get account bean object in session
+            AccountBean loginUser = AppUtils.getLoginedUser(request.getSession(false));
             /* check if user is existed in session, if not then redirect to login */
             if (loginUser == null) {
                 response.sendRedirect("Login");
@@ -60,8 +61,8 @@ public class ViewProfileUserController extends HttpServlet {
             ISubjectDAO subjectDAO = new SubjectDAO();
             List<SubjectBean> listSubject = subjectDAO.getAllSubject();
             ITeacherDAO teacherDAO = new TeacherDAO();
-            boolean checkTeacherStatus = teacherDAO.checkTeacherStatus(loginUser.getUsername());
-            request.setAttribute("teacherStatus", checkTeacherStatus);
+            TeacherBean getTeacher = teacherDAO.getTeacherCV(loginUser.getUsername());
+            request.setAttribute("teacherGet", getTeacher);
             request.setAttribute("listSubject", listSubject);
             request.setAttribute("userProfile", loginUser);
             

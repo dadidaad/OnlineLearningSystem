@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ConstantDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">ConstantDAO.java</span></div><h1>ConstantDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * ConstantDAO 
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-22   2.0         Doan Tu    First Implement
+ */
+package dao;
+
+import bean.ConstantBean;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * This class contain method to find Constant information from database Extend
+ * BaseDAO class to call getConnection() method Implement IConstantDAO Interface
+ *
+ * @author Doan Tu
+ */
+<span class="nc" id="L26">public class ConstantDAO extends BaseDAO implements IConstantDAO {</span>
+    
+    /**
+     * getAllConstant() method implement from IConstantDAO
+     * 
+     * @return constants. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;ConstantBean&gt; getAllConstant() throws SQLException {
+<span class="nc" id="L35">        ArrayList&lt;ConstantBean&gt; constants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L36">        Connection conn = null;</span>
+<span class="nc" id="L37">        PreparedStatement statement = null;</span>
+<span class="nc" id="L38">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="nc" id="L41">            conn = getConnection();</span>
+<span class="nc" id="L42">            String sql = &quot;select * from Constant&quot;;</span>
+<span class="nc" id="L43">            statement = conn.prepareStatement(sql);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="nc" id="L46">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L50">                ConstantBean c = new ConstantBean();</span>
+<span class="nc" id="L51">                c.setConstantID(rs.getInt(&quot;ConstantID&quot;));</span>
+<span class="nc" id="L52">                c.setConstantName(rs.getString(&quot;ConstantName&quot;));</span>
+<span class="nc" id="L53">                c.setValue(rs.getString(&quot;Value&quot;));</span>
+<span class="nc" id="L54">                c.setUnit(rs.getString(&quot;Unit&quot;));</span>
+<span class="nc" id="L55">                c.setSign(rs.getString(&quot;Sign&quot;));</span>
+<span class="nc" id="L56">                c.setReadingConvention(rs.getString(&quot;ReadingConvention&quot;));</span>
+<span class="nc" id="L57">                c.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L58">                constants.add(c);</span>
+<span class="nc" id="L59">            }</span>
+<span class="nc" id="L60">        } catch (SQLException ex) {</span>
+<span class="nc" id="L61">            Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L62">            throw(ex);</span>
+        }finally{
+<span class="nc" id="L64">            close(conn, statement, rs);</span>
+<span class="nc" id="L65">        }</span>
+<span class="nc" id="L66">        return constants;</span>
+    }
+
+    /**
+     * getByConstantName method implement from IConstantDAO
+     * 
+     * @param constantName, &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @return constants. &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;ConstantBean&gt; getByConstantName(String constantName) throws SQLException {
+<span class="nc" id="L77">        ArrayList&lt;ConstantBean&gt; constants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L78">        Connection conn = null;</span>
+<span class="nc" id="L79">        PreparedStatement statement = null;</span>
+<span class="nc" id="L80">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="nc" id="L83">            conn = getConnection();</span>
+<span class="nc" id="L84">            String sql = &quot;select * from Constant where ConstantName like N'%&quot; + constantName + &quot;%'&quot;;</span>
+<span class="nc" id="L85">            statement = conn.prepareStatement(sql);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="nc" id="L88">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L92">                ConstantBean c = new ConstantBean();</span>
+<span class="nc" id="L93">                c.setConstantID(rs.getInt(&quot;ConstantID&quot;));</span>
+<span class="nc" id="L94">                c.setConstantName(rs.getString(&quot;ConstantName&quot;));</span>
+<span class="nc" id="L95">                c.setValue(rs.getString(&quot;Value&quot;));</span>
+<span class="nc" id="L96">                c.setUnit(rs.getString(&quot;Unit&quot;));</span>
+<span class="nc" id="L97">                c.setSign(rs.getString(&quot;Sign&quot;));</span>
+<span class="nc" id="L98">                c.setReadingConvention(rs.getString(&quot;ReadingConvention&quot;));</span>
+<span class="nc" id="L99">                c.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L100">                constants.add(c);</span>
+<span class="nc" id="L101">            }</span>
+<span class="nc" id="L102">        } catch (SQLException ex) {</span>
+<span class="nc" id="L103">            Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L104">            throw(ex);</span>
+        }finally{
+<span class="nc" id="L106">            close(conn, statement, rs);</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">        return constants;</span>
+    }
+
+    /**
+     * getBySignOrConvention method implement from IConstantDAO
+     * 
+     * @param sign. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @return &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;ConstantBean&gt; getBySignOrConvention(String sign) throws SQLException {
+<span class="nc" id="L119">        ArrayList&lt;ConstantBean&gt; constants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L120">        Connection conn = null;</span>
+<span class="nc" id="L121">        PreparedStatement statement = null;</span>
+<span class="nc" id="L122">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="nc" id="L125">            conn = getConnection();</span>
+<span class="nc" id="L126">            String sql = &quot;select * from Constant where [Sign] like N'%&quot; + sign + &quot;%' or ReadingConvention like N'%&quot; +sign + &quot;%'&quot;;</span>
+<span class="nc" id="L127">            statement = conn.prepareStatement(sql);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="nc" id="L130">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L134">                ConstantBean c = new ConstantBean();</span>
+<span class="nc" id="L135">                c.setConstantID(rs.getInt(&quot;ConstantID&quot;));</span>
+<span class="nc" id="L136">                c.setConstantName(rs.getString(&quot;ConstantName&quot;));</span>
+<span class="nc" id="L137">                c.setValue(rs.getString(&quot;Value&quot;));</span>
+<span class="nc" id="L138">                c.setUnit(rs.getString(&quot;Unit&quot;));</span>
+<span class="nc" id="L139">                c.setSign(rs.getString(&quot;Sign&quot;));</span>
+<span class="nc" id="L140">                c.setReadingConvention(rs.getString(&quot;ReadingConvention&quot;));</span>
+<span class="nc" id="L141">                c.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L142">                constants.add(c);</span>
+<span class="nc" id="L143">            }</span>
+<span class="nc" id="L144">        } catch (SQLException ex) {</span>
+<span class="nc" id="L145">            Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L146">            throw(ex);</span>
+        }finally{
+<span class="nc" id="L148">            close(conn, statement, rs);</span>
+<span class="nc" id="L149">        }</span>
+<span class="nc" id="L150">        return constants;</span>
+    }
+  
+    /**
+     * getByNameAndSign method implement from IConstantDAO
+     * 
+     * @param name. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @param sign. &lt;code&gt;java.lang.String&lt;/code&gt; object
+     * @return &lt;code&gt;java.util.ArrayList&lt;/code&gt; object
+     */
+    @Override
+    public ArrayList&lt;ConstantBean&gt; getByNameAndSign(String name, String sign) throws SQLException {
+<span class="nc" id="L162">        ArrayList&lt;ConstantBean&gt; constants = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L163">        Connection conn = null;</span>
+<span class="nc" id="L164">        PreparedStatement statement = null;</span>
+<span class="nc" id="L165">        ResultSet rs = null;</span>
+        try {
+            /*Set up connection and Sql statement for Querry*/
+<span class="nc" id="L168">            conn = getConnection();</span>
+<span class="nc" id="L169">            String sql = &quot;select * from Constant where &quot;</span>
+                    + &quot;ConstantName like N'%&quot; + name + &quot;%' &quot;
+                    + &quot;and ([Sign] like N'%&quot; +sign + &quot;%'&quot;
+                    + &quot;or ReadingConvention like N'%&quot; + sign + &quot;%')&quot;;
+<span class="nc" id="L173">            statement = conn.prepareStatement(sql);</span>
+
+            /*Querry and save in ResultSet*/
+<span class="nc" id="L176">            rs = statement.executeQuery();</span>
+
+            /*Assign data to an arraylist of ChapterBean*/
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L180">                ConstantBean c = new ConstantBean();</span>
+<span class="nc" id="L181">                c.setConstantID(rs.getInt(&quot;ConstantID&quot;));</span>
+<span class="nc" id="L182">                c.setConstantName(rs.getString(&quot;ConstantName&quot;));</span>
+<span class="nc" id="L183">                c.setValue(rs.getString(&quot;Value&quot;));</span>
+<span class="nc" id="L184">                c.setUnit(rs.getString(&quot;Unit&quot;));</span>
+<span class="nc" id="L185">                c.setSign(rs.getString(&quot;Sign&quot;));</span>
+<span class="nc" id="L186">                c.setReadingConvention(rs.getString(&quot;ReadingConvention&quot;));</span>
+<span class="nc" id="L187">                c.setDescription(rs.getString(&quot;Description&quot;));</span>
+<span class="nc" id="L188">                constants.add(c);</span>
+<span class="nc" id="L189">            }</span>
+<span class="nc" id="L190">        } catch (SQLException ex) {</span>
+<span class="nc" id="L191">            Logger.getLogger(ConstantDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L192">            throw(ex);</span>
+        }finally{
+<span class="nc" id="L194">            close(conn, statement, rs);</span>
+<span class="nc" id="L195">        }</span>
+<span class="nc" id="L196">        return constants;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

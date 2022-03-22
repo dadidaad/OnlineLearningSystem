@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         try (PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username").trim(); // get username input from Login form
-            String password = request.getParameter("password").trim(); // get password input from Login form
+            String password = request.getParameter("password"); // get password input from Login form
             Map<String, String> messages = new HashMap<>(); //initalize hashmap to hold message 
             messages.put("username", username);
             messages.put("password", password);

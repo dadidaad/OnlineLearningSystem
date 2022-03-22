@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SecurityFilter.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">filter</a> &gt; <span class="el_source">SecurityFilter.java</span></div><h1>SecurityFilter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C) 2022, FPT University.
+ * OLS
+ * Online Learning System
+ * SecurityFilter
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-03-09      1.0                 Dajtvox          
+ */
+package filter;
+
+import bean.AccountBean;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
+import utils.SecurityUtils;
+import wrapper.UserRoleRequestWrapper;
+
+/**
+ * The filter contains method doFilter to handle form-base authentication
+ * Bugs: Still not have yet
+ *
+ * @author Dajtvox
+ */
+public class SecurityFilter implements Filter {
+
+<span class="nc" id="L34">    public SecurityFilter() {</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     *
+     * @param req The servlet request we are processing
+     * @param res The servlet response we are creating
+     * @param chain The filter chain we are processing
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception ServletException if a servlet error occurs
+     */
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res,
+            FilterChain chain)
+            throws IOException, ServletException {
+<span class="nc" id="L50">        HttpServletRequest request = (HttpServletRequest) req;</span>
+<span class="nc" id="L51">        HttpServletResponse response = (HttpServletResponse) res;</span>
+<span class="nc" id="L52">        String servletPath = request.getServletPath();</span>
+<span class="nc" id="L53">        AccountBean loginedUser = AppUtils.getLoginedUser(request.getSession());</span>
+<span class="nc bnc" id="L54" title="All 6 branches missed.">        if (servletPath.equals(&quot;/Login&quot;) || servletPath.equals(&quot;/SignUp&quot;) || servletPath.equals(&quot;/ResetPassword&quot;)) {</span>
+<span class="nc" id="L55">            chain.doFilter(request, response);</span>
+<span class="nc" id="L56">            return;</span>
+        }
+<span class="nc" id="L58">        HttpServletRequest wrapRequest = request;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (loginedUser != null) {</span>
+<span class="nc" id="L60">            String username = loginedUser.getUsername();</span>
+<span class="nc" id="L61">            String role = loginedUser.getRole();</span>
+<span class="nc" id="L62">            wrapRequest = new UserRoleRequestWrapper(username, role, request);</span>
+        }
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (SecurityUtils.isSecurityPage(request)) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (loginedUser == null) {</span>
+<span class="nc" id="L66">                String requestUri = request.getRequestURI();</span>
+<span class="nc" id="L67">                int redirectId = AppUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);</span>
+<span class="nc" id="L68">                response.sendRedirect(wrapRequest.getContextPath() + &quot;/Login?redirectId=&quot; + redirectId);</span>
+<span class="nc" id="L69">                return;</span>
+            }
+<span class="nc" id="L71">            boolean hasPermission = SecurityUtils.hasPermission(wrapRequest);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (!hasPermission) {</span>
+<span class="nc" id="L73">                request.getRequestDispatcher(&quot;./view/AccessDenied.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L74">                return;</span>
+            }
+        }
+<span class="nc" id="L77">        chain.doFilter(wrapRequest, response);</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * Return the filter configuration object for this filter.
+     *
+     * /**
+     * Destroy method for this filter
+     */
+    @Override
+    public void destroy() {
+<span class="nc" id="L88">    }</span>
+
+    /**
+     * Init method for this filter
+     *
+     * @param filterConfig
+     */
+    @Override
+    public void init(FilterConfig filterConfig) {
+
+<span class="nc" id="L98">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

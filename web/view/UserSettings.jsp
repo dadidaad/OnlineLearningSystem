@@ -156,7 +156,7 @@
                                     </c:if>
                                     <c:forEach items="${requestScope.notificationList}" var ="n" varStatus="loop">
                                         <a href="<c:if test="${n.getLinkDirect()!=null}">${n.getLinkDirect()}</c:if><c:if test="${n.getLinkDirect()==null}">#</c:if>" style="color: Black;">
-                                            <div class="alert alert-warning alert-dismissible fade show noti-item" role="alert">
+                                                <div class="alert alert-warning alert-dismissible fade show noti-item" role="alert">
                                                 <c:set var="notiTitle" value="${n.getTitle()}"></c:set>
                                                 <c:if test="${fn:toLowerCase(notiTitle) == 'request'}">
                                                     <span class="icon"><i class="fas fa-file-import"></i></span>
@@ -193,8 +193,30 @@
                     </div>
                     <div class="modal-body">
                         <c:choose>
-                            <c:when test = "${requestScope.teacherStatus}">
-                                <p class="fs-5 text-dark">Your CV has been submitted, waiting for admin response</p>
+                            <c:when test = "${requestScope.teacherBean ne null}">
+                                <p class="fs-5 text-dark">Your CV has been submitted, waiting for admin response, you can edit this</p>
+                                <image src="${requestScope.teacherBean.getCv()}" alt="CvSubmit" style="width: 50px; height: 100px;">
+                                <form action="BecomeTutor" method="post" id="becometutor-form" enctype="multipart/form-data">
+                                    <div class="form__group mb-3" x-data="{ fileName: '' }">
+                                        <div class="input-group shadow">
+                                            <span class="input-group-text px-3 text-muted"><i class="fas fa-image fa-lg"></i></span>
+                                            <input type="file" accept="image/*" x-ref="file" @change="fileName = $refs.file.files[0].name" name="teacherCV" class="d-none" required>
+                                            <input type="text" class="form-control form-control-lg" placeholder="Upload your CV" x-model="fileName" disabled required>
+                                            <button class="browse btn btn-dark px-2" type="button" x-on:click.prevent="$refs.file.click()"><i class="fas fa-image"></i> Browse</button>
+                                        </div>
+                                    </div>
+                                    <div class="form__group mb-3">
+                                        <select id="subject" name="subject" class="form__field" required>
+                                            <c:forEach items="${requestScope.listSubject}" var="subject">
+                                                <c:if test="${requestScope.teacherBean.getSubjectId() == subject.subjectID}">
+                                                    <option value="${subject.subjectID}" selected>${subject.subjectName}</option>
+                                                </c:if>
+                                                <option value="${subject.subjectID}">${subject.subjectName}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark">Submit your CV</button>
+                                </form>
                             </c:when>
                             <c:otherwise>
                                 <p class="text-dark fs-4">Send your CV and choose subject</p>

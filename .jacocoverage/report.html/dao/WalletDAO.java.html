@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WalletDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">WalletDAO.java</span></div><h1>WalletDAO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * 
+ * WalletDAO
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-10   1.0         Danh Tinh    First Implement
+ */
+package dao;
+
+import bean.AccountBean;
+import bean.FinanceBean;
+import bean.SubjectBean;
+import static dao.BaseDAO.getConnection;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author tinht
+ */
+<span class="nc" id="L32">public class WalletDAO extends BaseDAO{    </span>
+    public void UpdateMoney(AccountBean currentAccount, double amount, String userGet, String message){
+<span class="nc" id="L34">        double value = currentAccount.getCash().doubleValue() + amount;</span>
+<span class="nc" id="L35">        AddFianaceHistory(currentAccount, amount, message);</span>
+        try {
+<span class="nc" id="L37">            Connection conn = getConnection();</span>
+<span class="nc" id="L38">            String sql = &quot;update [Account] set [Cash In Account] = &quot;+ value</span>
+<span class="nc" id="L39">                    +&quot; where [Username] = '&quot;+ currentAccount.getUsername() +&quot;'&quot;;</span>
+<span class="nc" id="L40">            PreparedStatement statement = conn.prepareStatement(sql);</span>
+            
+<span class="nc" id="L42">            ResultSet rs = statement.executeQuery();</span>
+<span class="nc" id="L43">            conn.close();</span>
+<span class="nc" id="L44">        } catch (SQLException ex) {</span>
+<span class="nc" id="L45">            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+    
+    public List&lt;FinanceBean&gt; GetAllFinanceHistory(AccountBean account){
+<span class="nc" id="L50">        List&lt;FinanceBean&gt; list = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L52">            Connection conn = getConnection();</span>
+<span class="nc" id="L53">            String sql = &quot;select * from [Finance_History] where [UserGet] = ?&quot;;</span>
+            
+<span class="nc" id="L55">            PreparedStatement statement = conn.prepareStatement(sql);</span>
+            
+<span class="nc" id="L57">            statement.setString(1, account.getUsername());</span>
+<span class="nc" id="L58">            ResultSet rs = statement.executeQuery();</span>
+            
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            while (rs.next()) {                </span>
+<span class="nc" id="L61">                list.add(new FinanceBean(rs.getString(&quot;UserGet&quot;), </span>
+<span class="nc" id="L62">                            rs.getString(&quot;Status&quot;), </span>
+<span class="nc" id="L63">                            rs.getBigDecimal(&quot;Money&quot;), </span>
+<span class="nc" id="L64">                            rs.getTimestamp(&quot;Time&quot;), </span>
+<span class="nc" id="L65">                            rs.getString(&quot;Message&quot;), </span>
+<span class="nc" id="L66">                            rs.getString(&quot;UserSent&quot;)));</span>
+            }
+            
+<span class="nc" id="L69">            conn.close();</span>
+<span class="nc" id="L70">        } catch (SQLException e) {</span>
+<span class="nc" id="L71">        }</span>
+        
+<span class="nc" id="L73">        return list;</span>
+    }
+    
+    public List&lt;FinanceBean&gt; GetFinanceHistoryByPage(List&lt;FinanceBean&gt; allList, int page, int row_per_page){
+        List&lt;FinanceBean&gt; pageList;
+<span class="nc" id="L78">        int start = (page - 1)* row_per_page;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(allList.size() - start &lt; row_per_page) row_per_page = allList.size() - start;</span>
+<span class="nc" id="L80">        int end = start + row_per_page;</span>
+        
+<span class="nc" id="L82">        pageList = allList.subList(start, end);</span>
+        
+<span class="nc" id="L84">        return pageList;</span>
+    }
+    
+    public void AddFianaceHistory(AccountBean currentAccount, double amount, String message){
+        try {
+<span class="nc" id="L89">            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd HH:mm:ss&quot;);  </span>
+<span class="nc" id="L90">            LocalDateTime now = LocalDateTime.now();  </span>
+            
+<span class="nc" id="L92">            Connection conn = getConnection();</span>
+<span class="nc" id="L93">            String sql = &quot;insert into [Finance_History] ([UserGet], [Status], [Money], [Time], [Message], [UserSent])\n&quot; +</span>
+                            &quot;values (?, ?, ?, ?, ?, ?)&quot;;
+<span class="nc" id="L95">            PreparedStatement statement = conn.prepareStatement(sql);</span>
+<span class="nc" id="L96">            statement.setString(1, currentAccount.getUsername());</span>
+<span class="nc" id="L97">            statement.setString(2, &quot;True&quot;);</span>
+<span class="nc" id="L98">            statement.setDouble(3, amount);</span>
+<span class="nc" id="L99">            statement.setString(4, dtf.format(now));</span>
+<span class="nc" id="L100">            statement.setString(5, message);</span>
+<span class="nc" id="L101">            statement.setString(6, &quot;admin&quot;);</span>
+<span class="nc" id="L102">            ResultSet rs = statement.executeQuery();</span>
+<span class="nc" id="L103">            conn.close();</span>
+<span class="nc" id="L104">        } catch (SQLException ex) {</span>
+<span class="nc" id="L105">            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L106">        }</span>
+<span class="nc" id="L107">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

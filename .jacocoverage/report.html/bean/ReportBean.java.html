@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReportBean.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;OnlineLearningSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">bean</a> &gt; <span class="el_source">ReportBean.java</span></div><h1>ReportBean.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package bean;
+
+/**
+ *
+ * @author tinht
+ */
+public class ReportBean {
+    int id;
+    String userSent, userReported, message;
+
+<span class="nc" id="L16">    public ReportBean() {</span>
+<span class="nc" id="L17">    }</span>
+
+    
+    
+<span class="nc" id="L21">    public ReportBean(int id, String userSent, String userReported, String message) {</span>
+<span class="nc" id="L22">        this.id = id;</span>
+<span class="nc" id="L23">        this.userSent = userSent;</span>
+<span class="nc" id="L24">        this.userReported = userReported;</span>
+<span class="nc" id="L25">        this.message = message;</span>
+<span class="nc" id="L26">    }</span>
+
+    public int getId() {
+<span class="nc" id="L29">        return id;</span>
+    }
+
+    public String getUserSent() {
+<span class="nc" id="L33">        return userSent;</span>
+    }
+
+    public String getUserReported() {
+<span class="nc" id="L37">        return userReported;</span>
+    }
+
+    public String getMessage() {
+<span class="nc" id="L41">        return message;</span>
+    }
+
+    public void setId(int id) {
+<span class="nc" id="L45">        this.id = id;</span>
+<span class="nc" id="L46">    }</span>
+
+    public void setUserSent(String userSent) {
+<span class="nc" id="L49">        this.userSent = userSent;</span>
+<span class="nc" id="L50">    }</span>
+
+    public void setUserReported(String userReported) {
+<span class="nc" id="L53">        this.userReported = userReported;</span>
+<span class="nc" id="L54">    }</span>
+
+    public void setMessage(String message) {
+<span class="nc" id="L57">        this.message = message;</span>
+<span class="nc" id="L58">    }</span>
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
