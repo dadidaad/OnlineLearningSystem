@@ -138,18 +138,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
     }
     public static void main(String[] args) {
         INotificationDAO dal = new NotificationDAO();
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-//
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-//
-        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Subject", "Add Subject Successfully")));
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Fail!")));
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Admin", "Change Password Successfully")));
-//
-//        System.out.println(dal.insertNotification(new NotificationBean("minhduc07","Forum", "Delete Article Successfully")));
+        System.out.println(dal.getTotalNoti("minhduc07"));
 //        System.out.println(iNotificationDAO.updateReadedNotification());
 //        List<NotificationBean> list = dal.getTop5Notification();
 //        for(NotificationBean n : list){

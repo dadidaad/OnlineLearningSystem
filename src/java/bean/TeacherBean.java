@@ -57,7 +57,14 @@ public class TeacherBean extends AccountBean{
         this.statusApply = statusApply;
         this.reputation = reputation;
     }
-
+    public TeacherBean(String username, String cvImg, int subjectId, String statusApply, double reputation) {
+        super.setUsername(username);
+        this.cvImg = cvImg;
+        this.subjectId = subjectId;
+        this.statusApply = statusApply;
+        this.reputation = reputation;
+    }
+    
     /**
      * The method used to print the attribute values of Teacher
      * 
@@ -137,5 +144,20 @@ public class TeacherBean extends AccountBean{
      */
     public void setReputation(double reputation) {
         this.reputation = reputation;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TeacherBean) {
+            TeacherBean another = (TeacherBean) obj;
+            if (this.cvImg.equals(another.cvImg) 
+                    && this.statusApply.equals(another.statusApply) 
+                    && this.getUsername().equals(another.getUsername())
+                    && this.subjectId == another.subjectId             
+                    && this.reputation==another.reputation){
+                    return true;
+            }
+        }
+        return false; //To change body of generated methods, choose Tools | Templates.
     }
 }

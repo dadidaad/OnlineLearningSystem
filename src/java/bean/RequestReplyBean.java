@@ -106,6 +106,20 @@ public class RequestReplyBean {
     public void setImageLinkReply(String imageLinkReply) {
         this.imageLinkReply = imageLinkReply;
     }
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RequestReplyBean) {
+            RequestReplyBean another = (RequestReplyBean) obj;
+            if (this.requestID==another.getRequestID() 
+                    && this.contentReply.equals(another.contentReply) 
+                    && this.studentGet.equals(another.studentGet)
+                    && this.tutorSent.equals(another.tutorSent)
+                    && this.imageLinkReply.equals(another.imageLinkReply)
+                    && this.createdTimeReply.compareTo(another.createdTimeReply)==0){
+                    return true;
+            }
+        }
+        return false; //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

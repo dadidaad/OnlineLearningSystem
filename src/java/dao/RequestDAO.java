@@ -185,7 +185,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select t.*\n" 
+            String sql = "select t.*\n"
                     + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request, Request_Reply where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ?  and Request.[Status]= ?)t\n"
                     + "Where  e between ? and ?";
             statement = conn.prepareStatement(sql);
@@ -271,6 +271,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     /**
      * createRequest method implement from IRequestDAO This method create
      * request and add to the databse
+     * @param rq
      */
     @Override
     public int createRequest(RequestBean rq) {
@@ -344,6 +345,34 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
+     * updateRequest method implement from IRequestDAO This method update the
+     * request and update to database
+     */
+    @Override
+    public int updateRequestTime(int rqId) {
+        int totalRow = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            /*Set up connection and Sql statement for Query */
+            conn = getConnection();
+            String sql = "update Request\n"
+                    + " set CreatedTime = GETDATE()  WHERE RequestID = ?";
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, rqId);
+            /*Excuse Query*/
+            totalRow = statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(conn, statement, rs);
+        }
+        return totalRow;
+    }
+
+    /**
      * updateRequestStatus method implement from IRequestDAO This method update
      * the status of request and update to database
      */
@@ -360,7 +389,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
                     + "set [Status] = ?\n"
                     + "where RequestID = ?";
             statement = conn.prepareStatement(sql);
-            statement.setString(1, status);
+            statement.setString(1, status.replaceAll("\\s\\s+", "").trim());
             statement.setInt(2, requestId);
 
 
@@ -894,13 +923,14 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         }
         return requests;
     }
+
     public static void main(String[] args) {
         RequestDAO dal = new RequestDAO();
         ArrayList<RequestBean> list = dal.getRequestForTeacher("ducgiang", "Approved", 1, 10);
-        for(RequestBean r : list){
+        for (RequestBean r : list) {
             System.out.println(r);
         }
-        
+
     }
 
     @Override
@@ -912,8 +942,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select top 1 RequestID\n" 
-                    + "from Request\n" 
+            String sql = "select top 1 RequestID\n"
+                    + "from Request\n"
                     + "order by RequestID desc";
 
             statement = conn.prepareStatement(sql);

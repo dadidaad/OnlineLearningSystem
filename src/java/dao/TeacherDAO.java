@@ -39,12 +39,12 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             /*Set up connection and Sql statement for Query */
             Connection conn = getConnection();
             String sql = "select Account.*, t.*\n"
-                    + "from Account, (select Tutor.*, ROW_NUMBER() OVER (ORDER BY Tutor.Reputation desc) as r from Tutor) as t\n"
+                    + "from Account, (select Tutor.*, ROW_NUMBER() OVER (ORDER BY Tutor.Reputation desc) as r from Tutor where Tutor.[Status]='Approved') as t\n"
                     + "where Account.Username = t.Username and Account.[Role] = 'Teacher' and t.[Status] = 'Approved' and r between ? and ?";
             PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, (pageindex - 1) * pagesize);
-            statement.setInt(2, pagesize);
+            statement.setInt(2, pagesize*pageindex-1);
             /*Query and save in ResultSet */
             ResultSet rs = statement.executeQuery();
 
@@ -1086,7 +1086,8 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
     }
     public static void main(String[] args) {
         TeacherDAO dal = new TeacherDAO();
-        System.out.println(dal.getTeacherApplyBySearching("Waiting", "tung", 1, 20).size());
+        System.out.println(dal.getTotalTeacher());
+        System.out.println(dal.getAllTeacher(10, 15).size());
 //        System.out.println(dal.getTotalTeacherApplySearch("giang"));
 //System.out.println(dal.checkTeacherStatus("ducgiang"));
                 

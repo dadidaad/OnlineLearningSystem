@@ -9,6 +9,8 @@
 package bean;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * The class contains information attribute about Request Model All attributes
@@ -272,4 +274,24 @@ public class RequestBean {
         this.level = level;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RequestBean) {
+            RequestBean another = (RequestBean) obj;
+            if (this.requestID==another.getRequestID() 
+                    && this.studentSent.equals(another.studentSent) 
+                    && this.tutorGet.equals(another.tutorGet) 
+                    && this.status.equals(another.status) 
+                    && this.cost==another.cost 
+                    && this.content.equals(another.content)
+                    && this.imageLink.equals(another.imageLink)
+                    && this.subjectID==another.subjectID
+                    && this.level==another.level
+                    && this.title.endsWith(another.title)              
+                    && this.createdTime.compareTo(another.createdTime)==0){
+                    return true;
+            }
+        }
+        return false; //To change body of generated methods, choose Tools | Templates.
+    }
 }

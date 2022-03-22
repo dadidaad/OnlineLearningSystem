@@ -142,4 +142,5 @@ public interface IRequestDAO {
      * @return requestId. <code>java.lang.Integer</code> object
      */
     public int getLastRequestId();
+    public int updateRequestTime(int rqId);
 }

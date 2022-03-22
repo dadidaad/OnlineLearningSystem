@@ -185,7 +185,23 @@ public class NotificationBean {
     public String toString() {
         return "NotificationBean{" + "notificationID=" + notificationID + ", username=" + username + ", title=" + title + ", content=" + content + ", timeCreate=" + timeCreate + ", read=" + read + '}';
     }
-
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof NotificationBean) {
+            NotificationBean another = (NotificationBean) obj;
+            if (this.content.equals(another.content) 
+                    && this.linkDirect.equals(another.linkDirect) 
+                    && this.read == another.read             
+                    && this.notificationID==another.notificationID
+                    && this.timeCreate.compareTo(another.timeCreate)==0
+                    && this.title.equals(another.title)
+                    && this.username.endsWith(another.username)){
+                    return true;
+            }
+        }
+        return false; //To change body of generated methods, choose Tools | Templates.
+    }
      
     
 }
