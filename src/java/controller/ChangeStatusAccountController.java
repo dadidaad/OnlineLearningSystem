@@ -17,6 +17,8 @@ import dao.INotificationDAO;
 import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -127,8 +129,8 @@ public class ChangeStatusAccountController extends HttpServlet {
 //        "<input type=\"submit\" class=\"btn btn-primary mt-3\" value=\"ReupLoad Request\" />\n" +
 "                </form>");
         
-        }catch (Exception e){
-        
+        } catch (Exception ex) {
+            Logger.getLogger(ChangeStatusAccountController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

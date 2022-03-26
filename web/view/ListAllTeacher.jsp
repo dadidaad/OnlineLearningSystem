@@ -344,7 +344,7 @@
         <script>
 
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
-                                                window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+                window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
             </c:forEach>
 
                                                 function calcRate(r, num) {

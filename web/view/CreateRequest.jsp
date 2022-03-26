@@ -400,7 +400,6 @@
         <script src="<i:ReadUrlFromContext url="/assets/js/CheckValidatorRequest.js"/>"></script>
         <script src="<i:ReadUrlFromContext url="/assets/js/RequestMain.js"/>"></script>
 
-        <!--<script src="<i:ReadUrlFromContext url="/assets/js/CreateRequest.js"/>"></script>-->
         <script>
             $(document).ready(function () {
                 $("#cardTop")[0].scrollIntoView({
@@ -447,7 +446,7 @@
                     var searchString = $(this).val();
                     var subjectId = $("#rqSubject option:selected").val();
                     $.ajax({
-                        url: "TeacherRecommendSearch",
+                        url: "/OnlineLearningSystem/TeacherRecommendSearch",
                         data: {"searchString": searchString,
                             "subjectId": subjectId},
                         type: "POST",
@@ -459,14 +458,14 @@
                             checkTeacher();
                             selectTeacher();
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
-                            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+                window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
             </c:forEach>
                         }
                     });
                 });
             });
             <c:forEach items="${requestScope.teachers}" var ="t" varStatus="loop">
-            window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
+                window.document.onload = calcRate(${t.getReputation()}, ${loop.index+1});
             </c:forEach>
 
             function calcRate(r, num) {
@@ -476,15 +475,7 @@
             }
 
         </script>  
-
-        <script>
-            // Onload event
-         
-                console.log("load");
-                
         
-
-        </script>
     </body>
 </html>
 

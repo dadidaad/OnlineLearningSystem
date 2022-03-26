@@ -17,6 +17,7 @@ import dao.TeacherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,68 +55,69 @@ public class TeacherRecommendSearchController extends HttpServlet {
             ITeacherDAO iTeacherDAO = new TeacherDAO();
             ISubjectDAO iSubjectDAO = new SubjectDAO();
             Map<Integer, String> listSubject = iSubjectDAO.getSubjectNames();
-            ArrayList<TeacherBean> list = new ArrayList<>();
+            List<TeacherBean> list = new ArrayList<>();
             if(subjectId!=null && !subjectId.equals("")) list = iTeacherDAO.getTeacherBySearching(searchString, Integer.parseInt(subjectId));
             else list = iTeacherDAO.getTeacherBySearching(searchString);
-            if (list.size() == 0) {
+            if (list.isEmpty()) {
                 out.print("<tr>List Empty</tr>");
             } else {
-                for (TeacherBean x : list) {
+
+                for(int i=0; i<list.size(); i++){    
                     out.print("<tr>\n" 
-+"                                            <td>"+(list.indexOf(x)+1)+"</td>\n" 
++"                                            <td>"+(i+1)+"</td>\n" 
 +"                                            <td>\n" 
 +"                                                <a class=\"teacherInfo\" href=\"#\"\n" 
 +"                                                   ><img\n" 
 +"                                                        class=\"teacherAvt\"\n" 
-+"                                                        src=\"" + (request.getContextPath()+ x.getAvatar())+"\"\n" 
++"                                                        src=\"" + (request.getContextPath()+ list.get(i).getAvatar())+"\"\n" 
 +"                                                        alt=\"\"\n" 
-+"                                                        />"+x.getDisplayName()+"</a\n" 
++"                                                        />"+list.get(i).getDisplayName()+"</a\n" 
 +"                                                >\n" 
 +"                                            </td>\n" 
 +"                                            <td>"
 +"                                            <div id=\"rating\">\n" +
-"                                                    <input type=\"radio\" id=\"star5"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"5\" disabled/>\n" +
-"                                                    <label class=\"full\" for=\"star5"+(list.indexOf(x)+1)+"\" title=\"Awesome - 5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star5"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"5\" disabled/>\n" +
+"                                                    <label class=\"full\" for=\"star5"+(i+1)+"\" title=\"Awesome - 5 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star4half"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"4 and a half\" disabled/>\n" +
-"                                                    <label class=\"half\" for=\"star4half"+(list.indexOf(x)+1)+"\" title=\"Pretty good - 4.5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star4half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"4 and a half\" disabled/>\n" +
+"                                                    <label class=\"half\" for=\"star4half"+(i+1)+"\" title=\"Pretty good - 4.5 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star4"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"4\" disabled/>\n" +
-"                                                    <label class=\"full\" for=\"star4"+(list.indexOf(x)+1)+"\" title=\"Pretty good - 4 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star4"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"4\" disabled/>\n" +
+"                                                    <label class=\"full\" for=\"star4"+(i+1)+"\" title=\"Pretty good - 4 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star3half"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"3 and a half\" disabled/>\n" +
-"                                                    <label class=\"half\" for=\"star3half"+(list.indexOf(x)+1)+"\" title=\"Meh - 3.5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star3half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"3 and a half\" disabled/>\n" +
+"                                                    <label class=\"half\" for=\"star3half"+(i+1)+"\" title=\"Meh - 3.5 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star3"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"3\" disabled/>\n" +
-"                                                    <label class=\"full\" for=\"star3"+(list.indexOf(x)+1)+"\" title=\"Meh - 3 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star3"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"3\" disabled/>\n" +
+"                                                    <label class=\"full\" for=\"star3"+(i+1)+"\" title=\"Meh - 3 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star2half"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"2 and a half\" disabled/>\n" +
-"                                                    <label class=\"half\" for=\"star2half"+(list.indexOf(x)+1)+"\" title=\"Kinda bad - 2.5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star2half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"2 and a half\" disabled/>\n" +
+"                                                    <label class=\"half\" for=\"star2half"+(i+1)+"\" title=\"Kinda bad - 2.5 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star2"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"2\" disabled/>\n" +
-"                                                    <label class=\"full\" for=\"star2"+(list.indexOf(x)+1)+"\" title=\"Kinda bad - 2 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star2"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"2\" disabled/>\n" +
+"                                                    <label class=\"full\" for=\"star2"+(i+1)+"\" title=\"Kinda bad - 2 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star1half"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"1 and a half\" disabled/>\n" +
-"                                                    <label class=\"half\" for=\"star1half"+(list.indexOf(x)+1)+"\" title=\"Meh - 1.5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star1half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"1 and a half\" disabled/>\n" +
+"                                                    <label class=\"half\" for=\"star1half"+(i+1)+"\" title=\"Meh - 1.5 stars\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"star1"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"1\" disabled/>\n" +
-"                                                    <label class=\"full\" for=\"star1"+(list.indexOf(x)+1)+"\" title=\"Sucks big time - 1 star\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"star1"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"1\" disabled/>\n" +
+"                                                    <label class=\"full\" for=\"star1"+(i+1)+"\" title=\"Sucks big time - 1 star\"></label>\n" +
 "\n" +
-"                                                    <input type=\"radio\" id=\"starhalf"+(list.indexOf(x)+1)+"\" name=\"rating"+(list.indexOf(x)+1)+"\" value=\"half\" disabled/>\n" +
-"                                                    <label class=\"half\" for=\"starhalf"+(list.indexOf(x)+1)+"\" title=\"Sucks big time - 0.5 stars\"></label>\n" +
+"                                                    <input type=\"radio\" id=\"starhalf"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"half\" disabled/>\n" +
+"                                                    <label class=\"half\" for=\"starhalf"+(i+1)+"\" title=\"Sucks big time - 0.5 stars\"></label>\n" +
 "                                                </div>"
 +"                                            </td>\n" 
-+"                                            <td>"+listSubject.get(x.getSubjectId())+"</td>\n" 
++"                                            <td>"+listSubject.get(list.get(i).getSubjectId())+"</td>\n" 
 +"                                            <td>\n" 
-+"                                                <input type=\"hidden\" id=\"teacherUsername\" value=\""+x.getUsername()+"\"> \n" 
++"                                                <input type=\"hidden\" id=\"teacherUsername\" value=\""+list.get(i).getUsername()+"\"> \n" 
 +"                                            </td>\n" 
 +"                                            <td>\n" 
 +"                                                <button\n" 
 +"                                                    type=\"button\"\n" 
 +"                                                    class=\"btn btn-primary requestBtn\"\n" 
-+"                                                    value=\""+x.getUsername()+"\"\n" 
++"                                                    value=\""+list.get(i).getUsername()+"\"\n" 
 +"                                                    aria-label=\"Close\"\n" 
-+"                                                    data=\""+x.getDisplayName()+"\"\n" 
++"                                                    data=\""+list.get(i).getDisplayName()+"\"\n" 
 +"                                                    id=\"closemodal\"\n" 
 +"                                                    >\n" 
 +"                                                    Select\n" 
@@ -131,3 +133,65 @@ public class TeacherRecommendSearchController extends HttpServlet {
     }
 
 }
+
+//out.print("<tr>\n" 
+//+"                                            <td>"+(i+1)+"</td>\n" 
+//+"                                            <td>\n" 
+//+"                                                <a class=\"teacherInfo\" href=\"#\"\n" 
+//+"                                                   ><img\n" 
+//+"                                                        class=\"teacherAvt\"\n" 
+//+"                                                        src=\"" + (request.getContextPath()+ x.getAvatar())+"\"\n" 
+//+"                                                        alt=\"\"\n" 
+//+"                                                        />"+x.getDisplayName()+"</a\n" 
+//+"                                                >\n" 
+//+"                                            </td>\n" 
+//+"                                            <td>"
+//+"                                            <div id=\"rating\">\n" +
+//"                                                    <input type=\"radio\" id=\"star5"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"5\" disabled/>\n" +
+//"                                                    <label class=\"full\" for=\"star5"+(i+1)+"\" title=\"Awesome - 5 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star4half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"4 and a half\" disabled/>\n" +
+//"                                                    <label class=\"half\" for=\"star4half"+(i+1)+"\" title=\"Pretty good - 4.5 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star4"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"4\" disabled/>\n" +
+//"                                                    <label class=\"full\" for=\"star4"+(i+1)+"\" title=\"Pretty good - 4 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star3half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"3 and a half\" disabled/>\n" +
+//"                                                    <label class=\"half\" for=\"star3half"+(i+1)+"\" title=\"Meh - 3.5 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star3"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"3\" disabled/>\n" +
+//"                                                    <label class=\"full\" for=\"star3"+(i+1)+"\" title=\"Meh - 3 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star2half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"2 and a half\" disabled/>\n" +
+//"                                                    <label class=\"half\" for=\"star2half"+(i+1)+"\" title=\"Kinda bad - 2.5 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star2"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"2\" disabled/>\n" +
+//"                                                    <label class=\"full\" for=\"star2"+(i+1)+"\" title=\"Kinda bad - 2 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star1half"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"1 and a half\" disabled/>\n" +
+//"                                                    <label class=\"half\" for=\"star1half"+(i+1)+"\" title=\"Meh - 1.5 stars\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"star1"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"1\" disabled/>\n" +
+//"                                                    <label class=\"full\" for=\"star1"+(i+1)+"\" title=\"Sucks big time - 1 star\"></label>\n" +
+//"\n" +
+//"                                                    <input type=\"radio\" id=\"starhalf"+(i+1)+"\" name=\"rating"+(i+1)+"\" value=\"half\" disabled/>\n" +
+//"                                                    <label class=\"half\" for=\"starhalf"+(i+1)+"\" title=\"Sucks big time - 0.5 stars\"></label>\n" +
+//"                                                </div>"
+//+"                                            </td>\n" 
+//+"                                            <td>"+listSubject.get(x.getSubjectId())+"</td>\n" 
+//+"                                            <td>\n" 
+//+"                                                <input type=\"hidden\" id=\"teacherUsername\" value=\""+x.getUsername()+"\"> \n" 
+//+"                                            </td>\n" 
+//+"                                            <td>\n" 
+//+"                                                <button\n" 
+//+"                                                    type=\"button\"\n" 
+//+"                                                    class=\"btn btn-primary requestBtn\"\n" 
+//+"                                                    value=\""+x.getUsername()+"\"\n" 
+//+"                                                    aria-label=\"Close\"\n" 
+//+"                                                    data=\""+x.getDisplayName()+"\"\n" 
+//+"                                                    id=\"closemodal\"\n" 
+//+"                                                    >\n" 
+//+"                                                    Select\n" 
+//+"                                                </button>\n" 
+//+"                                            </td>\n" 
+//+"                                        </tr>");
