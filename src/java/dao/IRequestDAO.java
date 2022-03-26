@@ -29,13 +29,18 @@ public interface IRequestDAO {
     /**
      * getRequestById method implement from IRequestDAO
      * 
-     * @return requests. <code>Bean.RequestBean</code> object  
+     * @param rqId <code>java.lang.Integer</code>
+     * @return request. <code>Bean.RequestBean</code> object  
      */
     public RequestBean getRequestById(int rqId);
     
     /**
      * getRequestByStatus method implement from IRequestDAO
      * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
      * @return requests. <code>java.util.List</code> object  
      */
     public List<RequestBean> getRequestForStudent(String username, String rqStatus, int pageindex, int pagesize);
@@ -43,57 +48,77 @@ public interface IRequestDAO {
     /**
      * getRequestBySubject method implement from IRequestDAO
      * 
+     * @param subjectId<code>java.lang.Integer</code>
      * @return requests. <code>java.util.List</code> object  
      */
     public List<RequestBean> getRequestBySubject(int subjectId); 
     
     /**
      * createRequest method implement from IRequestDAO
-     * This method create request and add to the databse
+     * This method create request and add to the database
+     * @param rq <code>Bean.RequestBean</code> object 
+     * @return row Affected <code>java.lang.Integer</code>
      */
     public int createRequest(RequestBean rq);
     
     /**
      * updateRequest method implement from IRequestDAO
-     * This method update request and add to the databse
+     * This method update request and add to the database
+     * @param rq <code>Bean.RequestBean</code> object 
+     * @return row Affected <code>java.lang.Integer</code>
      */
     public int updateRequest(RequestBean rq);
     
     /**
      * deleteRequest method implement from IRequestDAO
-     * This method delete request and add to the databse
+     * This method delete request and add to the database
+     * @param rqId<code>java.lang.Integer</code>
+     * @return affected row <code>java.lang.Integer</code> 
      */
     public int deleteRequest(int rqId);
     
     /**
      * deleteRequestReply method implement from IRequestDAO
-     * This method delete request reply and add to the databse
+     * This method delete request reply and add to the database
+     * @param rqId <code>java.lang.Integer</code>
      */
     public void deleteRequestReply(int rqId);
     
     /**
      * updateRequestStatus method implement from IRequestDAO
      * This method update the status of request and update to database
+     * @param status <code>java.lang.String</code>
+     * @param requestId <code>java.lang.Integer</code>
+     * @return affected row <code>java.lang.Integer</code> 
      */
     public int updateRequestStatus(String status, int requestId);
     
     /**
      * getRequestForTeacher method implement from IRequestDAO
      * 
-     * @return request. <code>java.util.List</code> object  
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
      */
     public List<RequestBean> getRequestForTeacher(int subjectId, String rqStatus, int pageindex, int pagesize);  
     
     /**
      * getRequestForTeacher method implement from IRequestDAO
      * 
-     * @return request. <code>java.util.List</code> object  
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
      */
     public List<RequestBean> getRequestForTeacher(String username,String rqStatus, int pageindex, int pagesize);  
     
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
      * This method get the request reply from to database
+     * @param rqId <code>java.lang.Integer</code>
      * @return request. <code>Bean.RequestBean</code> object 
      */
     public RequestReplyBean getRequestReplyById(int rqId);
@@ -101,6 +126,8 @@ public interface IRequestDAO {
     /**
      * createRequestReply method implement from IRequestDAO
      * This method create the request reply to database
+     * @param rq  <code>Bean.RequestBean</code> object 
+     * @return row affected <code>java.lang.Integer</code> 
      */ 
     public int createRequestReply(RequestReplyBean rq);
     
@@ -114,33 +141,115 @@ public interface IRequestDAO {
     /**
      * getTotalRequestStudent method implement from IRequestDAO
      * 
-     * @param username
-     * @param rqStatus
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
      * @return total. <code>java.lang.Integer</code> object  
      */
     public int getTotalRequestStudent(String username, String rqStatus);
     
     /**
-     * getTotalRequestTeacher method implement from IRequestDAO
+     * getTotalRequestTeacherApply method implement from IRequestDAO
      * 
      * @return total. <code>java.lang.Integer</code> object  
      */
     public int getTotalRequestTeacherApply();
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     public int getTotalRequestForTeacher(int subjectId, String rqStatus);
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     public int getTotalRequestForTeacher(String username, String rqStatus);
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     public int getTotalRequestSearchForStudent(String username, String rqStatus, String searchString);
+    
+    /**
+     * getRequestSearchForStudent method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return requests. <code>java.util.List</code>   
+     */
     public List<RequestBean> getRequestSearchForStudent(String username, String rqStatus, String searchString, int pageindex, int pagesize);
     
+    /**
+     * getTotalRequestSearchForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     public int getTotalRequestSearchForTeacher(int subjectId, String rqStatus, String searchString);
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     public int getTotalRequestSearchForTeacher(String username, String rqStatus, String searchString);
 
+    /**
+     * getRequestSearchForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
+     */
     public List<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize);
+    
+     /**
+     * getRequestSearchForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
+     */
     public List<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize);
+    
     /**
      * getLastRequestId method implement from IRequestDAO
      *
      * @return requestId. <code>java.lang.Integer</code> object
      */
     public int getLastRequestId();
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param rqId <code>java.lang.Integer</code>
+     * @return rowAffted. <code>java.lang.Integer</code> object  
+     */
     public int updateRequestTime(int rqId);
 }

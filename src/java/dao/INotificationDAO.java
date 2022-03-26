@@ -21,18 +21,22 @@ import java.util.List;
 public interface INotificationDAO {
     
     /**
-     * getAllSubject method
+     * getTopNotification method
      * This method Get all Subject available from database
      * 
+     * @param username <code>java.lang.String</code>
      * @return notifications. <code>java.util.List</code> object  
      *  
      */
     public List<NotificationBean> getTopNotification(String username); //get 7 latest Notification from database
     
     /**
-     * getAllSubject method
+     * getNotification method
      * This method Get all Subject available from database
      * 
+     * @param index <code>java.lang.Integer</code>
+     * @param amount <code>java.lang.Integer</code>
+     * @param username <code>java.lang.String</code>
      * @return notifications. <code>java.util.List</code> object  
      *  
      */
@@ -43,7 +47,7 @@ public interface INotificationDAO {
      * This method will insert new Notification into database
      * 
      * @param noti  Notification which wanted to insert. <code>Bean.NotificationBean</code> object
-     * @return 
+     * @return affected row <code>java.lang.Integer</code>
      *  
      */
     public int insertNotification(NotificationBean noti); //Insert new Notification to database
@@ -77,11 +81,11 @@ public interface INotificationDAO {
     public int updateReadedNotification(String username); //Insert new Noti to database
     
     /**
-     * insertNotification method
+     * deleteNotification method
      * This method will insert new Notification into database
      * 
      * @param notiId  <code>java.lang.Integer</code> 
-     * @return 
+     * @return affected row <code>java.lang.Integer</code>
      *  
      */
     public int deleteNotification(int notiId); //delete Notification to database

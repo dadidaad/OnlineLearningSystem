@@ -67,7 +67,7 @@ public class TeacherDAOTest {
         assertEquals(expResult, result);
     }
 
-    @Test
+    @Test 
     public void testHandleTeacherApply_UTC4() {
         System.out.println("handleTeacherApply");
         String username = "ngocanh";
@@ -142,6 +142,139 @@ public class TeacherDAOTest {
         TeacherBean result = instance.getTeacherByUsername(username);
         assertEquals(expResult.getUsername(), result.getUsername());
     }
+    @Test
+    public void testCheckTeacherStatus_UTC1() {
+        System.out.println("checkTeacherStatus");
+        String username = "ducgiang";
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.getTeacherStatus(username);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testCheckTeacherStatus_UTC2() {
+        System.out.println("checkTeacherStatus");
+        String username = "minhduc07";
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.getTeacherStatus(username);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testCheckTeacherStatus_UTC3() {
+        System.out.println("checkTeacherStatus");
+        String username = "";
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.getTeacherStatus(username);
+        assertEquals(expResult, result);
+    }
+    @Test 
+    public void testCheckTeacherStatus_UTC4() {
+        System.out.println("checkTeacherStatus");
+        String username = null;
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.getTeacherStatus(username);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testGetSubjectId_UTC1() {
+        System.out.println("getSubjectId");
+        String usernameTeacher = "ducgiang";
+        TeacherDAO instance = new TeacherDAO();
+        int expResult = 1;
+        int result = instance.getSubjectId(usernameTeacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testGetSubjectId_UTC2() {
+        System.out.println("getSubjectId");
+        String usernameTeacher = "minhduc07";
+        TeacherDAO instance = new TeacherDAO();
+        int expResult = 0;
+        int result = instance.getSubjectId(usernameTeacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testGetSubjectId_UTC3() {
+        System.out.println("getSubjectId");
+        String usernameTeacher = "";
+        TeacherDAO instance = new TeacherDAO();
+        int expResult = 0;
+        int result = instance.getSubjectId(usernameTeacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testGetSubjectId_UTC4() {
+        System.out.println("getSubjectId");
+        String usernameTeacher = null;
+        TeacherDAO instance = new TeacherDAO();
+        int expResult = 0;
+        int result = instance.getSubjectId(usernameTeacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testInsertNewTeacher_UTC1() {
+        System.out.println("insertNewTeacher");
+        TeacherBean teacher = new TeacherBean("img", 1, "Waiting", 4);
+        teacher.setUsername("leanh");
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = true;
+        boolean result = instance.insertNewTeacher(teacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testInsertNewTeacher_UTC5() {
+        System.out.println("insertNewTeacher");
+        TeacherBean teacher = new TeacherBean("img", 1, "Done", -1);
+        teacher.setUsername("leanh");
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.insertNewTeacher(teacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testInsertNewTeacher_UTC2() {
+        System.out.println("insertNewTeacher");
+        TeacherBean teacher = new TeacherBean("img", 1, "Waiting", 0);
+        teacher.setUsername("minhduc07");
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.insertNewTeacher(teacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testInsertNewTeacher_UTC3() {
+        System.out.println("insertNewTeacher");
+        TeacherBean teacher = new TeacherBean("img", 1, "Waiting", 0);
+        teacher.setUsername("");
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.insertNewTeacher(teacher);
+        assertEquals(expResult, result);
+
+    }
+    @Test
+    public void testInsertNewTeacher_UTC4() {
+        System.out.println("insertNewTeacher");
+        TeacherBean teacher = new TeacherBean("img", 1, "Waiting", 0);
+        teacher.setUsername( null);
+        TeacherDAO instance = new TeacherDAO();
+        boolean expResult = false;
+        boolean result = instance.insertNewTeacher(teacher);
+        assertEquals(expResult, result);
+
+    }
+    
 
 //    @Test
 //    public void testGetAllTeacher() {
@@ -165,26 +298,7 @@ public class TeacherDAOTest {
 //        assertEquals(expResult, result.size());
 //    }
 //
-//    @Test
-//    public void testCheckTeacherStatus() {
-//        System.out.println("checkTeacherStatus");
-//        String username = "ducgiang";
-//        TeacherDAO instance = new TeacherDAO();
-//        boolean expResult = false;
-//        boolean result = instance.checkTeacherStatus(username);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetSubjectId() {
-//        System.out.println("getSubjectId");
-//        String usernameTeacher = "ducgiang";
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 1;
-//        int result = instance.getSubjectId(usernameTeacher);
-//        assertEquals(expResult, result);
-//
-//    }
+
 //
 //    @Test
 //    public void testGetTeacherBySearching_String() {
@@ -197,17 +311,7 @@ public class TeacherDAOTest {
 //
 //    }
 //
-//    @Test
-//    public void testInsertNewTeacher() {
-//        System.out.println("insertNewTeacher");
-//        TeacherBean teacher = new TeacherBean("img", 1, "Waiting", 0);
-//        teacher.setUsername("");
-//        TeacherDAO instance = new TeacherDAO();
-//        boolean expResult = true;
-//        boolean result = instance.insertNewTeacher(teacher);
-//        assertEquals(expResult, result);
-//
-//    }
+
 //
 //    @Test
 //    public void testGetAllTeacherApply_int_int() {
@@ -234,68 +338,20 @@ public class TeacherDAOTest {
 //
 //    }
 //
+
+
 //    @Test
-//    public void testGetTotalTeacherApply_0args() {
-//        System.out.println("getTotalTeacherApply");
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 10;
-//        int result = instance.getTotalTeacherApply();
-//        assertEquals(expResult, result);
-//
-//    }
-//
-//    @Test
-//    public void testGetTotalTeacherApply_String() {
-//        System.out.println("getTotalTeacherApply");
-//        String status = "Waiting";
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 5;
-//        int result = instance.getTotalTeacherApply(status);
-//        assertEquals(expResult, result);
-//
-//    }
-//
-//    @Test
-//    public void testGetTotalTeacher() {
-//        System.out.println("getTotalTeacher");
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 9;
-//        int result = instance.getTotalTeacher();
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalOnlineTeacher() {
-//        System.out.println("getTotalOnlineTeacher");
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 8;
-//        int result = instance.getTotalOnlineTeacher();
-//        assertEquals(expResult, result);
-//
-//    }
-//
-//    @Test
-//    public void testGetTotalTeacherSearch() {
-//        System.out.println("getTotalTeacherSearch");
+//    public void testGetTeacherBySearching_3args() {
+//        System.out.println("getTeacherBySearching");
 //        String searchString = "giang";
+//        int pageindex = 1;
+//        int pagesize = 10;
 //        TeacherDAO instance = new TeacherDAO();
 //        int expResult = 1;
-//        int result = instance.getTotalTeacherSearch(searchString);
+//        ArrayList<TeacherBean> result = instance.getTeacherBySearching(searchString, pageindex, pagesize);
 //        assertEquals(expResult, result);
-//    }
 //
-    @Test
-    public void testGetTeacherBySearching_3args() {
-        System.out.println("getTeacherBySearching");
-        String searchString = "giang";
-        int pageindex = 1;
-        int pagesize = 10;
-        TeacherDAO instance = new TeacherDAO();
-        int expResult = 1;
-        ArrayList<TeacherBean> result = instance.getTeacherBySearching(searchString, pageindex, pagesize);
-        assertEquals(expResult, result);
-
-    }
+//    }
 //
 //    @Test
 //    public void testGetTeacherBySearching_String_int() {
@@ -328,17 +384,7 @@ public class TeacherDAOTest {
 //        assertEquals(expResult, result.size());
 //    }
 //
-//    @Test
-//    public void testGetTotalTeacherApplySearch_String() {
-//        System.out.println("getTotalTeacherApplySearch");
-//        String searchString = "giang";
-//        TeacherDAO instance = new TeacherDAO();
-//        int expResult = 1;
-//        int result = instance.getTotalTeacherApplySearch(searchString);
-//        assertEquals(expResult, result);
-//
-//    }
-//
+
 //    @Test
 //    public void testGetTotalTeacherApplySearch_String_String() {
 //        System.out.println("getTotalTeacherApplySearch");

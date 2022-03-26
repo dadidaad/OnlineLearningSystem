@@ -31,8 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * search the list of Request /ListTeacherSearch is the URL of the Servlet Extend
+ * HttpServlet class
  *
- * @author win
+ * @author Duc Minh
  */
 public class ListTeacherSearchController extends HttpServlet {
 

@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Online Learning System
+
+ * ListRequestSearchController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-02-11   1.0         Duc Minh   First Implement
+ */
 package controller;
 
 import bean.AccountBean;
@@ -28,8 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * search the list of Request /ListALlRequestSearch is the URL of the Servlet Extend
+ * HttpServlet class
  *
- * @author win
+ * @author Duc Minh
  */
 public class ListRequestSearchController extends HttpServlet {
 

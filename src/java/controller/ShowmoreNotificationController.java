@@ -1,3 +1,12 @@
+/*
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * OnlineLearningSystem
+ * OLS
+ * ShowmoreNotificationController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-03-8   1.0         Duc Minh    First Implement
+ */
 package controller;
 
 import bean.AccountBean;
@@ -16,8 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handle data from user want show more notification
+ * page Extend HttpServlet class
+ * URL: /ShowmoreNotification
+ * @author Duc Minh
  */
 public class ShowmoreNotificationController extends HttpServlet {
 

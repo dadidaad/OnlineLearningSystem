@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * This is a Servlet responsible for handle data from user want delete notification
  * page Extend HttpServlet class
- *
+ * Url : /DeleteNotification
  * @author Duc Minh
  */
 public class DeleteNotificationController extends HttpServlet {

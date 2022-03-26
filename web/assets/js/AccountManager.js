@@ -1,6 +1,11 @@
+/* 
+    Created on : Feb 10, 2022, 7:45:38 AM
+    Author     : Duc Minh
+    @type @jQuery
+*/
 $(document).ready(function () {
 
-//  Open Edit Account Card
+/*  Open Edit Account Card */
     $("#accountTable .editBtn").click(function () {
         var username = $(this).attr('value');
         console.log(username);
@@ -18,7 +23,7 @@ $(document).ready(function () {
         });
     });
 
-//  Search Account following Name or email
+/*  Search Account following Name or email */
     $(".searchBtn").on('click', function () {
         var searchString = $("#searchString").val();
         console.log(searchString);

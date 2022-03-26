@@ -10,7 +10,6 @@ package dao;
 
 import bean.TeacherBean;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is the interface class that declares the methods to access the data of
@@ -44,27 +43,33 @@ public interface ITeacherDAO {
      * getTeacherByUsername method implement from ITeacherDAO
      *
      * @param username <code>java.lang.String</code>
-     * @return teacherbean object
+     * @return teacher <code>Bean.TeacherBean</code> object 
      */
     public TeacherBean getTeacherByUsername(String username);
 
     /**
-     * getSubjectId method implement from ITeacherDAO get the id subject of
-     * teacher from database
-     *
-     * @return subjectId. <code>Integer</code> object
-     */
-    /**
-     * checkTeacherStatus method implement from ITeacherDAO check status cv of
-     * teacher in db
+     * getTeacherCV method implement from ITeacherDAO
      *
      * @param username <code>java.lang.String</code>
-     * @return subjectId. <code>Integer</code> object
+     * @return teacher <code>Bean.TeacherBean</code> object 
      */
     public TeacherBean getTeacherCV(String username);
 
+    /**
+     * UpdateNewTeacher method implement from ITeacherDAO
+     *
+     * @param teacher <code>Bean.TeacherBean</code> object 
+     * @return boolean
+     */
     public boolean UpdateNewTeacher(TeacherBean teacher);
 
+    /**
+     * getTeacherStatus method implement from ITeacherDAO check status cv of
+     * teacher in db
+     *
+     * @param username <code>java.lang.String</code>
+     * @return boolean 
+     */
     public boolean getTeacherStatus(String username);
 
     /**
@@ -72,7 +77,7 @@ public interface ITeacherDAO {
      * teacher from database
      *
      * @param usernameTeacher <code>java.lang.String</code>
-     * @return subjectId. <code>Integer</code> object
+     * @return subjectId. <code>java.lang.Integer</code>
      */
 
     public int getSubjectId(String usernameTeacher);
@@ -163,7 +168,7 @@ public interface ITeacherDAO {
     /**
      * totalTeacherSearch method implement from ITeacherDAO
      *
-     * @param searchString
+     * @param searchString <code>java.lang.String</code>
      * @return total. <code>java.lang.Integer</code> object
      */
     public int getTotalTeacherSearch(String searchString);
@@ -171,7 +176,7 @@ public interface ITeacherDAO {
     /**
      * getAllTeacherBySearch method implement from ITeacherDAO
      *
-     * @param searchString
+     * @param searchString <code>java.lang.String</code>
      * @param pageindex <code>java.lang.Integer</code>
      * @param pagesize <code>java.lang.Integer</code>
      * @return teachers. <code>java.util.ArrayList</code> object
@@ -195,7 +200,7 @@ public interface ITeacherDAO {
     /**
      * getTotalTeacherApplySearch method implement from ITeacherDAO
      *
-     * @param searchString
+     * @param searchString <code>java.lang.String</code>
      * @return total. <code>java.lang.Integer</code> object
      */
     public int getTotalTeacherApplySearch(String searchString);
@@ -203,8 +208,8 @@ public interface ITeacherDAO {
     /**
      * getTotalTeacherApplySearch method implement from ITeacherDAO
      *
-     * @param status
-     * @param searchString
+     * @param status <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
      * @return total. <code>java.lang.Integer</code> object
      */
     public int getTotalTeacherApplySearch(String status, String searchString);
@@ -212,7 +217,7 @@ public interface ITeacherDAO {
     /**
      * getAllTeacherBySearch method implement from ITeacherDAO
      *
-     * @param searchString
+     * @param searchString <code>java.lang.String</code>
      * @param pageindex <code>java.lang.Integer</code>
      * @param pagesize <code>java.lang.Integer</code>
      * @return teachers. <code>java.util.ArrayList</code> object
@@ -222,8 +227,8 @@ public interface ITeacherDAO {
     /**
      * getAllTeacherBySearch method implement from ITeacherDAO
      *
-     * @param status
-     * @param searchString
+     * @param status <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
      * @param pageindex <code>java.lang.Integer</code>
      * @param pagesize <code>java.lang.Integer</code>
      * @return teachers. <code>java.util.ArrayList</code> object

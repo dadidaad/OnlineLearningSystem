@@ -27,6 +27,14 @@ import java.util.logging.Logger;
  */
 public class NotificationDAO extends BaseDAO implements INotificationDAO{
 
+    /**
+     * getTopNotification method
+     * This method Get all Subject available from database
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return notifications. <code>java.util.List</code> object  
+     *  
+     */
     @Override
     public List<NotificationBean> getTopNotification(String username) {
         List<NotificationBean> notifications = new ArrayList<>();
@@ -66,6 +74,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return notifications;
     }
+    
+    /**
+     * getTopNotification method
+     * This method Get all Subject available from database
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return notifications. <code>java.util.List</code> object  
+     *  
+     */
     @Override
     public List<NotificationBean> getNotification(int index, int amount, String username ) {
         List<NotificationBean> notifications = new ArrayList<>();
@@ -110,6 +127,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return notifications;
     }
+    
+    /**
+     * insertNotification method
+     * This method will insert new Notification into database
+     * 
+     * @param noti  Notification which wanted to insert. <code>Bean.NotificationBean</code> object
+     * @return affected row <code>java.lang.Integer</code>
+     *  
+     */
     @Override
     public int insertNotification(NotificationBean noti) {
         int totalRow = 0;
@@ -136,18 +162,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return totalRow;
     }
-    public static void main(String[] args) {
-        INotificationDAO dal = new NotificationDAO();
-        System.out.println(dal.getTotalNoti("minhduc07"));
-//        System.out.println(iNotificationDAO.updateReadedNotification());
-//        List<NotificationBean> list = dal.getTop5Notification();
-//        for(NotificationBean n : list){
-//            System.out.println(n);
-//        }
-
-    }
-
-     @Override
+    
+    /**
+     * getTotalNoti method
+     * This method will count notification unread from database
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return total <code>java.lang.Integer</code>
+     */
+    @Override
     public int getTotalNoti(String username) {
         int total = 0;
         Connection conn = null;
@@ -179,6 +202,13 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         return total;
     }
     
+    /**
+     * getTotalNotiUnread method
+     * This method will count notification unread from database
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return total <code>java.lang.Integer</code>
+     */
     @Override
     public int getTotalNotiUnread(String username) {
         int total = 0;
@@ -211,7 +241,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return total;
     }
-
+    
+     /**
+     * UpdateReadedNotification method
+     * This method will set state read of Notification into database
+     * 
+     * @param username <code>java.lang.String</code>
+     * @return total <code>java.lang.Integer</code>
+     *  
+     */
     @Override
     public int updateReadedNotification(String username) {
         int totalRow = 0;
@@ -236,6 +274,14 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         return totalRow;
     }
 
+    /**
+     * deleteNotification method
+     * This method will insert new Notification into database
+     * 
+     * @param notiId  <code>java.lang.Integer</code> 
+     * @return affected row <code>java.lang.Integer</code>
+     *  
+     */
     @Override
     public int deleteNotification(int notiId) {
         int totalRow = 0;

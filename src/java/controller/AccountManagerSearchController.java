@@ -27,8 +27,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This is a Servlet responsible for handling the task when the Admin wants to
+ * search an account 
+ * /AccountManagerSearch is the URL of the Servlet Extend
+ * HttpServlet class
  *
- * @author win
+ * @author Duc Minh
  */
 public class AccountManagerSearchController extends HttpServlet {
 

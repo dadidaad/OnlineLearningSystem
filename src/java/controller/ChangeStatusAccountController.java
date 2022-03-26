@@ -23,8 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * This is a Servlet responsible for handling the task when the Admin wants to
+ * ban or active an account /ChangeStatusAccount is the URL of the Servlet Extend
+ * HttpServlet class
  *
- * @author win
+ * @author Duc Minh
  */
 public class ChangeStatusAccountController extends HttpServlet {
   

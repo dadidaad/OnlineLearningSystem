@@ -29,8 +29,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
      * getRequestById method implement from IRequestDAO
-     *
-     * @return request. <code>Bean.RequestBean</code> object
+     * 
+     * @param rqId <code>java.lang.Integer</code>
+     * @return request. <code>Bean.RequestBean</code> object  
      */
     @Override
     public RequestBean getRequestById(int rqId) {
@@ -75,26 +76,33 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
      * getRequestByStatus method implement from IRequestDAO
-     *
-     * @return request. <code>java.util.ArrayList</code> object
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return requests. <code>java.util.List</code> object  
      */
     @Override
     public ArrayList<RequestBean> getRequestForStudent(String username, String rqStatus, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select t.*\n"
                     + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
                     + "Where t.[Status] = ? and t.Student_sent = ? and e between ? and ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             statement.setInt(3, (pageindex - 1) * pagesize);
             statement.setInt(4, pagesize);
 
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
@@ -117,14 +125,21 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        
+        } finally {
+            close(conn, statement, rs);
         }
         return requests;
     }
 
     /**
      * getRequestForTeacher method implement from IRequestDAO
-     *
-     * @return request. <code>java.util.ArrayList</code> object
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
      */
     @Override
     public ArrayList<RequestBean> getRequestForTeacher(int subjectId, String rqStatus, int pageindex, int pagesize) {
@@ -172,9 +187,13 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * getRequestForEachTeacher method implement from IRequestDAO
-     *
-     * @return request. <code>java.util.ArrayList</code> object
+     * getRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param pageindex <code>java.lang.Integer</code>
+     * @param pagesize <code>java.lang.Integer</code>
+     * @return request. <code>java.util.List</code>   
      */
     @Override
     public ArrayList<RequestBean> getRequestForTeacher(String username, String rqStatus, int pageindex, int pagesize) {
@@ -223,8 +242,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
     /**
      * getRequestBySubject method implement from IRequestDAO
-     *
-     * @return request. <code>java.util.ArrayList</code> object
+     * 
+     * @param subjectId<code>java.lang.Integer</code>
+     * @return requests. <code>java.util.List</code> object  
      */
     @Override
     public ArrayList<RequestBean> getRequestBySubject(int subjectId) {
@@ -269,9 +289,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * createRequest method implement from IRequestDAO This method create
-     * request and add to the databse
-     * @param rq
+     * createRequest method implement from IRequestDAO
+     * This method create request and add to the database
+     * @param rq <code>Bean.RequestBean</code> object 
+     * @return row Affected <code>java.lang.Integer</code>
      */
     @Override
     public int createRequest(RequestBean rq) {
@@ -307,8 +328,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * updateRequest method implement from IRequestDAO This method update the
-     * request and update to database
+     * updateRequest method implement from IRequestDAO
+     * This method update request and add to the databse
+     * @param rq <code>Bean.RequestBean</code> object 
+     * @return row Affected <code>java.lang.Integer</code>
      */
     @Override
     public int updateRequest(RequestBean rq) {
@@ -345,8 +368,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * updateRequest method implement from IRequestDAO This method update the
-     * request and update to database
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param rqId <code>java.lang.Integer</code>
+     * @return rowAffted. <code>java.lang.Integer</code> object  
      */
     @Override
     public int updateRequestTime(int rqId) {
@@ -373,8 +398,11 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * updateRequestStatus method implement from IRequestDAO This method update
-     * the status of request and update to database
+     * updateRequestStatus method implement from IRequestDAO
+     * This method update the status of request and update to database
+     * @param status <code>java.lang.String</code>
+     * @param requestId <code>java.lang.Integer</code>
+     * @return affected row <code>java.lang.Integer</code> 
      */
     @Override
     public int updateRequestStatus(String status, int requestId) {
@@ -405,10 +433,10 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * deleteRequest method implement from IRequestDAO This method delete the
-     * request to database
-     *
-     * @param rqId
+     * deleteRequest method implement from IRequestDAO
+     * This method delete request and add to the database
+     * @param rqId<code>java.lang.Integer</code>
+     * @return affected row <code>java.lang.Integer</code> 
      */
     @Override
     public int deleteRequest(int rqId) {
@@ -434,6 +462,11 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         return totalRow;
     }
 
+    /**
+     * deleteRequestReply method implement from IRequestDAO
+     * This method delete request reply and add to the database
+     * @param rqId <code>java.lang.Integer</code>
+     */
     @Override
     public void deleteRequestReply(int rqId) {
         Connection conn = null;
@@ -459,9 +492,8 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     /**
      * getRequestRequestReplyBeanReplyById method implement from IRequestDAO
      * This method get the request reply from to database
-     *
-     * @param rqId
-     * @return request. <code>Bean.RequestBean</code> object
+     * @param rqId <code>java.lang.Integer</code>
+     * @return request. <code>Bean.RequestReplyBean</code> object 
      */
     @Override
     public RequestReplyBean getRequestReplyById(int rqId) {
@@ -500,9 +532,11 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * createRequestReply method implement from IRequestDAO This method create
-     * the request reply to database
-     */
+     * createRequestReply method implement from IRequestDAO
+     * This method create the request reply to database
+     * @param rq  <code>Bean.RequestBean</code> object 
+     * @return row affected <code>java.lang.Integer</code> 
+     */ 
     @Override
     public int createRequestReply(RequestReplyBean rq) {
         int totalRow = 0;
@@ -533,9 +567,9 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     }
 
     /**
-     * getTotalPendingRequest method implement from IAccountDAO
-     *
-     * @return total Integer<Integer>.
+     * getTotalPendingRequest method implement from IRequestDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
      */
     @Override
     public int getTotalPendingRequest() {
@@ -566,163 +600,207 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
         return total;
     }
 
+    /**
+     * getTotalRequestTeacherApply method implement from IRequestDAO
+     * 
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestTeacherApply() {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select COUNT(Account.Username) AS NumberOfAccount  \n"
                     + "from Account, Tutor\n"
                     + "where Account.Username = Tutor.Username and Account.[Role] ='Teacher' and Tutor.Status = 'Waiting' \n";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfAccount");
             }
-
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
 
     }
 
+    /**
+     * getTotalRequestStudent method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestStudent(String username, String rqStatus) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(Request.RequestID) as NumberOfRequest \n"
                     + "from Request\n"
                     + "where Status =? and Student_sent = ?  \n";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
+            
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+         } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
 
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestForTeacher(int subjectId, String rqStatus) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(RequestID) as NumberOfRequest \n"
                     + "from Request\n"
                     + "where Status =? and SubjectID = ?";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
 
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
 
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestForTeacher(String username, String rqStatus) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(Request.RequestID) as NumberOfRequest\n"
                     + "from Request, Request_Reply\n"
                     + "where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and Request.Status = ? ";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
 
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestSearchForStudent(String username, String rqStatus, String searchString) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(Request.RequestID) as NumberOfRequest \n"
                     + "from Request\n"
                     + "where Status =? and Student_sent = ?  and Title like ? \n";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             statement.setString(3, "%" + searchString + "%");
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
@@ -730,13 +808,16 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
     @Override
     public ArrayList<RequestBean> getRequestSearchForStudent(String username, String rqStatus, String searchString, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select t.*\n"
                     + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
                     + "Where t.[Status] = ? and t.Student_sent = ? and t.Title like ?  and e between ? and ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setString(2, username);
             statement.setString(3, "%" + searchString + "%");
@@ -744,7 +825,7 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
             statement.setInt(5, pagesize);
 
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
@@ -761,100 +842,131 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
                 requests.add(request);
             }
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return requests;
     }
 
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestSearchForTeacher(String username, String rqStatus, String searchString) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(Request.RequestID) as NumberOfRequest\n"
                     + "from Request, Request_Reply\n"
                     + "where Request.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and Request.Status = ? and Request.Title like ? ";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
             statement.setString(3, "%" + searchString + "%");
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
+            
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
-
+    /**
+     * getTotalRequestSearchForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public int getTotalRequestSearchForTeacher(int subjectId, String rqStatus, String searchString) {
         int total = 0;
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select count(RequestID) as NumberOfRequest \n"
                     + "from Request\n"
                     + "where Status =? and SubjectID = ? and Request.Title like ? ";
 
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
             statement.setString(3, "%" + searchString + "%");
 
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             /*Assign data to an variable of Request*/
             while (rs.next()) {
                 total = rs.getInt("NumberOfRequest");
             }
 
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             /*Exception Handle*/
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return total;
     }
-
+    
+    /**
+     * getTotalRequestForTeacher method implement from IRequestDAO
+     * 
+     * @param username <code>java.lang.String</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public ArrayList<RequestBean> getRequestSearchForTeacher(String username, String rqStatus, String searchString, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select t.*\n"
                     + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t, Request_Reply\n"
                     + "Where t.RequestID = Request_Reply.RequestID and Request_Reply.Tutor_sent = ? and t.[Status] = ? and t.Title like ?  and e between ? and ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setString(2, rqStatus);
             statement.setString(3, "%" + searchString + "%");
             statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
@@ -871,33 +983,43 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
                 requests.add(request);
             }
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return requests;
     }
 
+    /**
+     * getTotalRequestSearchForTeacher method implement from IRequestDAO
+     * 
+     * @param subjectId <code>java.lang.Integer</code>
+     * @param rqStatus <code>java.lang.String</code>
+     * @param searchString <code>java.lang.String</code>
+     * @return total. <code>java.lang.Integer</code> object  
+     */
     @Override
     public ArrayList<RequestBean> getRequestSearchForTeacher(int subjectId, String rqStatus, String searchString, int pageindex, int pagesize) {
         ArrayList<RequestBean> requests = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             /*Set up connection and Sql statement for Query */
-            Connection conn = getConnection();
+            conn = getConnection();
             String sql = "select t.*\n"
                     + "from (select Request.*, ROW_NUMBER() OVER(ORDER BY Request.CreatedTime DESC) e from Request) t\n"
                     + "Where t.[Status] = ? and t.SubjectID = ? and t.Title like ? and e between ? and ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
             statement.setString(1, rqStatus);
             statement.setInt(2, subjectId);
             statement.setString(3, "%" + searchString + "%");
             statement.setInt(4, (pageindex - 1) * pagesize);
             statement.setInt(5, pagesize);
             /*Query and save in ResultSet */
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 RequestBean request = new RequestBean();
                 request.setRequestID(rs.getInt("RequestID"));
@@ -914,25 +1036,20 @@ public class RequestDAO extends BaseDAO implements IRequestDAO {
 
                 requests.add(request);
             }
-            /*Close all the connection */
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(SubjectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            /*Close all the connection */
+            close(conn, statement, rs);
         }
         return requests;
     }
-
-    public static void main(String[] args) {
-        RequestDAO dal = new RequestDAO();
-        ArrayList<RequestBean> list = dal.getRequestForTeacher("ducgiang", "Approved", 1, 10);
-        for (RequestBean r : list) {
-            System.out.println(r);
-        }
-
-    }
-
+    
+    /**
+     * getLastRequestId method implement from IRequestDAO
+     *
+     * @return requestId. <code>java.lang.Integer</code> object
+     */
     @Override
     public int getLastRequestId() {
         Connection conn = null;

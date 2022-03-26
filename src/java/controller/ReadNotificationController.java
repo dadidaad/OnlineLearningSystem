@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 /**
  * This is a Servlet responsible for handle data from user want reset notification
  * page Extend HttpServlet class
- *
+ * URL: /ReadNotification
  * @author Duc Minh
  */
 public class ReadNotificationController extends HttpServlet {

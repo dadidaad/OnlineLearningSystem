@@ -1,4 +1,9 @@
-// View More or Hide Topic
+/* 
+    Created on : March 10, 2022, 7:45:38 AM
+    Author     : Duc Minh
+    @type @Javascript
+*/
+/* View More or Hide Topic */
 var requestTopicMoreBtn = document.querySelector(".responseContent--info .requestTopicMore");
 
 var requestTopicMoreContent = document.querySelector(".requestStuInfo li .requestStuInfo--topic");

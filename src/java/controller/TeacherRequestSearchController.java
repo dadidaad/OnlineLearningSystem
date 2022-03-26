@@ -7,7 +7,7 @@
  * DATE         Version     AUTHOR     Description
  * 2022-02-07   1.0         Duc Minh    First Implement
  */
-package Controller;
+package controller;
 
 import bean.AccountBean;
 import bean.NotificationBean;
@@ -32,8 +32,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author win
+ * This is a Servlet responsible for handling the task when the Admin wants to search the Request to apply from teacher
+ * /TeacherRequestSearch is the URL of the Servlet
+ * Extend HttpServlet class
+ * @author Duc Minh
  */
 public class TeacherRequestSearchController extends HttpServlet {
 

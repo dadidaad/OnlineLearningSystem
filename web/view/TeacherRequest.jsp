@@ -24,9 +24,10 @@
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>"/>
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestMain.css" />">
-<!--        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">-->
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/AccountManagerStyle.css" />">
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/RequestListStu.css" />">
         <title>Teacher Request</title>
     </head>
     <body>
@@ -79,7 +80,18 @@
                                     <span class="text nav-text">Teacher Apply</span>
                                 </a>
                             </li>
-
+                             <li class="nav-link">
+                                <a href="loadalreadyarticle">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Manager Article</span>
+                                </a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="loadpreparearticle">
+                                    <i class='bx bx-table icon' ></i>
+                                    <span class="text nav-text">Waitting Article</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>

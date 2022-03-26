@@ -66,7 +66,7 @@ public class NotificationDAOTest {
         System.out.println("insertNotification");
         NotificationBean noti = new NotificationBean();
         NotificationDAO instance = new NotificationDAO();
-        int expResult = 1;
+        int expResult = 0;
         int result = instance.insertNotification(noti);
         assertEquals(expResult, result);
     }
@@ -82,7 +82,7 @@ public class NotificationDAOTest {
     @Test
     public void testDeleteNotification_UTC1() {
         System.out.println("deleteNotification");
-        int notiId = 1102;
+        int notiId = 1104;
         NotificationDAO instance = new NotificationDAO();
         int expResult = 1;
         int result = instance.deleteNotification(notiId);

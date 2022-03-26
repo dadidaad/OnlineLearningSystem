@@ -286,7 +286,7 @@ public class RequestDAOTest {
     @Test
     public void testDeleteRequest_UTC1() {
         System.out.println("deleteRequest");
-        int rqId = 1011;
+        int rqId = 1033;
         RequestDAO instance = new RequestDAO();
         int expResult = 1;
         int result = instance.deleteRequest(rqId);
@@ -353,189 +353,88 @@ public class RequestDAOTest {
         RequestDAO instance = new RequestDAO();
         instance.deleteRequestReply(rqId);
     }
-//    @Test
-//    public void testGetRequestForStudent() {
-//        System.out.println("getRequestForStudent");
-//        String username = "minhduc07";
-//        String rqStatus = "Approved";
-//        int pageindex = 1;
-//        int pagesize = 10;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 1;
-//        ArrayList<RequestBean> result = instance.getRequestForStudent(username, rqStatus, pageindex, pagesize);
-//        assertEquals(expResult, result.size());
-//        
-//    }
-//    
-//       
-//    @Test
-//    public void testGetRequestForTeacher_4args_1() {
-//        System.out.println("getRequestForTeacher");
-//        int subjectId = 1;
-//        String rqStatus = "Waiting";
-//        int pageindex = 1;
-//        int pagesize = 10;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        ArrayList<RequestBean> result = instance.getRequestForTeacher(subjectId, rqStatus, pageindex, pagesize);
-//        assertEquals(expResult, result.size());
-//    }
-//
-//    @Test
-//    public void testGetRequestForTeacher_4args_2() {
-//        System.out.println("getRequestForTeacher");
-//        String username = "ducgiang";
-//        String rqStatus = "Approved";
-//        int pageindex = 1;
-//        int pagesize = 10;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 1;
-//        ArrayList<RequestBean> result = instance.getRequestForTeacher(username, rqStatus, pageindex, pagesize);
-//        assertEquals(expResult, result.size());
-//    }
-//
-//    @Test
-//    public void testGetRequestBySubject() {
-//        System.out.println("getRequestBySubject");
-//        int subjectId = 1;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 4;
-//        ArrayList<RequestBean> result = instance.getRequestBySubject(subjectId);
-//        assertEquals(expResult, result.size());
-//    }
-//
-//
-//   
-//
-//    
-//
-//    
-//
-//    
-//
-//    
-//
-//    
-//
-//    
-//
-//    @Test
-//    public void testGetTotalPendingRequest() {
-//        System.out.println("getTotalPendingRequest");
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        int result = instance.getTotalPendingRequest();
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestTeacherApply() {
-//        System.out.println("getTotalRequestTeacherApply");
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 4;
-//        int result = instance.getTotalRequestTeacherApply();
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestStudent() {
-//        System.out.println("getTotalRequestStudent");
-//        String username = "minhduc07";
-//        String rqStatus = "Waiting";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        int result = instance.getTotalRequestStudent(username, rqStatus);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestForTeacher_int_String() {
-//        System.out.println("getTotalRequestForTeacher");
-//        int subjectId = 1;
-//        String rqStatus = "Waiting";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        int result = instance.getTotalRequestForTeacher(subjectId, rqStatus);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestForTeacher_String_String() {
-//        System.out.println("getTotalRequestForTeacher");
-//        String username = "ducgiang";
-//        String rqStatus = "Approved";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 1;
-//        int result = instance.getTotalRequestForTeacher(username, rqStatus);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestSearchForStudent() {
-//        System.out.println("getTotalRequestSearchForStudent");
-//        String username = "minhduc07";
-//        String rqStatus = "Waiting";
-//        String searchString = "title";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        int result = instance.getTotalRequestSearchForStudent(username, rqStatus, searchString);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetRequestSearchForStudent() {
-//        System.out.println("getRequestSearchForStudent");
-//        String username = "minhduc07";
-//        String rqStatus = "Waiting";
-//        String searchString = "title";
-//        int pageindex = 1;
-//        int pagesize = 10;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        ArrayList<RequestBean> result = instance.getRequestSearchForStudent(username, rqStatus, searchString, pageindex, pagesize);
-//        assertEquals(expResult, result.size());
-//        
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestSearchForTeacher_3args_1() {
-//        System.out.println("getTotalRequestSearchForTeacher");
-//        String username = "ducgiang";
-//        String rqStatus = "Approved";
-//        String searchString = "title";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 1;
-//        int result = instance.getTotalRequestSearchForTeacher(username, rqStatus, searchString);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetTotalRequestSearchForTeacher_3args_2() {
-//        System.out.println("getTotalRequestSearchForTeacher");
-//        int subjectId = 1;
-//        String rqStatus = "Waiting";
-//        String searchString = "title";
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 3;
-//        int result = instance.getTotalRequestSearchForTeacher(subjectId, rqStatus, searchString);
-//        assertEquals(expResult, result);
-//    }
-//
-//    @Test
-//    public void testGetRequestSearchForTeacher_5args_1() {
-//        System.out.println("getRequestSearchForTeacher");
-//        String username = "ducgiang";
-//        String rqStatus = "Approved";
-//        String searchString = "title";
-//        int pageindex = 1;
-//        int pagesize = 10;
-//        RequestDAO instance = new RequestDAO();
-//        int expResult = 1;
-//        ArrayList<RequestBean> result = instance.getRequestSearchForTeacher(username, rqStatus, searchString, pageindex, pagesize);
-//        assertEquals(expResult, result.size());
-//        
-//    }
-//
+    @Test
+    public void testGetRequestForStudent() {
+        System.out.println("getRequestForStudent");
+        String username = "minhduc07";
+        String rqStatus = "Approved";
+        int pageindex = 1;
+        int pagesize = 10;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 1;
+        ArrayList<RequestBean> result = instance.getRequestForStudent(username, rqStatus, pageindex, pagesize);
+        assertEquals(expResult, result.size());
+    }
+    
+       
+    @Test
+    public void testGetRequestForTeacher_4args_1() {
+        System.out.println("getRequestForTeacher");
+        int subjectId = 1;
+        String rqStatus = "Waiting";
+        int pageindex = 1;
+        int pagesize = 10;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 3;
+        ArrayList<RequestBean> result = instance.getRequestForTeacher(subjectId, rqStatus, pageindex, pagesize);
+        assertEquals(expResult, result.size());
+    }
+
+    @Test
+    public void testGetRequestForTeacher_4args_2() {
+        System.out.println("getRequestForTeacher");
+        String username = "ducgiang";
+        String rqStatus = "Approved";
+        int pageindex = 1;
+        int pagesize = 10;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 1;
+        ArrayList<RequestBean> result = instance.getRequestForTeacher(username, rqStatus, pageindex, pagesize);
+        assertEquals(expResult, result.size());
+    }
+
+    @Test
+    public void testGetRequestBySubject() {
+        System.out.println("getRequestBySubject");
+        int subjectId = 1;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 4;
+        ArrayList<RequestBean> result = instance.getRequestBySubject(subjectId);
+        assertEquals(expResult, result.size());
+    }
+
+
+    @Test
+    public void testGetRequestSearchForStudent() {
+        System.out.println("getRequestSearchForStudent");
+        String username = "minhduc07";
+        String rqStatus = "Waiting";
+        String searchString = "title";
+        int pageindex = 1;
+        int pagesize = 10;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 3;
+        ArrayList<RequestBean> result = instance.getRequestSearchForStudent(username, rqStatus, searchString, pageindex, pagesize);
+        assertEquals(expResult, result.size());
+        
+    }
+
+
+    @Test
+    public void testGetRequestSearchForTeacher_5args_1() {
+        System.out.println("getRequestSearchForTeacher");
+        String username = "ducgiang";
+        String rqStatus = "Approved";
+        String searchString = "title";
+        int pageindex = 1;
+        int pagesize = 10;
+        RequestDAO instance = new RequestDAO();
+        int expResult = 1;
+        ArrayList<RequestBean> result = instance.getRequestSearchForTeacher(username, rqStatus, searchString, pageindex, pagesize);
+        assertEquals(expResult, result.size());
+        
+    }
+
     @Test
     public void testGetRequestSearchForTeacher_5args_2() {
         System.out.println("getRequestSearchForTeacher");

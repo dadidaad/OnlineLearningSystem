@@ -1,3 +1,8 @@
+/* 
+    Created on : March 10, 2022, 7:45:38 AM
+    Author     : Duc Minh
+    @type @jQuery
+*/
 $(document).ready(function() {
     
 

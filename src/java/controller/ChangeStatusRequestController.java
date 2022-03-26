@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C)2022, Group 2 SE1511 FPTU-HN
+ * Project: Online Learning System
+ *
+ * ChangeStatusRequestController
+ * Record of change:
+ * DATE         Version     AUTHOR     Description
+ * 2022-03-07   1.0         Duc Minh    First Implement
  */
 package controller;
 
@@ -17,8 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This is a Servlet responsible for handling the task when the user wants to
+ * change status of a request /ChangeStatusRequest is the URL of the Servlet Extend
+ * HttpServlet class
  *
- * @author Admin
+ * @author Duc Minh
  */
 public class ChangeStatusRequestController extends HttpServlet {
 
