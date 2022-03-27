@@ -6,8 +6,7 @@
 package controller;
 
 import bean.AccountBean;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,20 +22,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.invocation.InvocationOnMock;
 import org.powermock.api.mockito.PowerMockito;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import utils.SendMailVerify;
 
 /**
  *
@@ -45,7 +45,7 @@ import utils.SendMailVerify;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({HttpServlet.class})
 @PowerMockIgnore({"javax.net.ssl.*", "javax.security.*", "javax.crypto.*"})
-public class SignUpControllerTest {
+public class ViewProfileUserControllerTest {
 
     @Mock
     HttpServletRequest request;
@@ -56,7 +56,7 @@ public class SignUpControllerTest {
     @Mock
     HttpSession session;
 
-    public SignUpControllerTest() {
+    public ViewProfileUserControllerTest() {
     }
 
     @BeforeClass
@@ -106,72 +106,32 @@ public class SignUpControllerTest {
     }
 
     @Test
-    public void testDoGet() throws Exception {
-        SignUpController controller = new SignUpController();
-        String page = "./view/SignUp.jsp";
-        when(request.getRequestDispatcher(page)).thenReturn(dispatcher);
+    public void testDoGet_NullUser() throws Exception {
+        ViewProfileUserController controller = new ViewProfileUserController();
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        controller = PowerMockito.spy(controller);
+        when(request.getSession(false)).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(null);
+        doNothing().when(response).sendRedirect(anyString());
         controller.doGet(request, response);
-        verify(request, never()).getSession();
-        verify(request, times(1)).getRequestDispatcher(page);
-        verify(dispatcher).forward(request, response);
+        verify(response, times(1)).setContentType("text/html;charset=UTF-8");
+        verify(response, times(1)).sendRedirect(captor.capture());
+        assertEquals("Login", captor.getValue());
+    }
+    @Test
+    public void testDoGet_ValidUser() throws Exception {
+        ViewProfileUserController controller = new ViewProfileUserController();
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        String page = "./view/UserSettings.jsp";
+        String username = "vanngoc";
+        AccountBean loginedUser = new AccountBean();
+        loginedUser.setUsername(username);
+        controller = PowerMockito.spy(controller);
+        when(request.getSession(false)).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(loginedUser);
+        controller.doGet(request, response);
+        verify(response, times(1)).setContentType("text/html;charset=UTF-8");
+        assertEquals("Login", captor.getValue());
     }
 
-    @Test
-    public void testDoPost_ExistUsername() throws Exception {
-        SignUpController controller = new SignUpController();
-        PowerMockito.spy(controller);
-        String username = "admin";
-        String password = "Aa1234567";
-        String email = "datvthe151388@fpt.edu.vn";
-        String sex = "male";
-        when(request.getParameter("username")).thenReturn(username);
-        when(request.getParameter("password")).thenReturn(password);
-        when(request.getParameter("email")).thenReturn(email);
-        when(request.getParameter("sex")).thenReturn(sex);
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-        when(response.getWriter()).thenReturn(writer);
-        controller.doPost(request, response);
-        assertEquals(true, stringWriter.toString().contains("User is exist"));
-    }
-    @Test
-    public void testDoPost_ExistEmail() throws Exception {
-        SignUpController controller = new SignUpController();
-        PowerMockito.spy(controller);
-        String username = "admin1234";
-        String password = "Aa1234567";
-        String email = "datvthe151388@fpt.edu.vn";
-        String sex = "male";
-        when(request.getParameter("username")).thenReturn(username);
-        when(request.getParameter("password")).thenReturn(password);
-        when(request.getParameter("email")).thenReturn(email);
-        when(request.getParameter("sex")).thenReturn(sex);
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-        when(response.getWriter()).thenReturn(writer);
-        controller.doPost(request, response);
-        assertEquals(true, stringWriter.toString().contains("Mail is exist"));
-    }
-    @Test
-    public void testDoPost_Valid() throws Exception {
-        SignUpController controller = new SignUpController();
-        PowerMockito.spy(controller);
-        SendMailVerify mailUtils = mock(SendMailVerify.class);
-        String username = "admin1234";
-        String password = "Aa1234567";
-        String email = "datvthe151388@gmail.com";
-        String sex = "male";
-        when(request.getParameter("username")).thenReturn(username);
-        when(request.getParameter("password")).thenReturn(password);
-        when(request.getParameter("email")).thenReturn(email);
-        when(request.getParameter("sex")).thenReturn(sex);
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-        when(response.getWriter()).thenReturn(writer);
-        when(mailUtils.sendEmail(any())).thenReturn(true);
-        controller.doPost(request, response);
-        AccountBean testAccount = (AccountBean) session.getAttribute("user");
-        assertEquals(username, testAccount.getUsername());
-        assertEquals(true, stringWriter.toString().contains("success"));
-    }
 }

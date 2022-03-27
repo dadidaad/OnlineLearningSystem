@@ -43,6 +43,10 @@ public class EditProfileController extends HttpServlet {
 
     private static final String DATA_DIRECTORY = "assets\\image\\avatar";
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        response.sendRedirect("ViewProfile");
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -66,8 +70,9 @@ public class EditProfileController extends HttpServlet {
             AccountBean loginUser = (AccountBean) session.getAttribute("user"); //check user login, if not exist then redirect to login
             String avatarPath = null;
             Part avatar = request.getPart("avatar"); //vatar.getSubmittedFileName()) != null || !FilenameUtils.getExtensiget part object of avatar
-            if (FilenameUtils.getExtension(avatar.getSubmittedFileName()) != null || !FilenameUtils.getExtension(avatar.getSubmittedFileName()).equals("//s+")) {
-                String fileName = "ava_" + loginUser.getUsername() + "." + FilenameUtils.getExtension(avatar.getSubmittedFileName()); // create name for picture
+            String fileExtension = FilenameUtils.getExtension(avatar.getSubmittedFileName()).trim();
+            if (!fileExtension.equals("")) {
+                String fileName = "ava_" + loginUser.getUsername() + "." + fileExtension; // create name for picture
                 InputStream is = avatar.getInputStream();
                 Files.copy(is, Paths.get(uploadFolder + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING); //upload to server image
                 avatarPath = "/assets/image/avatar/" + fileName;

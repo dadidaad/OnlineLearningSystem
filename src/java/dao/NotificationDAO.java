@@ -20,20 +20,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class contain method to find Notification information from database Extend
- * BaseDAO class to call getConnection() method Implement INotificationDAO Interface
+ * This class contain method to find Notification information from database
+ * Extend BaseDAO class to call getConnection() method Implement
+ * INotificationDAO Interface
  *
  * @author Duc Minh
  */
-public class NotificationDAO extends BaseDAO implements INotificationDAO{
+public class NotificationDAO extends BaseDAO implements INotificationDAO {
 
     /**
-     * getTopNotification method
-     * This method Get all Subject available from database
-     * 
+     * getTopNotification method This method Get all Subject available from
+     * database
+     *
      * @param username <code>java.lang.String</code>
-     * @return notifications. <code>java.util.List</code> object  
-     *  
+     * @return notifications. <code>java.util.List</code> object
+     *
      */
     @Override
     public List<NotificationBean> getTopNotification(String username) {
@@ -74,17 +75,17 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return notifications;
     }
-    
+
     /**
-     * getTopNotification method
-     * This method Get all Subject available from database
-     * 
+     * getTopNotification method This method Get all Subject available from
+     * database
+     *
      * @param username <code>java.lang.String</code>
-     * @return notifications. <code>java.util.List</code> object  
-     *  
+     * @return notifications. <code>java.util.List</code> object
+     *
      */
     @Override
-    public List<NotificationBean> getNotification(int index, int amount, String username ) {
+    public List<NotificationBean> getNotification(int index, int amount, String username) {
         List<NotificationBean> notifications = new ArrayList<>();
         Connection conn = null;
         PreparedStatement statement = null;
@@ -92,17 +93,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         try {
             /*Set up connection and Sql statement for Query */
             conn = getConnection();
-            String sql = "select Notification.*\n"
-                    + "from Notification where Username = ? \n"
-                    + "ORDER BY Time desc\n"
-                    + "OFFSET ? ROWS \n" 
-                    + "FETCH NEXT ? ROWS ONLY;";
+            String sql = "select n.*\n"
+                    + "from (select *, ROW_NUMBER() Over (Order by [Time] desc) as r from Notification) as n\n"
+                    + "where n.Username = ? and r between ? and ?";
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
             statement.setInt(2, index);
             statement.setInt(3, amount);
-            
+
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
 
@@ -127,14 +126,15 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return notifications;
     }
-    
+
     /**
-     * insertNotification method
-     * This method will insert new Notification into database
-     * 
-     * @param noti  Notification which wanted to insert. <code>Bean.NotificationBean</code> object
+     * insertNotification method This method will insert new Notification into
+     * database
+     *
+     * @param noti Notification which wanted to insert.
+     * <code>Bean.NotificationBean</code> object
      * @return affected row <code>java.lang.Integer</code>
-     *  
+     *
      */
     @Override
     public int insertNotification(NotificationBean noti) {
@@ -151,10 +151,10 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
             statement.setString(3, noti.getContent());
             statement.setBoolean(4, false);
             statement.setString(5, noti.getLinkDirect());
-            
+
             /*Insert New Notification into Database*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -162,11 +162,11 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return totalRow;
     }
-    
+
     /**
-     * getTotalNoti method
-     * This method will count notification unread from database
-     * 
+     * getTotalNoti method This method will count notification unread from
+     * database
+     *
      * @param username <code>java.lang.String</code>
      * @return total <code>java.lang.Integer</code>
      */
@@ -183,7 +183,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
-            
+
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
 
@@ -201,11 +201,11 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return total;
     }
-    
+
     /**
-     * getTotalNotiUnread method
-     * This method will count notification unread from database
-     * 
+     * getTotalNotiUnread method This method will count notification unread from
+     * database
+     *
      * @param username <code>java.lang.String</code>
      * @return total <code>java.lang.Integer</code>
      */
@@ -223,7 +223,7 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
 
             statement = conn.prepareStatement(sql);
             statement.setString(1, username);
-            
+
             /*Query and save in ResultSet */
             rs = statement.executeQuery();
 
@@ -241,14 +241,14 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         }
         return total;
     }
-    
-     /**
-     * UpdateReadedNotification method
-     * This method will set state read of Notification into database
-     * 
+
+    /**
+     * UpdateReadedNotification method This method will set state read of
+     * Notification into database
+     *
      * @param username <code>java.lang.String</code>
      * @return total <code>java.lang.Integer</code>
-     *  
+     *
      */
     @Override
     public int updateReadedNotification(String username) {
@@ -262,10 +262,10 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
             /* set parameter for query*/
             statement.setBoolean(1, true);
             statement.setString(2, username);
-            
+
             /*Insert New Notification into Database*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -275,12 +275,12 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
     }
 
     /**
-     * deleteNotification method
-     * This method will insert new Notification into database
-     * 
-     * @param notiId  <code>java.lang.Integer</code> 
+     * deleteNotification method This method will insert new Notification into
+     * database
+     *
+     * @param notiId  <code>java.lang.Integer</code>
      * @return affected row <code>java.lang.Integer</code>
-     *  
+     *
      */
     @Override
     public int deleteNotification(int notiId) {
@@ -293,10 +293,10 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
             statement = conn.prepareStatement(sql);
             /* set parameter for query*/
             statement.setInt(1, notiId);
-            
+
             /*Insert New Notification into Database*/
             totalRow = statement.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -305,7 +305,4 @@ public class NotificationDAO extends BaseDAO implements INotificationDAO{
         return totalRow;
     }
 
-   
-
-    
 }

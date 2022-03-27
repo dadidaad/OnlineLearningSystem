@@ -53,6 +53,7 @@ $(document).ready(function () {
     $('#becometutor-form').ajaxForm({
         success: function (result) {
             $('.modal-body').empty().append('<div id="becomeTutor-noti" class="text-success fs-4">' + result + '</div>');
+                    setTimeout(location.reload(), 5000);
         }
     });
 });

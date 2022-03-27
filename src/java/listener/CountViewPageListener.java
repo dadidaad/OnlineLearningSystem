@@ -38,7 +38,7 @@ public class CountViewPageListener implements ServletContextListener {
         scheduler = Executors.newSingleThreadScheduledExecutor();
 
         // It will be executed every 1 hour
-        scheduler.scheduleAtFixedRate(new DailyHitsRunnable(), 0, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(new DailyHitsRunnable(), 0, 1, TimeUnit.DAYS);
     }
 
     @Override

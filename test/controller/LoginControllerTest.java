@@ -177,5 +177,43 @@ public class LoginControllerTest {
         AccountBean testAccount = (AccountBean) session.getAttribute("user");
         assertEquals(username, testAccount.getUsername());
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void testDoPost_NullUser() throws Exception {
+        LoginController controller = new LoginController();
+        controller = PowerMockito.spy(controller);
+        String page = "./view/Login.jsp";
+        String username = null;
+        String password = "Aa123456";
+        AccountBean loginedUser = new AccountBean();
+        Map<String, String> expResult = new HashMap<>();
+        expResult.put("loginNoti", "User isn't exist");
+        when(request.getParameter("username")).thenReturn(username);
+        when(request.getParameter("password")).thenReturn(password);
+        PowerMockito.doNothing().when(session).setAttribute("user", loginedUser);
+        PowerMockito.doNothing().when(response).sendRedirect(anyString());
+        controller.doPost(request, response);
+        AccountBean testAccount = (AccountBean) session.getAttribute("user");
+        assertEquals(username, testAccount.getUsername());
+    }
+    @Test(expected = NullPointerException.class)
+    public void testDoPost_NullPass() throws Exception {
+        LoginController controller = new LoginController();
+        controller = PowerMockito.spy(controller);
+        String page = "./view/Login.jsp";
+        String username = "admin";
+        String password = null;
+        AccountBean loginedUser = new AccountBean();
+        Map<String, String> expResult = new HashMap<>();
+        expResult.put("loginNoti", "User isn't exist");
+        when(request.getParameter("username")).thenReturn(username);
+        when(request.getParameter("password")).thenReturn(password);
+        PowerMockito.doNothing().when(session).setAttribute("user", loginedUser);
+        PowerMockito.doNothing().when(response).sendRedirect(anyString());
+        controller.doPost(request, response);
+        AccountBean testAccount = (AccountBean) session.getAttribute("user");
+        assertEquals(username, testAccount.getUsername());
+    }
+
 
 }

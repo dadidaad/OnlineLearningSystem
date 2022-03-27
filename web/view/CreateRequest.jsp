@@ -446,7 +446,7 @@
                     var searchString = $(this).val();
                     var subjectId = $("#rqSubject option:selected").val();
                     $.ajax({
-                        url: "/OnlineLearningSystem/TeacherRecommendSearch",
+                        url: "TeacherRecommendSearch",
                         data: {"searchString": searchString,
                             "subjectId": subjectId},
                         type: "POST",

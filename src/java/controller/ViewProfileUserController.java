@@ -62,21 +62,22 @@ public class ViewProfileUserController extends HttpServlet {
             List<SubjectBean> listSubject = subjectDAO.getAllSubject();
             ITeacherDAO teacherDAO = new TeacherDAO();
             TeacherBean getTeacher = teacherDAO.getTeacherCV(loginUser.getUsername());
-            request.setAttribute("teacherGet", getTeacher);
+            if (getTeacher != null) {
+                request.setAttribute("teacherGet", getTeacher);
+            }
             request.setAttribute("listSubject", listSubject);
             request.setAttribute("userProfile", loginUser);
-            
+
             String optionNav = request.getParameter("optionNav");
             INotificationDAO iNotificationDAO = new NotificationDAO();
             iNotificationDAO.updateReadedNotification(loginUser.getUsername());
-         
+
             int totalNoti = iNotificationDAO.getTotalNoti(loginUser.getUsername());
             List<NotificationBean> notiList = iNotificationDAO.getNotification(0, 10, loginUser.getUsername());
             request.setAttribute("totalNoti", totalNoti);
             request.setAttribute("notificationList", notiList);
             request.setAttribute("optionNav", optionNav);
-            
-            
+
             request.getRequestDispatcher("./view/UserSettings.jsp").forward(request, response);
         } catch (Exception e) {
             java.util.logging.Logger.getLogger(ViewProfileUserController.class.getName()).log(Level.SEVERE, null, e);

@@ -23,8 +23,9 @@
               integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" 
               crossorigin="anonymous"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
+        
         <!-- Link to css file -->
+        <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/style.css"/>">
         <link rel="stylesheet" href="<i:ReadUrlFromContext url="/assets/css/ListSubjectStyle.css" />">
         <title>TutorDuo</title>
     </head>

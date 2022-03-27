@@ -48,6 +48,10 @@ public class BecomeTutorController extends HttpServlet {
 
     private static final String DATA_DIRECTORY = "assets\\image\\teacherCV";
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        response.sendRedirect("ViewProfile");
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *

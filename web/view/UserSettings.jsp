@@ -4,6 +4,7 @@
     Author     : DajtVox
 --%>
 
+<%@page import="bean.TeacherBean"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="bean.AccountBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -193,9 +194,12 @@
                     </div>
                     <div class="modal-body">
                         <c:choose>
-                            <c:when test = "${requestScope.teacherBean ne null}">
+                            <c:when test = "${requestScope.teacherGet ne null}">
                                 <p class="fs-5 text-dark">Your CV has been submitted, waiting for admin response, you can edit this</p>
-                                <image src="${requestScope.teacherBean.getCv()}" alt="CvSubmit" style="width: 50px; height: 100px;">
+                                <%TeacherBean teacherGet = (TeacherBean) request.getAttribute("teacherGet");
+                                    String cvPath = String.format("%s/%s", request.getContextPath(), teacherGet.getCvImg());
+                                %>
+                                <img src="<%=cvPath%>" style="width: 400px; height: 200px; object-fit: cover; object-position: center;"/>
                                 <form action="BecomeTutor" method="post" id="becometutor-form" enctype="multipart/form-data">
                                     <div class="form__group mb-3" x-data="{ fileName: '' }">
                                         <div class="input-group shadow">
@@ -208,10 +212,14 @@
                                     <div class="form__group mb-3">
                                         <select id="subject" name="subject" class="form__field" required>
                                             <c:forEach items="${requestScope.listSubject}" var="subject">
-                                                <c:if test="${requestScope.teacherBean.getSubjectId() == subject.subjectID}">
-                                                    <option value="${subject.subjectID}" selected>${subject.subjectName}</option>
-                                                </c:if>
-                                                <option value="${subject.subjectID}">${subject.subjectName}</option>
+                                                <c:choose>
+                                                    <c:when test="${requestScope.teacherGet.getSubjectId() == subject.subjectID}">
+                                                        <option value="${subject.subjectID}" selected>${subject.subjectName}</option>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option value="${subject.subjectID}">${subject.subjectName}</option>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </select>
                                     </div>

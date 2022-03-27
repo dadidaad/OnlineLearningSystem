@@ -257,21 +257,10 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
                 TeacherBean teacher = new TeacherBean();
 
                 teacher.setUsername(rs.getString("Username"));
-                teacher.setPassword(rs.getString("Password"));
-                teacher.setMail(rs.getString("Mail"));
-                teacher.setAvatar(rs.getString("Avatar"));
-                teacher.setDisplayName(rs.getString("DisplayName"));
-                teacher.setDateOfBirth(rs.getDate("DateOfBirth"));
-                teacher.setSex(rs.getBoolean("Sex"));
-                teacher.setDescription(rs.getString("Description"));
-                teacher.setCash(rs.getBigDecimal("Cash in account"));
-                teacher.setCreateDate(rs.getDate("CreatedDate"));
-                teacher.setRole(rs.getString("Role"));
                 teacher.setStatus(rs.getString("Status"));
-                teacher.setState(rs.getBoolean("State"));
                 teacher.setCvImg(rs.getString("CV"));
                 teacher.setSubjectId(rs.getInt("SubjectID"));
-
+                teacher.setReputation(rs.getDouble("Reputation"));
                 return teacher;
             }
 
@@ -396,12 +385,12 @@ public class TeacherDAO extends BaseDAO implements ITeacherDAO {
             return false;
         }
         try {
-            String sql = "Insert into Tutor (Username, SubjectID, CV, Status, Reputation) values (?, ?, ? )"; //sql query
+            String sql = "Insert into Tutor (Username, CV, SubjectID) values (?, ?, ?)"; //sql query
             conn = getConnection();
             statement = conn.prepareStatement(sql);
             statement.setString(1, teacher.getUsername());
-            statement.setInt(2, teacher.getSubjectId());
-            statement.setString(3, teacher.getCvImg());
+            statement.setString(2, teacher.getCvImg());
+            statement.setInt(3, teacher.getSubjectId());
             int result = statement.executeUpdate();
             if (result == 1) {
                 return true;
